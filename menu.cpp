@@ -137,6 +137,49 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
     if (items.size() == 0)
         return 1;
 
+    ALLEGRO_MOUSE_STATE mouse_state;
+    ALLEGRO_KEYBOARD_STATE key_state;
+    ALLEGRO_EVENT_QUEUE* events;
+
+    events = al_create_event_queue();
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30);
+    al_register_event_source(events, al_get_keyboard_event_source());
+    al_register_event_source(
+        events, al_get_display_event_source(al_get_current_display()));
+    al_register_event_source(events, al_get_timer_event_source(timer));
+    al_start_timer(timer);
+
+    bool redraw = false;
+
+    // bitmap = al_load_bitmap
+
+    while (1)
+    {
+        ALLEGRO_EVENT event;
+        al_wait_for_event(events, &event);  // Wait for and get an event.
+
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            break;
+
+        if (event.type == ALLEGRO_EVENT_TIMER)
+            redraw = true;
+
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN &&
+            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            return 0;
+
+        // Redraw, but only if the event queue is empty
+        if (redraw && al_is_event_queue_empty(events))
+        {
+            redraw = false;
+            // Clear so we don't get trippy artifacts left after zoom.
+            al_clear_to_color(al_map_rgb_f(0, 0, 0));
+            al_draw_bitmap(menuBg, 0, 0, 0);
+            // draw(buffer);
+            al_flip_display();
+        }
+    }
+
     do
     {
         // clear_to_color( buffer, makecol(0,0,0) ); // czysci ekran
@@ -152,10 +195,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
         //                          heightScreen / 2 - 200);
         //        drawing_mode(DRAW_MODE_SOLID, 0, 0, 0);
 
-        ALLEGRO_MOUSE_STATE mouse_state;
         al_get_mouse_state(&mouse_state);
-
-        ALLEGRO_KEYBOARD_STATE key_state;
         al_get_keyboard_state(&key_state);
 
         // poll_mouse();  // sprawdza pozycje myszki

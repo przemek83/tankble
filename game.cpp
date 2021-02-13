@@ -44,8 +44,8 @@ Game::Game()
         printf("failed to create queue\n");
     }
 
-    al_register_event_source(queue, al_get_keyboard_event_source());
-    al_register_event_source(queue, al_get_display_event_source(display));
+    //    al_register_event_source(queue, al_get_keyboard_event_source());
+    //    al_register_event_source(queue, al_get_display_event_source(display));
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_flip_display();
