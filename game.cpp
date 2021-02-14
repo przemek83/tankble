@@ -1,4 +1,5 @@
 #include "game.h"
+#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include "config.h"
 #include "map.h"
@@ -51,6 +52,7 @@ Game::Game()
     al_flip_display();
 
     al_init_image_addon();
+    al_init_font_addon();
 
     //    bool quit = false;
     //    do

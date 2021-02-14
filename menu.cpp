@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "allegro5/allegro_font.h"
 #include "config.h"
 #include "game.h"
 
@@ -130,11 +131,15 @@ void Menu::draw(ALLEGRO_BITMAP* buffer)
 
 void Menu::drawMenuItems()
 {
+    ALLEGRO_FONT* font = al_create_builtin_font();
     for (uint i = 0; i < items.size(); i++)
     {
         al_draw_bitmap_region(itemBg, 0, 0, itemWidth, itemHeight,
                               widthScreen / 2 - itemWidth / 2,
                               yTopItem + itemHeight * i, 0);
+        al_draw_text(font, al_map_rgb(255, 255, 255), widthScreen / 2,
+                     yTopItem + itemHeight * i + itemHeight / 2,
+                     ALLEGRO_ALIGN_CENTER, items[i]->text);
     }
 }
 
