@@ -166,6 +166,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
 
     // bitmap = al_load_bitmap
 
+    al_show_mouse_cursor(al_get_current_display());
     while (1)
     {
         ALLEGRO_EVENT event;
@@ -190,6 +191,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
             al_flip_display();
         }
     }
+    al_hide_mouse_cursor(al_get_current_display());
 
     return 0;
     do
