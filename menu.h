@@ -38,6 +38,7 @@ public:
     void addItem(Item*);
     void draw(ALLEGRO_BITMAP*);
     int loop(ALLEGRO_BITMAP*, Game*);
+    void drawMenuItems();
 };
 
 #endif

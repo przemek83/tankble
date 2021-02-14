@@ -128,7 +128,15 @@ void Menu::draw(ALLEGRO_BITMAP* buffer)
     // cout << "count: " << countx << " " << check << "\n";
 }
 
-// loop
+void Menu::drawMenuItems()
+{
+    for (uint i = 0; i < items.size(); i++)
+    {
+        al_draw_bitmap_region(itemBg, 0, 0, itemWidth, itemHeight,
+                              widthScreen / 2 - itemWidth / 2,
+                              yTopItem + itemHeight * i, 0);
+    }
+}
 
 int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
 {
@@ -158,15 +166,13 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
         ALLEGRO_EVENT event;
         al_wait_for_event(events, &event);  // Wait for and get an event.
 
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
+            (event.type == ALLEGRO_EVENT_KEY_DOWN &&
+             event.keyboard.keycode == ALLEGRO_KEY_ESCAPE))
             break;
 
         if (event.type == ALLEGRO_EVENT_TIMER)
             redraw = true;
-
-        if (event.type == ALLEGRO_EVENT_KEY_DOWN &&
-            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-            return 0;
 
         // Redraw, but only if the event queue is empty
         if (redraw && al_is_event_queue_empty(events))
@@ -175,11 +181,12 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
             // Clear so we don't get trippy artifacts left after zoom.
             al_clear_to_color(al_map_rgb_f(0, 0, 0));
             al_draw_bitmap(menuBg, 0, 0, 0);
-            // draw(buffer);
+            drawMenuItems();
             al_flip_display();
         }
     }
 
+    return 0;
     do
     {
         // clear_to_color( buffer, makecol(0,0,0) ); // czysci ekran
