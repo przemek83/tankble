@@ -1,5 +1,4 @@
 #include "menu.h"
-#include "allegro5/allegro_font.h"
 #include "config.h"
 #include "game.h"
 
@@ -18,7 +17,7 @@ Item::~Item() {}
 
 // constructor
 
-Menu::Menu(int ws, int hs, int iw, int ih)
+Menu::Menu(int ws, int hs, int iw, int ih) : font(al_create_builtin_font())
 {
     widthScreen = ws;
     heightScreen = hs;
@@ -131,7 +130,6 @@ void Menu::draw(ALLEGRO_BITMAP* buffer)
 
 void Menu::drawMenuItems(unsigned int selectedItem)
 {
-    ALLEGRO_FONT* font = al_create_builtin_font();
     for (unsigned int i = 0; i < items.size(); i++)
     {
         ALLEGRO_BITMAP* itemBitmap{nullptr};
@@ -159,6 +157,18 @@ unsigned int Menu::getSelectedItem(const ALLEGRO_EVENT& event,
         event.keyboard.keycode == ALLEGRO_KEY_DOWN &&
         currentSelectedItem < static_cast<unsigned int>(items.size()) - 1)
         return currentSelectedItem + 1;
+
+    if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
+    {
+        for (unsigned int i = 0; i < items.size(); i++)
+        {
+            if ((event.mouse.x > widthScreen / 2 - itemWidth / 2) &&
+                (event.mouse.x < widthScreen / 2 + itemWidth / 2) &&
+                (event.mouse.y > yTopItem + itemHeight * (int)i) &&
+                (event.mouse.y < yTopItem + itemHeight + itemHeight * (int)i))
+                return i;
+        }
+    }
 
     return currentSelectedItem;
 }
@@ -194,6 +204,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
     ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
     ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
     al_register_event_source(events, al_get_keyboard_event_source());
+    al_register_event_source(events, al_get_mouse_event_source());
     al_register_event_source(
         events, al_get_display_event_source(al_get_current_display()));
     al_register_event_source(events, al_get_timer_event_source(timer));

@@ -3,6 +3,7 @@
 
 #include <allegro5/allegro.h>
 #include <vector>
+#include "allegro5/allegro_font.h"
 #include "game.h"
 
 class Item
@@ -41,6 +42,7 @@ private:
     ALLEGRO_BITMAP* itemBg;
     ALLEGRO_BITMAP* itemBgSelect;
     ALLEGRO_BITMAP* bmp;
+    ALLEGRO_FONT* font;
     int itemWidth;
     int itemHeight;
     int itemCount;
