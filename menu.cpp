@@ -148,6 +148,21 @@ void Menu::drawMenuItems(unsigned int selectedItem)
     }
 }
 
+unsigned int Menu::getSelectedItem(const ALLEGRO_EVENT& event,
+                                   unsigned int currentSelectedItem) const
+{
+    if (event.type == ALLEGRO_EVENT_KEY_UP &&
+        event.keyboard.keycode == ALLEGRO_KEY_UP && currentSelectedItem > 0)
+        return currentSelectedItem - 1;
+
+    if (event.type == ALLEGRO_EVENT_KEY_UP &&
+        event.keyboard.keycode == ALLEGRO_KEY_DOWN &&
+        currentSelectedItem < static_cast<unsigned int>(items.size()) - 1)
+        return currentSelectedItem + 1;
+
+    return currentSelectedItem;
+}
+
 int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
 {
     bool end = false;
@@ -172,16 +187,23 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
     // bitmap = al_load_bitmap
 
     al_show_mouse_cursor(al_get_current_display());
-    unsigned int selectedItem{static_cast<unsigned int>(items.size())};
+    unsigned int selectedItem{0};
     while (true)
     {
         ALLEGRO_EVENT event;
         al_wait_for_event(events, &event);  // Wait for and get an event.
 
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
-            (event.type == ALLEGRO_EVENT_KEY_DOWN &&
+            (event.type == ALLEGRO_EVENT_KEY_UP &&
              event.keyboard.keycode == ALLEGRO_KEY_ESCAPE))
             break;
+
+        selectedItem = getSelectedItem(event, selectedItem);
+
+        if (event.type == ALLEGRO_EVENT_KEY_UP &&
+            (event.keyboard.keycode == ALLEGRO_KEY_ENTER ||
+             event.keyboard.keycode == ALLEGRO_KEY_SPACE))
+            ;
 
         if (event.type == ALLEGRO_EVENT_TIMER)
             redraw = true;
@@ -206,12 +228,14 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
         // clear_bitmap( buffer );
         al_set_target_bitmap(buffer);
         al_draw_bitmap_region(menuBg, 0, 0, 0, 0, widthScreen, heightScreen, 0);
-        //        blit(menuBg, buffer, 0, 0, 0, 0, widthScreen, heightScreen);
+        //        blit(menuBg, buffer, 0, 0, 0, 0, widthScreen,
+        //        heightScreen);
         // set_trans_blender(0, 0, 0, 128);
         // drawing_mode(DRAW_MODE_TRANS, 0, 0, 0);
         // masked_blit( subMenuBg, buffer, 0, 0, widthScreen/2-220,
         // heightScreen/2-200, 440, 400 );
-        //        draw_trans_sprite(buffer, subMenuBg, widthScreen / 2 - 220,
+        //        draw_trans_sprite(buffer, subMenuBg, widthScreen / 2 -
+        //        220,
         //                          heightScreen / 2 - 200);
         //        drawing_mode(DRAW_MODE_SOLID, 0, 0, 0);
 
@@ -227,8 +251,8 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
                   al_key_down(&key_state, ALLEGRO_KEY_ENTER)) &&
                  tmp)
         {
-            // check pochodzi z funkcji draw, ktora zwrocila nr podswietlonej
-            // pozycji
+            // check pochodzi z funkcji draw, ktora zwrocila nr
+            // podswietlonej pozycji
             if (check >= 0)
             {
                 // wywolanie funkcji przez referencje dana w funkcji addItem

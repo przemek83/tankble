@@ -39,6 +39,8 @@ public:
     void draw(ALLEGRO_BITMAP*);
     int loop(ALLEGRO_BITMAP*, Game*);
     void drawMenuItems(unsigned int selectedItem);
+    unsigned int getSelectedItem(const ALLEGRO_EVENT& event,
+                                 unsigned int currentSelectedItem) const;
 };
 
 #endif
