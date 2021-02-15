@@ -129,12 +129,17 @@ void Menu::draw(ALLEGRO_BITMAP* buffer)
     // cout << "count: " << countx << " " << check << "\n";
 }
 
-void Menu::drawMenuItems()
+void Menu::drawMenuItems(unsigned int selectedItem)
 {
     ALLEGRO_FONT* font = al_create_builtin_font();
-    for (uint i = 0; i < items.size(); i++)
+    for (unsigned int i = 0; i < items.size(); i++)
     {
-        al_draw_bitmap_region(itemBg, 0, 0, itemWidth, itemHeight,
+        ALLEGRO_BITMAP* itemBitmap{nullptr};
+        if (i == selectedItem)
+            itemBitmap = itemBgSelect;
+        else
+            itemBitmap = itemBg;
+        al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth, itemHeight,
                               widthScreen / 2 - itemWidth / 2,
                               yTopItem + itemHeight * i, 0);
         al_draw_text(font, al_map_rgb(255, 255, 255), widthScreen / 2,
@@ -147,7 +152,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
 {
     bool end = false;
     bool tmp = false;  // zmienna pomocnicza
-    if (items.size() == 0)
+    if (items.empty())
         return 1;
 
     ALLEGRO_MOUSE_STATE mouse_state;
@@ -167,7 +172,8 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
     // bitmap = al_load_bitmap
 
     al_show_mouse_cursor(al_get_current_display());
-    while (1)
+    unsigned int selectedItem{static_cast<unsigned int>(items.size())};
+    while (true)
     {
         ALLEGRO_EVENT event;
         al_wait_for_event(events, &event);  // Wait for and get an event.
@@ -187,7 +193,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
             // Clear so we don't get trippy artifacts left after zoom.
             al_clear_to_color(al_map_rgb_f(0, 0, 0));
             al_draw_bitmap(menuBg, 0, 0, 0);
-            drawMenuItems();
+            drawMenuItems(selectedItem);
             al_flip_display();
         }
     }
