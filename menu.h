@@ -22,7 +22,6 @@ public:
     Menu(int ws, int hs, int iw = 340, int ih = 70);
     ~Menu();
     void addItem(Item*);
-    void draw(ALLEGRO_BITMAP*);
     int loop(ALLEGRO_BITMAP*, Game*);
 
 private:

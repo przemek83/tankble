@@ -56,78 +56,6 @@ void Menu::addItem(Item* pointer)
     yTopItem = heightScreen / 2 - items.size() * itemHeight / 2;
 }
 
-// draw whole menu
-
-void Menu::draw(ALLEGRO_BITMAP* buffer)
-{
-    int countx = 0;
-    ALLEGRO_KEYBOARD_STATE key_state;
-    al_get_keyboard_state(&key_state);
-    //    if (keypressed())
-    //    {
-    if ((al_key_down(&key_state, ALLEGRO_KEY_UP) ||
-         al_key_down(&key_state, ALLEGRO_KEY_DOWN)) &&
-        check == -1)
-    {
-        check = 0;  // na start
-        al_set_mouse_xy(nullptr, widthScreen / 2 + itemWidth / 3,
-                        yTopItem + itemHeight * check + itemHeight / 2);
-    }
-    else if (al_key_down(&key_state, ALLEGRO_KEY_UP) && check >= 0)
-    {
-        check = (check - 1 + items.size()) % items.size();
-        al_set_mouse_xy(nullptr, widthScreen / 2 + itemWidth / 3,
-                        yTopItem + itemHeight * check + itemHeight / 2);
-    }
-    else if (al_key_down(&key_state, ALLEGRO_KEY_DOWN) && check >= 0)
-    {
-        check = (check + 1) % items.size();
-        al_set_mouse_xy(nullptr, widthScreen / 2 + itemWidth / 3,
-                        yTopItem + itemHeight * check + itemHeight / 2);
-    }
-    // clear_keybuf();
-    //}
-    for (uint i = 0; i < items.size(); i++)
-    {
-        ALLEGRO_MOUSE_STATE mouse_state;
-        al_get_mouse_state(&mouse_state);
-
-        /* Copy it to the bmp. */
-        if ((mouse_state.x > widthScreen / 2 - itemWidth / 2) &&
-            (mouse_state.x < widthScreen / 2 + itemWidth / 2) &&
-            (mouse_state.y > yTopItem + itemHeight * (int)i) &&
-            (mouse_state.y < yTopItem + itemHeight + itemHeight * (int)i))
-        {
-            al_set_target_bitmap(buffer);
-            al_draw_bitmap_region(itemBgSelect, 0, 0, 0, 0, itemWidth,
-                                  itemHeight, 0);
-            check = (int)i;
-        }
-        else
-        {
-            al_set_target_bitmap(buffer);
-            al_draw_bitmap_region(itemBg, 0, 0, 0, 0, itemWidth, itemHeight, 0);
-            // blit(itemBg, bmp, 0, 0, 0, 0, itemWidth, itemHeight);
-            countx++;
-        }
-        // print text to itemBg with white color to (-1) = transparent
-        // background item -> 340x70
-
-        al_set_target_bitmap(buffer);
-        //        textout_centre_ex(bmp, font, items[i]->text, itemWidth / 2,
-        //                          itemHeight / 2, makecol(255, 255, 255), -1);
-        al_draw_bitmap_region(bmp, 0, 0, widthScreen / 2 - itemWidth / 2,
-                              yTopItem + itemHeight * i, itemWidth, itemHeight,
-                              0);
-    }
-    if (countx == items.size())
-    {
-        check = -1;  // jesli myszka wyszla poza menu
-    }
-    // for debug
-    // cout << "count: " << countx << " " << check << "\n";
-}
-
 void Menu::drawMenuItems(unsigned int selectedItem)
 {
     for (unsigned int i = 0; i < items.size(); i++)
@@ -182,14 +110,19 @@ bool Menu::userWantToExit(const ALLEGRO_EVENT& event) const
 
 bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 {
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           (event.keyboard.keycode == ALLEGRO_KEY_ENTER ||
-            event.keyboard.keycode == ALLEGRO_KEY_SPACE);
+    if (event.type == ALLEGRO_EVENT_KEY_UP &&
+        (event.keyboard.keycode == ALLEGRO_KEY_ENTER ||
+         event.keyboard.keycode == ALLEGRO_KEY_SPACE))
+        return true;
+
+    if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP && event.mouse.button == 1)
+        return true;
+
+    return false;
 }
 
 void Menu::redraw(unsigned int selectedItem)
 {
-    // Clear so we don't get trippy artifacts left after zoom.
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(menuBg, 0, 0, 0);
     drawMenuItems(selectedItem);
@@ -225,7 +158,10 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
             break;
 
         if (itemPicked(event))
-            ;
+        {
+            std::cout << "Clicked " << selectedItem << std::endl;
+            //(g->*(items[(uint)selectedItem]->func))();
+        }
 
         selectedItem = getSelectedItem(event, selectedItem);
 
@@ -267,7 +203,7 @@ int Menu::loop(ALLEGRO_BITMAP* buffer, Game* g)
         al_get_keyboard_state(&key_state);
 
         // poll_mouse();  // sprawdza pozycje myszki
-        draw(buffer);  // rysuje przyciski menu
+        // draw(buffer);  // rysuje przyciski menu
         if (!(mouse_state.buttons & 1) &&
             !al_key_down(&key_state, ALLEGRO_KEY_ENTER))
             tmp = true;
