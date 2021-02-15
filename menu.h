@@ -17,7 +17,25 @@ public:
 
 class Menu
 {
+public:
+    Menu(int ws, int hs, int iw = 340, int ih = 70);
+    ~Menu();
+    void addItem(Item*);
+    void draw(ALLEGRO_BITMAP*);
+    int loop(ALLEGRO_BITMAP*, Game*);
+
 private:
+    void drawMenuItems(unsigned int selectedItem);
+
+    unsigned int getSelectedItem(const ALLEGRO_EVENT& event,
+                                 unsigned int currentSelectedItem) const;
+
+    bool userWantToExit(const ALLEGRO_EVENT& event) const;
+
+    bool itemPicked(const ALLEGRO_EVENT& event) const;
+
+    void redraw(unsigned int selectedItem);
+
     ALLEGRO_BITMAP* menuBg;
     ALLEGRO_BITMAP* subMenuBg;
     ALLEGRO_BITMAP* itemBg;
@@ -31,16 +49,6 @@ private:
     int yTopItem;
     std::vector<Item*> items;
     int check;
-
-public:
-    Menu(int ws, int hs, int iw = 340, int ih = 70);
-    ~Menu();
-    void addItem(Item*);
-    void draw(ALLEGRO_BITMAP*);
-    int loop(ALLEGRO_BITMAP*, Game*);
-    void drawMenuItems(unsigned int selectedItem);
-    unsigned int getSelectedItem(const ALLEGRO_EVENT& event,
-                                 unsigned int currentSelectedItem) const;
 };
 
 #endif
