@@ -10,8 +10,8 @@ class Game
 {
 private:
     ALLEGRO_BITMAP* buffer;
-    int cursor_x;
-    int cursor_y;
+    //    int cursor_x;
+    //    int cursor_y;
     bool gameOver;
     int ids[3];
 

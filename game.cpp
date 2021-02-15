@@ -39,11 +39,11 @@ Game::Game()
         return;
     }
 
-    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    if (!queue)
-    {
-        printf("failed to create queue\n");
-    }
+    //    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
+    //    if (!queue)
+    //    {
+    //        printf("failed to create queue\n");
+    //    }
 
     //    al_register_event_source(queue, al_get_keyboard_event_source());
     //    al_register_event_source(queue, al_get_display_event_source(display));
@@ -100,8 +100,8 @@ Game::Game()
     buffer = al_create_bitmap(WIDTH, HEIGHT);
     al_hide_mouse_cursor(al_get_current_display());
 
-    cursor_x = WIDTH / 2;
-    cursor_y = HEIGHT / 2;
+    //    cursor_x = WIDTH / 2;
+    //    cursor_y = HEIGHT / 2;
     createMenu();
 }
 Game::~Game()
