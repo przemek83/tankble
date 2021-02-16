@@ -41,6 +41,7 @@ file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY image DESTINATION ${CMAKE_BINARY_DIR})
 
 set(${PROJECT_NAME}_SOURCES
+        main.cpp
         vehicle.cpp
         vehicle.h
         player.cpp

@@ -6,35 +6,49 @@
 #include "allegro5/allegro_font.h"
 #include "game.h"
 
-class Item
-{
-public:
-    int (Game::*func)();
-    const char* text;
-    bool back;
-    Item(int (Game::*pointer)(), const char* t, bool b = false);
-    ~Item();
-};
+// class Item
+//{
+// public:
+//    int (Game::*func)();
+//    const char* text;
+//    bool back;
+//    Item(int (Game::*pointer)(), const char* t, bool b = false);
+//    ~Item();
+//};
 
 class Menu
 {
 public:
     Menu(int ws, int hs, int iw = 340, int ih = 70);
     ~Menu();
-    void addItem(Item*);
-    int loop(ALLEGRO_BITMAP*, Game*);
+
+    enum Item : unsigned char
+    {
+        MAIN_MENU = 0,
+        NEW_MENU,
+        NEW_1P,
+        OPTIONS_MENU,
+        WINDOWED,
+        FULLSCREEN,
+        BACK,
+        EXIT
+    };
+
+    Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
 
 private:
-    void drawMenuItems(unsigned int selectedItem);
+    Menu::Item loop();
 
-    unsigned int getSelectedItem(const ALLEGRO_EVENT& event,
-                                 unsigned int currentSelectedItem) const;
+    void drawMenuItems(unsigned int currentItem);
+
+    unsigned int getCurrentItem(const ALLEGRO_EVENT& event,
+                                unsigned int currentItem) const;
 
     bool userWantToExit(const ALLEGRO_EVENT& event) const;
 
     bool itemPicked(const ALLEGRO_EVENT& event) const;
 
-    void redraw(unsigned int selectedItem);
+    void redraw(unsigned int currentItem);
 
     ALLEGRO_BITMAP* menuBg;
     ALLEGRO_BITMAP* subMenuBg;
@@ -48,7 +62,8 @@ private:
     int widthScreen;
     int heightScreen;
     int yTopItem;
-    std::vector<Item*> items;
+    std::vector<std::pair<std::string, Item>> items_;
+    // std::vector<Item*> items;
     int check;
 };
 

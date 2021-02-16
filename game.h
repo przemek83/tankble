@@ -22,12 +22,12 @@ public:
     // for tests
     void updateScreen();
     void getMouseInfo();
-    void createMenu();
-    int createMenuNew();
-    int createMenuLoad();
-    int createMenuOptions();
-    int createMenuGame();
-    int endMenu();
+    //    void createMenu();
+    //    int createMenuNew();
+    //    int createMenuLoad();
+    //    int createMenuOptions();
+    //    int createMenuGame();
+    //    int endMenu();
     int fullScreen();
     int windowedScreen();
     int startGame();
