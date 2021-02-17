@@ -1,12 +1,9 @@
-#ifndef BASE_H
-#define BASE_H
+#pragma once
 
 #include "map_element.h"
 
-class Base : public MapElement {
-	public:
-		Base();
+class Base : public MapElement
+{
+public:
+    Base();
 };
-#endif
-
-// end of base

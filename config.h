@@ -1,5 +1,4 @@
-#ifndef GAMECONFIG_H
-#define GAMECONFIG_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -18,5 +17,3 @@
 using namespace std;
 
 typedef unsigned int uint;
-
-#endif

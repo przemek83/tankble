@@ -1,12 +1,9 @@
-#ifndef ICE_H
-#define ICE_H
+#pragma once
 
 #include "map_element.h"
 
-class Ice : public MapElement {
-	public:
-		Ice();
+class Ice : public MapElement
+{
+public:
+    Ice();
 };
-#endif
-
-// end of map_element.h

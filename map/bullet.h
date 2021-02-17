@@ -1,5 +1,4 @@
-#ifndef BULLET_H
-#define BULLET_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include "../vehicle.h"
@@ -35,7 +34,3 @@ public:
     int getDirectionX();
     int getDirectionY();
 };
-
-#endif
-
-// end of bullet

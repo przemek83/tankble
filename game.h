@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include "config.h"
@@ -42,7 +41,3 @@ public:
 void controlz(void*);
 void displayz(void*);
 void displayPlayerz(void*);
-
-#endif
-
-// end of game.h

@@ -1,5 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include "vehicle.h"
@@ -53,7 +52,3 @@ class Win : public Lose
 public:
     void display();
 };
-
-#endif
-
-// end of player.h

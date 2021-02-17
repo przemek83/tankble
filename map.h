@@ -1,5 +1,4 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include "config.h"
@@ -45,7 +44,3 @@ public:
     int isTank(Bullet*);
     void setPower(Vehicle*);
 };
-
-#endif
-
-// end of map.h

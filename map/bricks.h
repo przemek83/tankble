@@ -1,12 +1,9 @@
-#ifndef BRICKS_H
-#define BRICKS_H
+#pragma once
 
 #include "map_element.h"
 
-class Bricks : public MapElement {
-	public:
-		Bricks();
+class Bricks : public MapElement
+{
+public:
+    Bricks();
 };
-#endif
-
-// end of map_element.h

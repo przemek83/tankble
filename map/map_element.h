@@ -1,5 +1,4 @@
-#ifndef MAP_ELEMENT_H
-#define MAP_ELEMENT_H
+#pragma once
 
 #include <allegro5/allegro.h>
 
@@ -30,7 +29,3 @@ public:
     int getSpeedUp();
     int getTankUp();
 };
-
-#endif
-
-// end of map_element.h

@@ -1,5 +1,4 @@
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
 #include <vector>
 
@@ -55,5 +54,3 @@ private:
     int yTopItem;
     std::vector<std::pair<std::string, Item>> items_;
 };
-
-#endif

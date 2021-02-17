@@ -1,5 +1,4 @@
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include "config.h"
@@ -66,7 +65,3 @@ public:
     int getDirectionX();
     int getDirectionY();
 };
-
-#endif
-
-// end of vehicle.h
