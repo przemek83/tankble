@@ -2,58 +2,32 @@
 #include "config.h"
 #include "game.h"
 
-// constructor
-
-// Item::Item(int (Game::*pointer)(), const char* t, bool b)
-//{
-//    func = pointer;
-//    text = t;
-//    back = b;
-//}
-
-// destructor
-
-// Item::~Item() {}
-
-// constructor
-
 Menu::Menu(int ws, int hs, int iw, int ih) : font(al_create_builtin_font())
 {
     widthScreen = ws;
     heightScreen = hs;
     itemWidth = iw;
     itemHeight = ih;
-    // PALETTE palette;
-    itemBg = al_load_bitmap("image/menu_item2.tga");               //, palette);
-    itemBgSelect = al_load_bitmap("image/menu_item_select2.tga");  //, palette);
+    itemBg = al_load_bitmap("image/menu_item2.tga");
+    itemBgSelect = al_load_bitmap("image/menu_item_select2.tga");
     menuBg = al_load_bitmap("image/background.tga");
     subMenuBg = al_load_bitmap("image/background_menu2.tga");
     yTopItem = 0;
-    check = 0;  // pozycja z menu
+    check = 0;
     this->bmp = al_create_bitmap(itemWidth, itemHeight);
 }
 
-// destructor
-
 Menu::~Menu()
 {
-    // poniewaz kontener vector nie obsluguje destrukcji wskaznikow
-    // musimy to zrobic sami...
-    //    for (uint i = 0; i < items_.size(); i++)
-    //        delete items[i];
     al_destroy_bitmap(itemBg);
     al_destroy_bitmap(itemBgSelect);
     al_destroy_bitmap(subMenuBg);
     al_destroy_bitmap(menuBg);
 }
 
-// add position to menu
-
 Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item> > items)
 {
     items_ = std::move(items);
-    // items.push_back(pointer);
-    // wysoksc pierwszej pozycji w menu
     yTopItem = heightScreen / 2 - items_.size() * itemHeight / 2;
     return loop();
 }
@@ -133,9 +107,6 @@ void Menu::redraw(unsigned int currentItem)
 
 Menu::Item Menu::loop()
 {
-    //    if (items_.empty())
-    //        return 1;
-
     ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
     ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
     al_register_event_source(events, al_get_keyboard_event_source());
@@ -154,17 +125,13 @@ Menu::Item Menu::loop()
     while (true)
     {
         ALLEGRO_EVENT event;
-        al_wait_for_event(events, &event);  // Wait for and get an event.
+        al_wait_for_event(events, &event);
 
         if (userWantToExit(event))
             return Item::EXIT;
 
         if (itemPicked(event))
-        {
-            std::cout << "Clicked " << currentItem << std::endl;
             return items_[currentItem].second;
-            //(g->*(items[(uint)selectedItem]->func))();
-        }
 
         currentItem = getCurrentItem(event, currentItem);
 
@@ -181,5 +148,3 @@ Menu::Item Menu::loop()
 
     return Item::BACK;
 }
-
-// end of menu.cpp
