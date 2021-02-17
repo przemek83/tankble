@@ -58,6 +58,7 @@ int main()
         {"WINDOWED", Menu::Item::WINDOWED},
         {"BACK", Menu::Item::BACK}};
 
+    al_show_mouse_cursor(al_get_current_display());
     Menu::Item userChoice{Menu::Item::MAIN_MENU};
     while (userChoice != Menu::Item::EXIT)
     {
@@ -87,15 +88,18 @@ int main()
                 break;
 
             case Menu::Item::NEW_1P:
+            {
+                Game game;
+                game.startGame();
                 userChoice = menu.getUserChoice(newGameMenu);
                 break;
+            }
 
             case Menu::Item::EXIT:
                 break;
         }
     }
-
-    Game game;
+    al_hide_mouse_cursor(al_get_current_display());
 
     std::cout << "end" << std::endl;
 

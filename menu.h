@@ -42,11 +42,9 @@ private:
     void redraw(unsigned int currentItem);
 
     ALLEGRO_BITMAP* menuBg;
-    ALLEGRO_BITMAP* subMenuBg;
     ALLEGRO_BITMAP* itemBg;
     ALLEGRO_BITMAP* itemBgSelect;
-    ALLEGRO_BITMAP* bmp;
-    ALLEGRO_FONT* font;
+    ALLEGRO_FONT* font_;
     int itemWidth;
     int itemHeight;
     int widthScreen;

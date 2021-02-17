@@ -2,7 +2,7 @@
 #include "config.h"
 #include "game.h"
 
-Menu::Menu(int ws, int hs, int iw, int ih) : font(al_create_builtin_font())
+Menu::Menu(int ws, int hs, int iw, int ih) : font_(al_create_builtin_font())
 {
     widthScreen = ws;
     heightScreen = hs;
@@ -11,16 +11,13 @@ Menu::Menu(int ws, int hs, int iw, int ih) : font(al_create_builtin_font())
     itemBg = al_load_bitmap("image/menu_item2.tga");
     itemBgSelect = al_load_bitmap("image/menu_item_select2.tga");
     menuBg = al_load_bitmap("image/background.tga");
-    subMenuBg = al_load_bitmap("image/background_menu2.tga");
     yTopItem = 0;
-    this->bmp = al_create_bitmap(itemWidth, itemHeight);
 }
 
 Menu::~Menu()
 {
     al_destroy_bitmap(itemBg);
     al_destroy_bitmap(itemBgSelect);
-    al_destroy_bitmap(subMenuBg);
     al_destroy_bitmap(menuBg);
 }
 
@@ -43,7 +40,7 @@ void Menu::drawMenuItems(unsigned int currentItem)
         al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth, itemHeight,
                               widthScreen / 2 - itemWidth / 2,
                               yTopItem + itemHeight * i, 0);
-        al_draw_text(font, al_map_rgb(255, 255, 255), widthScreen / 2,
+        al_draw_text(font_, al_map_rgb(255, 255, 255), widthScreen / 2,
                      yTopItem + itemHeight * i + itemHeight / 2,
                      ALLEGRO_ALIGN_CENTER, items_[i].first.c_str());
     }
@@ -67,8 +64,8 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
         {
             if ((event.mouse.x > widthScreen / 2 - itemWidth / 2) &&
                 (event.mouse.x < widthScreen / 2 + itemWidth / 2) &&
-                (event.mouse.y > yTopItem + itemHeight * (int)i) &&
-                (event.mouse.y < yTopItem + itemHeight + itemHeight * (int)i))
+                (event.mouse.y > yTopItem + itemHeight * i) &&
+                (event.mouse.y < yTopItem + itemHeight + itemHeight * i))
                 return i;
         }
     }
@@ -117,10 +114,7 @@ Menu::Item Menu::loop()
 
     bool shouldRedraw{true};
 
-    al_show_mouse_cursor(al_get_current_display());
-
     unsigned int currentItem{0};
-
     while (true)
     {
         ALLEGRO_EVENT event;
@@ -143,7 +137,4 @@ Menu::Item Menu::loop()
             redraw(currentItem);
         }
     }
-    al_hide_mouse_cursor(al_get_current_display());
-
-    return Item::BACK;
 }
