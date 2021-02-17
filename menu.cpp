@@ -13,7 +13,6 @@ Menu::Menu(int ws, int hs, int iw, int ih) : font(al_create_builtin_font())
     menuBg = al_load_bitmap("image/background.tga");
     subMenuBg = al_load_bitmap("image/background_menu2.tga");
     yTopItem = 0;
-    check = 0;
     this->bmp = al_create_bitmap(itemWidth, itemHeight);
 }
 

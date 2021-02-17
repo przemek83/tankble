@@ -1,20 +1,12 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <allegro5/allegro.h>
 #include <vector>
-#include "allegro5/allegro_font.h"
-#include "game.h"
 
-// class Item
-//{
-// public:
-//    int (Game::*func)();
-//    const char* text;
-//    bool back;
-//    Item(int (Game::*pointer)(), const char* t, bool b = false);
-//    ~Item();
-//};
+#include <allegro5/allegro.h>
+#include "allegro5/allegro_font.h"
+
+#include "game.h"
 
 class Menu
 {
@@ -58,15 +50,10 @@ private:
     ALLEGRO_FONT* font;
     int itemWidth;
     int itemHeight;
-    int itemCount;
     int widthScreen;
     int heightScreen;
     int yTopItem;
     std::vector<std::pair<std::string, Item>> items_;
-    // std::vector<Item*> items;
-    int check;
 };
 
 #endif
-
-// end of menu.h
