@@ -16,8 +16,8 @@ ALLEGRO_BITMAP* Map::display()
 void Map::displayMaps()
 {
     al_set_target_bitmap(buffer);
-    al_draw_bitmap_region(paint, 0, 0, 0, 0, E_SIZE * MAP_SIZE,
-                          E_SIZE * MAP_SIZE, 0);
+    al_draw_bitmap_region(paint, 0, 0, E_SIZE * MAP_SIZE, E_SIZE * MAP_SIZE, 0,
+                          0, 0);
 }
 
 void Map::displayVehicles()
@@ -200,13 +200,14 @@ Map::Map(Player* player)
     this->paint = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
     this->player = player;
     loadMap();
+    al_set_target_bitmap(paint);
     for (uint i = 0; i < MAP_SIZE; i++)
     {
         for (uint j = 0; j < MAP_SIZE; j++)
         {
-            al_set_target_bitmap(paint);
-            al_draw_bitmap_region(board[i][j]->display(), 0, 0, j * E_SIZE,
-                                  i * E_SIZE, E_SIZE, E_SIZE, 0);
+            // al_set_target_bitmap(paint);
+            al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
+                                  j * E_SIZE, i * E_SIZE, 0);
 
             //            blit(board[i][j]->display(), paint, 0, 0, j * E_SIZE,
             //            i * E_SIZE,

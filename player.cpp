@@ -43,8 +43,7 @@ bool Player::loadBitmap()
 ALLEGRO_BITMAP* Player::display()
 {
     al_set_target_bitmap(buffer);
-    al_draw_bitmap_region(this->bmp, 0, 0, 0, 0, al_get_bitmap_width(buffer),
-                          al_get_bitmap_height(buffer), 0);
+    al_draw_bitmap_region(this->bmp, 0, 0, 200, MAP_SIZE * E_SIZE, 0, 0, 0);
     /*tutaj reszta do wyswietlen*/
     return this->buffer;
 }

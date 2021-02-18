@@ -307,7 +307,7 @@ int Game::startGame()
 {
     this->player = new Player();
     this->mapa = new Map(player);
-    al_hide_mouse_cursor(al_get_current_display());
+    // al_hide_mouse_cursor(al_get_current_display());
 
     /*if(clwpInit(1)){
             this->ids[0] = clwpSpawn(controlz, this, 4096, 1, true);
@@ -328,6 +328,8 @@ int Game::startGame()
             clwpKill(this->ids[1]);
             clwpKill(this->ids[2]);
     }*/
+
+    std::cout << "Map loaded" << std::endl;
     this->gameOver = false;
     ALLEGRO_KEYBOARD_STATE key_state;
     al_get_keyboard_state(&key_state);
@@ -340,11 +342,14 @@ int Game::startGame()
         this->display();
         this->displayPlayer();
         this->control();
-        al_rest(10);
+        al_flip_display();
+        al_rest(1.0 / 30);
 
         /*off = clock();
         cout<<"loop all " << (static_cast<int>(off - on)) << endl;*/
     }
+
+    std::cout << "Game ended" << std::endl;
 
     delete this->player;
     delete this->mapa;
@@ -359,7 +364,7 @@ void Game::display()
     ALLEGRO_BITMAP* q1 = this->mapa->display();
 
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(q1, 0, 0, 0, 0, E_SIZE * MAP_SIZE, HEIGHT, 0);
+    al_draw_bitmap_region(q1, 0, 0, E_SIZE * MAP_SIZE, HEIGHT, 0, 0, 0);
     //    blit(q1, screen, 0, 0, 0, 0, E_SIZE * MAP_SIZE, HEIGHT);
     /*off = clock();
     cout<<"display "
@@ -377,8 +382,9 @@ void Game::displayPlayer()
     int off;*/
     ALLEGRO_BITMAP* q2 = this->player->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(q2, 0, 0, E_SIZE * MAP_SIZE, 0,
-                          WIDTH - E_SIZE * MAP_SIZE, HEIGHT, 0);
+    al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
+                          al_get_bitmap_height(q2),
+                          WIDTH - al_get_bitmap_width(q2), 0, 0);
     // blit(q2, screen, 0, 0, E_SIZE * MAP_SIZE, 0, WIDTH - E_SIZE * MAP_SIZE,
     //     HEIGHT);
     /*off = clock();
