@@ -8,104 +8,7 @@
 #include "vehicle.h"
 //#include "clwp/clwp.h"
 
-Game::Game()
-{
-    //    cout << "start"
-    //         << "\n";
-
-    //    ALLEGRO_DISPLAY* display = NULL;
-
-    //    if (!al_init())
-    //    {
-    //        fprintf(stderr, "failed to initialize allegro!\n");
-    //        return;
-    //    }
-
-    //    al_install_keyboard();
-
-    //    // al_set_new_display_flags(ALLEGRO_FULLSCREEN);
-    //    al_set_new_display_option(ALLEGRO_COLOR_SIZE, 32, ALLEGRO_REQUIRE);
-
-    //    bool fullscreen = false;
-    //    if (fullscreen)
-    //    {
-    //        al_set_new_display_flags(ALLEGRO_FULLSCREEN);
-    //    }
-
-    //    display = al_create_display(WIDTH, HEIGHT);
-    //    if (!display)
-    //    {
-    //        fprintf(stderr, "failed to create display!\n");
-    //        return;
-    //    }
-
-    //    //    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    //    //    if (!queue)
-    //    //    {
-    //    //        printf("failed to create queue\n");
-    //    //    }
-
-    //    //    al_register_event_source(queue, al_get_keyboard_event_source());
-    //    //    al_register_event_source(queue,
-    //    al_get_display_event_source(display));
-
-    //    al_clear_to_color(al_map_rgb(0, 0, 0));
-    //    al_flip_display();
-
-    //    al_init_image_addon();
-    //    al_init_font_addon();
-
-    //    //    bool quit = false;
-    //    //    do
-    //    //    {
-    //    //        al_clear_to_color(al_map_rgb(0, 0, 0));
-    //    //        al_flip_display();
-
-    //    //        do
-    //    //        {
-    //    //            ALLEGRO_EVENT ev;
-    //    //            al_wait_for_event(queue, &ev);
-
-    //    //            if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-    //    //            {
-    //    //                quit = true;
-    //    //            }
-    //    //            if ((ev.type == ALLEGRO_EVENT_KEY_DOWN) &&
-    //    //                (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE))
-    //    //            {
-    //    //                quit = true;
-    //    //            }
-    //    //            if ((ev.type == ALLEGRO_EVENT_KEY_DOWN) &&
-    //    //                (ev.keyboard.keycode == ALLEGRO_KEY_F))
-    //    //            {
-    //    //                fullscreen = !fullscreen;
-    //    //                al_toggle_display_flag(display,
-    //    ALLEGRO_FULLSCREEN_WINDOW,
-    //    //                                       fullscreen);
-    //    //            }
-
-    //    //        } while (!al_is_event_queue_empty(queue));
-    //    //    } while (!quit);
-
-    //    // al_init();
-    //    al_set_window_title(al_get_current_display(), "TankBle");
-    //    // al_install_keyboard();
-    //    al_install_mouse();
-    //    // set_color_depth(16);
-    //    // 0,0 is set for virtual screen, 0,0 for disable
-    //    // windowedScreen();
-    //    // set_gfx_mode(GFX_AUTODETECT, WIDTH, HEIGHT, 0, 0);
-    //    // PALETTE palette;
-    //    // set_palette(palette);
-
-    //    // important -> buffer
-    buffer = al_create_bitmap(WIDTH, HEIGHT);
-    //    al_hide_mouse_cursor(al_get_current_display());
-
-    //    //    cursor_x = WIDTH / 2;
-    //    //    cursor_y = HEIGHT / 2;
-    //    // createMenu();
-}
+Game::Game() { buffer = al_create_bitmap(WIDTH, HEIGHT); }
 Game::~Game()
 {
     al_uninstall_mouse();
@@ -237,56 +140,6 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     mapa->setPower(myTank);
 }
 
-// ******************************* MENU **********************************
-
-// void Game::createMenu()
-//{
-//    Menu* menu = new Menu(WIDTH, HEIGHT);
-//    menu->addItem(new Item(&Game::createMenuNew, "NEW GAME"));
-//    menu->addItem(new Item(&Game::createMenuLoad, "LOAD LEVEL"));
-//    menu->addItem(new Item(&Game::createMenuOptions, "OPTIONS"));
-//    menu->addItem(new Item(&Game::endMenu, "EXIT", true));
-//    menu->loop(buffer, this);
-//}
-
-// int Game::createMenuNew()
-//{
-//    Menu* m = new Menu(WIDTH, HEIGHT);
-//    // value "true" for exit from current menu
-//    m->addItem(new Item(&Game::startGame, "LOCAL GAME"));
-//    m->addItem(new Item(&Game::createMenuGame, "NETWORK GAME"));
-//    m->addItem(new Item(&Game::endMenu, "BACK", true));
-//    return m->loop(buffer, this);
-//}
-
-// int Game::createMenuGame()
-//{
-//    Menu* m = new Menu(WIDTH, HEIGHT);
-//    m->addItem(new Item(&Game::endMenu, "(SERVER) CREATE SERVER"));
-//    m->addItem(new Item(&Game::endMenu, "(CLIENT) CONNECT TO SERVER"));
-//    m->addItem(new Item(&Game::endMenu, "BACK", true));
-//    return m->loop(buffer, this);
-//}
-// int Game::createMenuLoad()
-//{
-//    Menu* m = new Menu(WIDTH, HEIGHT);
-//    // value "true" for exit from current menu
-//    m->addItem(new Item(&Game::endMenu, "BACK LOAD", true));
-//    return m->loop(buffer, this);
-//}
-
-// int Game::createMenuOptions()
-//{
-//    Menu* m = new Menu(WIDTH, HEIGHT);
-//    // value "true" for exit from current menu
-//    m->addItem(new Item(&Game::fullScreen, "FULLSCREEN MODE", false));
-//    m->addItem(new Item(&Game::windowedScreen, "WINDOWED MODE", false));
-//    m->addItem(new Item(&Game::endMenu, "BACK OPTIONS", true));
-//    return m->loop(buffer, this);
-//}
-
-// int Game::endMenu() { return 0; }
-
 int Game::fullScreen()
 {
     al_set_new_display_flags(ALLEGRO_FULLSCREEN);
@@ -307,27 +160,6 @@ int Game::startGame()
 {
     this->player = new Player();
     this->mapa = new Map(player);
-    // al_hide_mouse_cursor(al_get_current_display());
-
-    /*if(clwpInit(1)){
-            this->ids[0] = clwpSpawn(controlz, this, 4096, 1, true);
-            this->ids[1] = clwpSpawn(displayz, this, 4096, 1, true);
-            this->ids[2] = clwpSpawn(displayPlayerz, this, 4096, 1, true);
-
-            this->gameOver = false;
-            while(!this->gameOver){
-                    int on = clock();
-                    int off;
-                    clwpYield();
-                    off = clock();
-                    cout<<"loop all " << (static_cast<int>(off - on)) << endl;
-            }
-
-
-            clwpKill(this->ids[0]);
-            clwpKill(this->ids[1]);
-            clwpKill(this->ids[2]);
-    }*/
 
     std::cout << "Map loaded" << std::endl;
     this->gameOver = false;
