@@ -39,10 +39,9 @@ void Map::displayBullets()
     {
         al_set_target_bitmap(buffer);
         al_draw_bitmap_region(bullets.at(i)->display(), 0, 0,
-                              bullets.at(i)->getX(), bullets.at(i)->getY(),
                               al_get_bitmap_width(bullets.at(i)->display()),
                               al_get_bitmap_height(bullets.at(i)->display()),
-                              0);
+                              bullets.at(i)->getX(), bullets.at(i)->getY(), 0);
     }
 }
 
