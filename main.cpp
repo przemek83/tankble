@@ -89,8 +89,10 @@ int main()
 
             case Menu::Item::NEW_1P:
             {
+                al_hide_mouse_cursor(al_get_current_display());
                 Game game;
                 game.startGame();
+                al_show_mouse_cursor(al_get_current_display());
                 userChoice = menu.getUserChoice(newGameMenu);
                 break;
             }
