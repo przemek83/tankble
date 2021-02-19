@@ -108,7 +108,8 @@ void Lose::display()
         exit(0);
     }
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(bmp, 0, 0, 0, 0, WIDTH, HEIGHT, 0);
+    al_draw_bitmap(bmp, 0, 0, 0);
+    al_flip_display();
     // clear_keybuf();
     al_rest(2);
     //    while (!keypressed())

@@ -180,7 +180,7 @@ int Game::startGame()
         ALLEGRO_EVENT event;
         al_wait_for_event(events, &event);
 
-        if (userWantToExit(event))
+        if (userWantToExit(event) || gameOver)
             break;
 
         if (event.type == ALLEGRO_EVENT_TIMER)
