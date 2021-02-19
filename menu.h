@@ -41,6 +41,8 @@ private:
 
     void redraw(unsigned int currentItem);
 
+    bool escapePicked(const ALLEGRO_EVENT& event) const;
+
     ALLEGRO_BITMAP* menuBg;
     ALLEGRO_BITMAP* itemBg;
     ALLEGRO_BITMAP* itemBgSelect;

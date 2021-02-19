@@ -75,9 +75,7 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
 
 bool Menu::userWantToExit(const ALLEGRO_EVENT& event) const
 {
-    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
-           (event.type == ALLEGRO_EVENT_KEY_UP &&
-            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE);
+    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
 }
 
 bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
@@ -99,6 +97,12 @@ void Menu::redraw(unsigned int currentItem)
     al_draw_bitmap(menuBg, 0, 0, 0);
     drawMenuItems(currentItem);
     al_flip_display();
+}
+
+bool Menu::escapePicked(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
 Menu::Item Menu::loop()
@@ -125,6 +129,9 @@ Menu::Item Menu::loop()
 
         if (itemPicked(event))
             return items_[currentItem].second;
+
+        if (escapePicked(event))
+            return items_[items_.size() - 1].second;
 
         currentItem = getCurrentItem(event, currentItem);
 
