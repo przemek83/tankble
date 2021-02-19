@@ -9,13 +9,7 @@
 //#include "clwp/clwp.h"
 
 Game::Game() { buffer = al_create_bitmap(WIDTH, HEIGHT); }
-Game::~Game()
-{
-    al_uninstall_mouse();
-    al_uninstall_keyboard();
-    cout << "stop" << '\n';
-    // allegro_exit();
-}
+Game::~Game() { cout << "stop" << '\n'; }
 
 void Game::movement(Vehicle* myTank, Map* mapa)
 {
@@ -156,32 +150,51 @@ int Game::windowedScreen()
     return 0;
 }
 
+bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
+           (event.type == ALLEGRO_EVENT_KEY_UP &&
+            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE);
+}
+
 int Game::startGame()
 {
     this->player = new Player();
     this->mapa = new Map(player);
 
     std::cout << "Map loaded" << std::endl;
-    this->gameOver = false;
-    ALLEGRO_KEYBOARD_STATE key_state;
-    al_get_keyboard_state(&key_state);
 
-    while (!this->gameOver && !al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
+    ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
+    ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
+    al_register_event_source(events, al_get_keyboard_event_source());
+    al_register_event_source(events, al_get_mouse_event_source());
+    al_register_event_source(
+        events, al_get_display_event_source(al_get_current_display()));
+    al_register_event_source(events, al_get_timer_event_source(timer));
+    al_start_timer(timer);
+
+    bool shouldRedraw{true};
+
+    while (true)
     {
-        /*int on = clock();
-        int off;*/
+        ALLEGRO_EVENT event;
+        al_wait_for_event(events, &event);
 
-        this->display();
-        this->displayPlayer();
-        this->control();
-        al_flip_display();
-        al_rest(1.0 / 30);
+        if (userWantToExit(event))
+            break;
 
-        /*off = clock();
-        cout<<"loop all " << (static_cast<int>(off - on)) << endl;*/
+        if (event.type == ALLEGRO_EVENT_TIMER)
+            shouldRedraw = true;
+
+        if (shouldRedraw && al_is_event_queue_empty(events))
+        {
+            shouldRedraw = false;
+            this->display();
+            this->displayPlayer();
+            this->control();
+            al_flip_display();
+        }
     }
-
-    std::cout << "Game ended" << std::endl;
 
     delete this->player;
     delete this->mapa;

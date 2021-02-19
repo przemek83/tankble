@@ -7,13 +7,6 @@
 
 class Game
 {
-private:
-    ALLEGRO_BITMAP* buffer;
-    //    int cursor_x;
-    //    int cursor_y;
-    bool gameOver;
-    int ids[3];
-
 public:
     // constructor
     Game();
@@ -36,6 +29,15 @@ public:
     void display();
     void displayPlayer();
     void control();
+
+private:
+    bool userWantToExit(const ALLEGRO_EVENT& event) const;
+
+    ALLEGRO_BITMAP* buffer;
+    //    int cursor_x;
+    //    int cursor_y;
+    bool gameOver;
+    int ids[3];
 };
 
 void controlz(void*);
