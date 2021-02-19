@@ -327,11 +327,7 @@ void Map::setPower(Vehicle* v)
         delete e;
 
         al_set_target_bitmap(paint);
-        al_draw_bitmap_region(board[i][j]->display(), 0, 0, j * E_SIZE,
-                              i * E_SIZE, E_SIZE, E_SIZE, 0);
-
-        //        blit(board[i][j]->display(), this->paint, 0, 0, j * E_SIZE, i
-        //        * E_SIZE,
-        //             E_SIZE, E_SIZE);
+        al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
+                              j * E_SIZE, i * E_SIZE, 0);
     }
 }
