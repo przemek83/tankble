@@ -5,16 +5,6 @@
 
 class Player
 {
-private:
-    int x;
-    int y;
-    int ptanks;
-    int plevel;
-    const char* source;
-    ALLEGRO_BITMAP* bmp;
-    ALLEGRO_BITMAP* buffer;
-    Vehicle* vehicle;
-
 public:
     Player();
     ~Player();
@@ -34,15 +24,20 @@ public:
     ALLEGRO_BITMAP* getVehicleBitmap();
     ALLEGRO_BITMAP* display();
     bool loadBitmap();
+
+private:
+    int x;
+    int y;
+    int ptanks;
+    int plevel;
+    const char* source;
+    ALLEGRO_BITMAP* bmp;
+    ALLEGRO_BITMAP* buffer;
+    Vehicle* vehicle;
 };
 
 class Lose
 {
-protected:
-    const char* source;
-    ALLEGRO_BITMAP* bmp;
-    bool loadBitmap();
-
 public:
     void display();
 };

@@ -1,5 +1,7 @@
-#include "player.h"
+#include <allegro5/allegro_font.h>
+
 #include "config.h"
+#include "player.h"
 #include "vehicle.h"
 
 Player::Player()
@@ -102,45 +104,24 @@ ALLEGRO_BITMAP* Player::getVehicleBitmap()
 
 void Lose::display()
 {
-    this->source = "image/lose.tga";
-    if (!loadBitmap())
-    {
-        exit(0);
-    }
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap(bmp, 0, 0, 0);
+    al_clear_to_color(al_map_rgb(255, 0, 0));
+    ALLEGRO_FONT* font{al_create_builtin_font()};
+    al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
+                 ALLEGRO_ALIGN_CENTER, "You loose");
+    al_destroy_font(font);
     al_flip_display();
-    // clear_keybuf();
     al_rest(2);
-    //    while (!keypressed())
-    //        ;
-}
-
-bool Lose::loadBitmap()
-{
-    // PALETTE palette;
-    FILE* fp;
-    if ((fp = fopen(source, "r")) == NULL)
-    {
-        return false;
-    }
-    fclose(fp);
-    this->bmp = al_load_bitmap(this->source);  //, palette);
-    return true;
 }
 
 void Win::display()
 {
-    this->source = "image/win.tga";
-    if (!loadBitmap())
-    {
-        exit(0);
-    }
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap(bmp, 0, 0, 0);
+    al_clear_to_color(al_map_rgb(255, 0, 0));
+    ALLEGRO_FONT* font{al_create_builtin_font()};
+    al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
+                 ALLEGRO_ALIGN_CENTER, "You Win");
+    al_destroy_font(font);
     al_flip_display();
-    // clear_keybuf();
     al_rest(2);
-    //    while (!keypressed())
-    //        ;
 }
