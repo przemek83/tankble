@@ -105,7 +105,7 @@ ALLEGRO_BITMAP* Player::getVehicleBitmap()
 void Lose::display()
 {
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_clear_to_color(al_map_rgb(255, 0, 0));
+    al_clear_to_color(al_map_rgb(0, 0, 255));
     ALLEGRO_FONT* font{al_create_builtin_font()};
     al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
                  ALLEGRO_ALIGN_CENTER, "You loose");
@@ -117,7 +117,7 @@ void Lose::display()
 void Win::display()
 {
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_clear_to_color(al_map_rgb(255, 0, 0));
+    al_clear_to_color(al_map_rgb(0, 0, 255));
     ALLEGRO_FONT* font{al_create_builtin_font()};
     al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
                  ALLEGRO_ALIGN_CENTER, "You Win");
