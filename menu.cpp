@@ -8,8 +8,8 @@ Menu::Menu(int ws, int hs, int iw, int ih) : font_(al_create_builtin_font())
     heightScreen = hs;
     itemWidth = iw;
     itemHeight = ih;
-    itemBg = al_load_bitmap("image/menu_item2.tga");
-    itemBgSelect = al_load_bitmap("image/menu_item_select2.tga");
+    itemBg = al_load_bitmap("image/menu_item.tga");
+    itemBgSelect = al_load_bitmap("image/menu_item_select.tga");
     menuBg = al_load_bitmap("image/background.tga");
     yTopItem = 0;
 }
