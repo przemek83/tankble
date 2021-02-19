@@ -1,24 +1,17 @@
-#include <allegro5/allegro_font.h>
-
-#include "config.h"
 #include "player.h"
+#include "config.h"
 #include "vehicle.h"
 
-Player::Player()
+Player::Player() : font_{al_create_builtin_font()}
 {
-    this->source = "image/player_background.tga";
-    if (!loadBitmap())
-    {
-        exit(0);
-    }
     this->setTanks(0);
     this->buffer = al_create_bitmap(200, MAP_SIZE * E_SIZE);
 }
 
 Player::~Player()
 {
-    al_destroy_bitmap(this->bmp);
     al_destroy_bitmap(this->buffer);
+    al_destroy_font(font_);
 }
 
 void Player::loadVehicle(Vehicle* v)
@@ -29,24 +22,14 @@ void Player::loadVehicle(Vehicle* v)
     this->setLevel(v->getType());
 }
 
-bool Player::loadBitmap()
-{
-    // PALETTE palette;
-    FILE* fp;
-    if ((fp = fopen(source, "r")) == NULL)
-    {
-        return false;
-    }
-    fclose(fp);
-    this->bmp = al_load_bitmap(this->source);  //, palette);
-    return true;
-}
-
 ALLEGRO_BITMAP* Player::display()
 {
     al_set_target_bitmap(buffer);
-    al_draw_bitmap_region(this->bmp, 0, 0, 200, MAP_SIZE * E_SIZE, 0, 0, 0);
-    /*tutaj reszta do wyswietlen*/
+    al_clear_to_color(al_map_rgb(0, 0, 255));
+    al_draw_text(font_, al_map_rgb(255, 255, 255),
+                 al_get_bitmap_width(buffer) / 2,
+                 al_get_bitmap_height(buffer) / 2, ALLEGRO_ALIGN_CENTER,
+                 "[Status placeholder]");
     return this->buffer;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
 #include "vehicle.h"
 
 class Player
@@ -23,15 +24,13 @@ public:
     void setVehicle(Vehicle*);
     ALLEGRO_BITMAP* getVehicleBitmap();
     ALLEGRO_BITMAP* display();
-    bool loadBitmap();
 
 private:
+    ALLEGRO_FONT* font_;
     int x;
     int y;
     int ptanks;
     int plevel;
-    const char* source;
-    ALLEGRO_BITMAP* bmp;
     ALLEGRO_BITMAP* buffer;
     Vehicle* vehicle;
 };
