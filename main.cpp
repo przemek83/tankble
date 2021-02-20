@@ -32,9 +32,17 @@ static void setupAllegro()
     al_install_mouse();
 }
 
-void setFullScreenMode() {}
+static void setFullScreenMode()
+{
+    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
+                        true);
+}
 
-void setWindowedMode() {}
+static void setWindowedMode()
+{
+    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
+                        false);
+}
 
 int main()
 {
