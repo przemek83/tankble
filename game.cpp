@@ -6,7 +6,6 @@
 #include "menu.h"
 #include "player.h"
 #include "vehicle.h"
-//#include "clwp/clwp.h"
 
 Game::Game() { buffer = al_create_bitmap(WIDTH, HEIGHT); }
 Game::~Game() { cout << "stop" << '\n'; }

@@ -8,24 +8,16 @@
 class Game
 {
 public:
-    // constructor
     Game();
     ~Game();
-    // for tests
     void updateScreen();
     void getMouseInfo();
-    //    void createMenu();
-    //    int createMenuNew();
-    //    int createMenuLoad();
-    //    int createMenuOptions();
-    //    int createMenuGame();
-    //    int endMenu();
     int fullScreen();
     int windowedScreen();
     int startGame();
     void movement(Vehicle*, Map*);
-    Player* player;
-    Map* mapa;
+    Player* player{nullptr};
+    Map* mapa{nullptr};
     void display();
     void displayPlayer();
     void control();
@@ -33,11 +25,9 @@ public:
 private:
     bool userWantToExit(const ALLEGRO_EVENT& event) const;
 
-    ALLEGRO_BITMAP* buffer;
-    //    int cursor_x;
-    //    int cursor_y;
-    bool gameOver;
-    int ids[3];
+    ALLEGRO_BITMAP* buffer{nullptr};
+    bool gameOver{false};
+    int ids[3]{};
 };
 
 void controlz(void*);
