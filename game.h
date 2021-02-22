@@ -12,8 +12,6 @@ public:
     ~Game();
     void updateScreen();
     void getMouseInfo();
-    int fullScreen();
-    int windowedScreen();
     int startGame();
     void movement(Vehicle*, Map*);
     Player* player{nullptr};
@@ -29,7 +27,3 @@ private:
     bool gameOver{false};
     int ids[3]{};
 };
-
-void controlz(void*);
-void displayz(void*);
-void displayPlayerz(void*);

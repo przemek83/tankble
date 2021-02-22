@@ -133,22 +133,6 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     mapa->setPower(myTank);
 }
 
-int Game::fullScreen()
-{
-    al_set_new_display_flags(ALLEGRO_FULLSCREEN);
-    return 0;  // set_gfx_mode(GFX_AUTODETECT, WIDTH, HEIGHT, 0, 0);
-}
-
-int Game::windowedScreen()
-{
-    al_set_new_display_flags(ALLEGRO_WINDOWED);
-    //    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, WIDTH, HEIGHT, 0, 0) != 0)
-    //    {
-    //        return set_gfx_mode(GFX_AUTODETECT, WIDTH, HEIGHT, 0, 0);
-    //    }
-    return 0;
-}
-
 bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
 {
     return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
@@ -307,22 +291,4 @@ void Game::control()
     /*}*/
     // wyskocz z watkow
     /*this->gameOver = true;*/
-}
-
-void controlz(void* obj)
-{
-    Game* g = (Game*)obj;
-    g->control();
-}
-
-void displayz(void* obj)
-{
-    Game* g = (Game*)obj;
-    g->display();
-}
-
-void displayPlayerz(void* obj)
-{
-    Game* g = (Game*)obj;
-    g->displayPlayer();
 }
