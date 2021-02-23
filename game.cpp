@@ -19,7 +19,6 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     ALLEGRO_KEYBOARD_STATE key_state;
     al_get_keyboard_state(&key_state);
 
-    //-- ustalenie kierunku --
     if (al_key_down(&key_state, ALLEGRO_KEY_UP))
     {
         myTank->move(0);
@@ -42,14 +41,13 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     {
         return;
     }
-    //-- jestesmy/jezdzimy po planszy --
 
     if (myTank->getDirectionX() == 0 && myTank->getDirectionY() != 0)
     {
         if (myTank->getY() % E_SIZE == 0)
         {
             if (myTank->getX() % E_SIZE == 0)
-            { /* jest idealnie na klocku */
+            {
                 if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()))
                 {
                     myTank->go();
@@ -63,11 +61,10 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                     myTank->go();
                 }
                 else
-                {  // tolerancja
+                {
                     if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()) &&
                         myTank->getX() % E_SIZE <= tol)
                     {
-                        // przesun o kilka w lewo
                         myTank->setX(pomX * E_SIZE);
                         myTank->go();
                     }
@@ -75,7 +72,6 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                                             pomY + myTank->getDirectionY()) &&
                              myTank->getX() % E_SIZE >= E_SIZE - tol)
                     {
-                        // przesun o kilka w prawo
                         myTank->setX((pomX + 1) * E_SIZE);
                         myTank->go();
                     }
@@ -92,7 +88,7 @@ void Game::movement(Vehicle* myTank, Map* mapa)
         if (myTank->getX() % E_SIZE == 0)
         {
             if (myTank->getY() % E_SIZE == 0)
-            { /* jest idealnie na klocku */
+            {
                 if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY))
                 {
                     myTank->go();
@@ -106,11 +102,10 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                     myTank->go();
                 }
                 else
-                {  // tolerancja
+                {
                     if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY) &&
                         myTank->getY() % E_SIZE <= tol)
                     {
-                        // przesun o kilka w gore
                         myTank->setY(pomY * E_SIZE);
                         myTank->go();
                     }
@@ -118,7 +113,6 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                                             pomY + 1) &&
                              myTank->getY() % E_SIZE >= E_SIZE - tol)
                     {
-                        // przesun o kilka w dol
                         myTank->setY((pomY + 1) * E_SIZE);
                         myTank->go();
                     }
@@ -186,53 +180,25 @@ int Game::startGame()
 
 void Game::display()
 {
-    /*while(!key[KEY_ESC]){*/
-    /*int on = clock();
-    int off;*/
     ALLEGRO_BITMAP* q1 = this->mapa->display();
-
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q1, 0, 0, E_SIZE * MAP_SIZE, HEIGHT, 0, 0, 0);
-    //    blit(q1, screen, 0, 0, 0, 0, E_SIZE * MAP_SIZE, HEIGHT);
-    /*off = clock();
-    cout<<"display "
-            << (static_cast<int>(off - on)) << endl;*/
-    /*clwpYield();*/
-    /*}*/
-    // wyskocz z watkow
-    /*this->gameOver = true;*/
 }
 
 void Game::displayPlayer()
 {
-    /*while(!key[KEY_ESC]){*/
-    /*int on = clock();
-    int off;*/
     ALLEGRO_BITMAP* q2 = this->player->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
                           al_get_bitmap_height(q2),
                           WIDTH - al_get_bitmap_width(q2), 0, 0);
-    // blit(q2, screen, 0, 0, E_SIZE * MAP_SIZE, 0, WIDTH - E_SIZE * MAP_SIZE,
-    //     HEIGHT);
-    /*off = clock();
-    cout<<"displayPlayer "
-            << (static_cast<int>(off - on)) << endl;*/
-    /*clwpYield();*/
-    /*}*/
-    // wyskocz z watkow
-    /*this->gameOver = true;*/
 }
 
 void Game::control()
 {
-    /*clear_keybuf();*/
     Vehicle* tank;
-    /*while(!key[KEY_ESC]){*/
     try
     {
-        /*int on = clock();
-        int off;*/
         if (mapa->vehicles.size() == 1)
         {
             throw Win();
@@ -250,7 +216,6 @@ void Game::control()
                     al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
                     al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
                 {
-                    // dla czolgu gracza
                     this->movement(tank, mapa);
                 }
                 if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
@@ -260,35 +225,22 @@ void Game::control()
                 }
             }
             else
-            {  // komputer
+            {
                 tank->moveRandom(mapa);
                 tank->fire(mapa);
             }
         }
-        // obsluga pocisku
+
         mapa->moveBullet();
-        // wskocz do nastepnego watku
-        /*off = clock();
-        cout<<"control " << (static_cast<int>(off - on)) << endl;*/
-        /*clwpYield();*/
     }
     catch (Win& ex)
     {
-        /*clwpThreadSuspend( this->ids[1] );
-        clwpThreadSuspend( this->ids[2] );*/
-        /* przegrales */
         ex.display();
         this->gameOver = true;
     }
     catch (Lose& ex)
     {
-        /*clwpThreadSuspend( this->ids[1] );
-        clwpThreadSuspend( this->ids[2] );*/
-        /* wygrales */
         ex.display();
         this->gameOver = true;
     }
-    /*}*/
-    // wyskocz z watkow
-    /*this->gameOver = true;*/
 }

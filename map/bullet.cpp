@@ -34,7 +34,6 @@ Bullet::~Bullet()
 
 bool Bullet::loadBitmap()
 {
-    // PALETTE palette;
     FILE* fp;
     if ((fp = fopen(source, "r")) == NULL)
     {

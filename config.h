@@ -11,9 +11,6 @@
 #define WIDTH 800
 #define HEIGHT 600
 
-// using std::cout;
-// using std::vector;
-
 using namespace std;
 
 typedef unsigned int uint;

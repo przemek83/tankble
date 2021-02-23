@@ -60,7 +60,6 @@ Vehicle::~Vehicle()
 
 bool Vehicle::loadBitmaps()
 {
-    // PALETTE palette;
     FILE* fp;
 
     for (int i = 0; i < 4; i++)

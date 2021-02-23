@@ -10,7 +10,6 @@ MapElement::~MapElement()
 
 bool MapElement::loadBitmap()
 {
-    // PALETTE palette;
     FILE* fp;
     if ((fp = fopen(source, "r")) == NULL)
     {

@@ -27,9 +27,6 @@ void Map::displayVehicles()
         al_set_target_bitmap(buffer);
         al_draw_bitmap(vehicles.at(i)->display(), vehicles.at(i)->getX(),
                        vehicles.at(i)->getY(), 0);
-        //        draw_sprite(buffer, vehicles.at(i)->display(),
-        //        vehicles.at(i)->getX(),
-        //                    vehicles.at(i)->getY());
     }
 }
 
@@ -96,7 +93,6 @@ void Map::moveBullet()
         {
             delete this->bullets[i];
             this->bullets.erase(bullets.begin() + i);
-            // usuniecie pocisku
         }
     }
 }
@@ -204,13 +200,8 @@ Map::Map(Player* player)
     {
         for (uint j = 0; j < MAP_SIZE; j++)
         {
-            // al_set_target_bitmap(paint);
             al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
                                   j * E_SIZE, i * E_SIZE, 0);
-
-            //            blit(board[i][j]->display(), paint, 0, 0, j * E_SIZE,
-            //            i * E_SIZE,
-            //                 E_SIZE, E_SIZE);
         }
     }
 }
