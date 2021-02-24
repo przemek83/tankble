@@ -24,7 +24,7 @@ SpeedUp::SpeedUp()
     this->fly = true;
     this->drive = true;
     this->armor = 0;
-    this->source = "image/plansza/pwrup_czas.tga";
+    this->source = "image/board/power-up_time.tga";
     if (!loadBitmap())
     {
         // cout << "Bricks Error" << "\n";
