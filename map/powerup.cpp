@@ -41,7 +41,7 @@ TankUp::TankUp()
     this->fly = true;
     this->drive = true;
     this->armor = 0;
-    this->source = "image/plansza/pwrup_czolg.tga";
+    this->source = "image/board/power-up_life.tga";
     if (!loadBitmap())
     {
         // cout << "Bricks Error" << "\n";
