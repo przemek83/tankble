@@ -11,7 +11,7 @@ Base::Base()
     this->fly = false;
     this->drive = false;
     this->armor = 10;
-    this->source = "image/plansza/plansza_orzel.tga";
+    this->source = "image/board/base_ok.tga";
     if (!loadBitmap())
     {
         exit(0);
