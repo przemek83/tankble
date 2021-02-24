@@ -16,18 +16,6 @@
 
 class Map
 {
-private:
-    MapElement* board[MAP_SIZE][MAP_SIZE];
-    ALLEGRO_BITMAP* buffer;
-    ALLEGRO_BITMAP* paint;
-    void displayMaps();
-    void displayPowers();
-    void displayVehicles();
-    void displayBullets();
-    void loadMap();
-    int tab[MAP_SIZE][MAP_SIZE];
-    Player* player;
-
 public:
     Map(Player*);
     ~Map();
@@ -43,4 +31,17 @@ public:
     void moveBullet();
     int isTank(Bullet*);
     void setPower(Vehicle*);
+
+private:
+    MapElement* board[MAP_SIZE][MAP_SIZE];
+    ALLEGRO_BITMAP* buffer;
+    ALLEGRO_BITMAP* paint;
+    void displayMaps();
+    void displayPowers();
+    void displayVehicles();
+    void displayBullets();
+    void loadMap();
+    void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
+    int tab[MAP_SIZE][MAP_SIZE];
+    Player* player;
 };

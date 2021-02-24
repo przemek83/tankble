@@ -189,6 +189,12 @@ void Map::loadMap()
          << " seconds" << endl;
 }
 
+void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
+{
+    al_draw_bitmap_region(element, 0, 0, E_SIZE, E_SIZE, x * E_SIZE, y * E_SIZE,
+                          0);
+}
+
 Map::Map(Player* player)
 {
     this->buffer = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
@@ -197,13 +203,8 @@ Map::Map(Player* player)
     loadMap();
     al_set_target_bitmap(paint);
     for (uint i = 0; i < MAP_SIZE; i++)
-    {
         for (uint j = 0; j < MAP_SIZE; j++)
-        {
-            al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
-                                  j * E_SIZE, i * E_SIZE, 0);
-        }
-    }
+            drawMapItem(board[i][j]->display(), j, i);
 }
 
 Map::~Map()
@@ -280,8 +281,7 @@ void Map::destroyItem(uint j, uint i, uint power)
         }
         delete e;
         al_set_target_bitmap(paint);
-        al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
-                              j * E_SIZE, i * E_SIZE, 0);
+        drawMapItem(board[i][j]->display(), j, i);
     }
 }
 
@@ -318,7 +318,6 @@ void Map::setPower(Vehicle* v)
         delete e;
 
         al_set_target_bitmap(paint);
-        al_draw_bitmap_region(board[i][j]->display(), 0, 0, E_SIZE, E_SIZE,
-                              j * E_SIZE, i * E_SIZE, 0);
+        drawMapItem(board[i][j]->display(), j, i);
     }
 }
