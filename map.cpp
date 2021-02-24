@@ -146,7 +146,7 @@ void Map::loadMap()
                     board[i][j] = new Water();
                     break;
                 case '3':
-                    board[i][j] = new Plants();
+                    board[i][j] = new Plant();
                     break;
                 case '4':
                     board[i][j] = new Ice();

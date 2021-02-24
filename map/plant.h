@@ -1,8 +1,8 @@
 #pragma once
 #include "map_element.h"
 
-class Plants : public MapElement
+class Plant : public MapElement
 {
 public:
-    Plants();
+    Plant();
 };

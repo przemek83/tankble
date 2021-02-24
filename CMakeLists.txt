@@ -60,8 +60,8 @@ set(${PROJECT_NAME}_SOURCES
         map/steel.h
         map/powerup.cpp
         map/powerup.h
-        map/plants.cpp
-        map/plants.h
+        map/plant.cpp
+        map/plant.h
         map/map_element.cpp
         map/map_element.h
         map/ice.cpp

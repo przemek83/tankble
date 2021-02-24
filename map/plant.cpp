@@ -1,7 +1,7 @@
-#include "plants.h"
 #include <iostream>
+#include "plant.h"
 
-Plants::Plants()
+Plant::Plant()
 {
     this->id = 3;
     this->fly = true;

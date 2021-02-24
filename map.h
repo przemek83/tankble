@@ -8,7 +8,7 @@
 #include "map/ice.h"
 #include "map/map_element.h"
 #include "map/plain.h"
-#include "map/plants.h"
+#include "map/plant.h"
 #include "map/steel.h"
 #include "map/water.h"
 #include "player.h"
