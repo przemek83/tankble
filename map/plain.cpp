@@ -1,13 +1,13 @@
-#include "dirt.h"
 #include <iostream>
+#include "plain.h"
 
-Dirt::Dirt()
+Plain::Plain()
 {
     this->id = 0;
     this->fly = true;
     this->drive = true;
     this->armor = 999;
-    this->source = "image/plansza/plansza_zwykle.tga";
+    this->source = "image/board/plain.tga";
     if (!loadBitmap())
     {
         exit(0);

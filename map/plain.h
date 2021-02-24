@@ -2,8 +2,8 @@
 
 #include "tile.h"
 
-class Dirt : public Tile
+class Plain : public Tile
 {
 public:
-    Dirt();
+    Plain();
 };

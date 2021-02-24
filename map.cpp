@@ -158,13 +158,13 @@ void Map::loadMap()
                     board[i][j] = new Base();
                     break;
                 case 'M':
-                    board[i][j] = new Dirt();
+                    board[i][j] = new Plain();
                     this->player->loadVehicle(
                         new Vehicle(0, E_SIZE * j, E_SIZE * i));
                     vehicles.push_back(this->player->getVehicle());
                     break;
                 case 'E':
-                    board[i][j] = new Dirt();
+                    board[i][j] = new Plain();
                     vehicles.push_back(new Vehicle(4, E_SIZE * j, E_SIZE * i));
                     break;
                 case 'A':
@@ -180,7 +180,7 @@ void Map::loadMap()
                     board[i][j] = new TankUp();
                     break;
                 default:
-                    board[i][j] = new Dirt();
+                    board[i][j] = new Plain();
             }
         }
     fclose(plik);
@@ -275,7 +275,7 @@ void Map::destroyItem(uint j, uint i, uint power)
     if (this->board[i][j]->destroy(power))
     {
         Tile* e = this->board[i][j];
-        this->board[i][j] = new Dirt();
+        this->board[i][j] = new Plain();
         if (e->getId() == 6)
         {
             throw Lose();
@@ -315,7 +315,7 @@ void Map::setPower(Vehicle* v)
             this->player->setTanks(player->getTanks() + 1);
         }
         Tile* e = this->board[i][j];
-        this->board[i][j] = new Dirt();
+        this->board[i][j] = new Plain();
         delete e;
 
         al_set_target_bitmap(paint);

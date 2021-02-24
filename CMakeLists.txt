@@ -66,8 +66,8 @@ set(${PROJECT_NAME}_SOURCES
         map/tile.h
         map/ice.cpp
         map/ice.h
-        map/dirt.cpp
-        map/dirt.h
+        map/plain.cpp
+        map/plain.h
         map/bullet.cpp
         map/bullet.h
         map/brick.cpp
