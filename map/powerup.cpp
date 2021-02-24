@@ -7,7 +7,7 @@ ArmorUp::ArmorUp()
     this->fly = true;
     this->drive = true;
     this->armor = 0;
-    this->source = "image/plansza/pwrup_lopata.tga";
+    this->source = "image/board/power-up_shield.tga";
     if (!loadBitmap())
     {
         // cout << "Bricks Error" << "\n";
