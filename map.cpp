@@ -155,7 +155,7 @@ void Map::loadMap()
                     board[i][j] = new Steel();
                     break;
                 case '6':
-                    board[i][j] = new Base();
+                    board[i][j] = new Plain();
                     break;
                 case 'M':
                     board[i][j] = new Dirt();

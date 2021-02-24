@@ -72,8 +72,8 @@ set(${PROJECT_NAME}_SOURCES
         map/bullet.h
         map/bricks.cpp
         map/bricks.h
-        map/base.cpp
-        map/base.h
+        map/plain.cpp
+        map/plain.h
     )
 
 add_executable(${CMAKE_PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

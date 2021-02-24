@@ -2,8 +2,8 @@
 
 #include "map_element.h"
 
-class Base : public MapElement
+class Plain : public MapElement
 {
 public:
-    Base();
+    Plain();
 };

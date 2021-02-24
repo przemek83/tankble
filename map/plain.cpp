@@ -1,11 +1,11 @@
-#include "base.h"
 #include <allegro5/allegro.h>
 #include <iostream>
 #include "../player.h"
+#include "Plain.h"
 
 using std::cout;
 
-Base::Base()
+Plain::Plain()
 {
     this->id = 6;
     this->fly = false;
