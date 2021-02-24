@@ -2,11 +2,11 @@
 
 #include <allegro5/allegro.h>
 #include "config.h"
+#include "map/base.h"
 #include "map/brick.h"
 #include "map/bullet.h"
 #include "map/dirt.h"
 #include "map/ice.h"
-#include "map/plain.h"
 #include "map/plant.h"
 #include "map/steel.h"
 #include "map/tile.h"

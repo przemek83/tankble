@@ -1,17 +1,17 @@
+#include "base.h"
 #include <allegro5/allegro.h>
 #include <iostream>
 #include "../player.h"
-#include "Plain.h"
 
 using std::cout;
 
-Plain::Plain()
+Base::Base()
 {
     this->id = 6;
     this->fly = false;
     this->drive = false;
     this->armor = 10;
-    this->source = "image/board/plain.tga";
+    this->source = "image/plansza/plansza_orzel.tga";
     if (!loadBitmap())
     {
         exit(0);
