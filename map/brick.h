@@ -2,8 +2,8 @@
 
 #include "map_element.h"
 
-class Bricks : public MapElement
+class Brick : public MapElement
 {
 public:
-    Bricks();
+    Brick();
 };

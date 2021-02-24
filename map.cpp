@@ -140,7 +140,7 @@ void Map::loadMap()
             switch (sign)
             {
                 case '1':
-                    board[i][j] = new Bricks();
+                    board[i][j] = new Brick();
                     break;
                 case '2':
                     board[i][j] = new Water();

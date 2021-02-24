@@ -1,7 +1,7 @@
-#include "bricks.h"
+#include "brick.h"
 #include <iostream>
 
-Bricks::Bricks()
+Brick::Brick()
 {
     this->id = 1;
     this->fly = false;

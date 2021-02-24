@@ -2,7 +2,7 @@
 
 #include <allegro5/allegro.h>
 #include "config.h"
-#include "map/bricks.h"
+#include "map/brick.h"
 #include "map/bullet.h"
 #include "map/dirt.h"
 #include "map/ice.h"

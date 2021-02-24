@@ -70,8 +70,8 @@ set(${PROJECT_NAME}_SOURCES
         map/dirt.h
         map/bullet.cpp
         map/bullet.h
-        map/bricks.cpp
-        map/bricks.h
+        map/brick.cpp
+        map/brick.h
         map/plain.cpp
         map/plain.h
     )
