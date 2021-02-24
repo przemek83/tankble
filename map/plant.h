@@ -1,7 +1,7 @@
 #pragma once
-#include "map_element.h"
+#include "tile.h"
 
-class Plant : public MapElement
+class Plant : public Tile
 {
 public:
     Plant();

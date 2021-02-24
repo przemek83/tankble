@@ -215,12 +215,12 @@ Map::~Map()
     if (!this->vehicles.empty())
         this->vehicles.clear();
 
-    MapElement* m;
+    Tile* m;
     for (uint i = 0; i < MAP_SIZE; i++)
     {
         for (uint j = 0; j < MAP_SIZE; j++)
         {
-            m = (MapElement*)this->board[i][j];
+            m = (Tile*)this->board[i][j];
             delete m;
         }
     }
@@ -274,7 +274,7 @@ void Map::destroyItem(uint j, uint i, uint power)
 {
     if (this->board[i][j]->destroy(power))
     {
-        MapElement* e = this->board[i][j];
+        Tile* e = this->board[i][j];
         this->board[i][j] = new Dirt();
         if (e->getId() == 6)
         {
@@ -314,7 +314,7 @@ void Map::setPower(Vehicle* v)
         {
             this->player->setTanks(player->getTanks() + 1);
         }
-        MapElement* e = this->board[i][j];
+        Tile* e = this->board[i][j];
         this->board[i][j] = new Dirt();
         delete e;
 

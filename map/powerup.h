@@ -1,23 +1,23 @@
 #pragma once
 
-#include "map_element.h"
+#include "tile.h"
 
-class ArmorUp : public MapElement
+class ArmorUp : public Tile
 {
 public:
     ArmorUp();
 };
-class SpeedUp : public MapElement
+class SpeedUp : public Tile
 {
 public:
     SpeedUp();
 };
-class TankUp : public MapElement
+class TankUp : public Tile
 {
 public:
     TankUp();
 };
-class LevelUp : public MapElement
+class LevelUp : public Tile
 {
 public:
     LevelUp();

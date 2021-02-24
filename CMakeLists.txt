@@ -62,8 +62,8 @@ set(${PROJECT_NAME}_SOURCES
         map/powerup.h
         map/plant.cpp
         map/plant.h
-        map/map_element.cpp
-        map/map_element.h
+        map/tile.cpp
+        map/tile.h
         map/ice.cpp
         map/ice.h
         map/dirt.cpp

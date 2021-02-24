@@ -6,10 +6,10 @@
 #include "map/bullet.h"
 #include "map/dirt.h"
 #include "map/ice.h"
-#include "map/map_element.h"
 #include "map/plain.h"
 #include "map/plant.h"
 #include "map/steel.h"
+#include "map/tile.h"
 #include "map/water.h"
 #include "player.h"
 #include "vehicle.h"
@@ -33,7 +33,7 @@ public:
     void setPower(Vehicle*);
 
 private:
-    MapElement* board[MAP_SIZE][MAP_SIZE];
+    Tile* board[MAP_SIZE][MAP_SIZE];
     ALLEGRO_BITMAP* buffer;
     ALLEGRO_BITMAP* paint;
     void displayMaps();

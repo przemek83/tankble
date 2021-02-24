@@ -2,7 +2,7 @@
 
 #include <allegro5/allegro.h>
 #include "config.h"
-#include "map/map_element.h"
+#include "map/tile.h"
 //#include "map.h"
 
 // using std::vector;

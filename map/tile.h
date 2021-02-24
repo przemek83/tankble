@@ -2,7 +2,7 @@
 
 #include <allegro5/allegro.h>
 
-class MapElement
+class Tile
 {
 protected:
     bool fly;
@@ -22,7 +22,7 @@ public:
     virtual bool canDrive();
     virtual bool destroy(int);
     virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
-    virtual ~MapElement();
+    virtual ~Tile();
     virtual int getId();
     int getArmorUp();
     int getLevelUp();

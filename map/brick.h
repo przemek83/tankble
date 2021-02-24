@@ -1,8 +1,8 @@
 #pragma once
 
-#include "map_element.h"
+#include "tile.h"
 
-class Brick : public MapElement
+class Brick : public Tile
 {
 public:
     Brick();
