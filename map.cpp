@@ -191,8 +191,9 @@ void Map::loadMap()
 
 void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
 {
-    al_draw_bitmap_region(element, 0, 0, E_SIZE, E_SIZE, x * E_SIZE, y * E_SIZE,
-                          0);
+    al_draw_scaled_bitmap(element, 0, 0, al_get_bitmap_width(element),
+                          al_get_bitmap_height(element), x * E_SIZE, y * E_SIZE,
+                          E_SIZE, E_SIZE, 0);
 }
 
 Map::Map(Player* player)
