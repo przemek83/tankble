@@ -196,7 +196,6 @@ void Game::displayPlayer()
 
 void Game::control()
 {
-    Vehicle* tank;
     try
     {
         if (mapa->vehicles.size() == 1)
@@ -205,7 +204,7 @@ void Game::control()
         }
         for (uint i = 0; i < mapa->vehicles.size(); i++)
         {
-            tank = mapa->vehicles.at(i);
+            Vehicle* tank = mapa->vehicles.at(i);
             if (tank->getId() >= 100 && tank->getId() < 200)
             {
                 ALLEGRO_KEYBOARD_STATE key_state;

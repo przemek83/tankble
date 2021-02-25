@@ -10,19 +10,17 @@ class Game
 public:
     Game();
     ~Game();
-    void updateScreen();
-    void getMouseInfo();
     int startGame();
+
+private:
+    bool userWantToExit(const ALLEGRO_EVENT& event) const;
     void movement(Vehicle*, Map*);
-    Player* player{nullptr};
-    Map* mapa{nullptr};
     void display();
     void displayPlayer();
     void control();
 
-private:
-    bool userWantToExit(const ALLEGRO_EVENT& event) const;
-
+    Player* player{nullptr};
+    Map* mapa{nullptr};
     ALLEGRO_BITMAP* buffer{nullptr};
     bool gameOver{false};
     int ids[3]{};
