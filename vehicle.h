@@ -48,9 +48,9 @@ protected:
     static const int directions[8];
     const std::vector<std::string> tankTypesPaths{
         "image/board/tank_tier1.tga",       "image/board/tank_tier2.tga",
-        "image/board/tank_tier3.tga",       "image/plansza/swoj_mark_4_0.tga",
+        "image/board/tank_tier3.tga",       "image/board/tank_tier4.tga",
         "image/board/tank_tier1_enemy.tga", "image/board/tank_tier2_enemy.tga",
-        "image/board/tank_tier3_enemy.tga", "image/plansza/czolg_mark_4_0.tga"};
+        "image/board/tank_tier3_enemy.tga", "image/board/tank_tier4_enemy.tga"};
     int direction;
     int x;
     int y;
