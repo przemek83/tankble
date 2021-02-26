@@ -1,9 +1,12 @@
-#include "vehicle.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+
 #include "config.h"
 #include "map.h"
+#include "vehicle.h"
 
 const int Vehicle::wayX[4] = {0, 1, 0, -1};
 const int Vehicle::wayY[4] = {-1, 0, 1, 0};
@@ -12,25 +15,8 @@ const int Vehicle::armors[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const int Vehicle::speeds[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Vehicle::ids[8] = {101, 102, 103, 104, 201, 202, 203, 204};
 const int Vehicle::directions[8] = {0, 0, 0, 0, 2, 2, 2, 2};
-const char* Vehicle::sources[8][4] = {
-    {"image/plansza/swoj_mark_1_0.tga", "image/plansza/swoj_mark_1_1.tga",
-     "image/plansza/swoj_mark_1_2.tga", "image/plansza/swoj_mark_1_3.tga"},
-    {"image/plansza/swoj_mark_2_0.tga", "image/plansza/swoj_mark_2_1.tga",
-     "image/plansza/swoj_mark_2_2.tga", "image/plansza/swoj_mark_2_3.tga"},
-    {"image/plansza/swoj_mark_3_0.tga", "image/plansza/swoj_mark_3_1.tga",
-     "image/plansza/swoj_mark_3_2.tga", "image/plansza/swoj_mark_3_3.tga"},
-    {"image/plansza/swoj_mark_4_0.tga", "image/plansza/swoj_mark_4_1.tga",
-     "image/plansza/swoj_mark_4_2.tga", "image/plansza/swoj_mark_4_3.tga"},
-    {"image/plansza/czolg_mark_1_0.tga", "image/plansza/czolg_mark_1_1.tga",
-     "image/plansza/czolg_mark_1_2.tga", "image/plansza/czolg_mark_1_3.tga"},
-    {"image/plansza/czolg_mark_2_0.tga", "image/plansza/czolg_mark_2_1.tga",
-     "image/plansza/czolg_mark_2_2.tga", "image/plansza/czolg_mark_2_3.tga"},
-    {"image/plansza/czolg_mark_3_0.tga", "image/plansza/czolg_mark_3_1.tga",
-     "image/plansza/czolg_mark_3_2.tga", "image/plansza/czolg_mark_3_3.tga"},
-    {"image/plansza/czolg_mark_4_0.tga", "image/plansza/czolg_mark_4_1.tga",
-     "image/plansza/czolg_mark_4_2.tga", "image/plansza/czolg_mark_4_3.tga"}};
 
-Vehicle::Vehicle(int typ, uint x, uint y)
+Vehicle::Vehicle(int tankType, uint x, uint y)
 {
     this->fly = 0;
     this->drive = 1;
@@ -38,10 +24,10 @@ Vehicle::Vehicle(int typ, uint x, uint y)
     this->setX(x);
     this->setY(y);
 
-    this->direction = this->directions[typ];
-    this->setType(typ);
+    this->direction = this->directions[tankType];
+    this->setType(tankType);
 
-    if (!loadBitmaps())
+    if (!loadBitmaps(tankType))
     {
         exit(0);
     }
@@ -58,38 +44,50 @@ Vehicle::~Vehicle()
     cout << "Vehicle:" << this->getId() << " is deleted\n";
 }
 
-bool Vehicle::loadBitmaps()
+bool Vehicle::loadBitmaps(int tankType)
 {
     FILE* fp;
+    if ((fp = fopen(tankTypesPaths[tankType].c_str(), "r")) == NULL)
+        return false;
+    fclose(fp);
 
-    for (int i = 0; i < 4; i++)
-    {
-        if ((fp = fopen(*(source + i), "r")) == NULL)
-        {
-            return false;
-        }
-        fclose(fp);
-        this->bmp[i] = al_load_bitmap(*(source + i));  //, palette);
-    }
+    bmp[0] = al_load_bitmap(tankTypesPaths[tankType].c_str());
+    const int width{al_get_bitmap_width(bmp[0])};
+    const int height{al_get_bitmap_height(bmp[0])};
+
+    bmp[1] = al_create_bitmap(width, height);
+    al_set_target_bitmap(bmp[1]);
+    al_draw_rotated_bitmap(bmp[0], width / 2, height / 2, width / 2, height / 2,
+                           M_PI / 2, 0);
+    bmp[2] = al_create_bitmap(al_get_bitmap_width(bmp[0]),
+                              al_get_bitmap_height(bmp[0]));
+    al_set_target_bitmap(bmp[2]);
+    al_draw_rotated_bitmap(bmp[0], width / 2, height / 2, width / 2, height / 2,
+                           M_PI, 0);
+    bmp[3] = al_create_bitmap(al_get_bitmap_width(bmp[0]),
+                              al_get_bitmap_height(bmp[0]));
+    al_set_target_bitmap(bmp[3]);
+    al_draw_rotated_bitmap(bmp[0], width / 2, height / 2, width / 2, height / 2,
+                           3 * M_PI / 2, 0);
+
     return true;
 }
 
 int Vehicle::getId() { return this->id; }
 
-void Vehicle::setType(int typ)
+void Vehicle::setType(int tankType)
 {
-    if (typ < 0 || typ > 7)
+    if (tankType < 0 || tankType > 7)
     {
-        typ = 0;
+        tankType = 0;
     }
-    this->id = this->ids[typ];
-    this->armor = this->armors[typ];
-    this->maxArmor = this->armors[typ];
-    this->power = this->powers[typ];
-    this->speed = this->speeds[typ];
+    this->id = this->ids[tankType];
+    this->armor = this->armors[tankType];
+    this->maxArmor = this->armors[tankType];
+    this->power = this->powers[tankType];
+    this->speed = this->speeds[tankType];
 
-    this->source = this->sources[typ];
-    if (!this->loadBitmaps())
+    if (!this->loadBitmaps(tankType))
     {
         exit(1);
     }
