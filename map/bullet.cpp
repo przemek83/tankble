@@ -5,7 +5,7 @@
 
 Bullet::Bullet(Vehicle* v)
 {
-    this->source = "image/plansza/pocisk.tga";
+    this->source = "image/board/bullet.tga";
     if (!loadBitmap())
     {
         exit(0);
