@@ -5,7 +5,25 @@
 
 class Bullet
 {
-protected:
+public:
+    explicit Bullet(Vehicle*);
+    ~Bullet();
+    ALLEGRO_BITMAP* display();
+    int getId();
+    int getPower();
+    int getSpeed();
+    int getDirection();
+    int getX();
+    int getY();
+
+    int getCenterX();
+    int getCenterY();
+    void setX(int);
+    void setY(int);
+    int getDirectionX();
+    int getDirectionY();
+
+private:
     ALLEGRO_BITMAP* bmp;
     const char* source;
     int id;
@@ -16,21 +34,4 @@ protected:
     int x;
     int y;
     bool loadBitmap();
-
-public:
-    Bullet(Vehicle*);
-    ~Bullet();
-    ALLEGRO_BITMAP* display();  // return bitmap 30x30
-    int getId();
-    int getPower();
-    int getSpeed();
-    int getDirection();
-    int getX();
-    int getCenterX();
-    int getCenterY();
-    int getY();
-    void setX(int);
-    void setY(int);
-    int getDirectionX();
-    int getDirectionY();
 };

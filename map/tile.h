@@ -4,6 +4,18 @@
 
 class Tile
 {
+public:
+    virtual bool canFly();
+    virtual bool canDrive();
+    virtual bool destroy(int);
+    virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
+    virtual ~Tile();
+    virtual int getId();
+    int getArmorUp();
+    int getLevelUp();
+    int getSpeedUp();
+    int getTankUp();
+
 protected:
     bool fly;
     bool drive;
@@ -16,16 +28,4 @@ protected:
     int levelUp;
     int speedUp;
     int tankUp;
-
-public:
-    virtual bool canFly();
-    virtual bool canDrive();
-    virtual bool destroy(int);
-    virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
-    virtual ~Tile();
-    virtual int getId();
-    int getArmorUp();
-    int getLevelUp();
-    int getSpeedUp();
-    int getTankUp();
 };
