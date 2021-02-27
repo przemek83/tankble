@@ -10,22 +10,19 @@ public:
     Player();
     ~Player();
     void loadVehicle(Vehicle*);
-    int getArmor();
-    int getSpeed();
-    int getLevel();
     int getTanks();
-    int getPower();
 
-    void setLevel(int);
     void setTanks(int);
 
     Vehicle* getVehicle();
     Vehicle* killVehicle();
-    void setVehicle(Vehicle*);
-    ALLEGRO_BITMAP* getVehicleBitmap();
     ALLEGRO_BITMAP* display();
 
 private:
+    int getLevel();
+    void setLevel(int);
+    void setVehicle(Vehicle*);
+
     ALLEGRO_FONT* font_;
     int x;
     int y;

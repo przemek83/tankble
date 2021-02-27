@@ -35,10 +35,6 @@ ALLEGRO_BITMAP* Player::display()
 
 void Player::setTanks(int tanks) { this->ptanks = tanks; }
 
-int Player::getArmor() { return this->getVehicle()->getArmor(); }
-
-int Player::getSpeed() { return this->getVehicle()->getSpeed(); }
-
 int Player::getLevel()
 {
     try
@@ -54,8 +50,6 @@ int Player::getLevel()
 void Player::setLevel(int level) { this->plevel = level; }
 
 int Player::getTanks() { return this->ptanks; }
-
-int Player::getPower() { return this->getVehicle()->getPower(); }
 
 Vehicle* Player::getVehicle()
 {
@@ -79,10 +73,6 @@ Vehicle* Player::killVehicle()
     // delete this->vehicle;
     this->vehicle = NULL;
     return this->getVehicle();
-}
-ALLEGRO_BITMAP* Player::getVehicleBitmap()
-{
-    return this->getVehicle()->display();
 }
 
 void Lose::display()

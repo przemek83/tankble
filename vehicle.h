@@ -18,15 +18,8 @@ public:
     void setY(int);
     void moveRandom(void*);
     int getDirection();
-    int directionX();
-    int directionY();
     void fire(void*);
-    void setArmor(int);
-    int getArmor();
-    bool canFly();
-    bool canDrive();
     bool destroy(int);
-    int getMaxArmor();
     int getSpeed();
     int getPower();
     void resetFire();
@@ -38,7 +31,15 @@ public:
     int getDirectionX();
     int getDirectionY();
 
-protected:
+private:
+    int directionX();
+    int directionY();
+    void setArmor(int);
+    int getArmor();
+    bool canFly();
+    bool canDrive();
+    int getMaxArmor();
+
     static const int wayX[4];
     static const int wayY[4];
     static const int powers[8];
