@@ -7,16 +7,16 @@
 
 ALLEGRO_BITMAP* Map::display()
 {
-    this->displayMaps();
-    this->displayVehicles();
-    this->displayBullets();
-    return this->buffer;
+    displayMaps();
+    displayVehicles();
+    displayBullets();
+    return buffer_;
 }
 
 void Map::displayMaps()
 {
-    al_set_target_bitmap(buffer);
-    al_draw_bitmap_region(paint, 0, 0, E_SIZE * MAP_SIZE, E_SIZE * MAP_SIZE, 0,
+    al_set_target_bitmap(buffer_);
+    al_draw_bitmap_region(paint_, 0, 0, E_SIZE * MAP_SIZE, E_SIZE * MAP_SIZE, 0,
                           0, 0);
 }
 
@@ -24,7 +24,7 @@ void Map::displayVehicles()
 {
     for (uint i = 0; i < vehicles.size(); i++)
     {
-        al_set_target_bitmap(buffer);
+        al_set_target_bitmap(buffer_);
         drawMapItem(vehicles.at(i)->display(), vehicles.at(i)->getX(),
                     vehicles.at(i)->getY());
     }
@@ -32,13 +32,14 @@ void Map::displayVehicles()
 
 void Map::displayBullets()
 {
-    for (uint i = 0; i < bullets.size(); i++)
+    for (uint i = 0; i < bullets_.size(); i++)
     {
-        al_set_target_bitmap(buffer);
-        al_draw_bitmap_region(bullets.at(i)->display(), 0, 0,
-                              al_get_bitmap_width(bullets.at(i)->display()),
-                              al_get_bitmap_height(bullets.at(i)->display()),
-                              bullets.at(i)->getX(), bullets.at(i)->getY(), 0);
+        al_set_target_bitmap(buffer_);
+        al_draw_bitmap_region(bullets_.at(i)->display(), 0, 0,
+                              al_get_bitmap_width(bullets_.at(i)->display()),
+                              al_get_bitmap_height(bullets_.at(i)->display()),
+                              bullets_.at(i)->getX(), bullets_.at(i)->getY(),
+                              0);
     }
 }
 
@@ -50,9 +51,9 @@ void Map::moveBullet()
     int iter = -1;
     Vehicle* v;
     Vehicle* n;
-    for (uint i = 0; i < bullets.size(); i++)
+    for (uint i = 0; i < bullets_.size(); i++)
     {
-        b = this->bullets.at(i);
+        b = bullets_.at(i);
         px = b->getX() + b->getDirectionX() * b->getSpeed();
         py = b->getY() + b->getDirectionY() * b->getSpeed();
         if (isBulletValid(px, py))
@@ -61,38 +62,38 @@ void Map::moveBullet()
             b->setY(py);
             pi = b->getCenterY() / E_SIZE;
             pj = b->getCenterX() / E_SIZE;
-            if (!this->canFly(pj, pi))
+            if (!canFly(pj, pi))
             {
-                this->destroyItem(pj, pi, b->getPower());
-                delete this->bullets[i];
-                this->bullets.erase(bullets.begin() + i);
+                destroyItem(pj, pi, b->getPower());
+                delete bullets_[i];
+                bullets_.erase(bullets_.begin() + i);
             }
-            iter = this->isTank(b);
+            iter = isTank(b);
             if (iter >= 0)
             {
-                v = this->vehicles.at(iter);
+                v = vehicles.at(iter);
                 if (v->destroy(b->getPower()))
                 {
-                    if (v == this->player->getVehicle())
+                    if (v == player_->getVehicle())
                     {
-                        n = this->player->killVehicle();
-                        delete this->vehicles[iter];
-                        this->vehicles.push_back(n);
+                        n = player_->killVehicle();
+                        delete vehicles[iter];
+                        vehicles.push_back(n);
                     }
                     else
                     {
-                        delete this->vehicles[iter];
+                        delete vehicles[iter];
                     }
-                    this->vehicles.erase(vehicles.begin() + iter);
+                    vehicles.erase(vehicles.begin() + iter);
                 }
-                delete this->bullets[i];
-                this->bullets.erase(bullets.begin() + i);
+                delete bullets_[i];
+                bullets_.erase(bullets_.begin() + i);
             }
         }
         else
         {
-            delete this->bullets[i];
-            this->bullets.erase(bullets.begin() + i);
+            delete bullets_[i];
+            bullets_.erase(bullets_.begin() + i);
         }
     }
 }
@@ -140,47 +141,47 @@ void Map::loadMap()
             switch (sign)
             {
                 case '1':
-                    board[i][j] = new Brick();
+                    board_[i][j] = new Brick();
                     break;
                 case '2':
-                    board[i][j] = new Water();
+                    board_[i][j] = new Water();
                     break;
                 case '3':
-                    board[i][j] = new Plant();
+                    board_[i][j] = new Plant();
                     break;
                 case '4':
-                    board[i][j] = new Ice();
+                    board_[i][j] = new Ice();
                     break;
                 case '5':
-                    board[i][j] = new Steel();
+                    board_[i][j] = new Steel();
                     break;
                 case '6':
-                    board[i][j] = new Base();
+                    board_[i][j] = new Base();
                     break;
                 case 'M':
-                    board[i][j] = new Plain();
-                    this->player->loadVehicle(
+                    board_[i][j] = new Plain();
+                    player_->loadVehicle(
                         new Vehicle(0, E_SIZE * j, E_SIZE * i));
-                    vehicles.push_back(this->player->getVehicle());
+                    vehicles.push_back(player_->getVehicle());
                     break;
                 case 'E':
-                    board[i][j] = new Plain();
+                    board_[i][j] = new Plain();
                     vehicles.push_back(new Vehicle(4, E_SIZE * j, E_SIZE * i));
                     break;
                 case 'A':
-                    board[i][j] = new ArmorUp();
+                    board_[i][j] = new ArmorUp();
                     break;
                 case 'S':
-                    board[i][j] = new SpeedUp();
+                    board_[i][j] = new SpeedUp();
                     break;
                 case 'L':
-                    board[i][j] = new LevelUp();
+                    board_[i][j] = new LevelUp();
                     break;
                 case 'T':
-                    board[i][j] = new TankUp();
+                    board_[i][j] = new TankUp();
                     break;
                 default:
-                    board[i][j] = new Plain();
+                    board_[i][j] = new Plain();
             }
         }
     fclose(plik);
@@ -198,37 +199,37 @@ void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
 
 Map::Map(Player* player)
 {
-    this->buffer = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
-    this->paint = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
-    this->player = player;
+    buffer_ = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
+    paint_ = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
+    player_ = player;
     loadMap();
-    al_set_target_bitmap(paint);
+    al_set_target_bitmap(paint_);
     for (uint i = 0; i < MAP_SIZE; i++)
         for (uint j = 0; j < MAP_SIZE; j++)
-            drawMapItem(board[i][j]->display(), j * E_SIZE, i * E_SIZE);
+            drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
 }
 
 Map::~Map()
 {
-    if (!this->bullets.empty())
-        this->bullets.clear();
-    if (!this->vehicles.empty())
-        this->vehicles.clear();
+    if (!bullets_.empty())
+        bullets_.clear();
+    if (!vehicles.empty())
+        vehicles.clear();
 
     Tile* m;
     for (uint i = 0; i < MAP_SIZE; i++)
     {
         for (uint j = 0; j < MAP_SIZE; j++)
         {
-            m = (Tile*)this->board[i][j];
+            m = (Tile*)board_[i][j];
             delete m;
         }
     }
-    al_destroy_bitmap(this->buffer);
-    al_destroy_bitmap(this->paint);
+    al_destroy_bitmap(buffer_);
+    al_destroy_bitmap(paint_);
 }
 
-bool Map::canDrive(uint j, uint i) { this->board[i][j]->canDrive(); }
+bool Map::canDrive(uint j, uint i) { return board_[i][j]->canDrive(); }
 
 bool Map::isValid(int x, int y)
 {
@@ -250,7 +251,7 @@ bool Map::isBulletValid(int x, int y)
     return true;
 }
 
-bool Map::canFly(uint j, uint i) { return this->board[i][j]->canFly(); }
+bool Map::canFly(uint j, uint i) { return board_[i][j]->canFly(); }
 
 int Map::isTank(Bullet* b)
 {
@@ -272,53 +273,53 @@ int Map::isTank(Bullet* b)
 
 void Map::destroyItem(uint j, uint i, uint power)
 {
-    if (this->board[i][j]->destroy(power))
+    if (board_[i][j]->destroy(power))
     {
-        Tile* e = this->board[i][j];
-        this->board[i][j] = new Plain();
+        Tile* e = board_[i][j];
+        board_[i][j] = new Plain();
         if (e->getId() == 6)
         {
             throw Lose();
         }
         delete e;
-        al_set_target_bitmap(paint);
-        drawMapItem(board[i][j]->display(), j * E_SIZE, i * E_SIZE);
+        al_set_target_bitmap(paint_);
+        drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
     }
 }
 
-void Map::addBullet(Bullet* bullet) { this->bullets.push_back(bullet); }
+void Map::addBullet(Bullet* bullet) { bullets_.push_back(bullet); }
 
 void Map::setPower(Vehicle* v)
 {
     int j = (v->getX() + 15) / E_SIZE;
     int i = (v->getY() + 15) / E_SIZE;
 
-    if (this->board[i][j]->getId() > 20)
+    if (board_[i][j]->getId() > 20)
     {
-        if (this->board[i][j]->getArmorUp())
+        if (board_[i][j]->getArmorUp())
         {
             v->setMaxArmor();
         }
-        else if (this->board[i][j]->getLevelUp())
+        else if (board_[i][j]->getLevelUp())
         {
             if (v->getType() < 3)
             {
                 v->setType(v->getType() + 1);
             }
         }
-        else if (this->board[i][j]->getSpeedUp())
+        else if (board_[i][j]->getSpeedUp())
         {
             v->setSpeedUp();
         }
-        else if (this->board[i][j]->getTankUp())
+        else if (board_[i][j]->getTankUp())
         {
-            this->player->setTanks(player->getTanks() + 1);
+            player_->setTanks(player_->getTanks() + 1);
         }
-        Tile* e = this->board[i][j];
-        this->board[i][j] = new Plain();
+        Tile* e = board_[i][j];
+        board_[i][j] = new Plain();
         delete e;
 
-        al_set_target_bitmap(paint);
-        drawMapItem(board[i][j]->display(), j * E_SIZE, i * E_SIZE);
+        al_set_target_bitmap(paint_);
+        drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
     }
 }

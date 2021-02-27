@@ -31,18 +31,18 @@ private:
     bool isBulletValid(int, int);
     bool canFly(uint, uint);
     void destroyItem(uint, uint, uint);
-    vector<Bullet*> bullets;
+    vector<Bullet*> bullets_;
     int isTank(Bullet*);
 
-    Tile* board[MAP_SIZE][MAP_SIZE];
-    ALLEGRO_BITMAP* buffer;
-    ALLEGRO_BITMAP* paint;
+    Tile* board_[MAP_SIZE][MAP_SIZE];
+    ALLEGRO_BITMAP* buffer_;
+    ALLEGRO_BITMAP* paint_;
     void displayMaps();
     void displayPowers();
     void displayVehicles();
     void displayBullets();
     void loadMap();
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
-    int tab[MAP_SIZE][MAP_SIZE];
-    Player* player;
+    int tab_[MAP_SIZE][MAP_SIZE];
+    Player* player_;
 };
