@@ -24,12 +24,12 @@ private:
     void setVehicle(Vehicle*);
 
     ALLEGRO_FONT* font_;
-    int x;
-    int y;
-    int ptanks;
-    int plevel;
-    ALLEGRO_BITMAP* buffer;
-    Vehicle* vehicle;
+    int x_;
+    int y_;
+    int ptanks_;
+    int plevel_;
+    ALLEGRO_BITMAP* buffer_;
+    Vehicle* vehicle_;
 };
 
 class Lose

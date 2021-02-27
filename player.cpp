@@ -4,75 +4,75 @@
 
 Player::Player() : font_{al_create_builtin_font()}
 {
-    this->setTanks(0);
-    this->buffer = al_create_bitmap(200, MAP_SIZE * E_SIZE);
+    setTanks(0);
+    buffer_ = al_create_bitmap(200, MAP_SIZE * E_SIZE);
 }
 
 Player::~Player()
 {
-    al_destroy_bitmap(this->buffer);
+    al_destroy_bitmap(buffer_);
     al_destroy_font(font_);
 }
 
 void Player::loadVehicle(Vehicle* v)
 {
-    this->setVehicle(v);
-    this->x = v->getX();
-    this->y = v->getY();
-    this->setLevel(v->getType());
+    setVehicle(v);
+    x_ = v->getX();
+    y_ = v->getY();
+    setLevel(v->getType());
 }
 
 ALLEGRO_BITMAP* Player::display()
 {
-    al_set_target_bitmap(buffer);
+    al_set_target_bitmap(buffer_);
     al_clear_to_color(al_map_rgb(0, 0, 255));
     al_draw_text(font_, al_map_rgb(255, 255, 255),
-                 al_get_bitmap_width(buffer) / 2,
-                 al_get_bitmap_height(buffer) / 2, ALLEGRO_ALIGN_CENTER,
+                 al_get_bitmap_width(buffer_) / 2,
+                 al_get_bitmap_height(buffer_) / 2, ALLEGRO_ALIGN_CENTER,
                  "[Status placeholder]");
-    return this->buffer;
+    return buffer_;
 }
 
-void Player::setTanks(int tanks) { this->ptanks = tanks; }
+void Player::setTanks(int tanks) { ptanks_ = tanks; }
 
 int Player::getLevel()
 {
     try
     {
-        return this->getVehicle()->getType();
+        return getVehicle()->getType();
     }
     catch (...)
     {
-        return this->plevel;
+        return plevel_;
     }
 }
 
-void Player::setLevel(int level) { this->plevel = level; }
+void Player::setLevel(int level) { plevel_ = level; }
 
-int Player::getTanks() { return this->ptanks; }
+int Player::getTanks() { return ptanks_; }
 
 Vehicle* Player::getVehicle()
 {
-    if (this->vehicle != NULL)
+    if (vehicle_ != NULL)
     {
-        return this->vehicle;
+        return vehicle_;
     }
-    if (this->getTanks() > 0)
+    if (getTanks() > 0)
     {
-        this->setVehicle(new Vehicle(this->getLevel(), this->x, this->y));
-        this->setTanks(this->getTanks() - 1);
-        return this->vehicle;
+        setVehicle(new Vehicle(getLevel(), x_, y_));
+        setTanks(getTanks() - 1);
+        return vehicle_;
     }
     throw Lose();
 }
 
-void Player::setVehicle(Vehicle* v) { this->vehicle = v; }
+void Player::setVehicle(Vehicle* v) { vehicle_ = v; }
 
 Vehicle* Player::killVehicle()
 {
-    // delete this->vehicle;
-    this->vehicle = NULL;
-    return this->getVehicle();
+    // delete vehicle_;
+    vehicle_ = nullptr;
+    return getVehicle();
 }
 
 void Lose::display()
