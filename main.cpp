@@ -6,6 +6,11 @@
 #include "game.h"
 #include "menu.h"
 
+static void initRandomGenerator()
+{
+    srand(static_cast<unsigned int>(time(nullptr)));
+}
+
 static void setupAllegro()
 {
     if (!al_init())
@@ -44,74 +49,75 @@ static void setWindowedMode()
                         false);
 }
 
-int main()
+static std::vector<std::pair<std::string, Menu::Item>> getMainMenu()
 {
-    std::cout << "start" << std::endl;
+    return {{"NEW GAME", Menu::Item::NEW_MENU},
+            {"OPTIONS", Menu::Item::OPTIONS_MENU},
+            {"EXIT", Menu::Item::EXIT}};
+}
 
-    srand((unsigned)time(0));
-    setupAllegro();
+static std::vector<std::pair<std::string, Menu::Item>> getNewGameMenu()
+{
+    return {{"1 PLAYER", Menu::Item::NEW_1P}, {"BACK", Menu::Item::BACK}};
+}
 
+static std::vector<std::pair<std::string, Menu::Item>> getOptionsMenu()
+{
+    return {{"FULL SCREEN", Menu::Item::FULLSCREEN},
+            {"WINDOWED", Menu::Item::WINDOWED},
+            {"BACK", Menu::Item::BACK}};
+}
+
+static bool userWantsToPlayAGame()
+{
     Menu menu(800, 600);
-
-    std::vector<std::pair<std::string, Menu::Item>> mainMenu{
-        {"NEW GAME", Menu::Item::NEW_MENU},
-        {"OPTIONS", Menu::Item::OPTIONS_MENU},
-        {"EXIT", Menu::Item::EXIT}};
-
-    std::vector<std::pair<std::string, Menu::Item>> newGameMenu{
-        {"1 PLAYER", Menu::Item::NEW_1P}, {"BACK", Menu::Item::BACK}};
-
-    std::vector<std::pair<std::string, Menu::Item>> optionsMenu{
-        {"FULL SCREEN", Menu::Item::FULLSCREEN},
-        {"WINDOWED", Menu::Item::WINDOWED},
-        {"BACK", Menu::Item::BACK}};
 
     al_show_mouse_cursor(al_get_current_display());
     Menu::Item userChoice{Menu::Item::MAIN_MENU};
-    while (userChoice != Menu::Item::EXIT)
+    while (userChoice != Menu::Item::EXIT && userChoice != Menu::Item::NEW_1P)
     {
         switch (userChoice)
         {
             case Menu::Item::MAIN_MENU:
             case Menu::Item::BACK:
-                userChoice = menu.getUserChoice(mainMenu);
+                userChoice = menu.getUserChoice(getMainMenu());
                 break;
 
             case Menu::Item::NEW_MENU:
-                userChoice = menu.getUserChoice(newGameMenu);
+                userChoice = menu.getUserChoice(getNewGameMenu());
                 break;
 
             case Menu::Item::OPTIONS_MENU:
-                userChoice = menu.getUserChoice(optionsMenu);
+                userChoice = menu.getUserChoice(getOptionsMenu());
                 break;
 
             case Menu::Item::FULLSCREEN:
                 setFullScreenMode();
-                userChoice = menu.getUserChoice(optionsMenu);
+                userChoice = menu.getUserChoice(getOptionsMenu());
                 break;
 
             case Menu::Item::WINDOWED:
                 setWindowedMode();
-                userChoice = menu.getUserChoice(optionsMenu);
+                userChoice = menu.getUserChoice(getOptionsMenu());
                 break;
-
-            case Menu::Item::NEW_1P:
-            {
-                al_hide_mouse_cursor(al_get_current_display());
-                Game game;
-                game.startGame();
-                al_show_mouse_cursor(al_get_current_display());
-                userChoice = menu.getUserChoice(newGameMenu);
-                break;
-            }
 
             case Menu::Item::EXIT:
-                break;
+            case Menu::Item::NEW_1P:;
         }
     }
     al_hide_mouse_cursor(al_get_current_display());
+    return userChoice == Menu::Item::NEW_1P;
+}
 
-    std::cout << "end" << std::endl;
+int main()
+{
+    initRandomGenerator();
+    setupAllegro();
 
+    while (userWantsToPlayAGame())
+    {
+        Game game;
+        game.startGame();
+    }
     return 0;
 }
