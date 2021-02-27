@@ -17,22 +17,23 @@
 class Map
 {
 public:
-    Map(Player*);
+    explicit Map(Player*);
     ~Map();
     ALLEGRO_BITMAP* display();
     bool canDrive(uint, uint);
     bool isValid(int, int);
-    bool isBulletValid(int, int);
-    bool canFly(uint, uint);
-    void destroyItem(uint, uint, uint);
     vector<Vehicle*> vehicles;
-    vector<Bullet*> bullets;
     void addBullet(Bullet*);
     void moveBullet();
-    int isTank(Bullet*);
     void setPower(Vehicle*);
 
 private:
+    bool isBulletValid(int, int);
+    bool canFly(uint, uint);
+    void destroyItem(uint, uint, uint);
+    vector<Bullet*> bullets;
+    int isTank(Bullet*);
+
     Tile* board[MAP_SIZE][MAP_SIZE];
     ALLEGRO_BITMAP* buffer;
     ALLEGRO_BITMAP* paint;
