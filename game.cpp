@@ -7,7 +7,7 @@
 #include "player.h"
 #include "vehicle.h"
 
-Game::Game() { buffer = al_create_bitmap(WIDTH, HEIGHT); }
+Game::Game() { buffer_ = al_create_bitmap(WIDTH, HEIGHT); }
 Game::~Game() { cout << "stop" << '\n'; }
 
 void Game::movement(Vehicle* myTank, Map* mapa)
@@ -136,8 +136,8 @@ bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
 
 int Game::startGame()
 {
-    this->player = new Player();
-    this->mapa = new Map(player);
+    player_ = new Player();
+    map_ = new Map(player_);
 
     std::cout << "Map loaded" << std::endl;
 
@@ -157,7 +157,7 @@ int Game::startGame()
         ALLEGRO_EVENT event;
         al_wait_for_event(events, &event);
 
-        if (userWantToExit(event) || gameOver)
+        if (userWantToExit(event) || gameOver_)
             break;
 
         if (event.type == ALLEGRO_EVENT_TIMER)
@@ -166,28 +166,28 @@ int Game::startGame()
         if (shouldRedraw && al_is_event_queue_empty(events))
         {
             shouldRedraw = false;
-            this->display();
-            this->displayPlayer();
-            this->control();
+            display();
+            displayPlayer();
+            control();
             al_flip_display();
         }
     }
 
-    delete this->player;
-    delete this->mapa;
+    delete player_;
+    delete map_;
     return 0;
 }
 
 void Game::display()
 {
-    ALLEGRO_BITMAP* q1 = this->mapa->display();
+    ALLEGRO_BITMAP* q1 = map_->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q1, 0, 0, E_SIZE * MAP_SIZE, HEIGHT, 0, 0, 0);
 }
 
 void Game::displayPlayer()
 {
-    ALLEGRO_BITMAP* q2 = this->player->display();
+    ALLEGRO_BITMAP* q2 = player_->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
                           al_get_bitmap_height(q2),
@@ -198,13 +198,13 @@ void Game::control()
 {
     try
     {
-        if (mapa->vehicles.size() == 1)
+        if (map_->vehicles.size() == 1)
         {
             throw Win();
         }
-        for (uint i = 0; i < mapa->vehicles.size(); i++)
+        for (uint i = 0; i < map_->vehicles.size(); i++)
         {
-            Vehicle* tank = mapa->vehicles.at(i);
+            Vehicle* tank = map_->vehicles.at(i);
             if (tank->getId() >= 100 && tank->getId() < 200)
             {
                 ALLEGRO_KEYBOARD_STATE key_state;
@@ -215,31 +215,31 @@ void Game::control()
                     al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
                     al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
                 {
-                    this->movement(tank, mapa);
+                    movement(tank, map_);
                 }
                 if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
                     al_key_down(&key_state, ALLEGRO_KEY_ENTER))
                 {
-                    tank->fire(mapa);
+                    tank->fire(map_);
                 }
             }
             else
             {
-                tank->moveRandom(mapa);
-                tank->fire(mapa);
+                tank->moveRandom(map_);
+                tank->fire(map_);
             }
         }
 
-        mapa->moveBullet();
+        map_->moveBullet();
     }
     catch (Win& ex)
     {
         ex.display();
-        this->gameOver = true;
+        gameOver_ = true;
     }
     catch (Lose& ex)
     {
         ex.display();
-        this->gameOver = true;
+        gameOver_ = true;
     }
 }

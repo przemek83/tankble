@@ -19,9 +19,9 @@ private:
     void displayPlayer();
     void control();
 
-    Player* player{nullptr};
-    Map* mapa{nullptr};
-    ALLEGRO_BITMAP* buffer{nullptr};
-    bool gameOver{false};
-    int ids[3]{};
+    Player* player_{nullptr};
+    Map* map_{nullptr};
+    ALLEGRO_BITMAP* buffer_{nullptr};
+    bool gameOver_{false};
+    int ids_[3]{};
 };
