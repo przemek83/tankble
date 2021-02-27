@@ -5,18 +5,16 @@
 
 Bullet::Bullet(Vehicle* v)
 {
-    this->source = "image/board/bullet.tga";
+    source = "image/board/bullet.tga";
     if (!loadBitmap())
-    {
         exit(0);
-    }
-    this->id = v->getId();
-    this->direction = v->getDirection();
-    this->speed = v->getSpeed();
-    this->power = v->getPower();
-    this->x = v->getX() + E_SIZE / 2 - 3;
-    this->y = v->getY() + E_SIZE / 2 - 3;
-    this->vehicle = v;
+    id = v->getId();
+    direction = v->getDirection();
+    speed = v->getSpeed();
+    power = v->getPower();
+    x = v->getX() + E_SIZE / 2 - 3;
+    y = v->getY() + E_SIZE / 2 - 3;
+    vehicle = v;
 }
 
 Bullet::~Bullet()

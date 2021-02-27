@@ -4,41 +4,39 @@
 
 Tile::~Tile()
 {
-    al_destroy_bitmap(this->bmp);
-    cout << "MapElement " << this->getId() << " is deleted\n";
+    al_destroy_bitmap(bmp);
+    cout << "MapElement " << getId() << " is deleted\n";
 }
 
 bool Tile::loadBitmap()
 {
     FILE* fp;
     if ((fp = fopen(source, "r")) == NULL)
-    {
         return false;
-    }
     fclose(fp);
-    this->bmp = al_load_bitmap(source);  //, palette);
+    bmp = al_load_bitmap(source);  //, palette);
     return true;
 }
 
-bool Tile::canFly() { return this->fly; }
+bool Tile::canFly() { return fly; }
 
-bool Tile::canDrive() { return this->drive; }
+bool Tile::canDrive() { return drive; }
 
 bool Tile::destroy(int power)
 {
-    this->armor -= power;
-    if (this->armor <= 0)
+    armor -= power;
+    if (armor <= 0)
         return true;
     return false;
 }
-ALLEGRO_BITMAP* Tile::display() { return this->bmp; }
+ALLEGRO_BITMAP* Tile::display() { return bmp; }
 
-int Tile::getId() { return this->id; }
+int Tile::getId() { return id; }
 
-int Tile::getArmorUp() { return this->armorUp; }
+int Tile::getArmorUp() { return armorUp; }
 
-int Tile::getLevelUp() { return this->levelUp; }
+int Tile::getLevelUp() { return levelUp; }
 
-int Tile::getSpeedUp() { return this->speedUp; }
+int Tile::getSpeedUp() { return speedUp; }
 
-int Tile::getTankUp() { return this->tankUp; }
+int Tile::getTankUp() { return tankUp; }

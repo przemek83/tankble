@@ -3,19 +3,14 @@
 
 Steel::Steel()
 {
-    this->id = 5;
-    this->fly = false;
-    this->drive = false;
-    this->armor = 100;
-    this->source = "image/board/steel.tga";
+    id = 5;
+    fly = false;
+    drive = false;
+    armor = 100;
+    source = "image/board/steel.tga";
     if (!loadBitmap())
     {
-        cout << "Steel Error"
-             << "\n";
+        cout << "Steel Error" << std::endl;
         exit(0);
     }
-    this->armorUp = 0;
-    this->levelUp = 0;
-    this->speedUp = 0;
-    this->tankUp = 0;
 }

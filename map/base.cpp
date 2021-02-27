@@ -7,17 +7,15 @@ using std::cout;
 
 Base::Base()
 {
-    this->id = 6;
-    this->fly = false;
-    this->drive = false;
-    this->armor = 10;
-    this->source = "image/board/base_ok.tga";
+    id = 6;
+    fly = false;
+    drive = false;
+    armor = 10;
+    source = "image/board/base_ok.tga";
     if (!loadBitmap())
-    {
         exit(0);
-    }
-    this->armorUp = 0;
-    this->levelUp = 0;
-    this->speedUp = 0;
-    this->tankUp = 0;
+    armorUp = 0;
+    levelUp = 0;
+    speedUp = 0;
+    tankUp = 0;
 }
