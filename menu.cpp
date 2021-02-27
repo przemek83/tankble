@@ -2,29 +2,36 @@
 #include "config.h"
 #include "game.h"
 
-Menu::Menu(int ws, int hs, int iw, int ih) : font_(al_create_builtin_font())
+Menu::Menu() : font_(al_create_builtin_font())
 {
-    widthScreen = ws;
-    heightScreen = hs;
-    itemWidth = iw;
-    itemHeight = ih;
-    itemBg = al_load_bitmap("image/menu/item.tga");
-    itemBgSelect = al_load_bitmap("image/menu/item_select.tga");
-    menuBg = al_load_bitmap("image/menu/background.bmp");
-    yTopItem = 0;
+    itemBg_ = al_load_bitmap("image/menu/item.tga");
+    itemBgSelect_ = al_load_bitmap("image/menu/item_select.tga");
+    menuBg_ = al_load_bitmap("image/menu/background.bmp");
+
+    setMenuSize(WIDTH, HEIGHT);
+
+    yTopItem_ = 0;
 }
 
 Menu::~Menu()
 {
-    al_destroy_bitmap(itemBg);
-    al_destroy_bitmap(itemBgSelect);
-    al_destroy_bitmap(menuBg);
+    al_destroy_bitmap(itemBg_);
+    al_destroy_bitmap(itemBgSelect_);
+    al_destroy_bitmap(menuBg_);
+}
+
+void Menu::setMenuSize(int width, int height)
+{
+    width_ = width;
+    height_ = height;
+    itemWidth_ = al_get_bitmap_width(itemBg_);
+    itemHeight_ = al_get_bitmap_height(itemBg_);
 }
 
 Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item> > items)
 {
     items_ = std::move(items);
-    yTopItem = heightScreen / 2 - items_.size() * itemHeight / 2;
+    yTopItem_ = height_ / 2 - items_.size() * itemHeight_ / 2;
     return loop();
 }
 
@@ -34,14 +41,14 @@ void Menu::drawMenuItems(unsigned int currentItem)
     {
         ALLEGRO_BITMAP* itemBitmap{nullptr};
         if (i == currentItem)
-            itemBitmap = itemBgSelect;
+            itemBitmap = itemBgSelect_;
         else
-            itemBitmap = itemBg;
-        al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth, itemHeight,
-                              widthScreen / 2 - itemWidth / 2,
-                              yTopItem + itemHeight * i, 0);
-        al_draw_text(font_, al_map_rgb(255, 255, 255), widthScreen / 2,
-                     yTopItem + itemHeight * i + itemHeight / 2,
+            itemBitmap = itemBg_;
+        al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth_, itemHeight_,
+                              width_ / 2 - itemWidth_ / 2,
+                              yTopItem_ + itemHeight_ * i, 0);
+        al_draw_text(font_, al_map_rgb(255, 255, 255), width_ / 2,
+                     yTopItem_ + itemHeight_ * i + itemHeight_ / 2,
                      ALLEGRO_ALIGN_CENTER, items_[i].first.c_str());
     }
 }
@@ -62,10 +69,10 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
     {
         for (unsigned int i = 0; i < items_.size(); i++)
         {
-            if ((event.mouse.x > widthScreen / 2 - itemWidth / 2) &&
-                (event.mouse.x < widthScreen / 2 + itemWidth / 2) &&
-                (event.mouse.y > yTopItem + itemHeight * i) &&
-                (event.mouse.y < yTopItem + itemHeight + itemHeight * i))
+            if ((event.mouse.x > width_ / 2 - itemWidth_ / 2) &&
+                (event.mouse.x < width_ / 2 + itemWidth_ / 2) &&
+                (event.mouse.y > yTopItem_ + itemHeight_ * i) &&
+                (event.mouse.y < yTopItem_ + itemHeight_ + itemHeight_ * i))
                 return i;
         }
     }
@@ -94,7 +101,9 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 void Menu::redraw(unsigned int currentItem)
 {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
-    al_draw_bitmap(menuBg, 0, 0, 0);
+    al_draw_scaled_bitmap(menuBg_, 0, 0, al_get_bitmap_width(menuBg_),
+                          al_get_bitmap_height(menuBg_), 0, 0, width_, height_,
+                          0);
     drawMenuItems(currentItem);
     al_flip_display();
 }

@@ -10,8 +10,10 @@
 class Menu
 {
 public:
-    Menu(int ws, int hs, int iw = 340, int ih = 70);
+    Menu();
     ~Menu();
+
+    void setMenuSize(int width, int height);
 
     enum Item : unsigned char
     {
@@ -43,14 +45,14 @@ private:
 
     bool escapePicked(const ALLEGRO_EVENT& event) const;
 
-    ALLEGRO_BITMAP* menuBg;
-    ALLEGRO_BITMAP* itemBg;
-    ALLEGRO_BITMAP* itemBgSelect;
+    ALLEGRO_BITMAP* menuBg_;
+    ALLEGRO_BITMAP* itemBg_;
+    ALLEGRO_BITMAP* itemBgSelect_;
     ALLEGRO_FONT* font_;
-    int itemWidth;
-    int itemHeight;
-    int widthScreen;
-    int heightScreen;
-    int yTopItem;
+    int itemWidth_;
+    int itemHeight_;
+    int width_;
+    int height_;
+    int yTopItem_;
     std::vector<std::pair<std::string, Item>> items_;
 };

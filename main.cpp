@@ -68,9 +68,15 @@ static std::vector<std::pair<std::string, Menu::Item>> getOptionsMenu()
             {"BACK", Menu::Item::BACK}};
 }
 
+static void updateMenuSize(Menu& menu)
+{
+    menu.setMenuSize(al_get_display_width(al_get_current_display()),
+                     al_get_display_height(al_get_current_display()));
+}
+
 static bool userWantsToPlayAGame()
 {
-    Menu menu(800, 600);
+    Menu menu;
 
     al_show_mouse_cursor(al_get_current_display());
     Menu::Item userChoice{Menu::Item::MAIN_MENU};
@@ -93,11 +99,13 @@ static bool userWantsToPlayAGame()
 
             case Menu::Item::FULLSCREEN:
                 setFullScreenMode();
+                updateMenuSize(menu);
                 userChoice = menu.getUserChoice(getOptionsMenu());
                 break;
 
             case Menu::Item::WINDOWED:
                 setWindowedMode();
+                updateMenuSize(menu);
                 userChoice = menu.getUserChoice(getOptionsMenu());
                 break;
 
