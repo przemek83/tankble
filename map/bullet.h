@@ -18,20 +18,21 @@ public:
 
     int getCenterX();
     int getCenterY();
-    void setX(int);
-    void setY(int);
+    void setX(int newX);
+    void setY(int newY);
     int getDirectionX();
     int getDirectionY();
 
 private:
-    ALLEGRO_BITMAP* bmp;
-    const char* source;
-    int id;
-    Vehicle* vehicle;
-    int direction;
-    int speed;
-    int power;
-    int x;
-    int y;
     bool loadBitmap();
+
+    ALLEGRO_BITMAP* bmp_;
+    const char* source_;
+    int id_;
+    Vehicle* vehicle_;
+    int direction_;
+    int speed_;
+    int power_;
+    int x_;
+    int y_;
 };
