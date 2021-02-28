@@ -27,7 +27,7 @@ public:
         EXIT
     };
 
-    Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
+    Menu::Item getChoice();
 
 private:
     Menu::Item loop();
@@ -44,6 +44,14 @@ private:
     void redraw(unsigned int currentItem);
 
     bool escapePicked(const ALLEGRO_EVENT& event) const;
+
+    Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
+
+    std::vector<std::pair<std::string, Menu::Item>> getMainMenu() const;
+
+    std::vector<std::pair<std::string, Menu::Item>> getNewGameMenu() const;
+
+    std::vector<std::pair<std::string, Menu::Item>> getOptionsMenu() const;
 
     ALLEGRO_BITMAP* menuBg_;
     ALLEGRO_BITMAP* itemBg_;

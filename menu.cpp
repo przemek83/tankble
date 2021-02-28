@@ -11,6 +11,8 @@ Menu::Menu() : font_(al_create_builtin_font())
     setMenuSize(WIDTH, HEIGHT);
 
     yTopItem_ = 0;
+
+    items_ = getMainMenu();
 }
 
 Menu::~Menu()
@@ -28,7 +30,60 @@ void Menu::setMenuSize(int width, int height)
     itemHeight_ = al_get_bitmap_height(itemBg_);
 }
 
-Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item> > items)
+std::vector<std::pair<std::string, Menu::Item>> Menu::getMainMenu() const
+{
+    return {{"NEW GAME", Menu::Item::NEW_MENU},
+            {"OPTIONS", Menu::Item::OPTIONS_MENU},
+            {"EXIT", Menu::Item::EXIT}};
+}
+
+std::vector<std::pair<std::string, Menu::Item>> Menu::getNewGameMenu() const
+{
+    return {{"1 PLAYER", Menu::Item::NEW_1P}, {"BACK", Menu::Item::BACK}};
+}
+
+std::vector<std::pair<std::string, Menu::Item>> Menu::getOptionsMenu() const
+{
+    return {{"FULL SCREEN", Menu::Item::FULLSCREEN},
+            {"WINDOWED", Menu::Item::WINDOWED},
+            {"BACK", Menu::Item::BACK}};
+}
+
+Menu::Item Menu::getChoice()
+{
+    al_show_mouse_cursor(al_get_current_display());
+    while (true)
+    {
+        const Menu::Item userChoice{getUserChoice(items_)};
+        switch (userChoice)
+        {
+            case Menu::Item::MAIN_MENU:
+            case Menu::Item::BACK:
+                items_ = getMainMenu();
+                break;
+
+            case Menu::Item::NEW_MENU:
+                items_ = getNewGameMenu();
+                break;
+
+            case Menu::Item::OPTIONS_MENU:
+                items_ = getOptionsMenu();
+                break;
+
+            case Menu::Item::WINDOWED:
+            case Menu::Item::FULLSCREEN:
+                items_ = getOptionsMenu();
+                return userChoice;
+
+            case Menu::Item::EXIT:
+            case Menu::Item::NEW_1P:
+                al_hide_mouse_cursor(al_get_current_display());
+                return userChoice;
+        }
+    }
+}
+
+Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item>> items)
 {
     items_ = std::move(items);
     yTopItem_ = height_ / 2 - items_.size() * itemHeight_ / 2;
