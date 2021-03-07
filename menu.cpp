@@ -26,8 +26,8 @@ void Menu::setMenuSize(unsigned int width, unsigned int height)
 {
     width_ = width;
     height_ = height;
-    itemWidth_ = al_get_bitmap_width(itemBg_);
-    itemHeight_ = al_get_bitmap_height(itemBg_);
+    itemWidth_ = static_cast<unsigned int>(al_get_bitmap_width(itemBg_));
+    itemHeight_ = static_cast<unsigned int>(al_get_bitmap_height(itemBg_));
 }
 
 std::vector<std::pair<std::string, Menu::Item>> Menu::getMainMenu() const
@@ -86,7 +86,6 @@ Menu::Item Menu::getChoice()
 Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item>> items)
 {
     items_ = std::move(items);
-    // yTopItem_ = height_ / 2 - items_.size() * itemHeight_ / 2;
     return loop();
 }
 
@@ -124,12 +123,14 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
     if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
     {
         const unsigned int firstItem{getLocationOfFirstItem()};
+        const unsigned int mouseX{static_cast<unsigned int>(event.mouse.x)};
+        const unsigned int mouseY{static_cast<unsigned int>(event.mouse.y)};
         for (unsigned int i = 0; i < items_.size(); i++)
         {
-            if ((event.mouse.x > width_ / 2 - itemWidth_ / 2) &&
-                (event.mouse.x < width_ / 2 + itemWidth_ / 2) &&
-                (event.mouse.y > firstItem + itemHeight_ * i) &&
-                (event.mouse.y < firstItem + itemHeight_ + itemHeight_ * i))
+            if ((mouseX > width_ / 2 - itemWidth_ / 2) &&
+                (mouseX < width_ / 2 + itemWidth_ / 2) &&
+                (mouseY > firstItem + itemHeight_ * i) &&
+                (mouseY < firstItem + itemHeight_ + itemHeight_ * i))
                 return i;
         }
     }
@@ -158,9 +159,10 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 void Menu::redraw(unsigned int currentItem)
 {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
-    al_draw_scaled_bitmap(menuBg_, 0, 0, al_get_bitmap_width(menuBg_),
-                          al_get_bitmap_height(menuBg_), 0, 0, width_, height_,
-                          0);
+    al_draw_scaled_bitmap(menuBg_, 0, 0,
+                          static_cast<float>(al_get_bitmap_width(menuBg_)),
+                          static_cast<float>(al_get_bitmap_height(menuBg_)), 0,
+                          0, width_, height_, 0);
     drawMenuItems(currentItem);
     al_flip_display();
 }
@@ -173,7 +175,8 @@ bool Menu::escapePicked(const ALLEGRO_EVENT& event) const
 
 unsigned int Menu::getLocationOfFirstItem() const
 {
-    return height_ / 2 - items_.size() * itemHeight_ / 2;
+    return height_ / 2 -
+           static_cast<unsigned int>(items_.size()) * itemHeight_ / 2;
 }
 
 std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
