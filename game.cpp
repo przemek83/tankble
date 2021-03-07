@@ -142,7 +142,7 @@ int Game::startGame()
     std::cout << "Map loaded" << std::endl;
 
     ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
+    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::fps)};
     al_register_event_source(events, al_get_keyboard_event_source());
     al_register_event_source(events, al_get_mouse_event_source());
     al_register_event_source(

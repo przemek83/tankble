@@ -173,7 +173,7 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
     const
 {
     ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
+    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::fps)};
     al_register_event_source(events, al_get_keyboard_event_source());
     al_register_event_source(events, al_get_mouse_event_source());
     al_register_event_source(
@@ -186,9 +186,7 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
 Menu::Item Menu::loop()
 {
     auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
-
     bool shouldRedraw{true};
-
     unsigned int currentItem{0};
     while (true)
     {

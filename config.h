@@ -11,6 +11,11 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+namespace Config
+{
+const unsigned int fps{30};
+};
+
 using namespace std;
 
 typedef unsigned int uint;
