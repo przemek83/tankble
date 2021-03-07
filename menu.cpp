@@ -2,16 +2,14 @@
 #include "config.h"
 #include "game.h"
 
-Menu::Menu() : font_(al_create_builtin_font())
+Menu::Menu(unsigned int width, unsigned int height)
+    : font_(al_create_builtin_font()), width_{width}, height_{height}
 {
     itemBg_ = al_load_bitmap("image/menu/item.tga");
     itemBgSelect_ = al_load_bitmap("image/menu/item_select.tga");
     menuBg_ = al_load_bitmap("image/menu/background.bmp");
 
-    setMenuSize(WIDTH, HEIGHT);
-
-    yTopItem_ = 0;
-
+    setMenuSize(width_, height_);
     items_ = getMainMenu();
 }
 
@@ -22,7 +20,7 @@ Menu::~Menu()
     al_destroy_bitmap(menuBg_);
 }
 
-void Menu::setMenuSize(int width, int height)
+void Menu::setMenuSize(unsigned int width, unsigned int height)
 {
     width_ = width;
     height_ = height;

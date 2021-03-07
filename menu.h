@@ -10,10 +10,10 @@
 class Menu
 {
 public:
-    Menu();
+    Menu(unsigned int width, unsigned int height);
     ~Menu();
 
-    void setMenuSize(int width, int height);
+    void setMenuSize(unsigned int width, unsigned int height);
 
     enum Item : unsigned char
     {
@@ -56,14 +56,14 @@ private:
     std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
         const;
 
-    ALLEGRO_BITMAP* menuBg_;
-    ALLEGRO_BITMAP* itemBg_;
-    ALLEGRO_BITMAP* itemBgSelect_;
-    ALLEGRO_FONT* font_;
-    int itemWidth_;
-    int itemHeight_;
-    int width_;
-    int height_;
-    int yTopItem_;
-    std::vector<std::pair<std::string, Item>> items_;
+    ALLEGRO_BITMAP* menuBg_{nullptr};
+    ALLEGRO_BITMAP* itemBg_{nullptr};
+    ALLEGRO_BITMAP* itemBgSelect_{nullptr};
+    ALLEGRO_FONT* font_{nullptr};
+    unsigned int itemWidth_{0};
+    unsigned int itemHeight_{0};
+    unsigned int width_{0};
+    unsigned int height_{0};
+    unsigned int yTopItem_{0};
+    std::vector<std::pair<std::string, Item>> items_{};
 };

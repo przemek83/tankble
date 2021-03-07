@@ -60,7 +60,7 @@ int main()
     initRandomGenerator();
     setupAllegro();
 
-    Menu menu;
+    Menu menu(WIDTH, HEIGHT);
     Menu::Item choice{Menu::Item::BACK};
     while (choice != Menu::Item::EXIT)
     {
