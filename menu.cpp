@@ -3,12 +3,13 @@
 #include "game.h"
 
 Menu::Menu(unsigned int width, unsigned int height)
-    : font_(al_create_builtin_font()), width_{width}, height_{height}
+    : menuBg_{al_load_bitmap("image/menu/background.bmp")},
+      itemBg_{al_load_bitmap("image/menu/item.tga")},
+      itemBgSelect_{al_load_bitmap("image/menu/item_select.tga")},
+      font_{al_create_builtin_font()},
+      width_{width},
+      height_{height}
 {
-    itemBg_ = al_load_bitmap("image/menu/item.tga");
-    itemBgSelect_ = al_load_bitmap("image/menu/item_select.tga");
-    menuBg_ = al_load_bitmap("image/menu/background.bmp");
-
     setMenuSize(width_, height_);
     items_ = getMainMenu();
 }
@@ -18,6 +19,7 @@ Menu::~Menu()
     al_destroy_bitmap(itemBg_);
     al_destroy_bitmap(itemBgSelect_);
     al_destroy_bitmap(menuBg_);
+    al_destroy_font(font_);
 }
 
 void Menu::setMenuSize(unsigned int width, unsigned int height)

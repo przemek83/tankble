@@ -56,10 +56,10 @@ private:
     std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
         const;
 
-    ALLEGRO_BITMAP* menuBg_{nullptr};
-    ALLEGRO_BITMAP* itemBg_{nullptr};
-    ALLEGRO_BITMAP* itemBgSelect_{nullptr};
-    ALLEGRO_FONT* font_{nullptr};
+    ALLEGRO_BITMAP* menuBg_;
+    ALLEGRO_BITMAP* itemBg_;
+    ALLEGRO_BITMAP* itemBgSelect_;
+    ALLEGRO_FONT* font_;
     unsigned int itemWidth_{0};
     unsigned int itemHeight_{0};
     unsigned int width_{0};
