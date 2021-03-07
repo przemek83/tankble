@@ -169,7 +169,8 @@ bool Menu::escapePicked(const ALLEGRO_EVENT& event) const
            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
-Menu::Item Menu::loop()
+std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
+    const
 {
     ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
     ALLEGRO_TIMER* timer{al_create_timer(1.0 / 30)};
@@ -179,6 +180,12 @@ Menu::Item Menu::loop()
         events, al_get_display_event_source(al_get_current_display()));
     al_register_event_source(events, al_get_timer_event_source(timer));
     al_start_timer(timer);
+    return {events, timer};
+}
+
+Menu::Item Menu::loop()
+{
+    auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
 
     bool shouldRedraw{true};
 
@@ -186,7 +193,7 @@ Menu::Item Menu::loop()
     while (true)
     {
         ALLEGRO_EVENT event;
-        al_wait_for_event(events, &event);
+        al_wait_for_event(eventsQueue, &event);
 
         if (userWantToExit(event))
             return Item::EXIT;
@@ -202,7 +209,7 @@ Menu::Item Menu::loop()
         if (event.type == ALLEGRO_EVENT_TIMER)
             shouldRedraw = true;
 
-        if (shouldRedraw && al_is_event_queue_empty(events))
+        if (shouldRedraw && al_is_event_queue_empty(eventsQueue))
         {
             shouldRedraw = false;
             redraw(currentItem);

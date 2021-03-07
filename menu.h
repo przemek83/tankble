@@ -53,6 +53,9 @@ private:
 
     std::vector<std::pair<std::string, Menu::Item>> getOptionsMenu() const;
 
+    std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
+        const;
+
     ALLEGRO_BITMAP* menuBg_;
     ALLEGRO_BITMAP* itemBg_;
     ALLEGRO_BITMAP* itemBgSelect_;
