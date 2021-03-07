@@ -45,6 +45,8 @@ private:
 
     bool escapePicked(const ALLEGRO_EVENT& event) const;
 
+    unsigned int getLocationOfFirstItem() const;
+
     Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
 
     std::vector<std::pair<std::string, Menu::Item>> getMainMenu() const;
@@ -64,6 +66,5 @@ private:
     unsigned int itemHeight_{0};
     unsigned int width_{0};
     unsigned int height_{0};
-    unsigned int yTopItem_{0};
     std::vector<std::pair<std::string, Item>> items_{};
 };

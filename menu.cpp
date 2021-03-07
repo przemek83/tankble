@@ -86,12 +86,13 @@ Menu::Item Menu::getChoice()
 Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item>> items)
 {
     items_ = std::move(items);
-    yTopItem_ = height_ / 2 - items_.size() * itemHeight_ / 2;
+    // yTopItem_ = height_ / 2 - items_.size() * itemHeight_ / 2;
     return loop();
 }
 
 void Menu::drawMenuItems(unsigned int currentItem)
 {
+    const unsigned int firstItem{getLocationOfFirstItem()};
     for (unsigned int i = 0; i < items_.size(); i++)
     {
         ALLEGRO_BITMAP* itemBitmap{nullptr};
@@ -101,9 +102,9 @@ void Menu::drawMenuItems(unsigned int currentItem)
             itemBitmap = itemBg_;
         al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth_, itemHeight_,
                               width_ / 2 - itemWidth_ / 2,
-                              yTopItem_ + itemHeight_ * i, 0);
+                              firstItem + itemHeight_ * i, 0);
         al_draw_text(font_, al_map_rgb(255, 255, 255), width_ / 2,
-                     yTopItem_ + itemHeight_ * i + itemHeight_ / 2,
+                     firstItem + itemHeight_ * i + itemHeight_ / 2,
                      ALLEGRO_ALIGN_CENTER, items_[i].first.c_str());
     }
 }
@@ -122,12 +123,13 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
 
     if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
     {
+        const unsigned int firstItem{getLocationOfFirstItem()};
         for (unsigned int i = 0; i < items_.size(); i++)
         {
             if ((event.mouse.x > width_ / 2 - itemWidth_ / 2) &&
                 (event.mouse.x < width_ / 2 + itemWidth_ / 2) &&
-                (event.mouse.y > yTopItem_ + itemHeight_ * i) &&
-                (event.mouse.y < yTopItem_ + itemHeight_ + itemHeight_ * i))
+                (event.mouse.y > firstItem + itemHeight_ * i) &&
+                (event.mouse.y < firstItem + itemHeight_ + itemHeight_ * i))
                 return i;
         }
     }
@@ -167,6 +169,11 @@ bool Menu::escapePicked(const ALLEGRO_EVENT& event) const
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
+}
+
+unsigned int Menu::getLocationOfFirstItem() const
+{
+    return height_ / 2 - items_.size() * itemHeight_ / 2;
 }
 
 std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
