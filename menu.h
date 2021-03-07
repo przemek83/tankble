@@ -47,6 +47,10 @@ private:
 
     unsigned int getLocationOfFirstItem() const;
 
+    unsigned int getItemWidth() const;
+
+    unsigned int getItemHeight() const;
+
     Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
 
     std::vector<std::pair<std::string, Menu::Item>> getMainMenu() const;
@@ -62,8 +66,6 @@ private:
     ALLEGRO_BITMAP* itemBg_;
     ALLEGRO_BITMAP* itemBgSelect_;
     ALLEGRO_FONT* font_;
-    unsigned int itemWidth_{0};
-    unsigned int itemHeight_{0};
     unsigned int width_{0};
     unsigned int height_{0};
     std::vector<std::pair<std::string, Item>> items_{};
