@@ -98,6 +98,7 @@ void Menu::drawMenuItems(unsigned int currentItem)
             itemBitmap = itemBgSelect_;
         else
             itemBitmap = itemBg_;
+
         al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth, itemHeight,
                               width_ / 2 - itemWidth / 2,
                               firstItem + itemHeight * i, 0);
@@ -159,11 +160,11 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 
 void Menu::redraw(unsigned int currentItem)
 {
-    al_clear_to_color(al_map_rgb_f(0, 0, 0));
-    al_draw_scaled_bitmap(menuBg_, 0, 0,
-                          static_cast<float>(al_get_bitmap_width(menuBg_)),
-                          static_cast<float>(al_get_bitmap_height(menuBg_)), 0,
-                          0, width_, height_, 0);
+    al_clear_to_color(al_map_rgb_f(0., 0., 0.));
+    al_draw_scaled_bitmap(
+        menuBg_, 0., 0., static_cast<float>(al_get_bitmap_width(menuBg_)),
+        static_cast<float>(al_get_bitmap_height(menuBg_)), 0., 0.,
+        static_cast<float>(width_), static_cast<float>(height_), 0);
     drawMenuItems(currentItem);
     al_flip_display();
 }
