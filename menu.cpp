@@ -80,7 +80,7 @@ Menu::Item Menu::getChoice()
     }
 }
 
-Menu::Item Menu::getUserChoice(std::vector<std::pair<string, Item>> items)
+Menu::Item Menu::getUserChoice(std::vector<std::pair<std::string, Item>> items)
 {
     items_ = std::move(items);
     return loop();

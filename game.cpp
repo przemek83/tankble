@@ -8,7 +8,7 @@
 #include "vehicle.h"
 
 Game::Game() { buffer_ = al_create_bitmap(WIDTH, HEIGHT); }
-Game::~Game() { cout << "stop" << '\n'; }
+Game::~Game() { std::cout << "stop" << '\n'; }
 
 void Game::movement(Vehicle* myTank, Map* mapa)
 {
@@ -202,7 +202,7 @@ void Game::control()
         {
             throw Win();
         }
-        for (uint i = 0; i < map_->vehicles.size(); i++)
+        for (unsigned int i = 0; i < map_->vehicles.size(); i++)
         {
             Vehicle* tank = map_->vehicles.at(i);
             if (tank->getId() >= 100 && tank->getId() < 200)

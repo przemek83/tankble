@@ -15,7 +15,3 @@ namespace Config
 {
 const unsigned int fps{30};
 };
-
-using namespace std;
-
-typedef unsigned int uint;

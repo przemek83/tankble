@@ -27,7 +27,7 @@ Bullet::~Bullet()
     catch (...)
     {
     }
-    cout << "Bullet: " << getId() << " is deleted\n";
+    std::cout << "Bullet: " << getId() << " is deleted\n";
 }
 
 bool Bullet::loadBitmap()

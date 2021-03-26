@@ -16,7 +16,7 @@ const int Vehicle::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Vehicle::ids_[8] = {101, 102, 103, 104, 201, 202, 203, 204};
 const int Vehicle::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Vehicle::Vehicle(int tankType, uint x, uint y)
+Vehicle::Vehicle(int tankType, unsigned int x, unsigned int y)
 {
     fly_ = 0;
     drive_ = 1;
@@ -41,7 +41,7 @@ Vehicle::~Vehicle()
     al_destroy_bitmap(bmp_[1]);
     al_destroy_bitmap(bmp_[2]);
     al_destroy_bitmap(bmp_[3]);
-    cout << "Vehicle:" << getId() << " is deleted\n";
+    std::cout << "Vehicle:" << getId() << " is deleted\n";
 }
 
 bool Vehicle::loadBitmaps(int tankType)

@@ -20,18 +20,18 @@ public:
     explicit Map(Player*);
     ~Map();
     ALLEGRO_BITMAP* display();
-    bool canDrive(uint, uint);
+    bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);
-    vector<Vehicle*> vehicles;
+    std::vector<Vehicle*> vehicles;
     void addBullet(Bullet*);
     void moveBullet();
     void setPower(Vehicle*);
 
 private:
     bool isBulletValid(int, int);
-    bool canFly(uint, uint);
-    void destroyItem(uint, uint, uint);
-    vector<Bullet*> bullets_;
+    bool canFly(unsigned int j, unsigned int i);
+    void destroyItem(unsigned int j, unsigned int i, unsigned int power);
+    std::vector<Bullet*> bullets_;
     int isTank(Bullet*);
 
     Tile* board_[MAP_SIZE][MAP_SIZE];

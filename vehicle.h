@@ -7,7 +7,7 @@
 class Vehicle
 {
 public:
-    Vehicle(int, uint, uint);
+    Vehicle(int tankType, unsigned int x, unsigned int y);
     ~Vehicle();
     ALLEGRO_BITMAP* display();
     int getId();

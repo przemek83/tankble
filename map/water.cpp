@@ -10,7 +10,7 @@ Water::Water()
     source = "image/board/water.tga";
     if (!loadBitmap())
     {
-        cout << "Water Error" << std::endl;
+        std::cout << "Water Error" << std::endl;
         exit(0);
     }
 }

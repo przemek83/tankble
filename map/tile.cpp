@@ -5,7 +5,7 @@
 Tile::~Tile()
 {
     al_destroy_bitmap(bmp);
-    cout << "MapElement " << getId() << " is deleted\n";
+    std::cout << "MapElement " << getId() << " is deleted\n";
 }
 
 bool Tile::loadBitmap()

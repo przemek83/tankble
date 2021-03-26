@@ -10,7 +10,7 @@ Steel::Steel()
     source = "image/board/steel.tga";
     if (!loadBitmap())
     {
-        cout << "Steel Error" << std::endl;
+        std::cout << "Steel Error" << std::endl;
         exit(0);
     }
 }

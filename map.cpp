@@ -22,7 +22,7 @@ void Map::displayMaps()
 
 void Map::displayVehicles()
 {
-    for (uint i = 0; i < vehicles.size(); i++)
+    for (unsigned int i = 0; i < vehicles.size(); i++)
     {
         al_set_target_bitmap(buffer_);
         drawMapItem(vehicles.at(i)->display(), vehicles.at(i)->getX(),
@@ -32,7 +32,7 @@ void Map::displayVehicles()
 
 void Map::displayBullets()
 {
-    for (uint i = 0; i < bullets_.size(); i++)
+    for (unsigned int i = 0; i < bullets_.size(); i++)
     {
         al_set_target_bitmap(buffer_);
         al_draw_bitmap_region(bullets_.at(i)->display(), 0, 0,
@@ -47,11 +47,11 @@ void Map::moveBullet()
 {
     Bullet* b;
     int px, py;
-    uint pi, pj;
+    unsigned int pi, pj;
     int iter = -1;
     Vehicle* v;
     Vehicle* n;
-    for (uint i = 0; i < bullets_.size(); i++)
+    for (unsigned int i = 0; i < bullets_.size(); i++)
     {
         b = bullets_.at(i);
         px = b->getX() + b->getDirectionX() * b->getSpeed();
@@ -126,8 +126,8 @@ void Map::loadMap()
         exit(1);
     }
     int sign;
-    for (uint i = 0; i < MAP_SIZE; i++)
-        for (uint j = 0; j < MAP_SIZE; j++)
+    for (unsigned int i = 0; i < MAP_SIZE; i++)
+        for (unsigned int j = 0; j < MAP_SIZE; j++)
         {
             sign = fgetc(plik);
             while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
@@ -186,8 +186,8 @@ void Map::loadMap()
         }
     fclose(plik);
     off = clock();
-    cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
-         << " seconds" << endl;
+    std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
+              << " seconds" << std::endl;
 }
 
 void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
@@ -204,8 +204,8 @@ Map::Map(Player* player)
     player_ = player;
     loadMap();
     al_set_target_bitmap(paint_);
-    for (uint i = 0; i < MAP_SIZE; i++)
-        for (uint j = 0; j < MAP_SIZE; j++)
+    for (unsigned int i = 0; i < MAP_SIZE; i++)
+        for (unsigned int j = 0; j < MAP_SIZE; j++)
             drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
 }
 
@@ -217,9 +217,9 @@ Map::~Map()
         vehicles.clear();
 
     Tile* m;
-    for (uint i = 0; i < MAP_SIZE; i++)
+    for (unsigned int i = 0; i < MAP_SIZE; i++)
     {
-        for (uint j = 0; j < MAP_SIZE; j++)
+        for (unsigned int j = 0; j < MAP_SIZE; j++)
         {
             m = (Tile*)board_[i][j];
             delete m;
@@ -229,7 +229,10 @@ Map::~Map()
     al_destroy_bitmap(paint_);
 }
 
-bool Map::canDrive(uint j, uint i) { return board_[i][j]->canDrive(); }
+bool Map::canDrive(unsigned int j, unsigned int i)
+{
+    return board_[i][j]->canDrive();
+}
 
 bool Map::isValid(int x, int y)
 {
@@ -251,12 +254,15 @@ bool Map::isBulletValid(int x, int y)
     return true;
 }
 
-bool Map::canFly(uint j, uint i) { return board_[i][j]->canFly(); }
+bool Map::canFly(unsigned int j, unsigned int i)
+{
+    return board_[i][j]->canFly();
+}
 
 int Map::isTank(Bullet* b)
 {
     Vehicle* v;
-    for (uint i = 0; i < vehicles.size(); i++)
+    for (unsigned int i = 0; i < vehicles.size(); i++)
     {
         v = vehicles.at(i);
         if (b->getCenterX() >= v->getX() &&
@@ -271,7 +277,7 @@ int Map::isTank(Bullet* b)
     return -1;
 }
 
-void Map::destroyItem(uint j, uint i, uint power)
+void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
 {
     if (board_[i][j]->destroy(power))
     {
