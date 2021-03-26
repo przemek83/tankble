@@ -13,6 +13,12 @@ public:
     Menu(unsigned int width, unsigned int height);
     ~Menu();
 
+    Menu& operator=(const Menu& other) = delete;
+    Menu(const Menu& other) = delete;
+
+    Menu& operator=(Menu&& other) = delete;
+    Menu(Menu&& other) = delete;
+
     void setMenuSize(unsigned int width, unsigned int height);
 
     enum Item : unsigned char
