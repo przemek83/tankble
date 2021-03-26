@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <allegro5/allegro.h>
 #include "config.h"
 #include "map/tile.h"
