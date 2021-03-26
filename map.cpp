@@ -16,8 +16,8 @@ ALLEGRO_BITMAP* Map::display()
 void Map::displayMaps()
 {
     al_set_target_bitmap(buffer_);
-    al_draw_bitmap_region(paint_, 0, 0, E_SIZE * MAP_SIZE, E_SIZE * MAP_SIZE, 0,
-                          0, 0);
+    al_draw_bitmap_region(paint_, 0, 0, Config::elementSize * Config::mapSize,
+                          Config::elementSize * Config::mapSize, 0, 0, 0);
 }
 
 void Map::displayVehicles()
@@ -60,8 +60,8 @@ void Map::moveBullet()
         {
             b->setX(px);
             b->setY(py);
-            pi = b->getCenterY() / E_SIZE;
-            pj = b->getCenterX() / E_SIZE;
+            pi = b->getCenterY() / Config::elementSize;
+            pj = b->getCenterX() / Config::elementSize;
             if (!canFly(pj, pi))
             {
                 destroyItem(pj, pi, b->getPower());
@@ -126,8 +126,8 @@ void Map::loadMap()
         exit(1);
     }
     int sign;
-    for (unsigned int i = 0; i < MAP_SIZE; i++)
-        for (unsigned int j = 0; j < MAP_SIZE; j++)
+    for (unsigned int i = 0; i < Config::mapSize; i++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
         {
             sign = fgetc(plik);
             while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
@@ -160,13 +160,14 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = new Plain();
-                    player_->loadVehicle(
-                        new Vehicle(0, E_SIZE * j, E_SIZE * i));
+                    player_->loadVehicle(new Vehicle(0, Config::elementSize * j,
+                                                     Config::elementSize * i));
                     vehicles.push_back(player_->getVehicle());
                     break;
                 case 'E':
                     board_[i][j] = new Plain();
-                    vehicles.push_back(new Vehicle(4, E_SIZE * j, E_SIZE * i));
+                    vehicles.push_back(new Vehicle(4, Config::elementSize * j,
+                                                   Config::elementSize * i));
                     break;
                 case 'A':
                     board_[i][j] = new ArmorUp();
@@ -193,20 +194,23 @@ void Map::loadMap()
 void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
 {
     al_draw_scaled_bitmap(element, 0, 0, al_get_bitmap_width(element),
-                          al_get_bitmap_height(element), x, y, E_SIZE, E_SIZE,
-                          0);
+                          al_get_bitmap_height(element), x, y,
+                          Config::elementSize, Config::elementSize, 0);
 }
 
 Map::Map(Player* player)
 {
-    buffer_ = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
-    paint_ = al_create_bitmap(MAP_SIZE * E_SIZE, MAP_SIZE * E_SIZE);
+    buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
+                               Config::mapSize * Config::elementSize);
+    paint_ = al_create_bitmap(Config::mapSize * Config::elementSize,
+                              Config::mapSize * Config::elementSize);
     player_ = player;
     loadMap();
     al_set_target_bitmap(paint_);
-    for (unsigned int i = 0; i < MAP_SIZE; i++)
-        for (unsigned int j = 0; j < MAP_SIZE; j++)
-            drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
+    for (unsigned int i = 0; i < Config::mapSize; i++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
+            drawMapItem(board_[i][j]->display(), j * Config::elementSize,
+                        i * Config::elementSize);
 }
 
 Map::~Map()
@@ -217,9 +221,9 @@ Map::~Map()
         vehicles.clear();
 
     Tile* m;
-    for (unsigned int i = 0; i < MAP_SIZE; i++)
+    for (unsigned int i = 0; i < Config::mapSize; i++)
     {
-        for (unsigned int j = 0; j < MAP_SIZE; j++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
         {
             m = (Tile*)board_[i][j];
             delete m;
@@ -236,7 +240,8 @@ bool Map::canDrive(unsigned int j, unsigned int i)
 
 bool Map::isValid(int x, int y)
 {
-    if (x >= E_SIZE * MAP_SIZE - E_SIZE || y >= E_SIZE * MAP_SIZE - E_SIZE ||
+    if (x >= Config::elementSize * Config::mapSize - Config::elementSize ||
+        y >= Config::elementSize * Config::mapSize - Config::elementSize ||
         y < 0 || x < 0)
     {
         return false;
@@ -246,8 +251,10 @@ bool Map::isValid(int x, int y)
 
 bool Map::isBulletValid(int x, int y)
 {
-    if (x >= E_SIZE * MAP_SIZE - B_SIZE || y >= E_SIZE * MAP_SIZE - B_SIZE ||
-        y < 0 || x < 0)
+    const int bulletSize{7};
+    if (x >= Config::elementSize * Config::mapSize - bulletSize ||
+        y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
+        x < 0)
     {
         return false;
     }
@@ -266,9 +273,9 @@ int Map::isTank(Bullet* b)
     {
         v = vehicles.at(i);
         if (b->getCenterX() >= v->getX() &&
-            b->getCenterX() < v->getX() + E_SIZE &&
+            b->getCenterX() < v->getX() + Config::elementSize &&
             b->getCenterY() >= v->getY() &&
-            b->getCenterY() < v->getY() + E_SIZE &&
+            b->getCenterY() < v->getY() + Config::elementSize &&
             b->getId() / 100 != v->getId() / 100)
         {  // check friendly fire
             return i;
@@ -289,7 +296,8 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
         }
         delete e;
         al_set_target_bitmap(paint_);
-        drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
+        drawMapItem(board_[i][j]->display(), j * Config::elementSize,
+                    i * Config::elementSize);
     }
 }
 
@@ -297,8 +305,8 @@ void Map::addBullet(Bullet* bullet) { bullets_.push_back(bullet); }
 
 void Map::setPower(Vehicle* v)
 {
-    int j = (v->getX() + 15) / E_SIZE;
-    int i = (v->getY() + 15) / E_SIZE;
+    int j = (v->getX() + 15) / Config::elementSize;
+    int i = (v->getY() + 15) / Config::elementSize;
 
     if (board_[i][j]->getId() > 20)
     {
@@ -326,6 +334,7 @@ void Map::setPower(Vehicle* v)
         delete e;
 
         al_set_target_bitmap(paint_);
-        drawMapItem(board_[i][j]->display(), j * E_SIZE, i * E_SIZE);
+        drawMapItem(board_[i][j]->display(), j * Config::elementSize,
+                    i * Config::elementSize);
     }
 }

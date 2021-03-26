@@ -12,8 +12,8 @@ Bullet::Bullet(Vehicle* v)
     direction_ = v->getDirection();
     speed_ = v->getSpeed();
     power_ = v->getPower();
-    x_ = v->getX() + E_SIZE / 2 - 3;
-    y_ = v->getY() + E_SIZE / 2 - 3;
+    x_ = v->getX() + Config::elementSize / 2 - 3;
+    y_ = v->getY() + Config::elementSize / 2 - 3;
     vehicle_ = v;
 }
 

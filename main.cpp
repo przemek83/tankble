@@ -22,7 +22,7 @@ static void setupAllegro()
     al_install_keyboard();
 
     al_set_new_display_option(ALLEGRO_COLOR_SIZE, 32, ALLEGRO_REQUIRE);
-    if (al_create_display(WIDTH, HEIGHT) == nullptr)
+    if (al_create_display(Config::width, Config::height) == nullptr)
     {
         std::cerr << "failed to create display!\n" << std::endl;
         return;
@@ -60,7 +60,7 @@ int main()
     initRandomGenerator();
     setupAllegro();
 
-    Menu menu(WIDTH, HEIGHT);
+    Menu menu(Config::width, Config::height);
     Menu::Item choice{Menu::Item::BACK};
     while (choice != Menu::Item::EXIT)
     {

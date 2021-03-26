@@ -7,13 +7,13 @@
 #include "player.h"
 #include "vehicle.h"
 
-Game::Game() { buffer_ = al_create_bitmap(WIDTH, HEIGHT); }
+Game::Game() { buffer_ = al_create_bitmap(Config::width, Config::height); }
 Game::~Game() { std::cout << "stop" << '\n'; }
 
 void Game::movement(Vehicle* myTank, Map* mapa)
 {
-    int pomX = myTank->getX() / E_SIZE;
-    int pomY = myTank->getY() / E_SIZE;
+    int pomX = myTank->getX() / Config::elementSize;
+    int pomY = myTank->getY() / Config::elementSize;
     int tol = 15;
 
     ALLEGRO_KEYBOARD_STATE key_state;
@@ -44,9 +44,9 @@ void Game::movement(Vehicle* myTank, Map* mapa)
 
     if (myTank->getDirectionX() == 0 && myTank->getDirectionY() != 0)
     {
-        if (myTank->getY() % E_SIZE == 0)
+        if (myTank->getY() % Config::elementSize == 0)
         {
-            if (myTank->getX() % E_SIZE == 0)
+            if (myTank->getX() % Config::elementSize == 0)
             {
                 if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()))
                 {
@@ -63,16 +63,17 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                 else
                 {
                     if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()) &&
-                        myTank->getX() % E_SIZE <= tol)
+                        myTank->getX() % Config::elementSize <= tol)
                     {
-                        myTank->setX(pomX * E_SIZE);
+                        myTank->setX(pomX * Config::elementSize);
                         myTank->go();
                     }
                     else if (mapa->canDrive(pomX + 1,
                                             pomY + myTank->getDirectionY()) &&
-                             myTank->getX() % E_SIZE >= E_SIZE - tol)
+                             myTank->getX() % Config::elementSize >=
+                                 Config::elementSize - tol)
                     {
-                        myTank->setX((pomX + 1) * E_SIZE);
+                        myTank->setX((pomX + 1) * Config::elementSize);
                         myTank->go();
                     }
                 }
@@ -85,9 +86,9 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     }
     else if (myTank->getDirectionY() == 0 && myTank->getDirectionX() != 0)
     {
-        if (myTank->getX() % E_SIZE == 0)
+        if (myTank->getX() % Config::elementSize == 0)
         {
-            if (myTank->getY() % E_SIZE == 0)
+            if (myTank->getY() % Config::elementSize == 0)
             {
                 if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY))
                 {
@@ -104,16 +105,17 @@ void Game::movement(Vehicle* myTank, Map* mapa)
                 else
                 {
                     if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY) &&
-                        myTank->getY() % E_SIZE <= tol)
+                        myTank->getY() % Config::elementSize <= tol)
                     {
-                        myTank->setY(pomY * E_SIZE);
+                        myTank->setY(pomY * Config::elementSize);
                         myTank->go();
                     }
                     else if (mapa->canDrive(pomX + myTank->getDirectionX(),
                                             pomY + 1) &&
-                             myTank->getY() % E_SIZE >= E_SIZE - tol)
+                             myTank->getY() % Config::elementSize >=
+                                 Config::elementSize - tol)
                     {
-                        myTank->setY((pomY + 1) * E_SIZE);
+                        myTank->setY((pomY + 1) * Config::elementSize);
                         myTank->go();
                     }
                 }
@@ -182,7 +184,8 @@ void Game::display()
 {
     ALLEGRO_BITMAP* q1 = map_->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(q1, 0, 0, E_SIZE * MAP_SIZE, HEIGHT, 0, 0, 0);
+    al_draw_bitmap_region(q1, 0, 0, Config::elementSize * Config::mapSize,
+                          Config::height, 0, 0, 0);
 }
 
 void Game::displayPlayer()
@@ -191,7 +194,7 @@ void Game::displayPlayer()
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
                           al_get_bitmap_height(q2),
-                          WIDTH - al_get_bitmap_width(q2), 0, 0);
+                          Config::width - al_get_bitmap_width(q2), 0, 0);
 }
 
 void Game::control()

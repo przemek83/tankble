@@ -5,7 +5,7 @@
 Player::Player() : font_{al_create_builtin_font()}
 {
     setTanks(0);
-    buffer_ = al_create_bitmap(200, MAP_SIZE * E_SIZE);
+    buffer_ = al_create_bitmap(200, Config::mapSize * Config::elementSize);
 }
 
 Player::~Player()
@@ -80,8 +80,8 @@ void Lose::display()
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_clear_to_color(al_map_rgb(0, 0, 255));
     ALLEGRO_FONT* font{al_create_builtin_font()};
-    al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
-                 ALLEGRO_ALIGN_CENTER, "You loose");
+    al_draw_text(font, al_map_rgb(255, 255, 255), Config::width / 2,
+                 Config::height / 2, ALLEGRO_ALIGN_CENTER, "You loose");
     al_destroy_font(font);
     al_flip_display();
     al_rest(2);
@@ -92,8 +92,8 @@ void Win::display()
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_clear_to_color(al_map_rgb(0, 0, 255));
     ALLEGRO_FONT* font{al_create_builtin_font()};
-    al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2,
-                 ALLEGRO_ALIGN_CENTER, "You Win");
+    al_draw_text(font, al_map_rgb(255, 255, 255), Config::width / 2,
+                 Config::height / 2, ALLEGRO_ALIGN_CENTER, "You Win");
     al_destroy_font(font);
     al_flip_display();
     al_rest(2);

@@ -162,7 +162,7 @@ void Vehicle::moveRandom(void* map)
 {
     int i;
     Map* mapa = (Map*)map;
-    if (getX() % E_SIZE == 0 && getY() % E_SIZE == 0)
+    if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
     {
         i = rand() % 8;
         if (i < 4)
@@ -174,8 +174,8 @@ void Vehicle::moveRandom(void* map)
         {
             return;
         }
-        if (!mapa->canDrive(getX() / E_SIZE + getDirectionX(),
-                            getY() / E_SIZE + getDirectionY()))
+        if (!mapa->canDrive(getX() / Config::elementSize + getDirectionX(),
+                            getY() / Config::elementSize + getDirectionY()))
         {
             return;
         }
