@@ -89,8 +89,13 @@ Menu::Item Menu::getUserChoice(std::vector<std::pair<std::string, Item>> items)
 void Menu::drawMenuItems(unsigned int currentItem)
 {
     const unsigned int firstItem{getLocationOfFirstItem()};
-    const unsigned int itemWidth{getItemWidth()};
-    const unsigned int itemHeight{getItemHeight()};
+    const float itemWidth{static_cast<float>(getItemWidth())};
+    const float itemHeight{static_cast<float>(getItemHeight())};
+    const float itemMiddleY{itemHeight / 2.F};
+    const float screenMiddleX{static_cast<float>(width_) / 2.F};
+    const float itemX{screenMiddleX - itemWidth / 2.F};
+    const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
+
     for (unsigned int i = 0; i < items_.size(); i++)
     {
         ALLEGRO_BITMAP* itemBitmap{nullptr};
@@ -99,11 +104,11 @@ void Menu::drawMenuItems(unsigned int currentItem)
         else
             itemBitmap = itemBg_;
 
-        al_draw_bitmap_region(itemBitmap, 0, 0, itemWidth, itemHeight,
-                              width_ / 2 - itemWidth / 2,
-                              firstItem + itemHeight * i, 0);
-        al_draw_text(font_, al_map_rgb(255, 255, 255), width_ / 2,
-                     firstItem + itemHeight * i + itemHeight / 2,
+        const float itemY{static_cast<float>(firstItem) +
+                          itemHeight * static_cast<float>(i)};
+        al_draw_bitmap_region(itemBitmap, 0., 0., itemWidth, itemHeight, itemX,
+                              itemY, 0);
+        al_draw_text(font_, white, screenMiddleX, itemY + itemMiddleY,
                      ALLEGRO_ALIGN_CENTER, items_[i].first.c_str());
     }
 }
