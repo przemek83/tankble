@@ -4,8 +4,6 @@
 Water::Water()
 {
     id = 2;
-    fly = true;
-    drive = false;
     armor = 0;
     source = "image/board/water.tga";
     if (!loadBitmap())
@@ -14,3 +12,7 @@ Water::Water()
         exit(0);
     }
 }
+
+bool Water::canFly() { return true; }
+
+bool Water::canDrive() { return true; }

@@ -6,4 +6,7 @@ class Steel : public Tile
 {
 public:
     Steel();
+
+    bool canFly() override;
+    bool canDrive() override;
 };

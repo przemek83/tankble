@@ -4,8 +4,6 @@
 Plain::Plain()
 {
     id = 0;
-    fly = true;
-    drive = true;
     armor = 999;
     source = "image/board/plain.tga";
     if (!loadBitmap())
@@ -15,3 +13,7 @@ Plain::Plain()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool Plain::canFly() { return true; }
+
+bool Plain::canDrive() { return true; }

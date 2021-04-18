@@ -4,8 +4,6 @@
 Plant::Plant()
 {
     id = 3;
-    fly = true;
-    drive = true;
     armor = 999;
     source = "image/board/plant.tga";
     if (!loadBitmap())
@@ -15,3 +13,7 @@ Plant::Plant()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool Plant::canFly() { return true; }
+
+bool Plant::canDrive() { return true; }

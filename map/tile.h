@@ -16,8 +16,8 @@ public:
     Tile& operator=(Tile&& other) = delete;
     Tile(Tile&& other) = delete;
 
-    virtual bool canFly();
-    virtual bool canDrive();
+    virtual bool canFly() = 0;
+    virtual bool canDrive() = 0;
     virtual bool destroy(int);
     virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
     virtual int getId();
@@ -37,6 +37,4 @@ protected:
     int levelUp;
     int speedUp;
     int tankUp;
-    bool fly;
-    bool drive;
 };

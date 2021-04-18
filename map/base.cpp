@@ -1,15 +1,14 @@
 #include "base.h"
-#include <allegro5/allegro.h>
-#include <iostream>
-#include "../player.h"
 
-using std::cout;
+#include <iostream>
+
+#include <allegro5/allegro.h>
+
+#include "../player.h"
 
 Base::Base()
 {
     id = 6;
-    fly = false;
-    drive = false;
     armor = 10;
     source = "image/board/base_ok.tga";
     if (!loadBitmap())
@@ -19,3 +18,7 @@ Base::Base()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool Base::canFly() { return false; }
+
+bool Base::canDrive() { return false; }

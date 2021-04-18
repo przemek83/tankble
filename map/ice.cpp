@@ -4,8 +4,6 @@
 Ice::Ice()
 {
     id = 4;
-    fly = true;
-    drive = true;
     armor = 999;
     source = "image/board/ice.tga";
     if (!loadBitmap())
@@ -15,3 +13,7 @@ Ice::Ice()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool Ice::canFly() { return true; }
+
+bool Ice::canDrive() { return true; }

@@ -19,6 +19,13 @@ class Map
 public:
     explicit Map(Player*);
     ~Map();
+
+    Map& operator=(const Map& other) = delete;
+    Map(const Map& other) = delete;
+
+    Map& operator=(Map&& other) = delete;
+    Map(Map&& other) = delete;
+
     ALLEGRO_BITMAP* display();
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);

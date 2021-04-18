@@ -18,10 +18,6 @@ bool Tile::loadBitmap()
     return true;
 }
 
-bool Tile::canFly() { return fly; }
-
-bool Tile::canDrive() { return drive; }
-
 bool Tile::destroy(int power)
 {
     armor -= power;

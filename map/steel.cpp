@@ -4,8 +4,6 @@
 Steel::Steel()
 {
     id = 5;
-    fly = false;
-    drive = false;
     armor = 100;
     source = "image/board/steel.tga";
     if (!loadBitmap())
@@ -14,3 +12,7 @@ Steel::Steel()
         exit(0);
     }
 }
+
+bool Steel::canFly() { return false; }
+
+bool Steel::canDrive() { return false; }

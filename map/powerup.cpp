@@ -4,8 +4,6 @@
 ArmorUp::ArmorUp()
 {
     id = 21;
-    fly = true;
-    drive = true;
     armor = 0;
     source = "image/board/power-up_shield.tga";
     if (!loadBitmap())
@@ -15,11 +13,14 @@ ArmorUp::ArmorUp()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool ArmorUp::canFly() { return true; }
+
+bool ArmorUp::canDrive() { return true; }
+
 SpeedUp::SpeedUp()
 {
     id = 22;
-    fly = true;
-    drive = true;
     armor = 0;
     source = "image/board/power-up_time.tga";
     if (!loadBitmap())
@@ -29,11 +30,14 @@ SpeedUp::SpeedUp()
     speedUp = 1;
     tankUp = 0;
 }
+
+bool SpeedUp::canFly() { return true; }
+
+bool SpeedUp::canDrive() { return true; }
+
 TankUp::TankUp()
 {
     id = 23;
-    fly = true;
-    drive = true;
     armor = 0;
     source = "image/board/power-up_life.tga";
     if (!loadBitmap())
@@ -43,11 +47,14 @@ TankUp::TankUp()
     speedUp = 0;
     tankUp = 1;
 }
+
+bool TankUp::canFly() { return true; }
+
+bool TankUp::canDrive() { return true; }
+
 LevelUp::LevelUp()
 {
     id = 24;
-    fly = true;
-    drive = true;
     armor = 0;
     source = "image/board/power-up_tank.tga";
     if (!loadBitmap())
@@ -57,3 +64,7 @@ LevelUp::LevelUp()
     speedUp = 0;
     tankUp = 0;
 }
+
+bool LevelUp::canFly() { return true; }
+
+bool LevelUp::canDrive() { return true; }

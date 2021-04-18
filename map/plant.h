@@ -5,4 +5,7 @@ class Plant : public Tile
 {
 public:
     Plant();
+
+    bool canFly() override;
+    bool canDrive() override;
 };
