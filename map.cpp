@@ -22,24 +22,22 @@ void Map::displayMaps()
 
 void Map::displayVehicles()
 {
-    for (unsigned int i = 0; i < vehicles.size(); i++)
+    for (const auto& vehicle : vehicles)
     {
         al_set_target_bitmap(buffer_);
-        drawMapItem(vehicles.at(i)->display(), vehicles.at(i)->getX(),
-                    vehicles.at(i)->getY());
+        drawMapItem(vehicle->display(), vehicle->getX(), vehicle->getY());
     }
 }
 
 void Map::displayBullets()
 {
-    for (unsigned int i = 0; i < bullets_.size(); i++)
+    for (const auto& bullet : bullets_)
     {
         al_set_target_bitmap(buffer_);
-        al_draw_bitmap_region(bullets_.at(i)->display(), 0, 0,
-                              al_get_bitmap_width(bullets_.at(i)->display()),
-                              al_get_bitmap_height(bullets_.at(i)->display()),
-                              bullets_.at(i)->getX(), bullets_.at(i)->getY(),
-                              0);
+        al_draw_bitmap_region(bullet->display(), 0, 0,
+                              al_get_bitmap_width(bullet->display()),
+                              al_get_bitmap_height(bullet->display()),
+                              bullet->getX(), bullet->getY(), 0);
     }
 }
 
@@ -48,7 +46,6 @@ void Map::moveBullet()
     Bullet* b;
     int px, py;
     unsigned int pi, pj;
-    int iter = -1;
     Vehicle* v;
     Vehicle* n;
     for (unsigned int i = 0; i < bullets_.size(); i++)
@@ -68,7 +65,7 @@ void Map::moveBullet()
                 delete bullets_[i];
                 bullets_.erase(bullets_.begin() + i);
             }
-            iter = isTank(b);
+            int iter = isTank(b);
             if (iter >= 0)
             {
                 v = vehicles.at(iter);
