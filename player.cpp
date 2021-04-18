@@ -22,7 +22,7 @@ void Player::loadVehicle(Vehicle* v)
     setLevel(v->getType());
 }
 
-ALLEGRO_BITMAP* Player::display()
+ALLEGRO_BITMAP* Player::display() const
 {
     al_set_target_bitmap(buffer_);
     al_clear_to_color(al_map_rgb(0, 0, 255));

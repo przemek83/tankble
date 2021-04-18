@@ -10,18 +10,23 @@ class Game
 public:
     Game();
     ~Game();
+
+    Game& operator=(const Game& other) = delete;
+    Game(const Game& other) = delete;
+
+    Game& operator=(Game&& other) = delete;
+    Game(Game&& other) = delete;
+
     int startGame();
 
 private:
     bool userWantToExit(const ALLEGRO_EVENT& event) const;
     void movement(Vehicle*, Map*);
     void display();
-    void displayPlayer();
+    void displayPlayer(const Player& player);
     void control();
 
-    Player* player_{nullptr};
     Map* map_{nullptr};
     ALLEGRO_BITMAP* buffer_{nullptr};
     bool gameOver_{false};
-    int ids_[3]{};
 };

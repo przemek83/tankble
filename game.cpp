@@ -1,7 +1,8 @@
-#include "game.h"
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
+
 #include "config.h"
+#include "game.h"
 #include "map.h"
 #include "menu.h"
 #include "player.h"
@@ -138,8 +139,8 @@ bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
 
 int Game::startGame()
 {
-    player_ = new Player();
-    map_ = new Map(player_);
+    Player player;
+    map_ = new Map(&player);
 
     std::cout << "Map loaded" << std::endl;
 
@@ -169,13 +170,12 @@ int Game::startGame()
         {
             shouldRedraw = false;
             display();
-            displayPlayer();
+            displayPlayer(player);
             control();
             al_flip_display();
         }
     }
 
-    delete player_;
     delete map_;
     return 0;
 }
@@ -188,9 +188,9 @@ void Game::display()
                           Config::height, 0, 0, 0);
 }
 
-void Game::displayPlayer()
+void Game::displayPlayer(const Player& player)
 {
-    ALLEGRO_BITMAP* q2 = player_->display();
+    ALLEGRO_BITMAP* q2 = player.display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
                           al_get_bitmap_height(q2),
@@ -202,12 +202,10 @@ void Game::control()
     try
     {
         if (map_->vehicles.size() == 1)
-        {
             throw Win();
-        }
-        for (unsigned int i = 0; i < map_->vehicles.size(); i++)
+
+        for (auto& tank : map_->vehicles)
         {
-            Vehicle* tank = map_->vehicles.at(i);
             if (tank->getId() >= 100 && tank->getId() < 200)
             {
                 ALLEGRO_KEYBOARD_STATE key_state;

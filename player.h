@@ -16,7 +16,7 @@ public:
 
     Vehicle* getVehicle();
     Vehicle* killVehicle();
-    ALLEGRO_BITMAP* display();
+    ALLEGRO_BITMAP* display() const;
 
 private:
     int getLevel();
