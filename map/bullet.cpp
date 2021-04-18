@@ -32,8 +32,8 @@ Bullet::~Bullet()
 
 bool Bullet::loadBitmap()
 {
-    FILE* fp;
-    if ((fp = fopen(source_, "r")) == NULL)
+    FILE* fp{nullptr};
+    if ((fp = fopen(source_, "r")) == nullptr)
     {
         return false;
     }
