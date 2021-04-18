@@ -8,6 +8,13 @@ class Bullet
 public:
     explicit Bullet(Vehicle*);
     ~Bullet();
+
+    Bullet& operator=(const Bullet& other) = delete;
+    Bullet(const Bullet& other) = delete;
+
+    Bullet& operator=(Bullet&& other) = delete;
+    Bullet(Bullet&& other) = delete;
+
     ALLEGRO_BITMAP* display();
     int getId();
     int getPower();
