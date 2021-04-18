@@ -28,8 +28,8 @@ private:
 
     ALLEGRO_BITMAP* bmp_;
     const char* source_;
-    int id_;
     Vehicle* vehicle_;
+    int id_;
     int direction_;
     int speed_;
     int power_;
