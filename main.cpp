@@ -21,7 +21,6 @@ static void setupAllegro()
 
     al_install_keyboard();
 
-    al_set_new_display_option(ALLEGRO_COLOR_SIZE, 32, ALLEGRO_REQUIRE);
     if (al_create_display(Config::width, Config::height) == nullptr)
     {
         std::cerr << "failed to create display!\n" << std::endl;
@@ -51,8 +50,10 @@ static void setWindowedMode()
 
 static void updateMenuSize(Menu& menu)
 {
-    menu.setMenuSize(al_get_display_width(al_get_current_display()),
-                     al_get_display_height(al_get_current_display()));
+    menu.setMenuSize(static_cast<unsigned int>(
+                         al_get_display_width(al_get_current_display())),
+                     static_cast<unsigned int>(
+                         al_get_display_height(al_get_current_display())));
 }
 
 int main()
