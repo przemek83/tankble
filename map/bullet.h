@@ -16,26 +16,26 @@ public:
     Bullet(Bullet&& other) = delete;
 
     ALLEGRO_BITMAP* display();
-    int getId();
-    int getPower();
-    int getSpeed();
-    int getDirection();
-    int getX();
-    int getY();
+    int getId() const;
+    int getPower() const;
+    int getSpeed() const;
+    int getDirection() const;
+    int getX() const;
+    int getY() const;
 
-    int getCenterX();
-    int getCenterY();
+    int getCenterX() const;
+    int getCenterY() const;
     void setX(int newX);
     void setY(int newY);
-    int getDirectionX();
-    int getDirectionY();
+    int getDirectionX() const;
+    int getDirectionY() const;
 
 private:
     bool loadBitmap();
 
-    ALLEGRO_BITMAP* bmp_;
-    const char* source_;
-    Vehicle* vehicle_;
+    ALLEGRO_BITMAP* bmp_{nullptr};
+    const char* source_{nullptr};
+    Vehicle* vehicle_{nullptr};
     int id_;
     int direction_;
     int speed_;

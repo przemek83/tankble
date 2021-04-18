@@ -44,27 +44,27 @@ bool Bullet::loadBitmap()
 
 ALLEGRO_BITMAP* Bullet::display() { return bmp_; }
 
-int Bullet::getId() { return id_; }
+int Bullet::getId() const { return id_; }
 
-int Bullet::getPower() { return power_; }
+int Bullet::getPower() const { return power_; }
 
-int Bullet::getSpeed() { return speed_; }
+int Bullet::getSpeed() const { return speed_; }
 
-int Bullet::getDirection() { return direction_; }
+int Bullet::getDirection() const { return direction_; }
 
-int Bullet::getX() { return x_; }
+int Bullet::getX() const { return x_; }
 
-int Bullet::getY() { return y_; }
+int Bullet::getY() const { return y_; }
 
-int Bullet::getCenterX() { return x_ + 3; }
+int Bullet::getCenterX() const { return x_ + 3; }
 
-int Bullet::getCenterY() { return y_ + 3; }
+int Bullet::getCenterY() const { return y_ + 3; }
 
 void Bullet::setX(int newX) { x_ = newX; }
 
 void Bullet::setY(int newY) { y_ = newY; }
 
-int Bullet::getDirectionX()
+int Bullet::getDirectionX() const
 {
     if (direction_ == 1)
         return 1;
@@ -73,7 +73,7 @@ int Bullet::getDirectionX()
     return 0;
 }
 
-int Bullet::getDirectionY()
+int Bullet::getDirectionY() const
 {
     if (direction_ == 0)
         return -1;
