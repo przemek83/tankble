@@ -23,10 +23,10 @@ public:
     virtual bool destroy(int);
     virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
     virtual int getId();
-    int getArmorUp();
-    int getLevelUp();
-    int getSpeedUp();
-    int getTankUp();
+    int getArmorUp() const;
+    int getLevelUp() const;
+    int getSpeedUp() const;
+    int getTankUp() const;
 
 protected:
     virtual bool loadBitmap();
