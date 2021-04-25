@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <vector>
 
 #include <allegro5/allegro.h>
@@ -12,36 +13,35 @@ public:
     Vehicle(int tankType, unsigned int x, unsigned int y);
     ~Vehicle();
     ALLEGRO_BITMAP* display();
-    int getId();
+    int getId() const;
     void move(int);
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
     void setX(int);
     void setY(int);
     void moveRandom(void*);
-    int getDirection();
+    int getDirection() const;
     void fire(void*);
     bool destroy(int);
-    int getSpeed();
-    int getPower();
+    int getSpeed() const;
+    int getPower() const;
     void resetFire();
     void setType(int);
     void setMaxArmor();
-    int getType();
+    int getType() const;
     void setSpeedUp();
     void go();
-    int getDirectionX();
-    int getDirectionY();
+    int getDirectionX() const;
+    int getDirectionY() const;
 
 private:
     int directionX();
     int directionY();
     void setArmor(int);
-    int getArmor();
-    bool canFly();
-    bool canDrive();
-    int getMaxArmor();
+    int getArmor() const;
+    int getMaxArmor() const;
     bool loadBitmaps(int tankType);
+    constexpr double pi() const;
 
     static const int wayX_[4];
     static const int wayY_[4];
@@ -62,9 +62,7 @@ private:
     int armor_;
     int power_;
     int speed_;
-    bool fly_;
-    bool drive_;
-    time_t lastFire_;
     int maxArmor_;
+    time_t lastFire_{0};
     ALLEGRO_BITMAP* bmp_[4];
 };

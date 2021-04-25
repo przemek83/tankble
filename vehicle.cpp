@@ -1,5 +1,3 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -16,23 +14,13 @@ const int Vehicle::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Vehicle::ids_[8] = {101, 102, 103, 104, 201, 202, 203, 204};
 const int Vehicle::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Vehicle::Vehicle(int tankType, unsigned int x, unsigned int y)
+Vehicle::Vehicle(int tankType, unsigned int x, unsigned int y) : x_(x), y_(y)
 {
-    fly_ = 0;
-    drive_ = 1;
-
-    setX(x);
-    setY(y);
-
     direction_ = directions_[tankType];
     setType(tankType);
 
     if (!loadBitmaps(tankType))
-    {
         exit(0);
-    }
-
-    lastFire_ = 0;
 }
 
 Vehicle::~Vehicle()
@@ -58,22 +46,22 @@ bool Vehicle::loadBitmaps(int tankType)
     bmp_[1] = al_create_bitmap(width, height);
     al_set_target_bitmap(bmp_[1]);
     al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, M_PI / 2, 0);
+                           height / 2, pi() / 2, 0);
     bmp_[2] = al_create_bitmap(al_get_bitmap_width(bmp_[0]),
                                al_get_bitmap_height(bmp_[0]));
     al_set_target_bitmap(bmp_[2]);
     al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, M_PI, 0);
+                           height / 2, pi(), 0);
     bmp_[3] = al_create_bitmap(al_get_bitmap_width(bmp_[0]),
                                al_get_bitmap_height(bmp_[0]));
     al_set_target_bitmap(bmp_[3]);
     al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, 3 * M_PI / 2, 0);
+                           height / 2, 3 * pi() / 2, 0);
 
     return true;
 }
 
-int Vehicle::getId() { return id_; }
+int Vehicle::getId() const { return id_; }
 
 void Vehicle::setType(int tankType)
 {
@@ -117,38 +105,34 @@ bool Vehicle::destroy(int power)
     return false;
 }
 
-int Vehicle::getMaxArmor() { return maxArmor_; }
+int Vehicle::getMaxArmor() const { return maxArmor_; }
 
-int Vehicle::getType()
+int Vehicle::getType() const
 {
     return (getId() % 100) - 1;
     /*0-3*/
 }
 
-int Vehicle::getX() { return x_; }
-int Vehicle::getY() { return y_; }
+int Vehicle::getX() const { return x_; }
+int Vehicle::getY() const { return y_; }
 void Vehicle::setX(int x) { x_ = x; }
 void Vehicle::setY(int y) { y_ = y; }
-int Vehicle::getArmor() { return armor_; }
+int Vehicle::getArmor() const { return armor_; }
 void Vehicle::setArmor(int armor) { armor_ = armor; }
 
 void Vehicle::setMaxArmor() { armor_ = getMaxArmor(); }
 
-bool Vehicle::canFly() { return fly_; }
-
-bool Vehicle::canDrive() { return drive_; }
-
 void Vehicle::setSpeedUp() { speed_++; }
 
-int Vehicle::getPower() { return power_; }
+int Vehicle::getPower() const { return power_; }
 
-int Vehicle::getSpeed() { return speed_; }
+int Vehicle::getSpeed() const { return speed_; }
 
-int Vehicle::getDirection() { return direction_; }
+int Vehicle::getDirection() const { return direction_; }
 
-int Vehicle::getDirectionX() { return wayX_[getDirection()]; }
+int Vehicle::getDirectionX() const { return wayX_[getDirection()]; }
 
-int Vehicle::getDirectionY() { return wayY_[getDirection()]; }
+int Vehicle::getDirectionY() const { return wayY_[getDirection()]; }
 
 void Vehicle::resetFire() { lastFire_--; }
 
@@ -182,3 +166,5 @@ void Vehicle::moveRandom(void* map)
     }
     go();
 }
+
+constexpr double Vehicle::pi() const { return std::atan(1) * 4; }
