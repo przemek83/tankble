@@ -1,10 +1,13 @@
 #include "powerup.h"
+
 #include <iostream>
+
+#include "../config.h"
 
 ArmorUp::ArmorUp()
 {
     id = 21;
-    armor = 0;
+    armor = Config::noArmor;
     source = "image/board/power-up_shield.tga";
     if (!loadBitmap())
         exit(0);

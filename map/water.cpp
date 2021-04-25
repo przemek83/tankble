@@ -1,10 +1,11 @@
 #include "water.h"
+
 #include "../config.h"
 
 Water::Water()
 {
     id = 2;
-    armor = 0;
+    armor = Config::noArmor;
     source = "image/board/water.tga";
     if (!loadBitmap())
     {

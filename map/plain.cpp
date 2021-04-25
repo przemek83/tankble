@@ -4,7 +4,6 @@
 Plain::Plain()
 {
     id = 0;
-    armor = 999;
     source = "image/board/plain.tga";
     if (!loadBitmap())
         exit(0);

@@ -1,10 +1,11 @@
 #include "steel.h"
+
 #include "../config.h"
 
 Steel::Steel()
 {
     id = 5;
-    armor = 100;
+    armor = Config::highArmor;
     source = "image/board/steel.tga";
     if (!loadBitmap())
     {

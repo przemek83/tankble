@@ -9,7 +9,7 @@
 Base::Base()
 {
     id = 6;
-    armor = 10;
+    armor = Config::mediumArmor;
     source = "image/board/base_ok.tga";
     if (!loadBitmap())
         exit(0);

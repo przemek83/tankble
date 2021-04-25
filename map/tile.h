@@ -4,6 +4,8 @@
 
 #include <allegro5/allegro.h>
 
+#include "../config.h"
+
 class Tile
 {
 public:
@@ -31,7 +33,7 @@ protected:
 
     ALLEGRO_BITMAP* bmp;
     const char* source;
-    int armor;
+    int armor{Config::maxArmor};
     int id;
     int armorUp;
     int levelUp;

@@ -4,7 +4,6 @@
 Plant::Plant()
 {
     id = 3;
-    armor = 999;
     source = "image/board/plant.tga";
     if (!loadBitmap())
         exit(0);

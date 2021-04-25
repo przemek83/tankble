@@ -4,7 +4,6 @@
 Ice::Ice()
 {
     id = 4;
-    armor = 999;
     source = "image/board/ice.tga";
     if (!loadBitmap())
         exit(0);
