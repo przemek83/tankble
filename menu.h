@@ -7,10 +7,12 @@
 
 #include "game.h"
 
+class Screen;
+
 class Menu final
 {
 public:
-    Menu(unsigned int width, unsigned int height);
+    Menu(Screen& screen, unsigned int width, unsigned int height);
     ~Menu();
 
     Menu& operator=(const Menu& other) = delete;
@@ -89,10 +91,11 @@ private:
 
     bool mouseClickUsed(const ALLEGRO_EVENT& event) const;
 
+    Screen& screen_;
+
     ALLEGRO_BITMAP* menuBg_;
     ALLEGRO_BITMAP* itemBg_;
     ALLEGRO_BITMAP* itemBgSelect_;
-    ALLEGRO_FONT* font_;
     unsigned int width_{0};
     unsigned int height_{0};
     std::vector<std::pair<std::string, UserChoice>> items_{};

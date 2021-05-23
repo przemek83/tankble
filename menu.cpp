@@ -1,12 +1,13 @@
 #include "menu.h"
+#include "Screen.h"
 #include "config.h"
 #include "game.h"
 
-Menu::Menu(unsigned int width, unsigned int height)
-    : menuBg_{al_load_bitmap("image/menu/background.bmp")},
+Menu::Menu(Screen& screen, unsigned int width, unsigned int height)
+    : screen_(screen),
+      menuBg_{al_load_bitmap("image/menu/background.bmp")},
       itemBg_{al_load_bitmap("image/menu/item.tga")},
       itemBgSelect_{al_load_bitmap("image/menu/item_select.tga")},
-      font_{al_create_builtin_font()},
       width_{width},
       height_{height}
 {
@@ -18,7 +19,6 @@ Menu::~Menu()
     al_destroy_bitmap(itemBg_);
     al_destroy_bitmap(itemBgSelect_);
     al_destroy_bitmap(menuBg_);
-    al_destroy_font(font_);
 }
 
 void Menu::setMenuSize(unsigned int width, unsigned int height)
@@ -127,8 +127,7 @@ void Menu::drawMenuItems(unsigned int currentItem)
 {
     const float itemWidth{static_cast<float>(getItemWidth())};
     const float itemHeight{static_cast<float>(getItemHeight())};
-    const float screenMiddleX{static_cast<float>(width_) / 2.F};
-    const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
+    const unsigned int screenMiddleX{width_ / 2};
 
     for (unsigned int item = 0; item < items_.size(); item++)
     {
@@ -142,8 +141,7 @@ void Menu::drawMenuItems(unsigned int currentItem)
         al_draw_bitmap_region(itemBitmap, 0., 0., itemWidth, itemHeight, itemX,
                               itemY, 0);
         const float itemMiddleY{itemY + itemHeight / 2.F};
-        al_draw_text(font_, white, screenMiddleX, itemMiddleY,
-                     ALLEGRO_ALIGN_CENTER, items_[item].first.c_str());
+        screen_.drawText(screenMiddleX, itemMiddleY, items_[item].first);
     }
 }
 

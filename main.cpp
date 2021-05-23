@@ -3,6 +3,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+#include "Screen.h"
 #include "game.h"
 #include "menu.h"
 
@@ -61,7 +62,8 @@ int main()
     initRandomGenerator();
     setupAllegro();
 
-    Menu menu(Config::width, Config::height);
+    Screen screen;
+    Menu menu(screen, Config::width, Config::height);
     for (Menu::Item choice{menu.getItem()}; choice != Menu::Item::EXIT;
          choice = menu.getItem())
     {
