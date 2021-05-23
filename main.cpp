@@ -71,7 +71,7 @@ int main()
         {
             case Menu::Item::NEW_1P:
             {
-                Game game;
+                Game game(screen);
                 game.startGame();
                 break;
             }

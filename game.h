@@ -5,10 +5,12 @@
 #include "map.h"
 #include "vehicle.h"
 
+class Screen;
+
 class Game
 {
 public:
-    Game();
+    Game(Screen& screen);
     ~Game();
 
     Game& operator=(const Game& other) = delete;
@@ -26,6 +28,7 @@ private:
     void displayPlayer(const Player& player);
     void control();
 
+    Screen& screen_;
     Map* map_{nullptr};
     ALLEGRO_BITMAP* buffer_{nullptr};
     bool gameOver_{false};

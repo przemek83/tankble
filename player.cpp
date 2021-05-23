@@ -1,4 +1,5 @@
 #include "player.h"
+#include "Screen.h"
 #include "config.h"
 #include "vehicle.h"
 
@@ -22,14 +23,12 @@ void Player::loadVehicle(Vehicle* v)
     setLevel(v->getType());
 }
 
-ALLEGRO_BITMAP* Player::display() const
+ALLEGRO_BITMAP* Player::display(Screen& screen) const
 {
     al_set_target_bitmap(buffer_);
     al_clear_to_color(al_map_rgb(0, 0, 255));
-    al_draw_text(font_, al_map_rgb(255, 255, 255),
-                 al_get_bitmap_width(buffer_) / 2,
-                 al_get_bitmap_height(buffer_) / 2, ALLEGRO_ALIGN_CENTER,
-                 "[Status placeholder]");
+    screen.drawText(al_get_bitmap_width(buffer_) / 2,
+                    al_get_bitmap_height(buffer_) / 2, "[Status placeholder]");
     return buffer_;
 }
 

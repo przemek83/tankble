@@ -1,6 +1,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+#include "Screen.h"
 #include "config.h"
 #include "game.h"
 #include "map.h"
@@ -8,7 +9,11 @@
 #include "player.h"
 #include "vehicle.h"
 
-Game::Game() { buffer_ = al_create_bitmap(Config::width, Config::height); }
+Game::Game(Screen& screen) : screen_(screen)
+{
+    buffer_ = al_create_bitmap(Config::width, Config::height);
+}
+
 Game::~Game() { std::cout << "stop" << '\n'; }
 
 void Game::movement(Vehicle* myTank, Map* mapa)
@@ -190,7 +195,7 @@ void Game::display()
 
 void Game::displayPlayer(const Player& player)
 {
-    ALLEGRO_BITMAP* q2 = player.display();
+    ALLEGRO_BITMAP* q2 = player.display(screen_);
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
                           al_get_bitmap_height(q2),

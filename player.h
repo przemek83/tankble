@@ -4,6 +4,8 @@
 #include <allegro5/allegro_font.h>
 #include "vehicle.h"
 
+class Screen;
+
 class Player
 {
 public:
@@ -23,7 +25,7 @@ public:
 
     Vehicle* getVehicle();
     Vehicle* killVehicle();
-    ALLEGRO_BITMAP* display() const;
+    ALLEGRO_BITMAP* display(Screen& screen) const;
 
 private:
     int getLevel();
