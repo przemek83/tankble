@@ -125,28 +125,25 @@ Menu::UserChoice Menu::getUserChoice()
 
 void Menu::drawMenuItems(unsigned int currentItem)
 {
-    const unsigned int firstItem{getLocationOfFirstItem()};
     const float itemWidth{static_cast<float>(getItemWidth())};
     const float itemHeight{static_cast<float>(getItemHeight())};
-    const float itemMiddleY{itemHeight / 2.F};
     const float screenMiddleX{static_cast<float>(width_) / 2.F};
-    const float itemX{screenMiddleX - itemWidth / 2.F};
     const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
 
-    for (unsigned int i = 0; i < items_.size(); i++)
+    for (unsigned int item = 0; item < items_.size(); item++)
     {
         ALLEGRO_BITMAP* itemBitmap{nullptr};
-        if (i == currentItem)
+        if (item == currentItem)
             itemBitmap = itemBgSelect_;
         else
             itemBitmap = itemBg_;
 
-        const float itemY{static_cast<float>(firstItem) +
-                          itemHeight * static_cast<float>(i)};
+        const auto [itemX, itemY]{getItemPositionFloat(item)};
         al_draw_bitmap_region(itemBitmap, 0., 0., itemWidth, itemHeight, itemX,
                               itemY, 0);
-        al_draw_text(font_, white, screenMiddleX, itemY + itemMiddleY,
-                     ALLEGRO_ALIGN_CENTER, items_[i].first.c_str());
+        const float itemMiddleY{itemY + itemHeight / 2.F};
+        al_draw_text(font_, white, screenMiddleX, itemMiddleY,
+                     ALLEGRO_ALIGN_CENTER, items_[item].first.c_str());
     }
 }
 
@@ -229,6 +226,16 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
     al_register_event_source(events, al_get_timer_event_source(timer));
     al_start_timer(timer);
     return {events, timer};
+}
+
+std::pair<float, float> Menu::getItemPositionFloat(unsigned int item)
+{
+    const unsigned int itemWidth{getItemWidth()};
+    const unsigned int screenMiddleX{width_ / 2};
+    const unsigned int itemX{screenMiddleX - itemWidth / 2};
+    const unsigned int itemY{getLocationOfFirstItem() +
+                             (getItemHeight() * item)};
+    return {static_cast<float>(itemX), static_cast<float>(itemY)};
 }
 
 bool Menu::keyEscapeUsed(const ALLEGRO_EVENT& event) const
