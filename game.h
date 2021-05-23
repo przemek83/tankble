@@ -28,6 +28,8 @@ private:
     void displayPlayer(const Player& player);
     void control();
 
+    void drawEndOfGame(const std::string& text);
+
     Screen& screen_;
     Map* map_{nullptr};
     ALLEGRO_BITMAP* buffer_{nullptr};

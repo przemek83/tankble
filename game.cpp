@@ -240,12 +240,21 @@ void Game::control()
     }
     catch (Win& ex)
     {
-        ex.display();
+        drawEndOfGame("You Win");
         gameOver_ = true;
     }
     catch (Lose& ex)
     {
-        ex.display();
+        drawEndOfGame("You loose");
         gameOver_ = true;
     }
+}
+
+void Game::drawEndOfGame(const std::string& text)
+{
+    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+    al_clear_to_color(al_map_rgb(0, 0, 255));
+    screen_.drawText(Config::width / 2, Config::height / 2, text);
+    al_flip_display();
+    al_rest(2);
 }

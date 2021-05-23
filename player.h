@@ -43,12 +43,8 @@ private:
 
 class Lose
 {
-public:
-    void display();
 };
 
 class Win : public Lose
 {
-public:
-    void display();
 };
