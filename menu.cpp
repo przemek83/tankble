@@ -107,7 +107,7 @@ Menu::UserChoice Menu::getUserChoice()
         if (itemPicked(event))
             return items_[currentItem].second;
 
-        if (escapePicked(event))
+        if (keyEscapeUsed(event))
             return items_[items_.size() - 1].second;
 
         currentItem = getCurrentItem(event, currentItem);
@@ -153,12 +153,10 @@ void Menu::drawMenuItems(unsigned int currentItem)
 unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
                                   unsigned int currentItem) const
 {
-    if (event.type == ALLEGRO_EVENT_KEY_UP &&
-        event.keyboard.keycode == ALLEGRO_KEY_UP && currentItem > 0)
+    if (keyUpUsed(event) && currentItem > 0)
         return currentItem - 1;
 
-    if (event.type == ALLEGRO_EVENT_KEY_UP &&
-        event.keyboard.keycode == ALLEGRO_KEY_DOWN &&
+    if (keyDownUsed(event) &&
         currentItem < static_cast<unsigned int>(items_.size()) - 1)
         return currentItem + 1;
 
@@ -189,15 +187,7 @@ bool Menu::userWantToExit(const ALLEGRO_EVENT& event) const
 
 bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 {
-    if (event.type == ALLEGRO_EVENT_KEY_UP &&
-        (event.keyboard.keycode == ALLEGRO_KEY_ENTER ||
-         event.keyboard.keycode == ALLEGRO_KEY_SPACE))
-        return true;
-
-    if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP && event.mouse.button == 1)
-        return true;
-
-    return false;
+    return keyEnterUsed(event) || keySpaceUsed(event) || mouseClickUsed(event);
 }
 
 void Menu::redraw(unsigned int currentItem)
@@ -209,12 +199,6 @@ void Menu::redraw(unsigned int currentItem)
         static_cast<float>(width_), static_cast<float>(height_), 0);
     drawMenuItems(currentItem);
     al_flip_display();
-}
-
-bool Menu::escapePicked(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
 unsigned int Menu::getLocationOfFirstItem() const
@@ -245,4 +229,40 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
     al_register_event_source(events, al_get_timer_event_source(timer));
     al_start_timer(timer);
     return {events, timer};
+}
+
+bool Menu::keyEscapeUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
+}
+
+bool Menu::keyUpUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_UP;
+}
+
+bool Menu::keyDownUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_DOWN;
+}
+
+bool Menu::keyEnterUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_ENTER;
+}
+
+bool Menu::keySpaceUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_SPACE;
+}
+
+bool Menu::mouseClickUsed(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP &&
+           event.mouse.button == 1;
 }

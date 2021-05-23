@@ -56,8 +56,6 @@ private:
 
     void redraw(unsigned int currentItem);
 
-    bool escapePicked(const ALLEGRO_EVENT& event) const;
-
     unsigned int getLocationOfFirstItem() const;
 
     unsigned int getItemWidth() const;
@@ -76,6 +74,18 @@ private:
 
     std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
         const;
+
+    bool keyEscapeUsed(const ALLEGRO_EVENT& event) const;
+
+    bool keyUpUsed(const ALLEGRO_EVENT& event) const;
+
+    bool keyDownUsed(const ALLEGRO_EVENT& event) const;
+
+    bool keyEnterUsed(const ALLEGRO_EVENT& event) const;
+
+    bool keySpaceUsed(const ALLEGRO_EVENT& event) const;
+
+    bool mouseClickUsed(const ALLEGRO_EVENT& event) const;
 
     ALLEGRO_BITMAP* menuBg_;
     ALLEGRO_BITMAP* itemBg_;
