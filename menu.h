@@ -23,13 +23,14 @@ public:
 
     enum class Item : unsigned char
     {
-        NEW_1P = 0,
+        NO_ITEM = 0,
+        NEW_1P,
         WINDOWED,
         FULLSCREEN,
         EXIT
     };
 
-    Menu::Item getChoice();
+    Menu::Item getItem();
 
 private:
     enum class UserChoice : unsigned char
@@ -43,8 +44,6 @@ private:
         BACK,
         EXIT
     };
-
-    Menu::UserChoice loop();
 
     void drawMenuItems(unsigned int currentItem);
 
@@ -65,8 +64,7 @@ private:
 
     unsigned int getItemHeight() const;
 
-    UserChoice getUserChoice(
-        std::vector<std::pair<std::string, UserChoice>> items);
+    UserChoice getUserChoice();
 
     std::vector<std::pair<std::string, Menu::UserChoice>> getMainMenu() const;
 

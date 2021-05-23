@@ -62,8 +62,8 @@ int main()
     setupAllegro();
 
     Menu menu(Config::width, Config::height);
-    for (Menu::Item choice{menu.getChoice()}; choice != Menu::Item::EXIT;
-         choice = menu.getChoice())
+    for (Menu::Item choice{menu.getItem()}; choice != Menu::Item::EXIT;
+         choice = menu.getItem())
     {
         switch (choice)
         {
@@ -85,6 +85,7 @@ int main()
                 break;
 
             case Menu::Item::EXIT:
+            case Menu::Item::NO_ITEM:
                 break;
         }
     }

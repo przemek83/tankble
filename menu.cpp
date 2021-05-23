@@ -48,13 +48,14 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
             {"BACK", UserChoice::BACK}};
 }
 
-Menu::Item Menu::getChoice()
+Menu::Item Menu::getItem()
 {
     al_show_mouse_cursor(al_get_current_display());
-    while (true)
+
+    Item pickedItem{Item::NO_ITEM};
+    while (pickedItem == Item::NO_ITEM)
     {
-        const Menu::UserChoice userChoice{getUserChoice(items_)};
-        switch (userChoice)
+        switch (getUserChoice())
         {
             case UserChoice::MAIN_MENU:
             case UserChoice::BACK:
@@ -70,25 +71,57 @@ Menu::Item Menu::getChoice()
                 break;
 
             case UserChoice::WINDOWED:
+                pickedItem = Item::WINDOWED;
+                break;
+
             case UserChoice::FULLSCREEN:
-                items_ = getOptionsMenu();
-                return (userChoice == UserChoice::WINDOWED ? Item::WINDOWED
-                                                           : Item::FULLSCREEN);
+                pickedItem = Item::FULLSCREEN;
+                break;
 
             case UserChoice::EXIT:
+                pickedItem = Item::EXIT;
+                break;
+
             case UserChoice::NEW_1P:
-                al_hide_mouse_cursor(al_get_current_display());
-                return (userChoice == UserChoice::EXIT ? Item::EXIT
-                                                       : Item::NEW_1P);
+                pickedItem = Item::NEW_1P;
+                break;
         }
     }
+
+    al_hide_mouse_cursor(al_get_current_display());
+    return pickedItem;
 }
 
-Menu::UserChoice Menu::getUserChoice(
-    std::vector<std::pair<std::string, UserChoice>> items)
+Menu::UserChoice Menu::getUserChoice()
 {
-    items_ = std::move(items);
-    return loop();
+    auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
+    bool shouldRedraw{true};
+    unsigned int currentItem{0};
+    while (true)
+    {
+        ALLEGRO_EVENT event;
+        al_wait_for_event(eventsQueue, &event);
+
+        if (userWantToExit(event))
+            return UserChoice::EXIT;
+
+        if (itemPicked(event))
+            return items_[currentItem].second;
+
+        if (escapePicked(event))
+            return items_[items_.size() - 1].second;
+
+        currentItem = getCurrentItem(event, currentItem);
+
+        if (event.type == ALLEGRO_EVENT_TIMER)
+            shouldRedraw = true;
+
+        if (shouldRedraw && al_is_event_queue_empty(eventsQueue))
+        {
+            shouldRedraw = false;
+            redraw(currentItem);
+        }
+    }
 }
 
 void Menu::drawMenuItems(unsigned int currentItem)
@@ -213,36 +246,4 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
     al_register_event_source(events, al_get_timer_event_source(timer));
     al_start_timer(timer);
     return {events, timer};
-}
-
-Menu::UserChoice Menu::loop()
-{
-    auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
-    bool shouldRedraw{true};
-    unsigned int currentItem{0};
-    while (true)
-    {
-        ALLEGRO_EVENT event;
-        al_wait_for_event(eventsQueue, &event);
-
-        if (userWantToExit(event))
-            return UserChoice::EXIT;
-
-        if (itemPicked(event))
-            return items_[currentItem].second;
-
-        if (escapePicked(event))
-            return items_[items_.size() - 1].second;
-
-        currentItem = getCurrentItem(event, currentItem);
-
-        if (event.type == ALLEGRO_EVENT_TIMER)
-            shouldRedraw = true;
-
-        if (shouldRedraw && al_is_event_queue_empty(eventsQueue))
-        {
-            shouldRedraw = false;
-            redraw(currentItem);
-        }
-    }
 }
