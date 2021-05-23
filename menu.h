@@ -7,7 +7,7 @@
 
 #include "game.h"
 
-class Menu
+class Menu final
 {
 public:
     Menu(unsigned int width, unsigned int height);
@@ -21,7 +21,18 @@ public:
 
     void setMenuSize(unsigned int width, unsigned int height);
 
-    enum Item : unsigned char
+    enum class Item : unsigned char
+    {
+        NEW_1P = 0,
+        WINDOWED,
+        FULLSCREEN,
+        EXIT
+    };
+
+    Menu::Item getChoice();
+
+private:
+    enum class UserChoice : unsigned char
     {
         MAIN_MENU = 0,
         NEW_MENU,
@@ -33,10 +44,7 @@ public:
         EXIT
     };
 
-    Menu::Item getChoice();
-
-private:
-    Menu::Item loop();
+    Menu::UserChoice loop();
 
     void drawMenuItems(unsigned int currentItem);
 
@@ -57,13 +65,16 @@ private:
 
     unsigned int getItemHeight() const;
 
-    Menu::Item getUserChoice(std::vector<std::pair<std::string, Item>> items);
+    UserChoice getUserChoice(
+        std::vector<std::pair<std::string, UserChoice>> items);
 
-    std::vector<std::pair<std::string, Menu::Item>> getMainMenu() const;
+    std::vector<std::pair<std::string, Menu::UserChoice>> getMainMenu() const;
 
-    std::vector<std::pair<std::string, Menu::Item>> getNewGameMenu() const;
+    std::vector<std::pair<std::string, Menu::UserChoice>> getNewGameMenu()
+        const;
 
-    std::vector<std::pair<std::string, Menu::Item>> getOptionsMenu() const;
+    std::vector<std::pair<std::string, Menu::UserChoice>> getOptionsMenu()
+        const;
 
     std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
         const;
@@ -74,5 +85,5 @@ private:
     ALLEGRO_FONT* font_;
     unsigned int width_{0};
     unsigned int height_{0};
-    std::vector<std::pair<std::string, Item>> items_{};
+    std::vector<std::pair<std::string, UserChoice>> items_{};
 };

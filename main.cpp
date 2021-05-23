@@ -62,10 +62,9 @@ int main()
     setupAllegro();
 
     Menu menu(Config::width, Config::height);
-    Menu::Item choice{Menu::Item::BACK};
-    while (choice != Menu::Item::EXIT)
+    for (Menu::Item choice{menu.getChoice()}; choice != Menu::Item::EXIT;
+         choice = menu.getChoice())
     {
-        choice = menu.getChoice();
         switch (choice)
         {
             case Menu::Item::NEW_1P:
@@ -85,7 +84,6 @@ int main()
                 updateMenuSize(menu);
                 break;
 
-            default:
             case Menu::Item::EXIT:
                 break;
         }

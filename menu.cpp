@@ -27,23 +27,25 @@ void Menu::setMenuSize(unsigned int width, unsigned int height)
     height_ = height;
 }
 
-std::vector<std::pair<std::string, Menu::Item>> Menu::getMainMenu() const
+std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu() const
 {
-    return {{"NEW GAME", Menu::Item::NEW_MENU},
-            {"OPTIONS", Menu::Item::OPTIONS_MENU},
-            {"EXIT", Menu::Item::EXIT}};
+    return {{"NEW GAME", UserChoice::NEW_MENU},
+            {"OPTIONS", UserChoice::OPTIONS_MENU},
+            {"EXIT", UserChoice::EXIT}};
 }
 
-std::vector<std::pair<std::string, Menu::Item>> Menu::getNewGameMenu() const
+std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getNewGameMenu()
+    const
 {
-    return {{"1 PLAYER", Menu::Item::NEW_1P}, {"BACK", Menu::Item::BACK}};
+    return {{"1 PLAYER", UserChoice::NEW_1P}, {"BACK", UserChoice::BACK}};
 }
 
-std::vector<std::pair<std::string, Menu::Item>> Menu::getOptionsMenu() const
+std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
+    const
 {
-    return {{"FULL SCREEN", Menu::Item::FULLSCREEN},
-            {"WINDOWED", Menu::Item::WINDOWED},
-            {"BACK", Menu::Item::BACK}};
+    return {{"FULL SCREEN", UserChoice::FULLSCREEN},
+            {"WINDOWED", UserChoice::WINDOWED},
+            {"BACK", UserChoice::BACK}};
 }
 
 Menu::Item Menu::getChoice()
@@ -51,36 +53,39 @@ Menu::Item Menu::getChoice()
     al_show_mouse_cursor(al_get_current_display());
     while (true)
     {
-        const Menu::Item userChoice{getUserChoice(items_)};
+        const Menu::UserChoice userChoice{getUserChoice(items_)};
         switch (userChoice)
         {
-            case Menu::Item::MAIN_MENU:
-            case Menu::Item::BACK:
+            case UserChoice::MAIN_MENU:
+            case UserChoice::BACK:
                 items_ = getMainMenu();
                 break;
 
-            case Menu::Item::NEW_MENU:
+            case UserChoice::NEW_MENU:
                 items_ = getNewGameMenu();
                 break;
 
-            case Menu::Item::OPTIONS_MENU:
+            case UserChoice::OPTIONS_MENU:
                 items_ = getOptionsMenu();
                 break;
 
-            case Menu::Item::WINDOWED:
-            case Menu::Item::FULLSCREEN:
+            case UserChoice::WINDOWED:
+            case UserChoice::FULLSCREEN:
                 items_ = getOptionsMenu();
-                return userChoice;
+                return (userChoice == UserChoice::WINDOWED ? Item::WINDOWED
+                                                           : Item::FULLSCREEN);
 
-            case Menu::Item::EXIT:
-            case Menu::Item::NEW_1P:
+            case UserChoice::EXIT:
+            case UserChoice::NEW_1P:
                 al_hide_mouse_cursor(al_get_current_display());
-                return userChoice;
+                return (userChoice == UserChoice::EXIT ? Item::EXIT
+                                                       : Item::NEW_1P);
         }
     }
 }
 
-Menu::Item Menu::getUserChoice(std::vector<std::pair<std::string, Item>> items)
+Menu::UserChoice Menu::getUserChoice(
+    std::vector<std::pair<std::string, UserChoice>> items)
 {
     items_ = std::move(items);
     return loop();
@@ -210,7 +215,7 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
     return {events, timer};
 }
 
-Menu::Item Menu::loop()
+Menu::UserChoice Menu::loop()
 {
     auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
     bool shouldRedraw{true};
@@ -221,7 +226,7 @@ Menu::Item Menu::loop()
         al_wait_for_event(eventsQueue, &event);
 
         if (userWantToExit(event))
-            return Item::EXIT;
+            return UserChoice::EXIT;
 
         if (itemPicked(event))
             return items_[currentItem].second;
