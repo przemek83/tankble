@@ -96,8 +96,7 @@ Menu::UserChoice Menu::getUserChoice()
 {
     auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
     bool shouldRedraw{true};
-    unsigned int currentItem{0};
-    while (true)
+    for (unsigned int currentItem{0};;)
     {
         ALLEGRO_EVENT event;
         al_wait_for_event(eventsQueue, &event);
