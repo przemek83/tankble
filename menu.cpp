@@ -3,13 +3,11 @@
 #include "config.h"
 #include "game.h"
 
-Menu::Menu(Screen& screen, unsigned int width, unsigned int height)
+Menu::Menu(Screen& screen)
     : screen_(screen),
       menuBg_{al_load_bitmap("image/menu/background.bmp")},
       itemBg_{al_load_bitmap("image/menu/item.tga")},
-      itemBgSelect_{al_load_bitmap("image/menu/item_select.tga")},
-      width_{width},
-      height_{height}
+      itemBgSelect_{al_load_bitmap("image/menu/item_select.tga")}
 {
     items_ = getMainMenu();
 }
@@ -19,12 +17,6 @@ Menu::~Menu()
     al_destroy_bitmap(itemBg_);
     al_destroy_bitmap(itemBgSelect_);
     al_destroy_bitmap(menuBg_);
-}
-
-void Menu::setMenuSize(unsigned int width, unsigned int height)
-{
-    width_ = width;
-    height_ = height;
 }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu() const
@@ -125,9 +117,8 @@ Menu::UserChoice Menu::getUserChoice()
 
 void Menu::drawMenuItems(unsigned int currentItem)
 {
-    const float itemWidth{static_cast<float>(getItemWidth())};
-    const float itemHeight{static_cast<float>(getItemHeight())};
-    const unsigned int screenMiddleX{width_ / 2};
+    const auto itemWidth{static_cast<float>(getItemWidth())};
+    const auto itemHeight{static_cast<float>(getItemHeight())};
 
     for (unsigned int item = 0; item < items_.size(); item++)
     {
@@ -140,8 +131,9 @@ void Menu::drawMenuItems(unsigned int currentItem)
         const auto [itemX, itemY]{getItemPositionFloat(item)};
         al_draw_bitmap_region(itemBitmap, 0., 0., itemWidth, itemHeight, itemX,
                               itemY, 0);
-        const float itemMiddleY{itemY + itemHeight / 2.F};
-        screen_.drawText(screenMiddleX, itemMiddleY, items_[item].first);
+        const auto itemMiddleY{
+            static_cast<unsigned int>(itemY + itemHeight / 2.F)};
+        screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
     }
 }
 
@@ -164,8 +156,8 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
         const unsigned int itemHeight{getItemHeight()};
         for (unsigned int i = 0; i < items_.size(); i++)
         {
-            if ((mouseX > width_ / 2 - itemWidth / 2) &&
-                (mouseX < width_ / 2 + itemWidth / 2) &&
+            if ((mouseX > screen_.getCenterX() - itemWidth / 2) &&
+                (mouseX < screen_.getCenterX() + itemWidth / 2) &&
                 (mouseY > firstItem + itemHeight * i) &&
                 (mouseY < firstItem + itemHeight + itemHeight * i))
                 return i;
@@ -188,17 +180,18 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 void Menu::redraw(unsigned int currentItem)
 {
     al_clear_to_color(al_map_rgb_f(0., 0., 0.));
-    al_draw_scaled_bitmap(
-        menuBg_, 0., 0., static_cast<float>(al_get_bitmap_width(menuBg_)),
-        static_cast<float>(al_get_bitmap_height(menuBg_)), 0., 0.,
-        static_cast<float>(width_), static_cast<float>(height_), 0);
+    al_draw_scaled_bitmap(menuBg_, 0., 0.,
+                          static_cast<float>(al_get_bitmap_width(menuBg_)),
+                          static_cast<float>(al_get_bitmap_height(menuBg_)), 0.,
+                          0., static_cast<float>(screen_.getWidth()),
+                          static_cast<float>(screen_.getHeight()), 0);
     drawMenuItems(currentItem);
     al_flip_display();
 }
 
 unsigned int Menu::getLocationOfFirstItem() const
 {
-    return height_ / 2 -
+    return screen_.getCenterY() -
            static_cast<unsigned int>(items_.size()) * getItemHeight() / 2;
 }
 
@@ -229,8 +222,7 @@ std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
 std::pair<float, float> Menu::getItemPositionFloat(unsigned int item)
 {
     const unsigned int itemWidth{getItemWidth()};
-    const unsigned int screenMiddleX{width_ / 2};
-    const unsigned int itemX{screenMiddleX - itemWidth / 2};
+    const unsigned int itemX{screen_.getCenterX() - itemWidth / 2};
     const unsigned int itemY{getLocationOfFirstItem() +
                              (getItemHeight() * item)};
     return {static_cast<float>(itemX), static_cast<float>(itemY)};

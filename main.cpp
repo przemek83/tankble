@@ -49,21 +49,13 @@ static void setWindowedMode()
                         false);
 }
 
-static void updateMenuSize(Menu& menu)
-{
-    menu.setMenuSize(static_cast<unsigned int>(
-                         al_get_display_width(al_get_current_display())),
-                     static_cast<unsigned int>(
-                         al_get_display_height(al_get_current_display())));
-}
-
 int main()
 {
     initRandomGenerator();
     setupAllegro();
 
     Screen screen;
-    Menu menu(screen, Config::width, Config::height);
+    Menu menu(screen);
     for (Menu::Item choice{menu.getItem()}; choice != Menu::Item::EXIT;
          choice = menu.getItem())
     {
@@ -78,12 +70,12 @@ int main()
 
             case Menu::Item::WINDOWED:
                 setWindowedMode();
-                updateMenuSize(menu);
+                screen.updateSize();
                 break;
 
             case Menu::Item::FULLSCREEN:
                 setFullScreenMode();
-                updateMenuSize(menu);
+                screen.updateSize();
                 break;
 
             case Menu::Item::EXIT:
