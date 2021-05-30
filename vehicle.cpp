@@ -34,8 +34,8 @@ Vehicle::~Vehicle()
 
 bool Vehicle::loadBitmaps(int tankType)
 {
-    FILE* fp;
-    if ((fp = fopen(tankTypesPaths_[tankType].c_str(), "r")) == NULL)
+    FILE* fp{nullptr};
+    if ((fp = fopen(tankTypesPaths_[tankType].c_str(), "r")) == nullptr)
         return false;
     fclose(fp);
 
@@ -88,7 +88,7 @@ ALLEGRO_BITMAP* Vehicle::display() { return bmp_[getDirection()]; }
 void Vehicle::fire(void* map)
 {
     Map* mapa = (Map*)map;
-    time_t ti = time(NULL);
+    time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
@@ -144,11 +144,10 @@ void Vehicle::go()
 
 void Vehicle::moveRandom(void* map)
 {
-    int i;
     Map* mapa = (Map*)map;
     if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
     {
-        i = rand() % 8;
+        const int i{rand() % 8};
         if (i < 4)
         {
             direction_ = i;

@@ -2,7 +2,7 @@
 
 #include <string>
 
-class ALLEGRO_FONT;
+struct ALLEGRO_FONT;
 
 class Screen final
 {
