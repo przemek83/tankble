@@ -3,21 +3,7 @@
 #include "config.h"
 #include "game.h"
 
-Menu::Menu(Screen& screen)
-    : screen_(screen),
-      menuBg_{al_load_bitmap("image/menu/background.bmp")},
-      itemBg_{al_load_bitmap("image/menu/item.tga")},
-      itemBgSelect_{al_load_bitmap("image/menu/item_select.tga")}
-{
-    items_ = getMainMenu();
-}
-
-Menu::~Menu()
-{
-    al_destroy_bitmap(itemBg_);
-    al_destroy_bitmap(itemBgSelect_);
-    al_destroy_bitmap(menuBg_);
-}
+Menu::Menu(Screen& screen) : screen_(screen) { items_ = getMainMenu(); }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu() const
 {
@@ -189,12 +175,12 @@ unsigned int Menu::getLocationOfFirstItem() const
 
 unsigned int Menu::getItemWidth() const
 {
-    return static_cast<unsigned int>(al_get_bitmap_width(itemBg_));
+    return screen_.getBitmapWidth(Resources::Bitmap::MENU_ITEM);
 }
 
 unsigned int Menu::getItemHeight() const
 {
-    return static_cast<unsigned int>(al_get_bitmap_height(itemBg_));
+    return screen_.getBitmapHeight(Resources::Bitmap::MENU_ITEM);
 }
 
 std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()

@@ -12,8 +12,8 @@ class Screen;
 class Menu final
 {
 public:
-    Menu(Screen& screen);
-    ~Menu();
+    explicit Menu(Screen& screen);
+    ~Menu() = default;
 
     Menu& operator=(const Menu& other) = delete;
     Menu(const Menu& other) = delete;
@@ -91,8 +91,5 @@ private:
 
     Screen& screen_;
 
-    ALLEGRO_BITMAP* menuBg_;
-    ALLEGRO_BITMAP* itemBg_;
-    ALLEGRO_BITMAP* itemBgSelect_;
     std::vector<std::pair<std::string, UserChoice>> items_{};
 };

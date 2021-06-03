@@ -26,6 +26,10 @@ public:
 
     unsigned int getCenterY() const;
 
+    unsigned int getBitmapWidth(Resources::Bitmap bitmap) const;
+
+    unsigned int getBitmapHeight(Resources::Bitmap bitmap) const;
+
 private:
     unsigned int getWidth() const;
 

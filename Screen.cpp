@@ -59,3 +59,15 @@ std::pair<unsigned int, unsigned int> Screen::getCenter() const
 unsigned int Screen::getCenterX() const { return width_ / 2; }
 
 unsigned int Screen::getCenterY() const { return height_ / 2; }
+
+unsigned int Screen::getBitmapWidth(Resources::Bitmap bitmap) const
+{
+    return static_cast<unsigned int>(
+        al_get_bitmap_width(resources_.getBitmap(bitmap)));
+}
+
+unsigned int Screen::getBitmapHeight(Resources::Bitmap bitmap) const
+{
+    return static_cast<unsigned int>(
+        al_get_bitmap_height(resources_.getBitmap(bitmap)));
+}
