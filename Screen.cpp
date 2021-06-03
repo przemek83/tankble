@@ -71,3 +71,5 @@ unsigned int Screen::getBitmapHeight(Resources::Bitmap bitmap) const
     return static_cast<unsigned int>(
         al_get_bitmap_height(resources_.getBitmap(bitmap)));
 }
+
+void Screen::refresh() const { al_flip_display(); }

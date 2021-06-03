@@ -30,6 +30,8 @@ public:
 
     unsigned int getBitmapHeight(Resources::Bitmap bitmap) const;
 
+    void refresh() const;
+
 private:
     unsigned int getWidth() const;
 

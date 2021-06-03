@@ -164,7 +164,7 @@ void Menu::redraw(unsigned int currentItem)
 {
     screen_.drawBackground(Resources::Bitmap::BACKGROUND);
     drawMenuItems(currentItem);
-    al_flip_display();
+    screen_.refresh();
 }
 
 unsigned int Menu::getLocationOfFirstItem() const
