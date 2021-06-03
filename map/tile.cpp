@@ -12,7 +12,7 @@ Tile::~Tile()
 
 bool Tile::loadBitmap()
 {
-    FILE* fp;
+    FILE* fp{nullptr};
     if ((fp = fopen(source, "r")) == nullptr)
         return false;
     fclose(fp);

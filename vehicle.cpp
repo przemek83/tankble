@@ -87,7 +87,7 @@ ALLEGRO_BITMAP* Vehicle::display() { return bmp_[getDirection()]; }
 
 void Vehicle::fire(void* map)
 {
-    Map* mapa = (Map*)map;
+    auto mapa = static_cast<Map*>(map);
     time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
     {
@@ -144,7 +144,7 @@ void Vehicle::go()
 
 void Vehicle::moveRandom(void* map)
 {
-    Map* mapa = (Map*)map;
+    auto mapa = static_cast<Map*>(map);
     if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
     {
         const int i{rand() % 8};

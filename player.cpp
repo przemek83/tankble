@@ -52,7 +52,7 @@ int Player::getTanks() { return ptanks_; }
 
 Vehicle* Player::getVehicle()
 {
-    if (vehicle_ != NULL)
+    if (vehicle_ != nullptr)
     {
         return vehicle_;
     }
