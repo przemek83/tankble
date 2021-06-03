@@ -20,17 +20,17 @@ public:
 
     void updateSize();
 
+    unsigned int getCenterX() const;
+
+    unsigned int getCenterY() const;
+
+private:
     unsigned int getWidth() const;
 
     unsigned int getHeight() const;
 
     std::pair<unsigned int, unsigned int> getCenter() const;
 
-    unsigned int getCenterX() const;
-
-    unsigned int getCenterY() const;
-
-private:
     unsigned int width_;
     unsigned int height_;
     ALLEGRO_FONT* font_;
