@@ -28,6 +28,12 @@ void Screen::drawBackground(ALLEGRO_BITMAP* bitmap) const
         static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
 }
 
+void Screen::drawBitmap(ALLEGRO_BITMAP* bitmap, unsigned int x,
+                        unsigned int y) const
+{
+    al_draw_bitmap(bitmap, static_cast<float>(x), static_cast<float>(y), 0);
+}
+
 void Screen::updateSize()
 {
     width_ = static_cast<unsigned int>(

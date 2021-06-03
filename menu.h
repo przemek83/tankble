@@ -75,7 +75,7 @@ private:
     std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
         const;
 
-    std::pair<float, float> getItemPositionFloat(unsigned int item);
+    std::pair<unsigned int, unsigned int> getItemPosition(unsigned int item);
 
     bool keyEscapeUsed(const ALLEGRO_EVENT& event) const;
 

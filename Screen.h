@@ -15,6 +15,9 @@ public:
 
     void drawBackground(ALLEGRO_BITMAP* bitmap) const;
 
+    void drawBitmap(ALLEGRO_BITMAP* bitmap, unsigned int x,
+                    unsigned int y) const;
+
     void updateSize();
 
     unsigned int getWidth() const;
