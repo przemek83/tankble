@@ -20,6 +20,14 @@ void Screen::drawText(unsigned int x, unsigned y, const std::string& text)
                  ALLEGRO_ALIGN_CENTER, text.c_str());
 }
 
+void Screen::drawBackground(ALLEGRO_BITMAP* bitmap) const
+{
+    al_draw_scaled_bitmap(
+        bitmap, 0., 0., static_cast<float>(al_get_bitmap_width(bitmap)),
+        static_cast<float>(al_get_bitmap_height(bitmap)), 0., 0.,
+        static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
+}
+
 void Screen::updateSize()
 {
     width_ = static_cast<unsigned int>(

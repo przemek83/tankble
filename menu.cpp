@@ -117,7 +117,6 @@ Menu::UserChoice Menu::getUserChoice()
 
 void Menu::drawMenuItems(unsigned int currentItem)
 {
-    const auto itemWidth{static_cast<float>(getItemWidth())};
     const auto itemHeight{static_cast<float>(getItemHeight())};
 
     for (unsigned int item = 0; item < items_.size(); item++)
@@ -129,8 +128,7 @@ void Menu::drawMenuItems(unsigned int currentItem)
             itemBitmap = itemBg_;
 
         const auto [itemX, itemY]{getItemPositionFloat(item)};
-        al_draw_bitmap_region(itemBitmap, 0., 0., itemWidth, itemHeight, itemX,
-                              itemY, 0);
+        al_draw_bitmap(itemBitmap, itemX, itemY, 0);
         const auto itemMiddleY{
             static_cast<unsigned int>(itemY + itemHeight / 2.F)};
         screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
@@ -179,12 +177,7 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 
 void Menu::redraw(unsigned int currentItem)
 {
-    al_clear_to_color(al_map_rgb_f(0., 0., 0.));
-    al_draw_scaled_bitmap(menuBg_, 0., 0.,
-                          static_cast<float>(al_get_bitmap_width(menuBg_)),
-                          static_cast<float>(al_get_bitmap_height(menuBg_)), 0.,
-                          0., static_cast<float>(screen_.getWidth()),
-                          static_cast<float>(screen_.getHeight()), 0);
+    screen_.drawBackground(menuBg_);
     drawMenuItems(currentItem);
     al_flip_display();
 }

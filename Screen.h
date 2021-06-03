@@ -3,6 +3,7 @@
 #include <string>
 
 struct ALLEGRO_FONT;
+struct ALLEGRO_BITMAP;
 
 class Screen final
 {
@@ -11,6 +12,8 @@ public:
     ~Screen();
 
     void drawText(unsigned int x, unsigned y, const std::string& text);
+
+    void drawBackground(ALLEGRO_BITMAP* bitmap) const;
 
     void updateSize();
 
