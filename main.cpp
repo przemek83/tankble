@@ -54,7 +54,8 @@ int main()
     initRandomGenerator();
     setupAllegro();
 
-    Screen screen;
+    Resources resources;
+    Screen screen(std::move(resources));
     Menu menu(screen);
     for (Menu::Item choice{menu.getItem()}; choice != Menu::Item::EXIT;
          choice = menu.getItem())

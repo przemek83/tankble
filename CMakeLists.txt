@@ -56,6 +56,8 @@ set(${PROJECT_NAME}_SOURCES
         config.h
         Screen.h
         Screen.cpp
+        Resources.h
+        Resources.cpp
         map/water.cpp
         map/water.h
         map/steel.cpp

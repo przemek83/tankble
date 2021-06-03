@@ -4,8 +4,9 @@
 
 #include "config.h"
 
-Screen::Screen()
-    : width_(Config::width),
+Screen::Screen(Resources resources)
+    : resources_(std::move(resources)),
+      width_(Config::width),
       height_(Config::height),
       font_{al_create_builtin_font()}
 {
@@ -20,18 +21,22 @@ void Screen::drawText(unsigned int x, unsigned y, const std::string& text)
                  ALLEGRO_ALIGN_CENTER, text.c_str());
 }
 
-void Screen::drawBackground(ALLEGRO_BITMAP* bitmap) const
+void Screen::drawBackground(Resources::Bitmap bitmap) const
 {
-    al_draw_scaled_bitmap(
-        bitmap, 0., 0., static_cast<float>(al_get_bitmap_width(bitmap)),
-        static_cast<float>(al_get_bitmap_height(bitmap)), 0., 0.,
-        static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(bitmap)};
+    al_draw_scaled_bitmap(bitmapToUse, 0., 0.,
+                          static_cast<float>(al_get_bitmap_width(bitmapToUse)),
+                          static_cast<float>(al_get_bitmap_height(bitmapToUse)),
+                          0., 0., static_cast<float>(getWidth()),
+                          static_cast<float>(getHeight()), 0);
 }
 
-void Screen::drawBitmap(ALLEGRO_BITMAP* bitmap, unsigned int x,
+void Screen::drawBitmap(Resources::Bitmap bitmap, unsigned int x,
                         unsigned int y) const
 {
-    al_draw_bitmap(bitmap, static_cast<float>(x), static_cast<float>(y), 0);
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(bitmap)};
+    al_draw_bitmap(bitmapToUse, static_cast<float>(x), static_cast<float>(y),
+                   0);
 }
 
 void Screen::updateSize()

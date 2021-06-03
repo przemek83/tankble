@@ -120,11 +120,11 @@ void Menu::drawMenuItems(unsigned int currentItem)
     const auto itemHeight{static_cast<float>(getItemHeight())};
     for (unsigned int item = 0; item < items_.size(); item++)
     {
-        ALLEGRO_BITMAP* itemBitmap{nullptr};
+        Resources::Bitmap itemBitmap;
         if (item == currentItem)
-            itemBitmap = itemBgSelect_;
+            itemBitmap = Resources::Bitmap::MENU_ITME_SELECTED;
         else
-            itemBitmap = itemBg_;
+            itemBitmap = Resources::Bitmap::MENU_ITEM;
 
         const auto [itemX, itemY]{getItemPosition(item)};
         screen_.drawBitmap(itemBitmap, itemX, itemY);
@@ -176,7 +176,7 @@ bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
 
 void Menu::redraw(unsigned int currentItem)
 {
-    screen_.drawBackground(menuBg_);
+    screen_.drawBackground(Resources::Bitmap::BACKGROUND);
     drawMenuItems(currentItem);
     al_flip_display();
 }
