@@ -3,10 +3,9 @@
 #include <string>
 #include <vector>
 
+#include "Input.h"
+
 class Screen;
-union ALLEGRO_EVENT;
-struct ALLEGRO_EVENT_QUEUE;
-struct ALLEGRO_TIMER;
 
 class Menu final
 {
@@ -46,10 +45,8 @@ private:
 
     void drawMenuItems(unsigned int currentItem);
 
-    unsigned int getCurrentItem(const ALLEGRO_EVENT& event,
+    unsigned int getCurrentItem(Input input, Input::Action action,
                                 unsigned int currentItem) const;
-
-    bool userWantToExit(const ALLEGRO_EVENT& event) const;
 
     bool itemPicked(const ALLEGRO_EVENT& event) const;
 
@@ -71,22 +68,7 @@ private:
     std::vector<std::pair<std::string, Menu::UserChoice>> getOptionsMenu()
         const;
 
-    std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> sutupEventQueueAndTimer()
-        const;
-
     std::pair<unsigned int, unsigned int> getItemPosition(unsigned int item);
-
-    bool keyEscapeUsed(const ALLEGRO_EVENT& event) const;
-
-    bool keyUpUsed(const ALLEGRO_EVENT& event) const;
-
-    bool keyDownUsed(const ALLEGRO_EVENT& event) const;
-
-    bool keyEnterUsed(const ALLEGRO_EVENT& event) const;
-
-    bool keySpaceUsed(const ALLEGRO_EVENT& event) const;
-
-    bool mouseClickUsed(const ALLEGRO_EVENT& event) const;
 
     Screen& screen_;
 

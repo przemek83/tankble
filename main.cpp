@@ -65,7 +65,8 @@ int main()
             case Menu::Item::NEW_1P:
             {
                 Game game(screen);
-                game.startGame();
+                if (!game.startGame())
+                    return 0;
                 break;
             }
 

@@ -1,7 +1,5 @@
 #include "Menu.h"
 
-#include <allegro5/allegro.h>
-
 #include "Config.h"
 #include "Screen.h"
 
@@ -30,7 +28,7 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
 
 Menu::Item Menu::getItem()
 {
-    al_show_mouse_cursor(al_get_current_display());
+    screen_.showMouse();
 
     Item pickedItem{Item::NO_ITEM};
     while (pickedItem == Item::NO_ITEM)
@@ -68,34 +66,33 @@ Menu::Item Menu::getItem()
         }
     }
 
-    al_hide_mouse_cursor(al_get_current_display());
+    screen_.hideMouse();
     return pickedItem;
 }
 
 Menu::UserChoice Menu::getUserChoice()
 {
-    auto [eventsQueue, timer]{sutupEventQueueAndTimer()};
+    Input input;
     bool shouldRedraw{true};
     for (unsigned int currentItem{0};;)
     {
-        ALLEGRO_EVENT event;
-        al_wait_for_event(eventsQueue, &event);
+        Input::Action action{input.getAction()};
 
-        if (userWantToExit(event))
+        if (action == Input::Action::QUIT)
             return UserChoice::EXIT;
 
-        if (itemPicked(event))
+        if (action == Input::Action::ACCEPT)
             return items_[currentItem].second;
 
-        if (keyEscapeUsed(event))
+        if (action == Input::Action::BACK)
             return items_[items_.size() - 1].second;
 
-        currentItem = getCurrentItem(event, currentItem);
+        currentItem = getCurrentItem(input, action, currentItem);
 
-        if (event.type == ALLEGRO_EVENT_TIMER)
+        if (action == Input::Action::TIMER)
             shouldRedraw = true;
 
-        if (shouldRedraw && al_is_event_queue_empty(eventsQueue))
+        if (shouldRedraw && input.empty())
         {
             shouldRedraw = false;
             redraw(currentItem);
@@ -122,21 +119,20 @@ void Menu::drawMenuItems(unsigned int currentItem)
     }
 }
 
-unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
+unsigned int Menu::getCurrentItem(Input input, Input::Action action,
                                   unsigned int currentItem) const
 {
-    if (keyUpUsed(event) && currentItem > 0)
+    if (action == Input::Action::UP && currentItem > 0)
         return currentItem - 1;
 
-    if (keyDownUsed(event) &&
+    if (action == Input::Action::DOWN &&
         currentItem < static_cast<unsigned int>(items_.size()) - 1)
         return currentItem + 1;
 
-    if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
+    if (action == Input::Action::MOUSE_MOVE)
     {
         const unsigned int firstItem{getLocationOfFirstItem()};
-        const unsigned int mouseX{static_cast<unsigned int>(event.mouse.x)};
-        const unsigned int mouseY{static_cast<unsigned int>(event.mouse.y)};
+        const auto [mouseX, mouseY] = input.getMousePosition();
         const unsigned int itemWidth{getItemWidth()};
         const unsigned int itemHeight{getItemHeight()};
         for (unsigned int i = 0; i < items_.size(); i++)
@@ -150,16 +146,6 @@ unsigned int Menu::getCurrentItem(const ALLEGRO_EVENT& event,
     }
 
     return currentItem;
-}
-
-bool Menu::userWantToExit(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
-}
-
-bool Menu::itemPicked(const ALLEGRO_EVENT& event) const
-{
-    return keyEnterUsed(event) || keySpaceUsed(event) || mouseClickUsed(event);
 }
 
 void Menu::redraw(unsigned int currentItem)
@@ -185,20 +171,6 @@ unsigned int Menu::getItemHeight() const
     return screen_.getBitmapHeight(Resources::Bitmap::MENU_ITEM);
 }
 
-std::pair<ALLEGRO_EVENT_QUEUE*, ALLEGRO_TIMER*> Menu::sutupEventQueueAndTimer()
-    const
-{
-    ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::fps)};
-    al_register_event_source(events, al_get_keyboard_event_source());
-    al_register_event_source(events, al_get_mouse_event_source());
-    al_register_event_source(
-        events, al_get_display_event_source(al_get_current_display()));
-    al_register_event_source(events, al_get_timer_event_source(timer));
-    al_start_timer(timer);
-    return {events, timer};
-}
-
 std::pair<unsigned int, unsigned int> Menu::getItemPosition(unsigned int item)
 {
     const unsigned int itemWidth{getItemWidth()};
@@ -206,40 +178,4 @@ std::pair<unsigned int, unsigned int> Menu::getItemPosition(unsigned int item)
     const unsigned int itemY{getLocationOfFirstItem() +
                              (getItemHeight() * item)};
     return {itemX, itemY};
-}
-
-bool Menu::keyEscapeUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
-}
-
-bool Menu::keyUpUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_UP;
-}
-
-bool Menu::keyDownUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_DOWN;
-}
-
-bool Menu::keyEnterUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_ENTER;
-}
-
-bool Menu::keySpaceUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_SPACE;
-}
-
-bool Menu::mouseClickUsed(const ALLEGRO_EVENT& event) const
-{
-    return event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP &&
-           event.mouse.button == 1;
 }

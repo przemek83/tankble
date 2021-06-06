@@ -73,3 +73,13 @@ unsigned int Screen::getBitmapHeight(Resources::Bitmap bitmap) const
 }
 
 void Screen::refresh() const { al_flip_display(); }
+
+void Screen::showMouse() const
+{
+    al_show_mouse_cursor(al_get_current_display());
+}
+
+void Screen::hideMouse() const
+{
+    al_hide_mouse_cursor(al_get_current_display());
+}

@@ -19,10 +19,13 @@ public:
     Game& operator=(Game&& other) = delete;
     Game(Game&& other) = delete;
 
-    int startGame();
+    bool startGame();
 
 private:
     bool userWantToExit(const ALLEGRO_EVENT& event) const;
+
+    bool userWantToQuit(const ALLEGRO_EVENT& event) const;
+
     void movement(Vehicle*, Map*);
     void display();
     void displayPlayer(const Player& player);

@@ -58,6 +58,8 @@ set(${PROJECT_NAME}_SOURCES
         Screen.cpp
         Resources.h
         Resources.cpp
+        Input.h
+        Input.cpp
         map/Water.cpp
         map/Water.h
         map/Steel.cpp

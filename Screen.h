@@ -32,6 +32,10 @@ public:
 
     void refresh() const;
 
+    void showMouse() const;
+
+    void hideMouse() const;
+
 private:
     unsigned int getWidth() const;
 

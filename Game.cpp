@@ -14,7 +14,11 @@ Game::Game(Screen& screen) : screen_(screen)
     buffer_ = al_create_bitmap(Config::width, Config::height);
 }
 
-Game::~Game() { std::cout << "stop" << '\n'; }
+Game::~Game()
+{
+    delete map_;
+    std::cout << "stop" << '\n';
+}
 
 void Game::movement(Vehicle* myTank, Map* mapa)
 {
@@ -137,12 +141,16 @@ void Game::movement(Vehicle* myTank, Map* mapa)
 
 bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
 {
-    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ||
-           (event.type == ALLEGRO_EVENT_KEY_UP &&
-            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE);
+    return event.type == ALLEGRO_EVENT_KEY_UP &&
+           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
-int Game::startGame()
+bool Game::userWantToQuit(const ALLEGRO_EVENT& event) const
+{
+    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
+}
+
+bool Game::startGame()
 {
     Player player;
     map_ = new Map(&player);
@@ -168,6 +176,9 @@ int Game::startGame()
         if (userWantToExit(event) || gameOver_)
             break;
 
+        if (userWantToQuit(event))
+            return false;
+
         if (event.type == ALLEGRO_EVENT_TIMER)
             shouldRedraw = true;
 
@@ -181,8 +192,7 @@ int Game::startGame()
         }
     }
 
-    delete map_;
-    return 0;
+    return true;
 }
 
 void Game::display()
