@@ -1,9 +1,10 @@
-#include "map.h"
-#include "config.h"
-#include "map/bullet.h"
-#include "map/powerup.h"
-#include "player.h"
-#include "vehicle.h"
+#include "Map.h"
+
+#include "Config.h"
+#include "Player.h"
+#include "Vehicle.h"
+#include "map/Bullet.h"
+#include "map/Powerup.h"
 
 ALLEGRO_BITMAP* Map::display()
 {

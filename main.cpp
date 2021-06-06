@@ -3,9 +3,9 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+#include "Game.h"
+#include "Menu.h"
 #include "Screen.h"
-#include "game.h"
-#include "menu.h"
 
 static void initRandomGenerator()
 {

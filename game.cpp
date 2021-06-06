@@ -1,13 +1,13 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+#include "Config.h"
+#include "Game.h"
+#include "Map.h"
+#include "Menu.h"
+#include "Player.h"
 #include "Screen.h"
-#include "config.h"
-#include "game.h"
-#include "map.h"
-#include "menu.h"
-#include "player.h"
-#include "vehicle.h"
+#include "Vehicle.h"
 
 Game::Game(Screen& screen) : screen_(screen)
 {

@@ -2,9 +2,9 @@
 #include <ctime>
 #include <iostream>
 
-#include "config.h"
-#include "map.h"
-#include "vehicle.h"
+#include "Config.h"
+#include "Map.h"
+#include "Vehicle.h"
 
 const int Vehicle::wayX_[4] = {0, 1, 0, -1};
 const int Vehicle::wayY_[4] = {-1, 0, 1, 0};

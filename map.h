@@ -1,18 +1,18 @@
 #pragma once
 
 #include <allegro5/allegro.h>
-#include "config.h"
-#include "map/base.h"
-#include "map/brick.h"
-#include "map/bullet.h"
-#include "map/ice.h"
-#include "map/plain.h"
-#include "map/plant.h"
-#include "map/steel.h"
-#include "map/tile.h"
-#include "map/water.h"
-#include "player.h"
-#include "vehicle.h"
+#include "Config.h"
+#include "Player.h"
+#include "Vehicle.h"
+#include "map/Base.h"
+#include "map/Brick.h"
+#include "map/Bullet.h"
+#include "map/Ice.h"
+#include "map/Plain.h"
+#include "map/Plant.h"
+#include "map/Steel.h"
+#include "map/Tile.h"
+#include "map/Water.h"
 
 class Map
 {

@@ -1,7 +1,7 @@
-#include "player.h"
+#include "Player.h"
+#include "Config.h"
 #include "Screen.h"
-#include "config.h"
-#include "vehicle.h"
+#include "Vehicle.h"
 
 Player::Player() : font_{al_create_builtin_font()}
 {

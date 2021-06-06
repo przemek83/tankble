@@ -2,7 +2,7 @@
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
-#include "vehicle.h"
+#include "Vehicle.h"
 
 class Screen;
 

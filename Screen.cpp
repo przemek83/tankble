@@ -2,7 +2,7 @@
 
 #include "allegro5/allegro_font.h"
 
-#include "config.h"
+#include "Config.h"
 
 Screen::Screen(Resources resources)
     : resources_(std::move(resources)),

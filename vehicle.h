@@ -4,8 +4,8 @@
 #include <vector>
 
 #include <allegro5/allegro.h>
-#include "config.h"
-#include "map/tile.h"
+#include "Config.h"
+#include "map/Tile.h"
 
 class Vehicle
 {

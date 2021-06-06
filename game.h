@@ -1,9 +1,9 @@
 #pragma once
 
 #include <allegro5/allegro.h>
-#include "config.h"
-#include "map.h"
-#include "vehicle.h"
+#include "Config.h"
+#include "Map.h"
+#include "Vehicle.h"
 
 class Screen;
 

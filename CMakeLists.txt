@@ -43,41 +43,41 @@ file(COPY missions DESTINATION ${CMAKE_BINARY_DIR})
 
 set(${PROJECT_NAME}_SOURCES
         main.cpp
-        vehicle.cpp
-        vehicle.h
-        player.cpp
-        player.h
-        menu.cpp
-        menu.h
-        map.cpp
-        map.h
-        game.cpp
-        game.h
-        config.h
+        Vehicle.cpp
+        Vehicle.h
+        Player.cpp
+        Player.h
+        Menu.cpp
+        Menu.h
+        Map.cpp
+        Map.h
+        Game.cpp
+        Game.h
+        Config.h
         Screen.h
         Screen.cpp
         Resources.h
         Resources.cpp
-        map/water.cpp
-        map/water.h
-        map/steel.cpp
-        map/steel.h
-        map/powerup.cpp
-        map/powerup.h
-        map/plant.cpp
-        map/plant.h
-        map/tile.cpp
-        map/tile.h
-        map/ice.cpp
-        map/ice.h
-        map/plain.cpp
-        map/plain.h
-        map/bullet.cpp
-        map/bullet.h
-        map/brick.cpp
-        map/brick.h
-        map/base.cpp
-        map/base.h
+        map/Water.cpp
+        map/Water.h
+        map/Steel.cpp
+        map/Steel.h
+        map/Powerup.cpp
+        map/Powerup.h
+        map/Plant.cpp
+        map/Plant.h
+        map/Tile.cpp
+        map/Tile.h
+        map/Ice.cpp
+        map/Ice.h
+        map/Plain.cpp
+        map/Plain.h
+        map/Bullet.cpp
+        map/Bullet.h
+        map/Brick.cpp
+        map/Brick.h
+        map/Base.cpp
+        map/Base.h
     )
 
 add_executable(${CMAKE_PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
