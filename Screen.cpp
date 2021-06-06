@@ -83,3 +83,17 @@ void Screen::hideMouse() const
 {
     al_hide_mouse_cursor(al_get_current_display());
 }
+
+void Screen::useFullScreenMode()
+{
+    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
+                        true);
+    updateSize();
+}
+
+void Screen::useWindowedMode()
+{
+    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
+                        false);
+    updateSize();
+}

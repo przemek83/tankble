@@ -150,7 +150,7 @@ bool Game::userWantToQuit(const ALLEGRO_EVENT& event) const
     return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
 }
 
-bool Game::startGame()
+bool Game::play()
 {
     Player player;
     map_ = new Map(&player);

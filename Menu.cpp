@@ -26,12 +26,11 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
             {"BACK", UserChoice::BACK}};
 }
 
-Menu::Item Menu::getItem()
+bool Menu::playGame()
 {
     screen_.showMouse();
 
-    Item pickedItem{Item::NO_ITEM};
-    while (pickedItem == Item::NO_ITEM)
+    for (;;)
     {
         switch (getUserChoice())
         {
@@ -49,25 +48,22 @@ Menu::Item Menu::getItem()
                 break;
 
             case UserChoice::WINDOWED:
-                pickedItem = Item::WINDOWED;
+                screen_.useWindowedMode();
                 break;
 
             case UserChoice::FULLSCREEN:
-                pickedItem = Item::FULLSCREEN;
+                screen_.useFullScreenMode();
                 break;
 
             case UserChoice::EXIT:
-                pickedItem = Item::EXIT;
-                break;
+                screen_.hideMouse();
+                return false;
 
             case UserChoice::NEW_1P:
-                pickedItem = Item::NEW_1P;
-                break;
+                screen_.hideMouse();
+                return true;
         }
     }
-
-    screen_.hideMouse();
-    return pickedItem;
 }
 
 Menu::UserChoice Menu::getUserChoice()

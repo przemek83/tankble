@@ -19,16 +19,7 @@ public:
     Menu& operator=(Menu&& other) = delete;
     Menu(Menu&& other) = delete;
 
-    enum class Item : unsigned char
-    {
-        NO_ITEM = 0,
-        NEW_1P,
-        WINDOWED,
-        FULLSCREEN,
-        EXIT
-    };
-
-    Menu::Item getItem();
+    bool playGame();
 
 private:
     enum class UserChoice : unsigned char

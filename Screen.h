@@ -20,8 +20,6 @@ public:
     void drawBitmap(Resources::Bitmap bitmap, unsigned int x,
                     unsigned int y) const;
 
-    void updateSize();
-
     unsigned int getCenterX() const;
 
     unsigned int getCenterY() const;
@@ -36,7 +34,13 @@ public:
 
     void hideMouse() const;
 
+    void useFullScreenMode();
+
+    void useWindowedMode();
+
 private:
+    void updateSize();
+
     unsigned int getWidth() const;
 
     unsigned int getHeight() const;

@@ -37,18 +37,6 @@ static void setupAllegro()
     al_install_mouse();
 }
 
-static void setFullScreenMode()
-{
-    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
-                        true);
-}
-
-static void setWindowedMode()
-{
-    al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
-                        false);
-}
-
 int main()
 {
     initRandomGenerator();
@@ -57,33 +45,15 @@ int main()
     Resources resources;
     Screen screen(std::move(resources));
     Menu menu(screen);
-    for (Menu::Item choice{menu.getItem()}; choice != Menu::Item::EXIT;
-         choice = menu.getItem())
+    for (;;)
     {
-        switch (choice)
-        {
-            case Menu::Item::NEW_1P:
-            {
-                Game game(screen);
-                if (!game.startGame())
-                    return 0;
-                break;
-            }
+        if (!menu.playGame())
+            break;
 
-            case Menu::Item::WINDOWED:
-                setWindowedMode();
-                screen.updateSize();
-                break;
-
-            case Menu::Item::FULLSCREEN:
-                setFullScreenMode();
-                screen.updateSize();
-                break;
-
-            case Menu::Item::EXIT:
-            case Menu::Item::NO_ITEM:
-                break;
-        }
+        Game game(screen);
+        if (!game.play())
+            break;
     }
+
     return 0;
 }

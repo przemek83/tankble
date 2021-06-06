@@ -19,7 +19,7 @@ public:
     Game& operator=(Game&& other) = delete;
     Game(Game&& other) = delete;
 
-    bool startGame();
+    bool play();
 
 private:
     bool userWantToExit(const ALLEGRO_EVENT& event) const;
