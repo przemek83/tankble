@@ -5,7 +5,7 @@
 struct ALLEGRO_EVENT_QUEUE;
 union ALLEGRO_EVENT;
 
-class Input
+class Input final
 {
 public:
     Input();
