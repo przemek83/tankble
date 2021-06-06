@@ -1,7 +1,7 @@
 #pragma once
 
 #include <allegro5/allegro.h>
-#include "../vehicle.h"
+#include "../Vehicle.h"
 
 class Bullet
 {

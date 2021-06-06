@@ -1,8 +1,8 @@
-#include "brick.h"
+#include "Brick.h"
 
 #include <iostream>
 
-#include "../config.h"
+#include "../Config.h"
 
 Brick::Brick()
 {

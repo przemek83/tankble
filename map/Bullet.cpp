@@ -1,10 +1,10 @@
-#include "bullet.h"
+#include "Bullet.h"
 
 #include <cstdio>
 
 #include <allegro5/allegro.h>
 
-#include "../vehicle.h"
+#include "../Vehicle.h"
 
 Bullet::Bullet(Vehicle* v)
 {

@@ -1,6 +1,6 @@
-#include "steel.h"
+#include "Steel.h"
 
-#include "../config.h"
+#include "../Config.h"
 
 Steel::Steel()
 {

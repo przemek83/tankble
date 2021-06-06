@@ -1,8 +1,8 @@
-#include "powerup.h"
+#include "Powerup.h"
 
 #include <iostream>
 
-#include "../config.h"
+#include "../Config.h"
 
 ArmorUp::ArmorUp()
 {

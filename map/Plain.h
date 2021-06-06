@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tile.h"
+#include "Tile.h"
 
 class Plain : public Tile
 {

@@ -1,6 +1,6 @@
-#include "water.h"
+#include "Water.h"
 
-#include "../config.h"
+#include "../Config.h"
 
 Water::Water()
 {

@@ -1,4 +1,5 @@
-#include "ice.h"
+#include "Ice.h"
+
 #include <iostream>
 
 Ice::Ice()

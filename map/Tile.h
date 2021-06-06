@@ -4,7 +4,7 @@
 
 #include <allegro5/allegro.h>
 
-#include "../config.h"
+#include "../Config.h"
 
 class Tile
 {

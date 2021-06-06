@@ -1,4 +1,5 @@
-#include "plant.h"
+#include "Plant.h"
+
 #include <iostream>
 
 Plant::Plant()

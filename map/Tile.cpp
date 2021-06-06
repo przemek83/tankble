@@ -1,8 +1,8 @@
-#include "tile.h"
+#include "Tile.h"
 
 #include <cstdio>
 
-#include "../config.h"
+#include "../Config.h"
 
 Tile::~Tile()
 {

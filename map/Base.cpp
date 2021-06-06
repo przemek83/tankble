@@ -1,10 +1,10 @@
-#include "base.h"
+#include "Base.h"
 
 #include <iostream>
 
 #include <allegro5/allegro.h>
 
-#include "../player.h"
+#include "../Player.h"
 
 Base::Base()
 {

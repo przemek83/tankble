@@ -1,4 +1,5 @@
-#include "plain.h"
+#include "Plain.h"
+
 #include <iostream>
 
 Plain::Plain()
