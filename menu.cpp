@@ -1,7 +1,9 @@
 #include "menu.h"
+
+#include <allegro5/allegro.h>
+
 #include "Screen.h"
 #include "config.h"
-#include "game.h"
 
 Menu::Menu(Screen& screen) : screen_(screen) { items_ = getMainMenu(); }
 

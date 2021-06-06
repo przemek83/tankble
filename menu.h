@@ -1,13 +1,12 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
-#include <allegro5/allegro.h>
-#include "allegro5/allegro_font.h"
-
-#include "game.h"
-
 class Screen;
+union ALLEGRO_EVENT;
+struct ALLEGRO_EVENT_QUEUE;
+struct ALLEGRO_TIMER;
 
 class Menu final
 {
