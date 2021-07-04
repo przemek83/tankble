@@ -6,6 +6,36 @@
 #include "map/Bullet.h"
 #include "map/Powerup.h"
 
+Map::Map(Player* player)
+{
+    buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
+                               Config::mapSize * Config::elementSize);
+    paint_ = al_create_bitmap(Config::mapSize * Config::elementSize,
+                              Config::mapSize * Config::elementSize);
+    player_ = player;
+    board_.reserve(Config::mapSize * Config::mapSize);
+    board_.resize(Config::mapSize);
+    for (auto& item : board_)
+        item.resize(Config::mapSize);
+    loadMap();
+    al_set_target_bitmap(paint_);
+    for (unsigned int i = 0; i < Config::mapSize; i++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
+            drawMapItem(board_[i][j]->display(), j * Config::elementSize,
+                        i * Config::elementSize);
+}
+
+Map::~Map()
+{
+    if (!bullets_.empty())
+        bullets_.clear();
+    if (!vehicles.empty())
+        vehicles.clear();
+
+    al_destroy_bitmap(buffer_);
+    al_destroy_bitmap(paint_);
+}
+
 ALLEGRO_BITMAP* Map::display()
 {
     displayMaps();
@@ -115,19 +145,17 @@ T - tank up
 void Map::loadMap()
 {
     int on = clock();
-    int off;
-    FILE* plik;
+    FILE* plik{nullptr};
     const char* source = "missions/mission1.dat";
-    if ((plik = fopen(source, "r")) == NULL)
+    if ((plik = fopen(source, "r")) == nullptr)
     {
         // return false;
         exit(1);
     }
-    int sign;
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
         {
-            sign = fgetc(plik);
+            int sign{fgetc(plik)};
             while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
                    sign != 'M' && sign != 'S' && sign != 'L' && sign != 'A')
             {
@@ -184,7 +212,7 @@ void Map::loadMap()
             }
         }
     fclose(plik);
-    off = clock();
+    int off{clock()};
     std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
               << " seconds" << std::endl;
 }
@@ -194,32 +222,6 @@ void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
     al_draw_scaled_bitmap(element, 0, 0, al_get_bitmap_width(element),
                           al_get_bitmap_height(element), x, y,
                           Config::elementSize, Config::elementSize, 0);
-}
-
-Map::Map(Player* player)
-{
-    buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
-                               Config::mapSize * Config::elementSize);
-    paint_ = al_create_bitmap(Config::mapSize * Config::elementSize,
-                              Config::mapSize * Config::elementSize);
-    player_ = player;
-    loadMap();
-    al_set_target_bitmap(paint_);
-    for (unsigned int i = 0; i < Config::mapSize; i++)
-        for (unsigned int j = 0; j < Config::mapSize; j++)
-            drawMapItem(board_[i][j]->display(), j * Config::elementSize,
-                        i * Config::elementSize);
-}
-
-Map::~Map()
-{
-    if (!bullets_.empty())
-        bullets_.clear();
-    if (!vehicles.empty())
-        vehicles.clear();
-
-    al_destroy_bitmap(buffer_);
-    al_destroy_bitmap(paint_);
 }
 
 bool Map::canDrive(unsigned int j, unsigned int i)
@@ -257,10 +259,9 @@ bool Map::canFly(unsigned int j, unsigned int i)
 
 int Map::isTank(Bullet* b)
 {
-    Vehicle* v;
     for (unsigned int i = 0; i < vehicles.size(); i++)
     {
-        v = vehicles.at(i);
+        Vehicle* v{vehicles.at(i)};
         if (b->getCenterX() >= v->getX() &&
             b->getCenterX() < v->getX() + Config::elementSize &&
             b->getCenterY() >= v->getY() &&
@@ -291,8 +292,8 @@ void Map::addBullet(Bullet* bullet) { bullets_.push_back(bullet); }
 
 void Map::setPower(Vehicle* v)
 {
-    int j = (v->getX() + 15) / Config::elementSize;
-    int i = (v->getY() + 15) / Config::elementSize;
+    const std::size_t j{(v->getX() + 15) / Config::elementSize};
+    const std::size_t i{(v->getY() + 15) / Config::elementSize};
 
     std::unique_ptr<Tile>& tile{board_[i][j]};
     if (!tile->isPowerUp())

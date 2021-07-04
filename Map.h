@@ -43,7 +43,8 @@ private:
     std::vector<Bullet*> bullets_;
     int isTank(Bullet*);
 
-    std::unique_ptr<Tile> board_[Config::mapSize][Config::mapSize]{};
+    std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
+
     ALLEGRO_BITMAP* buffer_;
     ALLEGRO_BITMAP* paint_;
     void displayMaps();
@@ -52,6 +53,5 @@ private:
     void displayBullets();
     void loadMap();
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
-    int tab_[Config::mapSize][Config::mapSize];
     Player* player_;
 };
