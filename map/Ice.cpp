@@ -4,14 +4,10 @@
 
 Ice::Ice()
 {
-    id = 4;
-    source = "image/board/ice.tga";
+    id_ = Type::ICE;
+    source_ = "image/board/ice.tga";
     if (!loadBitmap())
         exit(0);
-    armorUp = 0;
-    levelUp = 0;
-    speedUp = 0;
-    tankUp = 0;
 }
 
 bool Ice::canFly() { return true; }

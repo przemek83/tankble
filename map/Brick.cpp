@@ -6,9 +6,9 @@
 
 Brick::Brick()
 {
-    id = 1;
-    armor = Config::lowArmor;
-    source = "image/board/brick.tga";
+    id_ = Type::BRICK;
+    armor_ = Config::lowArmor;
+    source_ = "image/board/brick.tga";
     if (!loadBitmap())
         exit(0);
 }

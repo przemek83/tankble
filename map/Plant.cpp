@@ -4,14 +4,10 @@
 
 Plant::Plant()
 {
-    id = 3;
-    source = "image/board/plant.tga";
+    id_ = Type::PLANT;
+    source_ = "image/board/plant.tga";
     if (!loadBitmap())
         exit(0);
-    armorUp = 0;
-    levelUp = 0;
-    speedUp = 0;
-    tankUp = 0;
 }
 
 bool Plant::canFly() { return true; }

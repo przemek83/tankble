@@ -4,9 +4,9 @@
 
 Steel::Steel()
 {
-    id = 5;
-    armor = Config::highArmor;
-    source = "image/board/steel.tga";
+    id_ = Type::STEEL;
+    armor_ = Config::highArmor;
+    source_ = "image/board/steel.tga";
     if (!loadBitmap())
     {
         std::cout << "Steel Error" << std::endl;

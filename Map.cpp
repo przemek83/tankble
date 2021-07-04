@@ -288,7 +288,7 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
     {
         Tile* e = board_[i][j];
         board_[i][j] = new Plain();
-        if (e->getId() == 6)
+        if (e->getId() == Tile::Type::BASE)
         {
             throw Lose();
         }
@@ -306,33 +306,38 @@ void Map::setPower(Vehicle* v)
     int j = (v->getX() + 15) / Config::elementSize;
     int i = (v->getY() + 15) / Config::elementSize;
 
-    if (board_[i][j]->getId() > 20)
-    {
-        if (board_[i][j]->getArmorUp())
-        {
-            v->setMaxArmor();
-        }
-        else if (board_[i][j]->getLevelUp())
-        {
-            if (v->getType() < 3)
-            {
-                v->setType(v->getType() + 1);
-            }
-        }
-        else if (board_[i][j]->getSpeedUp())
-        {
-            v->setSpeedUp();
-        }
-        else if (board_[i][j]->getTankUp())
-        {
-            player_->setTanks(player_->getTanks() + 1);
-        }
-        Tile* e = board_[i][j];
-        board_[i][j] = new Plain();
-        delete e;
+    const Tile& tile{*board_[i][j]};
+    if (!tile.isPowerUp())
+        return;
 
-        al_set_target_bitmap(paint_);
-        drawMapItem(board_[i][j]->display(), j * Config::elementSize,
-                    i * Config::elementSize);
+    switch (tile.getId())
+    {
+        case Tile::Type::ARMOR_UP:
+            v->setMaxArmor();
+            break;
+
+        case Tile::Type::LEVEL_UP:
+            if (v->getType() < 3)
+                v->setType(v->getType() + 1);
+            break;
+
+        case Tile::Type::SPEED_UP:
+            v->setSpeedUp();
+            break;
+
+        case Tile::Type::TANK_UP:
+            player_->setTanks(player_->getTanks() + 1);
+            break;
+
+        default:
+            break;
     }
+
+    Tile* e = board_[i][j];
+    board_[i][j] = new Plain();
+    delete e;
+
+    al_set_target_bitmap(paint_);
+    drawMapItem(board_[i][j]->display(), j * Config::elementSize,
+                i * Config::elementSize);
 }

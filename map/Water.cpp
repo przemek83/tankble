@@ -4,9 +4,9 @@
 
 Water::Water()
 {
-    id = 2;
-    armor = Config::noArmor;
-    source = "image/board/water.tga";
+    id_ = Type::WATER;
+    armor_ = Config::noArmor;
+    source_ = "image/board/water.tga";
     if (!loadBitmap())
     {
         std::cout << "Water Error" << std::endl;

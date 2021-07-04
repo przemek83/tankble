@@ -22,21 +22,31 @@ public:
     virtual bool canDrive() = 0;
     virtual bool destroy(int);
     virtual ALLEGRO_BITMAP* display();  // return bitmap 30x30
-    virtual int getId();
-    int getArmorUp() const;
-    int getLevelUp() const;
-    int getSpeedUp() const;
-    int getTankUp() const;
+
+    enum class Type : unsigned int
+    {
+        PLAIN = 0,
+        BRICK,
+        WATER,
+        PLANT,
+        ICE,
+        STEEL,
+        BASE,
+        ARMOR_UP,
+        SPEED_UP,
+        TANK_UP,
+        LEVEL_UP
+    };
+
+    bool isPowerUp() const;
+
+    Type getId() const;
 
 protected:
     virtual bool loadBitmap();
 
-    ALLEGRO_BITMAP* bmp;
-    const char* source;
-    int armor{Config::maxArmor};
-    int id;
-    int armorUp;
-    int levelUp;
-    int speedUp;
-    int tankUp;
+    ALLEGRO_BITMAP* bmp_;
+    const char* source_;
+    int armor_{Config::maxArmor};
+    Type id_;
 };
