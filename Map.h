@@ -19,7 +19,7 @@
 class Map
 {
 public:
-    explicit Map(Player*);
+    explicit Map(Player* player);
     ~Map();
 
     Map& operator=(const Map& other) = delete;
@@ -31,27 +31,27 @@ public:
     ALLEGRO_BITMAP* display();
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);
-    std::vector<Vehicle*> vehicles;
-    void addBullet(Bullet* bullet);
+    void addBullet(std::unique_ptr<Bullet> bullet);
     void moveBullet();
     void setPower(Vehicle* vehicle);
+
+    std::vector<Vehicle*> vehicles;
 
 private:
     bool isBulletValid(int x, int y);
     bool canFly(unsigned int j, unsigned int i);
     void destroyItem(unsigned int j, unsigned int i, unsigned int power);
-    std::vector<Bullet*> bullets_;
-    int isTank(Bullet* bullet);
-
-    std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
-
-    ALLEGRO_BITMAP* buffer_;
-    ALLEGRO_BITMAP* paint_;
+    int isTank(const std::unique_ptr<Bullet>& bullet);
     void displayMaps();
     void displayPowers();
     void displayVehicles();
     void displayBullets();
     void loadMap();
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
+
+    std::vector<std::unique_ptr<Bullet>> bullets_;
+    std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
+    ALLEGRO_BITMAP* buffer_;
+    ALLEGRO_BITMAP* paint_;
     Player* player_;
 };

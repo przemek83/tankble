@@ -6,13 +6,13 @@
 #include "map/Bullet.h"
 #include "map/Powerup.h"
 
-Map::Map(Player* player)
+Map::Map(Player* player) : player_(player)
 {
     buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
                                Config::mapSize * Config::elementSize);
     paint_ = al_create_bitmap(Config::mapSize * Config::elementSize,
                               Config::mapSize * Config::elementSize);
-    player_ = player;
+
     board_.reserve(Config::mapSize * Config::mapSize);
     board_.resize(Config::mapSize);
     for (auto& item : board_)
@@ -27,8 +27,6 @@ Map::Map(Player* player)
 
 Map::~Map()
 {
-    if (!bullets_.empty())
-        bullets_.clear();
     if (!vehicles.empty())
         vehicles.clear();
 
@@ -62,7 +60,7 @@ void Map::displayVehicles()
 
 void Map::displayBullets()
 {
-    for (const auto& bullet : bullets_)
+    for (auto& bullet : bullets_)
     {
         al_set_target_bitmap(buffer_);
         al_draw_bitmap_region(bullet->display(), 0, 0,
@@ -76,7 +74,7 @@ void Map::moveBullet()
 {
     for (unsigned int i = 0; i < bullets_.size(); i++)
     {
-        Bullet* b{bullets_.at(i)};
+        std::unique_ptr<Bullet>& b{bullets_.at(i)};
         int px{b->getX() + b->getDirectionX() * b->getSpeed()};
         int py{b->getY() + b->getDirectionY() * b->getSpeed()};
         if (isBulletValid(px, py))
@@ -85,13 +83,12 @@ void Map::moveBullet()
             b->setY(py);
             unsigned int pi{b->getCenterY() / Config::elementSize};
             unsigned int pj{b->getCenterX() / Config::elementSize};
+            int iter{isTank(b)};
             if (!canFly(pj, pi))
             {
                 destroyItem(pj, pi, b->getPower());
-                delete bullets_[i];
                 bullets_.erase(bullets_.begin() + i);
             }
-            int iter{isTank(b)};
             if (iter >= 0)
             {
                 Vehicle* v{vehicles.at(iter)};
@@ -109,13 +106,11 @@ void Map::moveBullet()
                     }
                     vehicles.erase(vehicles.begin() + iter);
                 }
-                delete bullets_[i];
                 bullets_.erase(bullets_.begin() + i);
             }
         }
         else
         {
-            delete bullets_[i];
             bullets_.erase(bullets_.begin() + i);
         }
     }
@@ -252,7 +247,7 @@ bool Map::canFly(unsigned int j, unsigned int i)
     return board_[i][j]->canFly();
 }
 
-int Map::isTank(Bullet* bullet)
+int Map::isTank(const std::unique_ptr<Bullet>& bullet)
 {
     for (unsigned int i = 0; i < vehicles.size(); i++)
     {
@@ -283,7 +278,10 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
     }
 }
 
-void Map::addBullet(Bullet* bullet) { bullets_.push_back(bullet); }
+void Map::addBullet(std::unique_ptr<Bullet> bullet)
+{
+    bullets_.emplace_back(std::move(bullet));
+}
 
 void Map::setPower(Vehicle* vehicle)
 {

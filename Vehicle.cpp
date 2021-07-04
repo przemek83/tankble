@@ -92,8 +92,7 @@ void Vehicle::fire(void* map)
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
-        Bullet* bullet = new Bullet(this);
-        mapa->addBullet(bullet);
+        mapa->addBullet(std::make_unique<Bullet>(this));
     }
 }
 

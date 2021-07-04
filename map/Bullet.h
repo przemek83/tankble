@@ -15,7 +15,7 @@ public:
     Bullet& operator=(Bullet&& other) = delete;
     Bullet(Bullet&& other) = delete;
 
-    ALLEGRO_BITMAP* display();
+    ALLEGRO_BITMAP* display() const;
     int getId() const;
     int getPower() const;
     int getSpeed() const;

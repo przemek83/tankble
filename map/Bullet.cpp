@@ -45,7 +45,7 @@ bool Bullet::loadBitmap()
     return true;
 }
 
-ALLEGRO_BITMAP* Bullet::display() { return bmp_; }
+ALLEGRO_BITMAP* Bullet::display() const { return bmp_; }
 
 int Bullet::getId() const { return id_; }
 
