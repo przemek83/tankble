@@ -139,48 +139,48 @@ void Map::loadMap()
             switch (sign)
             {
                 case '1':
-                    board_[i][j] = new Brick();
+                    board_[i][j] = std::make_unique<Brick>();
                     break;
                 case '2':
-                    board_[i][j] = new Water();
+                    board_[i][j] = std::make_unique<Water>();
                     break;
                 case '3':
-                    board_[i][j] = new Plant();
+                    board_[i][j] = std::make_unique<Plant>();
                     break;
                 case '4':
-                    board_[i][j] = new Ice();
+                    board_[i][j] = std::make_unique<Ice>();
                     break;
                 case '5':
-                    board_[i][j] = new Steel();
+                    board_[i][j] = std::make_unique<Steel>();
                     break;
                 case '6':
-                    board_[i][j] = new Base();
+                    board_[i][j] = std::make_unique<Base>();
                     break;
                 case 'M':
-                    board_[i][j] = new Plain();
+                    board_[i][j] = std::make_unique<Plain>();
                     player_->loadVehicle(new Vehicle(0, Config::elementSize * j,
                                                      Config::elementSize * i));
                     vehicles.push_back(player_->getVehicle());
                     break;
                 case 'E':
-                    board_[i][j] = new Plain();
+                    board_[i][j] = std::make_unique<Plain>();
                     vehicles.push_back(new Vehicle(4, Config::elementSize * j,
                                                    Config::elementSize * i));
                     break;
                 case 'A':
-                    board_[i][j] = new ArmorUp();
+                    board_[i][j] = std::make_unique<ArmorUp>();
                     break;
                 case 'S':
-                    board_[i][j] = new SpeedUp();
+                    board_[i][j] = std::make_unique<SpeedUp>();
                     break;
                 case 'L':
-                    board_[i][j] = new LevelUp();
+                    board_[i][j] = std::make_unique<LevelUp>();
                     break;
                 case 'T':
-                    board_[i][j] = new TankUp();
+                    board_[i][j] = std::make_unique<TankUp>();
                     break;
                 default:
-                    board_[i][j] = new Plain();
+                    board_[i][j] = std::make_unique<Plain>();
             }
         }
     fclose(plik);
@@ -218,15 +218,6 @@ Map::~Map()
     if (!vehicles.empty())
         vehicles.clear();
 
-    Tile* m;
-    for (unsigned int i = 0; i < Config::mapSize; i++)
-    {
-        for (unsigned int j = 0; j < Config::mapSize; j++)
-        {
-            m = (Tile*)board_[i][j];
-            delete m;
-        }
-    }
     al_destroy_bitmap(buffer_);
     al_destroy_bitmap(paint_);
 }
@@ -286,13 +277,10 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
 {
     if (board_[i][j]->destroy(power))
     {
-        Tile* e = board_[i][j];
-        board_[i][j] = new Plain();
-        if (e->getId() == Tile::Type::BASE)
-        {
+        bool baseDestroyed{board_[i][j]->getId() == Tile::Type::BASE};
+        board_[i][j] = std::make_unique<Plain>();
+        if (baseDestroyed)
             throw Lose();
-        }
-        delete e;
         al_set_target_bitmap(paint_);
         drawMapItem(board_[i][j]->display(), j * Config::elementSize,
                     i * Config::elementSize);
@@ -306,11 +294,11 @@ void Map::setPower(Vehicle* v)
     int j = (v->getX() + 15) / Config::elementSize;
     int i = (v->getY() + 15) / Config::elementSize;
 
-    const Tile& tile{*board_[i][j]};
-    if (!tile.isPowerUp())
+    std::unique_ptr<Tile>& tile{board_[i][j]};
+    if (!tile->isPowerUp())
         return;
 
-    switch (tile.getId())
+    switch (tile->getId())
     {
         case Tile::Type::ARMOR_UP:
             v->setMaxArmor();
@@ -333,9 +321,7 @@ void Map::setPower(Vehicle* v)
             break;
     }
 
-    Tile* e = board_[i][j];
-    board_[i][j] = new Plain();
-    delete e;
+    tile = std::make_unique<Plain>();
 
     al_set_target_bitmap(paint_);
     drawMapItem(board_[i][j]->display(), j * Config::elementSize,

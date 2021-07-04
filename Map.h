@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <allegro5/allegro.h>
 #include "Config.h"
 #include "Player.h"
@@ -41,7 +43,7 @@ private:
     std::vector<Bullet*> bullets_;
     int isTank(Bullet*);
 
-    Tile* board_[Config::mapSize][Config::mapSize];
+    std::unique_ptr<Tile> board_[Config::mapSize][Config::mapSize]{};
     ALLEGRO_BITMAP* buffer_;
     ALLEGRO_BITMAP* paint_;
     void displayMaps();
