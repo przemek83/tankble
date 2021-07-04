@@ -74,37 +74,32 @@ void Map::displayBullets()
 
 void Map::moveBullet()
 {
-    Bullet* b;
-    int px, py;
-    unsigned int pi, pj;
-    Vehicle* v;
-    Vehicle* n;
     for (unsigned int i = 0; i < bullets_.size(); i++)
     {
-        b = bullets_.at(i);
-        px = b->getX() + b->getDirectionX() * b->getSpeed();
-        py = b->getY() + b->getDirectionY() * b->getSpeed();
+        Bullet* b{bullets_.at(i)};
+        int px{b->getX() + b->getDirectionX() * b->getSpeed()};
+        int py{b->getY() + b->getDirectionY() * b->getSpeed()};
         if (isBulletValid(px, py))
         {
             b->setX(px);
             b->setY(py);
-            pi = b->getCenterY() / Config::elementSize;
-            pj = b->getCenterX() / Config::elementSize;
+            unsigned int pi{b->getCenterY() / Config::elementSize};
+            unsigned int pj{b->getCenterX() / Config::elementSize};
             if (!canFly(pj, pi))
             {
                 destroyItem(pj, pi, b->getPower());
                 delete bullets_[i];
                 bullets_.erase(bullets_.begin() + i);
             }
-            int iter = isTank(b);
+            int iter{isTank(b)};
             if (iter >= 0)
             {
-                v = vehicles.at(iter);
+                Vehicle* v{vehicles.at(iter)};
                 if (v->destroy(b->getPower()))
                 {
                     if (v == player_->getVehicle())
                     {
-                        n = player_->killVehicle();
+                        Vehicle* n{player_->killVehicle()};
                         delete vehicles[iter];
                         vehicles.push_back(n);
                     }
