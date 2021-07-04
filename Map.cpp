@@ -252,16 +252,16 @@ bool Map::canFly(unsigned int j, unsigned int i)
     return board_[i][j]->canFly();
 }
 
-int Map::isTank(Bullet* b)
+int Map::isTank(Bullet* bullet)
 {
     for (unsigned int i = 0; i < vehicles.size(); i++)
     {
         Vehicle* v{vehicles.at(i)};
-        if (b->getCenterX() >= v->getX() &&
-            b->getCenterX() < v->getX() + Config::elementSize &&
-            b->getCenterY() >= v->getY() &&
-            b->getCenterY() < v->getY() + Config::elementSize &&
-            b->getId() / 100 != v->getId() / 100)
+        if (bullet->getCenterX() >= v->getX() &&
+            bullet->getCenterX() < v->getX() + Config::elementSize &&
+            bullet->getCenterY() >= v->getY() &&
+            bullet->getCenterY() < v->getY() + Config::elementSize &&
+            bullet->getId() / 100 != v->getId() / 100)
         {  // check friendly fire
             return i;
         }
@@ -285,10 +285,10 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
 
 void Map::addBullet(Bullet* bullet) { bullets_.push_back(bullet); }
 
-void Map::setPower(Vehicle* v)
+void Map::setPower(Vehicle* vehicle)
 {
-    const std::size_t j{(v->getX() + 15) / Config::elementSize};
-    const std::size_t i{(v->getY() + 15) / Config::elementSize};
+    const std::size_t j{(vehicle->getX() + 15) / Config::elementSize};
+    const std::size_t i{(vehicle->getY() + 15) / Config::elementSize};
 
     std::unique_ptr<Tile>& tile{board_[i][j]};
     if (!tile->isPowerUp())
@@ -297,16 +297,16 @@ void Map::setPower(Vehicle* v)
     switch (tile->getId())
     {
         case Tile::Type::ARMOR_UP:
-            v->setMaxArmor();
+            vehicle->setMaxArmor();
             break;
 
         case Tile::Type::LEVEL_UP:
-            if (v->getType() < 3)
-                v->setType(v->getType() + 1);
+            if (vehicle->getType() < 3)
+                vehicle->setType(vehicle->getType() + 1);
             break;
 
         case Tile::Type::SPEED_UP:
-            v->setSpeedUp();
+            vehicle->setSpeedUp();
             break;
 
         case Tile::Type::TANK_UP:

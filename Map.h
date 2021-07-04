@@ -32,16 +32,16 @@ public:
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);
     std::vector<Vehicle*> vehicles;
-    void addBullet(Bullet*);
+    void addBullet(Bullet* bullet);
     void moveBullet();
-    void setPower(Vehicle*);
+    void setPower(Vehicle* vehicle);
 
 private:
-    bool isBulletValid(int, int);
+    bool isBulletValid(int x, int y);
     bool canFly(unsigned int j, unsigned int i);
     void destroyItem(unsigned int j, unsigned int i, unsigned int power);
     std::vector<Bullet*> bullets_;
-    int isTank(Bullet*);
+    int isTank(Bullet* bullet);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
