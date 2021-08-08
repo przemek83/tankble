@@ -1,5 +1,7 @@
 #include "Tile.h"
 
+#include <experimental/filesystem>
+
 #include <cstdio>
 
 #include "../Config.h"
@@ -12,10 +14,8 @@ Tile::~Tile()
 
 bool Tile::loadBitmap()
 {
-    FILE* fp{nullptr};
-    if ((fp = fopen(source_, "r")) == nullptr)
+    if (!std::experimental::filesystem::exists(source_))
         return false;
-    fclose(fp);
     bmp_ = al_load_bitmap(source_);  //, palette);
     return true;
 }

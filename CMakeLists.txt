@@ -84,7 +84,7 @@ set(${PROJECT_NAME}_SOURCES
 
 add_executable(${CMAKE_PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} allegro-debug-5.2 allegro_image-debug-5.2 allegro_font-debug-5.2)
+target_link_libraries(${PROJECT_NAME} stdc++fs allegro-debug-5.2 allegro_image-debug-5.2 allegro_font-debug-5.2)
 
 enable_testing()
 add_subdirectory(test)

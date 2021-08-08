@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <ctime>
+#include <experimental/filesystem>
 #include <iostream>
 
 #include "Config.h"
@@ -34,10 +35,9 @@ Vehicle::~Vehicle()
 
 bool Vehicle::loadBitmaps(int tankType)
 {
-    FILE* fp{nullptr};
-    if ((fp = fopen(tankTypesPaths_[tankType].c_str(), "r")) == nullptr)
+    if (!std::experimental::filesystem::exists(
+            tankTypesPaths_[tankType].c_str()))
         return false;
-    fclose(fp);
 
     bmp_[0] = al_load_bitmap(tankTypesPaths_[tankType].c_str());
     const int width{al_get_bitmap_width(bmp_[0])};

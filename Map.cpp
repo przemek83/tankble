@@ -1,5 +1,8 @@
 #include "Map.h"
 
+#include <experimental/filesystem>
+#include <fstream>
+
 #include "Config.h"
 #include "Player.h"
 #include "Vehicle.h"
@@ -135,24 +138,26 @@ T - tank up
 void Map::loadMap()
 {
     int on = clock();
-    FILE* plik{nullptr};
-    const char* source = "missions/mission1.dat";
-    if ((plik = fopen(source, "r")) == nullptr)
-    {
-        // return false;
+
+    if (!std::experimental::filesystem::exists("missions/mission1.dat"))
         exit(1);
-    }
+
+    char sign;
+    std::fstream fin("missions/mission1.dat", std::fstream::in);
+
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
         {
-            int sign{fgetc(plik)};
+            fin >> std::noskipws >> sign;
+
             while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
                    sign != 'M' && sign != 'S' && sign != 'L' && sign != 'A')
             {
-                sign = fgetc(plik);
+                fin >> std::noskipws >> sign;
                 if (sign == EOF)
                     break;
             }
+
             // tab[i][j]=1;
             switch (sign)
             {
@@ -201,7 +206,7 @@ void Map::loadMap()
                     board_[i][j] = std::make_unique<Plain>();
             }
         }
-    fclose(plik);
+
     int off{clock()};
     std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
               << " seconds" << std::endl;
