@@ -1,6 +1,6 @@
 #include "Map.h"
 
-#include <experimental/filesystem>
+#include <filesystem>
 #include <fstream>
 
 #include "Config.h"
@@ -139,7 +139,7 @@ void Map::loadMap()
 {
     int on = clock();
 
-    if (!std::experimental::filesystem::exists("missions/mission1.dat"))
+    if (!std::filesystem::exists("missions/mission1.dat"))
         exit(1);
 
     char sign;
