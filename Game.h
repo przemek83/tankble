@@ -29,8 +29,8 @@ private:
     bool userWantToQuit(const ALLEGRO_EVENT& event) const;
 
     void movement(Vehicle*, Map*);
-    void display();
-    void displayPlayer(const Player& player);
+    void drawMap();
+    void drawStatusPlaceholder();
     void control();
 
     void drawEndOfGame(const std::string& text);

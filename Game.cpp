@@ -185,8 +185,8 @@ bool Game::play()
         if (shouldRedraw && al_is_event_queue_empty(events))
         {
             shouldRedraw = false;
-            display();
-            displayPlayer(player);
+            drawMap();
+            drawStatusPlaceholder();
             control();
             al_flip_display();
         }
@@ -195,7 +195,7 @@ bool Game::play()
     return true;
 }
 
-void Game::display()
+void Game::drawMap()
 {
     ALLEGRO_BITMAP* q1 = map_->display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
@@ -203,13 +203,10 @@ void Game::display()
                           Config::height, 0, 0, 0);
 }
 
-void Game::displayPlayer(const Player& player)
+void Game::drawStatusPlaceholder()
 {
-    ALLEGRO_BITMAP* q2 = player.display(screen_);
-    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(q2, 0, 0, al_get_bitmap_width(q2),
-                          al_get_bitmap_height(q2),
-                          Config::width - al_get_bitmap_width(q2), 0, 0);
+    screen_.drawText(Config::width - Config::statusPlaceholderWidth / 2,
+                     Config::height / 2, "[Status placeholder]");
 }
 
 void Game::control()

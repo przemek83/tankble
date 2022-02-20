@@ -1,8 +1,5 @@
 #pragma once
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-
 #include "Vehicle.h"
 
 class Screen;
@@ -26,19 +23,16 @@ public:
 
     Vehicle* getVehicle();
     Vehicle* killVehicle();
-    ALLEGRO_BITMAP* display(Screen& screen) const;
 
 private:
     int getLevel();
     void setLevel(int);
     void setVehicle(Vehicle*);
 
-    ALLEGRO_FONT* font_;
     int x_;
     int y_;
     int ptanks_;
     int plevel_;
-    ALLEGRO_BITMAP* buffer_;
     Vehicle* vehicle_;
 };
 
