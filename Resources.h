@@ -24,7 +24,7 @@ public:
         MENU_ITME_SELECTED
     };
 
-    ALLEGRO_BITMAP* getBitmap(Bitmap) const;
+    [[nodiscard]] ALLEGRO_BITMAP* getBitmap(Bitmap) const;
 
 private:
     std::vector<std::string> bitmapPaths_{"image/menu/background.bmp",

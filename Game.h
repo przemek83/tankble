@@ -11,7 +11,7 @@ class Screen;
 class Game
 {
 public:
-    Game(Screen& screen);
+    explicit Game(Screen& screen);
     ~Game();
 
     Game& operator=(const Game& other) = delete;
