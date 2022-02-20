@@ -1,8 +1,10 @@
+#include <iostream>
 #include <vector>
 
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+#include "Config.h"
 #include "Game.h"
 #include "Menu.h"
 #include "Screen.h"

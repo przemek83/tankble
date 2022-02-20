@@ -1,11 +1,12 @@
 #pragma once
 
+#include <string>
+
 #include <allegro5/allegro.h>
 
-#include "Config.h"
-#include "Map.h"
-#include "Vehicle.h"
-
+class Vehicle;
+class Map;
+class Player;
 class Screen;
 
 class Game
