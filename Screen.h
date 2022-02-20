@@ -13,6 +13,12 @@ public:
     explicit Screen(Resources resources);
     ~Screen();
 
+    Screen& operator=(const Screen& other) = delete;
+    Screen(const Screen& other) = delete;
+
+    Screen& operator=(Screen&& other) = delete;
+    Screen(Screen&& other) = delete;
+
     void drawText(unsigned int x, unsigned y, const std::string& text);
 
     void drawBackground(Resources::Bitmap bitmap) const;
