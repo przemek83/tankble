@@ -6,6 +6,7 @@
 
 struct ALLEGRO_FONT;
 struct ALLEGRO_BITMAP;
+struct ALLEGRO_COLOR;
 
 class Screen final
 {
@@ -25,6 +26,8 @@ public:
 
     void drawBitmap(Resources::Bitmap bitmap, unsigned int x,
                     unsigned int y) const;
+
+    void clearScreenWithColor(ALLEGRO_COLOR color);
 
     unsigned int getCenterX() const;
 

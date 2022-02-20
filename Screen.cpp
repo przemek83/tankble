@@ -39,6 +39,13 @@ void Screen::drawBitmap(Resources::Bitmap bitmap, unsigned int x,
                    0);
 }
 
+void Screen::clearScreenWithColor(ALLEGRO_COLOR color)
+{
+    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+    al_clear_to_color(color);
+    al_flip_display();
+}
+
 void Screen::updateSize()
 {
     width_ = static_cast<unsigned int>(

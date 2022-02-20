@@ -259,9 +259,8 @@ void Game::control()
 
 void Game::drawEndOfGame(const std::string& text)
 {
-    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_clear_to_color(al_map_rgb(0, 0, 255));
+    screen_.clearScreenWithColor({0, 0, 255, 0});
     screen_.drawText(Config::width / 2, Config::height / 2, text);
-    al_flip_display();
+    screen_.refresh();
     al_rest(2);
 }
