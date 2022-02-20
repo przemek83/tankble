@@ -12,7 +12,7 @@ static void initRandomGenerator()
     srand(static_cast<unsigned int>(time(nullptr)));
 }
 
-static void setupAllegro()
+static void setupGraphics()
 {
     if (!al_init())
     {
@@ -40,7 +40,7 @@ static void setupAllegro()
 int main()
 {
     initRandomGenerator();
-    setupAllegro();
+    setupGraphics();
 
     Resources resources;
     Screen screen(std::move(resources));
