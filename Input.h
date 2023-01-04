@@ -28,7 +28,7 @@ public:
 
     Action getAction();
 
-    bool empty() const;
+    bool isEmpty() const;
 
     std::pair<unsigned int, unsigned int> getMousePosition() const;
 

@@ -88,7 +88,7 @@ Menu::UserChoice Menu::getUserChoice()
         if (action == Input::Action::TIMER)
             shouldRedraw = true;
 
-        if (shouldRedraw && input.empty())
+        if (shouldRedraw && input.isEmpty())
         {
             shouldRedraw = false;
             redraw(currentItem);

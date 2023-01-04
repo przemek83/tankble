@@ -50,7 +50,7 @@ Input::Action Input::getAction()
     return Action::EMPTY;
 }
 
-bool Input::empty() const { return al_is_event_queue_empty(events_); }
+bool Input::isEmpty() const { return al_is_event_queue_empty(events_); }
 
 std::pair<unsigned int, unsigned int> Input::getMousePosition() const
 {
