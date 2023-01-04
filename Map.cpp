@@ -6,8 +6,15 @@
 #include "Config.h"
 #include "Player.h"
 #include "Vehicle.h"
+#include "map/Base.h"
+#include "map/Brick.h"
 #include "map/Bullet.h"
+#include "map/Ice.h"
+#include "map/Plain.h"
+#include "map/Plant.h"
 #include "map/Powerup.h"
+#include "map/Steel.h"
+#include "map/Water.h"
 
 Map::Map(Player* player) : player_(player)
 {
