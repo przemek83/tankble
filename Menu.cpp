@@ -1,6 +1,5 @@
 #include "Menu.h"
 
-#include "Config.h"
 #include "Screen.h"
 
 Menu::Menu(Screen& screen) : screen_(screen) { items_ = getMainMenu(); }

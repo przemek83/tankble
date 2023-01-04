@@ -1,6 +1,5 @@
 #include "Player.h"
-#include "Config.h"
-#include "Screen.h"
+
 #include "Vehicle.h"
 
 Player::Player() { setTanks(0); }
