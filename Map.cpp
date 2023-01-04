@@ -70,7 +70,7 @@ void Map::displayVehicles()
 
 void Map::displayBullets()
 {
-    for (auto& bullet : bullets_)
+    for (const auto& bullet : bullets_)
     {
         al_set_target_bitmap(buffer_);
         al_draw_bitmap_region(bullet->display(), 0, 0,
