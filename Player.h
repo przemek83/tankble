@@ -8,13 +8,6 @@ class Player
 {
 public:
     Player();
-    ~Player();
-
-    Player& operator=(const Player& other) = delete;
-    Player(const Player& other) = delete;
-
-    Player& operator=(Player&& other) = delete;
-    Player(Player&& other) = delete;
 
     void loadVehicle(Vehicle*);
     int getTanks();

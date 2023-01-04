@@ -5,8 +5,6 @@
 
 Player::Player() { setTanks(0); }
 
-Player::~Player() {}
-
 void Player::loadVehicle(Vehicle* v)
 {
     setVehicle(v);
