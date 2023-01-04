@@ -6,7 +6,6 @@
 
 class Vehicle;
 class Map;
-class Player;
 class Screen;
 
 class Game

@@ -170,10 +170,7 @@ bool Game::play()
             break;
 
         if (userWantToQuit(event))
-        {
-            std::cout << "quit" << '\n';
             return false;
-        }
 
         if (event.type == ALLEGRO_EVENT_TIMER)
             shouldRedraw = true;
