@@ -84,14 +84,13 @@ void Vehicle::move(int xy) { direction_ = xy; }
 
 ALLEGRO_BITMAP* Vehicle::display() { return bmp_[getDirection()]; }
 
-void Vehicle::fire(void* map)
+void Vehicle::fire(Map& map)
 {
-    auto mapa = static_cast<Map*>(map);
     time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
-        mapa->addBullet(std::make_unique<Bullet>(this));
+        map.addBullet(std::make_unique<Bullet>(this));
     }
 }
 
@@ -140,9 +139,8 @@ void Vehicle::go()
     setY(getY() + getDirectionY() + getDirectionY());
 }
 
-void Vehicle::moveRandom(void* map)
+void Vehicle::moveRandom(Map& map)
 {
-    auto mapa = static_cast<Map*>(map);
     if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
     {
         const int i{rand() % 8};
@@ -150,13 +148,13 @@ void Vehicle::moveRandom(void* map)
         {
             direction_ = i;
         }
-        if (!(mapa->isValid(getX() + getDirectionX() + getDirectionX(),
-                            getY() + getDirectionY() + getDirectionY())))
+        if (!(map.isValid(getX() + getDirectionX() + getDirectionX(),
+                          getY() + getDirectionY() + getDirectionY())))
         {
             return;
         }
-        if (!mapa->canDrive(getX() / Config::elementSize + getDirectionX(),
-                            getY() / Config::elementSize + getDirectionY()))
+        if (!map.canDrive(getX() / Config::elementSize + getDirectionX(),
+                          getY() / Config::elementSize + getDirectionY()))
         {
             return;
         }

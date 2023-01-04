@@ -4,7 +4,6 @@
 #include "Config.h"
 #include "Game.h"
 #include "Map.h"
-#include "Menu.h"
 #include "Player.h"
 #include "Screen.h"
 #include "Vehicle.h"
@@ -14,13 +13,7 @@ Game::Game(Screen& screen) : screen_(screen)
     buffer_ = al_create_bitmap(Config::width, Config::height);
 }
 
-Game::~Game()
-{
-    delete map_;
-    std::cout << "stop" << '\n';
-}
-
-void Game::movement(Vehicle* myTank, Map* mapa)
+void Game::movement(Vehicle* myTank, Map& map)
 {
     int pomX = myTank->getX() / Config::elementSize;
     int pomY = myTank->getY() / Config::elementSize;
@@ -45,7 +38,7 @@ void Game::movement(Vehicle* myTank, Map* mapa)
     {
         myTank->move(1);
     }
-    if (!mapa->isValid(
+    if (!map.isValid(
             myTank->getX() + myTank->getDirectionX() + myTank->getDirectionX(),
             myTank->getY() + myTank->getDirectionY() + myTank->getDirectionY()))
     {
@@ -58,28 +51,28 @@ void Game::movement(Vehicle* myTank, Map* mapa)
         {
             if (myTank->getX() % Config::elementSize == 0)
             {
-                if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()))
+                if (map.canDrive(pomX, pomY + myTank->getDirectionY()))
                 {
                     myTank->go();
                 }
             }
             else
             {
-                if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()) &&
-                    mapa->canDrive(pomX + 1, pomY + myTank->getDirectionY()))
+                if (map.canDrive(pomX, pomY + myTank->getDirectionY()) &&
+                    map.canDrive(pomX + 1, pomY + myTank->getDirectionY()))
                 {
                     myTank->go();
                 }
                 else
                 {
-                    if (mapa->canDrive(pomX, pomY + myTank->getDirectionY()) &&
+                    if (map.canDrive(pomX, pomY + myTank->getDirectionY()) &&
                         myTank->getX() % Config::elementSize <= tol)
                     {
                         myTank->setX(pomX * Config::elementSize);
                         myTank->go();
                     }
-                    else if (mapa->canDrive(pomX + 1,
-                                            pomY + myTank->getDirectionY()) &&
+                    else if (map.canDrive(pomX + 1,
+                                          pomY + myTank->getDirectionY()) &&
                              myTank->getX() % Config::elementSize >=
                                  Config::elementSize - tol)
                     {
@@ -100,28 +93,28 @@ void Game::movement(Vehicle* myTank, Map* mapa)
         {
             if (myTank->getY() % Config::elementSize == 0)
             {
-                if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY))
+                if (map.canDrive(pomX + myTank->getDirectionX(), pomY))
                 {
                     myTank->go();
                 }
             }
             else
             {
-                if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY) &&
-                    mapa->canDrive(pomX + myTank->getDirectionX(), pomY + 1))
+                if (map.canDrive(pomX + myTank->getDirectionX(), pomY) &&
+                    map.canDrive(pomX + myTank->getDirectionX(), pomY + 1))
                 {
                     myTank->go();
                 }
                 else
                 {
-                    if (mapa->canDrive(pomX + myTank->getDirectionX(), pomY) &&
+                    if (map.canDrive(pomX + myTank->getDirectionX(), pomY) &&
                         myTank->getY() % Config::elementSize <= tol)
                     {
                         myTank->setY(pomY * Config::elementSize);
                         myTank->go();
                     }
-                    else if (mapa->canDrive(pomX + myTank->getDirectionX(),
-                                            pomY + 1) &&
+                    else if (map.canDrive(pomX + myTank->getDirectionX(),
+                                          pomY + 1) &&
                              myTank->getY() % Config::elementSize >=
                                  Config::elementSize - tol)
                     {
@@ -136,7 +129,7 @@ void Game::movement(Vehicle* myTank, Map* mapa)
             myTank->go();
         }
     }
-    mapa->setPower(myTank);
+    map.setPower(myTank);
 }
 
 bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
@@ -153,7 +146,7 @@ bool Game::userWantToQuit(const ALLEGRO_EVENT& event) const
 bool Game::play()
 {
     Player player;
-    map_ = new Map(&player);
+    Map map(&player);
 
     std::cout << "Map loaded" << std::endl;
 
@@ -177,7 +170,10 @@ bool Game::play()
             break;
 
         if (userWantToQuit(event))
+        {
+            std::cout << "quit" << '\n';
             return false;
+        }
 
         if (event.type == ALLEGRO_EVENT_TIMER)
             shouldRedraw = true;
@@ -185,19 +181,21 @@ bool Game::play()
         if (shouldRedraw && al_is_event_queue_empty(events))
         {
             shouldRedraw = false;
-            drawMap();
+            drawMap(map);
             drawStatusPlaceholder();
-            control();
+            control(map);
             al_flip_display();
         }
     }
 
+    std::cout << "stop" << '\n';
+
     return true;
 }
 
-void Game::drawMap()
+void Game::drawMap(Map& map)
 {
-    ALLEGRO_BITMAP* q1 = map_->display();
+    ALLEGRO_BITMAP* q1 = map.display();
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_draw_bitmap_region(q1, 0, 0, Config::elementSize * Config::mapSize,
                           Config::height, 0, 0, 0);
@@ -209,14 +207,14 @@ void Game::drawStatusPlaceholder()
                      Config::height / 2, "[Status placeholder]");
 }
 
-void Game::control()
+void Game::control(Map& map)
 {
     try
     {
-        if (map_->vehicles.size() == 1)
+        if (map.vehicles.size() == 1)
             throw Win();
 
-        for (auto& tank : map_->vehicles)
+        for (auto& tank : map.vehicles)
         {
             if (tank->getId() >= 100 && tank->getId() < 200)
             {
@@ -228,22 +226,22 @@ void Game::control()
                     al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
                     al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
                 {
-                    movement(tank, map_);
+                    movement(tank, map);
                 }
                 if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
                     al_key_down(&key_state, ALLEGRO_KEY_ENTER))
                 {
-                    tank->fire(map_);
+                    tank->fire(map);
                 }
             }
             else
             {
-                tank->moveRandom(map_);
-                tank->fire(map_);
+                tank->moveRandom(map);
+                tank->fire(map);
             }
         }
 
-        map_->moveBullet();
+        map.moveBullet();
     }
     catch (Win& ex)
     {

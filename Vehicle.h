@@ -6,6 +6,8 @@
 
 #include <allegro5/allegro.h>
 
+class Map;
+
 class Vehicle
 {
 public:
@@ -18,9 +20,9 @@ public:
     int getY() const;
     void setX(int);
     void setY(int);
-    void moveRandom(void*);
+    void moveRandom(Map& map);
     int getDirection() const;
-    void fire(void*);
+    void fire(Map& map);
     bool destroy(int);
     int getSpeed() const;
     int getPower() const;
