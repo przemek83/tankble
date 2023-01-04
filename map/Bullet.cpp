@@ -2,9 +2,11 @@
 
 #include <cstdio>
 #include <filesystem>
+#include <iostream>
 
 #include <allegro5/allegro.h>
 
+#include "../Config.h"
 #include "../Vehicle.h"
 
 Bullet::Bullet(Vehicle* v)

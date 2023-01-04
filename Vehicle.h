@@ -1,12 +1,10 @@
 #pragma once
 
 #include <cmath>
+#include <string>
 #include <vector>
 
 #include <allegro5/allegro.h>
-
-#include "Config.h"
-#include "map/Tile.h"
 
 class Vehicle
 {
