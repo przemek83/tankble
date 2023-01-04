@@ -11,13 +11,6 @@ class Menu final
 {
 public:
     explicit Menu(Screen& screen);
-    ~Menu() = default;
-
-    Menu& operator=(const Menu& other) = delete;
-    Menu(const Menu& other) = delete;
-
-    Menu& operator=(Menu&& other) = delete;
-    Menu(Menu&& other) = delete;
 
     bool playGame();
 
