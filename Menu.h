@@ -45,13 +45,13 @@ private:
 
     UserChoice getUserChoice();
 
-    std::vector<std::pair<std::string, Menu::UserChoice>> getMainMenu() const;
+    static std::vector<std::pair<std::string, Menu::UserChoice>> getMainMenu();
 
-    std::vector<std::pair<std::string, Menu::UserChoice>> getNewGameMenu()
-        const;
+    static std::vector<std::pair<std::string, Menu::UserChoice>>
+    getNewGameMenu();
 
-    std::vector<std::pair<std::string, Menu::UserChoice>> getOptionsMenu()
-        const;
+    static std::vector<std::pair<std::string, Menu::UserChoice>>
+    getOptionsMenu();
 
     std::pair<unsigned int, unsigned int> getItemPosition(unsigned int item);
 

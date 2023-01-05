@@ -4,9 +4,9 @@
 #include "InputAction.h"
 #include "Screen.h"
 
-Menu::Menu(Screen& screen) : screen_(screen) { items_ = getMainMenu(); }
+Menu::Menu(Screen& screen) : screen_(screen), items_(getMainMenu()) {}
 
-std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu() const
+std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu()
 {
     return {{"NEW GAME", UserChoice::NEW_MENU},
             {"OPTIONS", UserChoice::OPTIONS_MENU},
@@ -14,13 +14,11 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu() const
 }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getNewGameMenu()
-    const
 {
     return {{"1 PLAYER", UserChoice::NEW_1P}, {"BACK", UserChoice::BACK}};
 }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
-    const
 {
     return {{"FULL SCREEN", UserChoice::FULLSCREEN},
             {"WINDOWED", UserChoice::WINDOWED},
@@ -73,7 +71,7 @@ Menu::UserChoice Menu::getUserChoice()
     bool shouldRedraw{true};
     for (unsigned int currentItem{0};;)
     {
-        InputAction action{input.getAction()};
+        const InputAction action{input.getAction()};
 
         if (action == InputAction::QUIT)
             return UserChoice::EXIT;
@@ -103,16 +101,14 @@ void Menu::drawMenuItems(unsigned int currentItem)
     const auto itemHeight{static_cast<float>(getItemHeight())};
     for (unsigned int item = 0; item < items_.size(); item++)
     {
-        Resources::Bitmap itemBitmap;
+        Resources::Bitmap itemBitmap{Resources::Bitmap::MENU_ITEM};
         if (item == currentItem)
             itemBitmap = Resources::Bitmap::MENU_ITME_SELECTED;
-        else
-            itemBitmap = Resources::Bitmap::MENU_ITEM;
 
         const auto [itemX, itemY]{getItemPosition(item)};
         screen_.drawBitmap(itemBitmap, itemX, itemY);
-        const auto itemMiddleY{
-            static_cast<unsigned int>(itemY + itemHeight / 2.F)};
+        const auto itemMiddleY{itemY +
+                               static_cast<unsigned int>(itemHeight / 2.F)};
         screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
     }
 }
