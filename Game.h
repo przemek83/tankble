@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include <allegro5/allegro.h>
-
 class Vehicle;
 class Map;
 class Screen;
+union ALLEGRO_EVENT;
+struct ALLEGRO_BITMAP;
 
 class Game
 {
