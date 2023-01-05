@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include "Input.h"
+#include "InputAction.h"
 #include "Screen.h"
 
 Menu::Menu(Screen& screen) : screen_(screen) { items_ = getMainMenu(); }
@@ -71,20 +73,21 @@ Menu::UserChoice Menu::getUserChoice()
     bool shouldRedraw{true};
     for (unsigned int currentItem{0};;)
     {
-        Input::Action action{input.getAction()};
+        InputAction action{input.getAction()};
 
-        if (action == Input::Action::QUIT)
+        if (action == InputAction::QUIT)
             return UserChoice::EXIT;
 
-        if (action == Input::Action::ACCEPT)
+        if (action == InputAction::ACCEPT)
             return items_[currentItem].second;
 
-        if (action == Input::Action::BACK)
+        if (action == InputAction::BACK)
             return items_[items_.size() - 1].second;
 
-        currentItem = getCurrentItem(input, action, currentItem);
+        currentItem =
+            getCurrentItem(input.getMousePosition(), action, currentItem);
 
-        if (action == Input::Action::TIMER)
+        if (action == InputAction::TIMER)
             shouldRedraw = true;
 
         if (shouldRedraw && input.isEmpty())
@@ -114,20 +117,21 @@ void Menu::drawMenuItems(unsigned int currentItem)
     }
 }
 
-unsigned int Menu::getCurrentItem(Input input, Input::Action action,
-                                  unsigned int currentItem) const
+unsigned int Menu::getCurrentItem(
+    std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
+    unsigned int currentItem) const
 {
-    if (action == Input::Action::UP && currentItem > 0)
+    if (action == InputAction::UP && currentItem > 0)
         return currentItem - 1;
 
-    if (action == Input::Action::DOWN &&
+    if (action == InputAction::DOWN &&
         currentItem < static_cast<unsigned int>(items_.size()) - 1)
         return currentItem + 1;
 
-    if (action == Input::Action::MOUSE_MOVE)
+    if (action == InputAction::MOUSE_MOVE)
     {
         const unsigned int firstItem{getLocationOfFirstItem()};
-        const auto [mouseX, mouseY] = input.getMousePosition();
+        const auto [mouseX, mouseY] = mousePosition;
         const unsigned int itemWidth{getItemWidth()};
         const unsigned int itemHeight{getItemHeight()};
         for (unsigned int i = 0; i < items_.size(); i++)

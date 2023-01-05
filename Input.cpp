@@ -3,6 +3,7 @@
 #include <allegro5/allegro.h>
 
 #include "Config.h"
+#include "InputAction.h"
 
 Input::Input() : events_(al_create_event_queue())
 {
@@ -15,25 +16,25 @@ Input::Input() : events_(al_create_event_queue())
     al_start_timer(timer);
 }
 
-Input::Action Input::getAction()
+InputAction Input::getAction()
 {
     ALLEGRO_EVENT event;
     al_wait_for_event(events_, &event);
 
     if (userWantToExit(event))
-        return Action::QUIT;
+        return InputAction::QUIT;
 
     if (keyEscapeUsed(event))
-        return Action::BACK;
+        return InputAction::BACK;
 
     if (itemPicked(event))
-        return Action::ACCEPT;
+        return InputAction::ACCEPT;
 
     if (keyUpUsed(event))
-        return Action::UP;
+        return InputAction::UP;
 
     if (keyDownUsed(event))
-        return Action::DOWN;
+        return InputAction::DOWN;
 
     if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
     {
@@ -41,13 +42,13 @@ Input::Action Input::getAction()
             (event.mouse.x > 0 ? static_cast<unsigned int>(event.mouse.x) : 0);
         mouseY_ =
             (event.mouse.y > 0 ? static_cast<unsigned int>(event.mouse.y) : 0);
-        return Action::MOUSE_MOVE;
+        return InputAction::MOUSE_MOVE;
     }
 
     if (event.type == ALLEGRO_EVENT_TIMER)
-        return Action::TIMER;
+        return InputAction::TIMER;
 
-    return Action::EMPTY;
+    return InputAction::EMPTY;
 }
 
 bool Input::isEmpty() const { return al_is_event_queue_empty(events_); }

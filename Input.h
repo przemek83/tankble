@@ -4,29 +4,14 @@
 
 struct ALLEGRO_EVENT_QUEUE;
 union ALLEGRO_EVENT;
+enum class InputAction : unsigned char;
 
 class Input final
 {
 public:
     Input();
 
-    enum class Action : unsigned char
-    {
-        EMPTY = 0,
-        TIMER,
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        ACCEPT,
-        FIRE,
-        CLICK,
-        MOUSE_MOVE,
-        BACK,
-        QUIT
-    };
-
-    Action getAction();
+    InputAction getAction();
 
     bool isEmpty() const;
 

@@ -60,6 +60,7 @@ set(${PROJECT_NAME}_SOURCES
         Resources.cpp
         Input.h
         Input.cpp
+        InputAction.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp

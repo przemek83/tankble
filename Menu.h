@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "Input.h"
-
 class Screen;
+union ALLEGRO_EVENT;
+enum class InputAction : unsigned char;
 
 class Menu final
 {
@@ -29,8 +29,9 @@ private:
 
     void drawMenuItems(unsigned int currentItem);
 
-    unsigned int getCurrentItem(Input input, Input::Action action,
-                                unsigned int currentItem) const;
+    unsigned int getCurrentItem(
+        std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
+        unsigned int currentItem) const;
 
     bool itemPicked(const ALLEGRO_EVENT& event) const;
 
