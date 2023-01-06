@@ -27,7 +27,7 @@ public:
     void drawBitmap(Resources::Bitmap bitmap, unsigned int x,
                     unsigned int y) const;
 
-    void clearScreenWithColor(ALLEGRO_COLOR color);
+    static void clearScreenWithColor(ALLEGRO_COLOR color);
 
     unsigned int getCenterX() const;
 
@@ -37,11 +37,11 @@ public:
 
     unsigned int getBitmapHeight(Resources::Bitmap bitmap) const;
 
-    void refresh() const;
+    static void refresh() ;
 
-    void showMouse() const;
+    static void showMouse() ;
 
-    void hideMouse() const;
+    static void hideMouse() ;
 
     void useFullScreenMode();
 

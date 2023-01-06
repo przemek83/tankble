@@ -79,17 +79,11 @@ unsigned int Screen::getBitmapHeight(Resources::Bitmap bitmap) const
         al_get_bitmap_height(resources_.getBitmap(bitmap)));
 }
 
-void Screen::refresh() const { al_flip_display(); }
+void Screen::refresh() { al_flip_display(); }
 
-void Screen::showMouse() const
-{
-    al_show_mouse_cursor(al_get_current_display());
-}
+void Screen::showMouse() { al_show_mouse_cursor(al_get_current_display()); }
 
-void Screen::hideMouse() const
-{
-    al_hide_mouse_cursor(al_get_current_display());
-}
+void Screen::hideMouse() { al_hide_mouse_cursor(al_get_current_display()); }
 
 void Screen::useFullScreenMode()
 {
