@@ -45,8 +45,6 @@ set(${PROJECT_NAME}_SOURCES
         main.cpp
         Vehicle.cpp
         Vehicle.h
-        Player.cpp
-        Player.h
         Menu.cpp
         Menu.h
         Map.cpp
@@ -61,6 +59,7 @@ set(${PROJECT_NAME}_SOURCES
         Input.h
         Input.cpp
         InputAction.h
+        TankType.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp

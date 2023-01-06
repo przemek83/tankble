@@ -5,6 +5,7 @@
 
 #include "Config.h"
 #include "Map.h"
+#include "TankType.h"
 #include "Vehicle.h"
 #include "map/Bullet.h"
 
@@ -13,13 +14,16 @@ const int Vehicle::wayY_[4] = {-1, 0, 1, 0};
 const int Vehicle::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
 const int Vehicle::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const int Vehicle::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
-const int Vehicle::ids_[8] = {101, 102, 103, 104, 201, 202, 203, 204};
 const int Vehicle::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Vehicle::Vehicle(int tankType, unsigned int x, unsigned int y) : x_(x), y_(y)
+Vehicle::Vehicle(TankType tankType, unsigned int x, unsigned int y)
+    : x_(x), y_(y), initialX_(x), initialY_(y)
 {
-    direction_ = directions_[tankType];
+    direction_ = directions_[static_cast<int>(tankType)];
     setType(tankType);
+
+    if (isPlayerControlled())
+        lives_ *= 2;
 
     if (!loadBitmaps(tankType))
         exit(0);
@@ -31,15 +35,18 @@ Vehicle::~Vehicle()
     al_destroy_bitmap(bmp_[1]);
     al_destroy_bitmap(bmp_[2]);
     al_destroy_bitmap(bmp_[3]);
-    std::cout << "Vehicle:" << getId() << " is deleted\n";
+    std::cout << "Vehicle:" << static_cast<int>(getTankType())
+              << " is deleted\n";
 }
 
-bool Vehicle::loadBitmaps(int tankType)
+bool Vehicle::loadBitmaps(TankType tankType)
 {
-    if (!std::filesystem::exists(tankTypesPaths_[tankType].c_str()))
+    if (!std::filesystem::exists(
+            tankTypesPaths_[static_cast<int>(tankType)].c_str()))
         return false;
 
-    bmp_[0] = al_load_bitmap(tankTypesPaths_[tankType].c_str());
+    bmp_[0] =
+        al_load_bitmap(tankTypesPaths_[static_cast<int>(tankType)].c_str());
     const int width{al_get_bitmap_width(bmp_[0])};
     const int height{al_get_bitmap_height(bmp_[0])};
 
@@ -61,19 +68,13 @@ bool Vehicle::loadBitmaps(int tankType)
     return true;
 }
 
-int Vehicle::getId() const { return id_; }
-
-void Vehicle::setType(int tankType)
+void Vehicle::setType(TankType tankType)
 {
-    if (tankType < 0 || tankType > 7)
-    {
-        tankType = 0;
-    }
-    id_ = ids_[tankType];
-    armor_ = armors_[tankType];
-    maxArmor_ = armors_[tankType];
-    power_ = powers_[tankType];
-    speed_ = speeds_[tankType];
+    type_ = tankType;
+    armor_ = armors_[static_cast<int>(tankType)];
+    maxArmor_ = armors_[static_cast<int>(tankType)];
+    power_ = powers_[static_cast<int>(tankType)];
+    speed_ = speeds_[static_cast<int>(tankType)];
 
     if (!loadBitmaps(tankType))
     {
@@ -99,17 +100,18 @@ bool Vehicle::destroy(int power)
 {
     armor_ -= power;
     if (armor_ <= 0)
-        return true;
+    {
+        if (lives_ <= 1)
+            return true;
+        lives_--;
+        resetState();
+    }
     return false;
 }
 
 int Vehicle::getMaxArmor() const { return maxArmor_; }
 
-int Vehicle::getType() const
-{
-    return (getId() % 100) - 1;
-    /*0-3*/
-}
+TankType Vehicle::getTankType() const { return type_; }
 
 int Vehicle::getX() const { return x_; }
 int Vehicle::getY() const { return y_; }
@@ -129,6 +131,15 @@ int Vehicle::getDirection() const { return direction_; }
 int Vehicle::getDirectionX() const { return wayX_[getDirection()]; }
 
 int Vehicle::getDirectionY() const { return wayY_[getDirection()]; }
+
+bool Vehicle::isPlayerControlled() const
+{
+    return type_ == TankType::PLAYER_TIER_1 ||
+           type_ == TankType::PLAYER_TIER_2 ||
+           type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
+}
+
+void Vehicle::addLife() { lives_++; }
 
 void Vehicle::resetFire() { lastFire_--; }
 
@@ -162,3 +173,11 @@ void Vehicle::moveRandom(Map& map)
 }
 
 constexpr double Vehicle::pi() const { return std::atan(1) * 4; }
+
+void Vehicle::resetState()
+{
+    setX(initialX_);
+    setY(initialY_);
+    if (isPlayerControlled())
+        setType(TankType::PLAYER_TIER_1);
+}

@@ -4,8 +4,6 @@
 
 #include <allegro5/allegro.h>
 
-#include "../Player.h"
-
 Base::Base()
 {
     id_ = Type::BASE;

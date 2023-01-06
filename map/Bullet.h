@@ -16,7 +16,7 @@ public:
     Bullet(Bullet&& other) = delete;
 
     ALLEGRO_BITMAP* display() const;
-    int getId() const;
+    TankType getTankType() const;
     int getPower() const;
     int getSpeed() const;
     int getDirection() const;
@@ -36,7 +36,6 @@ private:
     ALLEGRO_BITMAP* bmp_{nullptr};
     const char* source_{nullptr};
     Vehicle* vehicle_{nullptr};
-    int id_;
     int direction_;
     int speed_;
     int power_;

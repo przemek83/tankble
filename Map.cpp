@@ -4,7 +4,6 @@
 #include <fstream>
 
 #include "Config.h"
-#include "Player.h"
 #include "Vehicle.h"
 #include "map/Base.h"
 #include "map/Brick.h"
@@ -16,7 +15,7 @@
 #include "map/Steel.h"
 #include "map/Water.h"
 
-Map::Map(Player* player) : player_(player)
+Map::Map()
 {
     buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
                                Config::mapSize * Config::elementSize);
@@ -104,16 +103,9 @@ void Map::moveBullet()
                 Vehicle* v{vehicles_.at(iter)};
                 if (v->destroy(b->getPower()))
                 {
-                    if (v == player_->getVehicle())
-                    {
-                        Vehicle* n{player_->killVehicle()};
-                        delete vehicles_[iter];
-                        vehicles_.push_back(n);
-                    }
-                    else
-                    {
-                        delete vehicles_[iter];
-                    }
+                    if (v->isPlayerControlled())
+                        playerDestroyed_ = true;
+                    delete vehicles_[iter];
                     vehicles_.erase(vehicles_.begin() + iter);
                 }
                 bullets_.erase(bullets_.begin() + i);
@@ -188,13 +180,14 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = std::make_unique<Plain>();
-                    player_->loadVehicle(new Vehicle(0, Config::elementSize * j,
-                                                     Config::elementSize * i));
-                    vehicles_.push_back(player_->getVehicle());
+                    vehicles_.push_back(new Vehicle(TankType::PLAYER_TIER_1,
+                                                    Config::elementSize * j,
+                                                    Config::elementSize * i));
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Vehicle(4, Config::elementSize * j,
+                    vehicles_.push_back(new Vehicle(TankType::ENEMY_TIER_1,
+                                                    Config::elementSize * j,
                                                     Config::elementSize * i));
                     break;
                 case 'A':
@@ -268,7 +261,7 @@ int Map::isTank(const std::unique_ptr<Bullet>& bullet)
             bullet->getCenterX() < v->getX() + Config::elementSize &&
             bullet->getCenterY() >= v->getY() &&
             bullet->getCenterY() < v->getY() + Config::elementSize &&
-            bullet->getId() / 100 != v->getId() / 100)
+            bullet->getTankType() != v->getTankType())
         {  // check friendly fire
             return i;
         }
@@ -283,7 +276,7 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
         bool baseDestroyed{board_[i][j]->getId() == Tile::Type::BASE};
         board_[i][j] = std::make_unique<Plain>();
         if (baseDestroyed)
-            throw Lose();
+            playerDestroyed_ = true;
         al_set_target_bitmap(paint_);
         drawMapItem(board_[i][j]->display(), j * Config::elementSize,
                     i * Config::elementSize);
@@ -311,8 +304,9 @@ void Map::setPower(Vehicle* vehicle)
             break;
 
         case Tile::Type::LEVEL_UP:
-            if (vehicle->getType() < 3)
-                vehicle->setType(vehicle->getType() + 1);
+            if (static_cast<int>(vehicle->getTankType()) < 3)
+                vehicle->setType(static_cast<TankType>(
+                    static_cast<int>(vehicle->getTankType()) + 1));
             break;
 
         case Tile::Type::SPEED_UP:
@@ -320,7 +314,7 @@ void Map::setPower(Vehicle* vehicle)
             break;
 
         case Tile::Type::TANK_UP:
-            player_->setTanks(player_->getTanks() + 1);
+            vehicle->addLife();
             break;
 
         default:
@@ -335,3 +329,5 @@ void Map::setPower(Vehicle* vehicle)
 }
 
 const std::vector<Vehicle*>& Map::getVehicles() const { return vehicles_; }
+
+bool Map::isPlayerDestroyed() const { return playerDestroyed_; }

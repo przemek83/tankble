@@ -14,7 +14,6 @@ Bullet::Bullet(Vehicle* v)
     source_ = "image/board/bullet.tga";
     if (!loadBitmap())
         exit(0);
-    id_ = v->getId();
     direction_ = v->getDirection();
     speed_ = v->getSpeed();
     power_ = v->getPower();
@@ -33,7 +32,8 @@ Bullet::~Bullet()
     catch (...)
     {
     }
-    std::cout << "Bullet: " << getId() << " is deleted\n";
+    std::cout << "Bullet: " << static_cast<int>(getTankType())
+              << " is deleted\n";
 }
 
 bool Bullet::loadBitmap()
@@ -47,7 +47,7 @@ bool Bullet::loadBitmap()
 
 ALLEGRO_BITMAP* Bullet::display() const { return bmp_; }
 
-int Bullet::getId() const { return id_; }
+TankType Bullet::getTankType() const { return vehicle_->getTankType(); }
 
 int Bullet::getPower() const { return power_; }
 

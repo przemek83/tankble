@@ -7,7 +7,6 @@
 
 #include "Config.h"
 #include "Map.h"
-#include "Player.h"
 #include "Screen.h"
 #include "Vehicle.h"
 
@@ -148,8 +147,7 @@ bool Game::userWantToQuit(const ALLEGRO_EVENT& event)
 
 bool Game::play()
 {
-    Player player;
-    Map map(&player);
+    Map map;
 
     std::cout << "Map loaded" << std::endl;
 
@@ -209,50 +207,48 @@ void Game::drawStatusPlaceholder()
 
 void Game::control(Map& map)
 {
-    try
-    {
-        if (map.getVehicles().size() == 1)
-            throw Win();
-
-        for (const auto& tank : map.getVehicles())
-        {
-            if (tank->getId() >= 100 && tank->getId() < 200)
-            {
-                ALLEGRO_KEYBOARD_STATE key_state;
-                al_get_keyboard_state(&key_state);
-
-                if (al_key_down(&key_state, ALLEGRO_KEY_UP) ||
-                    al_key_down(&key_state, ALLEGRO_KEY_DOWN) ||
-                    al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
-                    al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
-                {
-                    movement(tank, map);
-                }
-                if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
-                    al_key_down(&key_state, ALLEGRO_KEY_ENTER))
-                {
-                    tank->fire(map);
-                }
-            }
-            else
-            {
-                tank->moveRandom(map);
-                tank->fire(map);
-            }
-        }
-
-        map.moveBullet();
-    }
-    catch (Win& ex)
-    {
-        drawEndOfGame("You Win");
-        gameOver_ = true;
-    }
-    catch (Lose& ex)
+    if (map.isPlayerDestroyed())
     {
         drawEndOfGame("You loose");
         gameOver_ = true;
+        return;
     }
+
+    if (map.getVehicles().size() == 1)
+    {
+        drawEndOfGame("You Win");
+        gameOver_ = true;
+        return;
+    }
+
+    for (const auto& tank : map.getVehicles())
+    {
+        if (tank->isPlayerControlled())
+        {
+            ALLEGRO_KEYBOARD_STATE key_state;
+            al_get_keyboard_state(&key_state);
+
+            if (al_key_down(&key_state, ALLEGRO_KEY_UP) ||
+                al_key_down(&key_state, ALLEGRO_KEY_DOWN) ||
+                al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
+                al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
+            {
+                movement(tank, map);
+            }
+            if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
+                al_key_down(&key_state, ALLEGRO_KEY_ENTER))
+            {
+                tank->fire(map);
+            }
+        }
+        else
+        {
+            tank->moveRandom(map);
+            tank->fire(map);
+        }
+    }
+
+    map.moveBullet();
 }
 
 void Game::drawEndOfGame(const std::string& text)
