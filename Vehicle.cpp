@@ -6,6 +6,7 @@
 #include "Config.h"
 #include "Map.h"
 #include "Vehicle.h"
+#include "map/Bullet.h"
 
 const int Vehicle::wayX_[4] = {0, 1, 0, -1};
 const int Vehicle::wayY_[4] = {-1, 0, 1, 0};

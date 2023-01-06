@@ -1,8 +1,11 @@
+#include "Game.h"
+
+#include <iostream>
+
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
 #include "Config.h"
-#include "Game.h"
 #include "Map.h"
 #include "Player.h"
 #include "Screen.h"

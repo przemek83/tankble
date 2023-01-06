@@ -1,12 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
-#include <allegro5/allegro.h>
-#include "Player.h"
-#include "Vehicle.h"
-#include "map/Bullet.h"
-#include "map/Tile.h"
+class Player;
+class Vehicle;
+class Bullet;
+class Tile;
+struct ALLEGRO_BITMAP;
 
 class Map
 {
