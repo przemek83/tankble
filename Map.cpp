@@ -37,8 +37,8 @@ Map::Map(Player* player) : player_(player)
 
 Map::~Map()
 {
-    if (!vehicles.empty())
-        vehicles.clear();
+    if (!vehicles_.empty())
+        vehicles_.clear();
 
     al_destroy_bitmap(buffer_);
     al_destroy_bitmap(paint_);
@@ -61,7 +61,7 @@ void Map::displayMaps()
 
 void Map::displayVehicles()
 {
-    for (const auto& vehicle : vehicles)
+    for (const auto& vehicle : vehicles_)
     {
         al_set_target_bitmap(buffer_);
         drawMapItem(vehicle->display(), vehicle->getX(), vehicle->getY());
@@ -101,20 +101,20 @@ void Map::moveBullet()
             }
             if (iter >= 0)
             {
-                Vehicle* v{vehicles.at(iter)};
+                Vehicle* v{vehicles_.at(iter)};
                 if (v->destroy(b->getPower()))
                 {
                     if (v == player_->getVehicle())
                     {
                         Vehicle* n{player_->killVehicle()};
-                        delete vehicles[iter];
-                        vehicles.push_back(n);
+                        delete vehicles_[iter];
+                        vehicles_.push_back(n);
                     }
                     else
                     {
-                        delete vehicles[iter];
+                        delete vehicles_[iter];
                     }
-                    vehicles.erase(vehicles.begin() + iter);
+                    vehicles_.erase(vehicles_.begin() + iter);
                 }
                 bullets_.erase(bullets_.begin() + i);
             }
@@ -190,12 +190,12 @@ void Map::loadMap()
                     board_[i][j] = std::make_unique<Plain>();
                     player_->loadVehicle(new Vehicle(0, Config::elementSize * j,
                                                      Config::elementSize * i));
-                    vehicles.push_back(player_->getVehicle());
+                    vehicles_.push_back(player_->getVehicle());
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles.push_back(new Vehicle(4, Config::elementSize * j,
-                                                   Config::elementSize * i));
+                    vehicles_.push_back(new Vehicle(4, Config::elementSize * j,
+                                                    Config::elementSize * i));
                     break;
                 case 'A':
                     board_[i][j] = std::make_unique<ArmorUp>();
@@ -261,9 +261,9 @@ bool Map::canFly(unsigned int j, unsigned int i)
 
 int Map::isTank(const std::unique_ptr<Bullet>& bullet)
 {
-    for (unsigned int i = 0; i < vehicles.size(); i++)
+    for (unsigned int i = 0; i < vehicles_.size(); i++)
     {
-        Vehicle* v{vehicles.at(i)};
+        Vehicle* v{vehicles_.at(i)};
         if (bullet->getCenterX() >= v->getX() &&
             bullet->getCenterX() < v->getX() + Config::elementSize &&
             bullet->getCenterY() >= v->getY() &&
@@ -333,3 +333,5 @@ void Map::setPower(Vehicle* vehicle)
     drawMapItem(board_[i][j]->display(), j * Config::elementSize,
                 i * Config::elementSize);
 }
+
+const std::vector<Vehicle*>& Map::getVehicles() const { return vehicles_; }

@@ -28,7 +28,7 @@ public:
     void moveBullet();
     void setPower(Vehicle* vehicle);
 
-    std::vector<Vehicle*> vehicles;
+    const std::vector<Vehicle*>& getVehicles() const;
 
 private:
     bool isBulletValid(int x, int y);
@@ -42,6 +42,7 @@ private:
     void loadMap();
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
 
+    std::vector<Vehicle*> vehicles_;
     std::vector<std::unique_ptr<Bullet>> bullets_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
     ALLEGRO_BITMAP* buffer_;

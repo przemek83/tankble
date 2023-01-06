@@ -211,10 +211,10 @@ void Game::control(Map& map)
 {
     try
     {
-        if (map.vehicles.size() == 1)
+        if (map.getVehicles().size() == 1)
             throw Win();
 
-        for (auto& tank : map.vehicles)
+        for (const auto& tank : map.getVehicles())
         {
             if (tank->getId() >= 100 && tank->getId() < 200)
             {
