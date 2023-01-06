@@ -58,47 +58,47 @@ std::pair<unsigned int, unsigned int> Input::getMousePosition() const
     return {mouseX_, mouseY_};
 }
 
-bool Input::itemPicked(const ALLEGRO_EVENT& event) const
+bool Input::itemPicked(const ALLEGRO_EVENT& event)
 {
     return keyEnterUsed(event) || keySpaceUsed(event) || mouseClickUsed(event);
 }
 
-bool Input::userWantToExit(const ALLEGRO_EVENT& event) const
+bool Input::userWantToExit(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
 }
 
-bool Input::keyEscapeUsed(const ALLEGRO_EVENT& event) const
+bool Input::keyEscapeUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
-bool Input::keyUpUsed(const ALLEGRO_EVENT& event) const
+bool Input::keyUpUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_UP;
 }
 
-bool Input::keyDownUsed(const ALLEGRO_EVENT& event) const
+bool Input::keyDownUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_DOWN;
 }
 
-bool Input::keyEnterUsed(const ALLEGRO_EVENT& event) const
+bool Input::keyEnterUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_ENTER;
 }
 
-bool Input::keySpaceUsed(const ALLEGRO_EVENT& event) const
+bool Input::keySpaceUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_SPACE;
 }
 
-bool Input::mouseClickUsed(const ALLEGRO_EVENT& event) const
+bool Input::mouseClickUsed(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP &&
            event.mouse.button == 1;

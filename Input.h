@@ -18,21 +18,21 @@ public:
     std::pair<unsigned int, unsigned int> getMousePosition() const;
 
 private:
-    bool itemPicked(const ALLEGRO_EVENT& event) const;
+    static bool itemPicked(const ALLEGRO_EVENT& event);
 
-    bool userWantToExit(const ALLEGRO_EVENT& event) const;
+    static bool userWantToExit(const ALLEGRO_EVENT& event) ;
 
-    bool keyEscapeUsed(const ALLEGRO_EVENT& event) const;
+    static bool keyEscapeUsed(const ALLEGRO_EVENT& event);
 
-    bool keyUpUsed(const ALLEGRO_EVENT& event) const;
+    static bool keyUpUsed(const ALLEGRO_EVENT& event);
 
-    bool keyDownUsed(const ALLEGRO_EVENT& event) const;
+    static bool keyDownUsed(const ALLEGRO_EVENT& event);
 
-    bool keyEnterUsed(const ALLEGRO_EVENT& event) const;
+    static bool keyEnterUsed(const ALLEGRO_EVENT& event);
 
-    bool keySpaceUsed(const ALLEGRO_EVENT& event) const;
+    static bool keySpaceUsed(const ALLEGRO_EVENT& event);
 
-    bool mouseClickUsed(const ALLEGRO_EVENT& event) const;
+    static bool mouseClickUsed(const ALLEGRO_EVENT& event);
 
     ALLEGRO_EVENT_QUEUE* events_;
 
