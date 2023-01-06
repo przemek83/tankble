@@ -16,12 +16,12 @@ public:
     bool play();
 
 private:
-    bool userWantToExit(const ALLEGRO_EVENT& event) const;
+    static bool userWantToExit(const ALLEGRO_EVENT& event);
 
-    bool userWantToQuit(const ALLEGRO_EVENT& event) const;
+    static bool userWantToQuit(const ALLEGRO_EVENT& event);
 
-    void movement(Vehicle* myTank, Map& map);
-    void drawMap(Map& map);
+    static void movement(Vehicle* myTank, Map& map);
+    static void drawMap(Map& map);
     void drawStatusPlaceholder();
     void control(Map& map);
 

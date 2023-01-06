@@ -18,9 +18,9 @@ Game::Game(Screen& screen) : screen_(screen)
 
 void Game::movement(Vehicle* myTank, Map& map)
 {
-    int pomX = myTank->getX() / Config::elementSize;
-    int pomY = myTank->getY() / Config::elementSize;
-    int tol = 15;
+    const int pomX = myTank->getX() / Config::elementSize;
+    const int pomY = myTank->getY() / Config::elementSize;
+    const int tol = 15;
 
     ALLEGRO_KEYBOARD_STATE key_state;
     al_get_keyboard_state(&key_state);
@@ -135,13 +135,13 @@ void Game::movement(Vehicle* myTank, Map& map)
     map.setPower(myTank);
 }
 
-bool Game::userWantToExit(const ALLEGRO_EVENT& event) const
+bool Game::userWantToExit(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_KEY_UP &&
            event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
 }
 
-bool Game::userWantToQuit(const ALLEGRO_EVENT& event) const
+bool Game::userWantToQuit(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
 }
@@ -257,8 +257,8 @@ void Game::control(Map& map)
 
 void Game::drawEndOfGame(const std::string& text)
 {
-    screen_.clearScreenWithColor({0, 0, 255, 0});
+    Screen::clearScreenWithColor({0, 0, 255, 0});
     screen_.drawText(Config::width / 2, Config::height / 2, text);
-    screen_.refresh();
+    Screen::refresh();
     al_rest(2);
 }
