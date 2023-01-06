@@ -36,10 +36,6 @@ public:
     int getDirectionY() const;
 
 private:
-    int directionX();
-    int directionY();
-    void setArmor(int);
-    int getArmor() const;
     int getMaxArmor() const;
     bool loadBitmaps(int tankType);
     constexpr double pi() const;

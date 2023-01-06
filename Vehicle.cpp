@@ -115,8 +115,6 @@ int Vehicle::getX() const { return x_; }
 int Vehicle::getY() const { return y_; }
 void Vehicle::setX(int x) { x_ = x; }
 void Vehicle::setY(int y) { y_ = y; }
-int Vehicle::getArmor() const { return armor_; }
-void Vehicle::setArmor(int armor) { armor_ = armor; }
 
 void Vehicle::setMaxArmor() { armor_ = getMaxArmor(); }
 
