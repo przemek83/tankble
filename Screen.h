@@ -22,9 +22,9 @@ public:
 
     void drawText(unsigned int x, unsigned y, const std::string& text);
 
-    void drawBackground(Resources::Bitmap bitmap) const;
+    void drawBackground(ResourceType resourceType) const;
 
-    void drawBitmap(Resources::Bitmap bitmap, unsigned int x,
+    void drawBitmap(ResourceType resourceType, unsigned int x,
                     unsigned int y) const;
 
     static void clearScreenWithColor(ALLEGRO_COLOR color);
@@ -33,9 +33,9 @@ public:
 
     unsigned int getCenterY() const;
 
-    unsigned int getBitmapWidth(Resources::Bitmap bitmap) const;
+    unsigned int getBitmapWidth(ResourceType resourceType) const;
 
-    unsigned int getBitmapHeight(Resources::Bitmap bitmap) const;
+    unsigned int getBitmapHeight(ResourceType resourceType) const;
 
     static void refresh() ;
 

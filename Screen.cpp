@@ -21,9 +21,9 @@ void Screen::drawText(unsigned int x, unsigned y, const std::string& text)
                  ALLEGRO_ALIGN_CENTER, text.c_str());
 }
 
-void Screen::drawBackground(Resources::Bitmap bitmap) const
+void Screen::drawBackground(ResourceType resourceType) const
 {
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(bitmap)};
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     al_draw_scaled_bitmap(bitmapToUse, 0., 0.,
                           static_cast<float>(al_get_bitmap_width(bitmapToUse)),
                           static_cast<float>(al_get_bitmap_height(bitmapToUse)),
@@ -31,10 +31,10 @@ void Screen::drawBackground(Resources::Bitmap bitmap) const
                           static_cast<float>(getHeight()), 0);
 }
 
-void Screen::drawBitmap(Resources::Bitmap bitmap, unsigned int x,
+void Screen::drawBitmap(ResourceType resourceType, unsigned int x,
                         unsigned int y) const
 {
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(bitmap)};
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     al_draw_bitmap(bitmapToUse, static_cast<float>(x), static_cast<float>(y),
                    0);
 }
@@ -67,16 +67,16 @@ unsigned int Screen::getCenterX() const { return width_ / 2; }
 
 unsigned int Screen::getCenterY() const { return height_ / 2; }
 
-unsigned int Screen::getBitmapWidth(Resources::Bitmap bitmap) const
+unsigned int Screen::getBitmapWidth(ResourceType resourceType) const
 {
     return static_cast<unsigned int>(
-        al_get_bitmap_width(resources_.getBitmap(bitmap)));
+        al_get_bitmap_width(resources_.getBitmap(resourceType)));
 }
 
-unsigned int Screen::getBitmapHeight(Resources::Bitmap bitmap) const
+unsigned int Screen::getBitmapHeight(ResourceType resourceType) const
 {
     return static_cast<unsigned int>(
-        al_get_bitmap_height(resources_.getBitmap(bitmap)));
+        al_get_bitmap_height(resources_.getBitmap(resourceType)));
 }
 
 void Screen::refresh() { al_flip_display(); }

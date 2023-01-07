@@ -56,6 +56,7 @@ set(${PROJECT_NAME}_SOURCES
         Screen.cpp
         Resources.h
         Resources.cpp
+        ResourceType.h
         Input.h
         Input.cpp
         InputAction.h

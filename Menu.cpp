@@ -101,12 +101,12 @@ void Menu::drawMenuItems(unsigned int currentItem)
     const auto itemHeight{static_cast<float>(getItemHeight())};
     for (unsigned int item = 0; item < items_.size(); item++)
     {
-        Resources::Bitmap itemBitmap{Resources::Bitmap::MENU_ITEM};
+        ResourceType itemResource{ResourceType::MENU_ITEM};
         if (item == currentItem)
-            itemBitmap = Resources::Bitmap::MENU_ITME_SELECTED;
+            itemResource = ResourceType::MENU_ITME_SELECTED;
 
         const auto [itemX, itemY]{getItemPosition(item)};
-        screen_.drawBitmap(itemBitmap, itemX, itemY);
+        screen_.drawBitmap(itemResource, itemX, itemY);
         const auto itemMiddleY{itemY +
                                static_cast<unsigned int>(itemHeight / 2.F)};
         screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
@@ -145,7 +145,7 @@ unsigned int Menu::getCurrentItem(
 
 void Menu::redraw(unsigned int currentItem)
 {
-    screen_.drawBackground(Resources::Bitmap::BACKGROUND);
+    screen_.drawBackground(ResourceType::BACKGROUND);
     drawMenuItems(currentItem);
     screen_.refresh();
 }
@@ -158,12 +158,12 @@ unsigned int Menu::getLocationOfFirstItem() const
 
 unsigned int Menu::getItemWidth() const
 {
-    return screen_.getBitmapWidth(Resources::Bitmap::MENU_ITEM);
+    return screen_.getBitmapWidth(ResourceType::MENU_ITEM);
 }
 
 unsigned int Menu::getItemHeight() const
 {
-    return screen_.getBitmapHeight(Resources::Bitmap::MENU_ITEM);
+    return screen_.getBitmapHeight(ResourceType::MENU_ITEM);
 }
 
 std::pair<unsigned int, unsigned int> Menu::getItemPosition(unsigned int item)

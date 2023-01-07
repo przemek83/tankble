@@ -1,7 +1,10 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 #include <vector>
+
+#include "ResourceType.h"
 
 struct ALLEGRO_BITMAP;
 
@@ -17,19 +20,24 @@ public:
     Resources& operator=(Resources&& other) = default;
     Resources(Resources&& other) = default;
 
-    enum class Bitmap : unsigned char
-    {
-        BACKGROUND = 0,
-        MENU_ITEM,
-        MENU_ITME_SELECTED
-    };
-
-    [[nodiscard]] ALLEGRO_BITMAP* getBitmap(Bitmap bitmap) const;
+    [[nodiscard]] ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
 private:
-    std::vector<std::string> bitmapPaths_{"image/menu/background.bmp",
-                                          "image/menu/item.tga",
-                                          "image/menu/item_select.tga"};
+    std::unordered_map<ResourceType, std::string> resourcePaths_{
+        {ResourceType::BACKGROUND, "image/menu/background.bmp"},
+        {ResourceType::MENU_ITEM, "image/menu/item.tga"},
+        {ResourceType::MENU_ITME_SELECTED, "image/menu/item_select.tga"},
+        {ResourceType::PLAIN, "image/board/plain.tga"},
+        {ResourceType::BRICK, "image/board/brick.tga"},
+        {ResourceType::WATER, "image/board/water.tga"},
+        {ResourceType::PLANT, "image/board/plant.tga"},
+        {ResourceType::ICE, "image/board/ice.tga"},
+        {ResourceType::STEEL, "image/board/steel.tga"},
+        {ResourceType::BASE, "image/board/base_ok.tga"},
+        {ResourceType::ARMOR_UP, "image/board/power-up_shield.tga"},
+        {ResourceType::SPEED_UP, "image/board/power-up_time.tga"},
+        {ResourceType::TANK_UP, "image/board/power-up_life.tga"},
+        {ResourceType::LEVEL_UP, "image/board/power-up_tank.tga"}};
 
-    std::vector<ALLEGRO_BITMAP*> bitmaps_;
+    std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
 };
