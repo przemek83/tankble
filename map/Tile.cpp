@@ -2,10 +2,6 @@
 
 #include <filesystem>
 
-#include <cstdio>
-
-#include "../Config.h"
-
 Tile::~Tile()
 {
     al_destroy_bitmap(bmp_);
