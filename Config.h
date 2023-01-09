@@ -12,11 +12,5 @@ constexpr unsigned int width{800};
 
 constexpr unsigned int height{600};
 
-constexpr unsigned int maxArmor{999};
-constexpr unsigned int highArmor{100};
-constexpr unsigned int mediumArmor{10};
-constexpr unsigned int lowArmor{2};
-constexpr unsigned int noArmor{0};
-
 constexpr unsigned int statusPlaceholderWidth{200};
 };  // namespace Config

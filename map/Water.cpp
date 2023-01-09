@@ -1,8 +1,6 @@
 #include "Water.h"
 
-#include "../Config.h"
-
-Water::Water() : Tile(ResourceType::WATER, Config::noArmor) {}
+Water::Water() : Tile(ResourceType::WATER, NO_ARMOR) {}
 
 bool Water::canFly() { return true; }
 

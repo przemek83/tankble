@@ -1,8 +1,6 @@
 #include "Base.h"
 
-#include "../Config.h"
-
-Base::Base() : Tile(ResourceType::BASE, Config::mediumArmor) {}
+Base::Base() : Tile(ResourceType::BASE, MEDIUM_ARMOR) {}
 
 bool Base::canFly() { return false; }
 

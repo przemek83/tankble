@@ -1,8 +1,6 @@
 #include "Brick.h"
 
-#include "../Config.h"
-
-Brick::Brick() : Tile(ResourceType::BRICK, Config::lowArmor) {}
+Brick::Brick() : Tile(ResourceType::BRICK, LOW_ARMOR) {}
 
 bool Brick::canFly() { return false; }
 

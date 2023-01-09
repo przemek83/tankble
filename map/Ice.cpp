@@ -1,8 +1,6 @@
 #include "Ice.h"
 
-#include "../Config.h"
-
-Ice::Ice() : Tile(ResourceType::ICE, Config::noArmor) {}
+Ice::Ice() : Tile(ResourceType::ICE, NO_ARMOR) {}
 
 bool Ice::canFly() { return true; }
 

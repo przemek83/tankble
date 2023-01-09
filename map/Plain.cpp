@@ -1,8 +1,6 @@
 #include "Plain.h"
 
-#include "../Config.h"
-
-Plain::Plain() : Tile(ResourceType::PLAIN, Config::noArmor) {}
+Plain::Plain() : Tile(ResourceType::PLAIN, NO_ARMOR) {}
 
 bool Plain::canFly() { return true; }
 

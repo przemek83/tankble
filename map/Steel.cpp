@@ -1,8 +1,6 @@
 #include "Steel.h"
 
-#include "../Config.h"
-
-Steel::Steel() : Tile(ResourceType::STEEL, Config::highArmor) {}
+Steel::Steel() : Tile(ResourceType::STEEL, HIGH_ARMOR) {}
 
 bool Steel::canFly() { return false; }
 
