@@ -2,17 +2,7 @@
 
 #include "../Config.h"
 
-Steel::Steel()
-{
-    id_ = Type::STEEL;
-    armor_ = Config::highArmor;
-    source_ = "image/board/steel.tga";
-    if (!loadBitmap())
-    {
-        std::cout << "Steel Error" << std::endl;
-        exit(0);
-    }
-}
+Steel::Steel() : Tile(ResourceType::STEEL, Config::highArmor) {}
 
 bool Steel::canFly() { return false; }
 

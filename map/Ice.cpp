@@ -1,14 +1,8 @@
 #include "Ice.h"
 
-#include <iostream>
+#include "../Config.h"
 
-Ice::Ice()
-{
-    id_ = Type::ICE;
-    source_ = "image/board/ice.tga";
-    if (!loadBitmap())
-        exit(0);
-}
+Ice::Ice() : Tile(ResourceType::ICE, Config::noArmor) {}
 
 bool Ice::canFly() { return true; }
 

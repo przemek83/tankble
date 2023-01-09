@@ -2,7 +2,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 #include "ResourceType.h"
 
@@ -20,7 +19,7 @@ public:
     Resources& operator=(Resources&& other) = default;
     Resources(Resources&& other) = default;
 
-    [[nodiscard]] ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
+    ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
 private:
     std::unordered_map<ResourceType, std::string> resourcePaths_{

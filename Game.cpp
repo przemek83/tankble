@@ -147,7 +147,7 @@ bool Game::userWantToQuit(const ALLEGRO_EVENT& event)
 
 bool Game::play()
 {
-    Map map;
+    Map map(screen_.getResources());
 
     std::cout << "Map loaded" << std::endl;
 

@@ -47,6 +47,8 @@ public:
 
     void useWindowedMode();
 
+    const Resources& getResources() const;
+
 private:
     void updateSize();
 

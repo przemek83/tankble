@@ -1,14 +1,8 @@
 #include "Plain.h"
 
-#include <iostream>
+#include "../Config.h"
 
-Plain::Plain()
-{
-    id_ = Type::PLAIN;
-    source_ = "image/board/plain.tga";
-    if (!loadBitmap())
-        exit(0);
-}
+Plain::Plain() : Tile(ResourceType::PLAIN, Config::noArmor) {}
 
 bool Plain::canFly() { return true; }
 

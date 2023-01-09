@@ -1,17 +1,8 @@
 #include "Base.h"
 
-#include <iostream>
+#include "../Config.h"
 
-#include <allegro5/allegro.h>
-
-Base::Base()
-{
-    id_ = Type::BASE;
-    armor_ = Config::mediumArmor;
-    source_ = "image/board/base_ok.tga";
-    if (!loadBitmap())
-        exit(0);
-}
+Base::Base() : Tile(ResourceType::BASE, Config::mediumArmor) {}
 
 bool Base::canFly() { return false; }
 

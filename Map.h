@@ -7,11 +7,12 @@ class Vehicle;
 class Bullet;
 class Tile;
 struct ALLEGRO_BITMAP;
+class Resources;
 
 class Map
 {
 public:
-    Map();
+    explicit Map(const Resources& resources);
     ~Map();
 
     Map& operator=(const Map& other) = delete;
@@ -43,6 +44,7 @@ private:
     void loadMap();
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
 
+    const Resources& resources_;
     std::vector<Vehicle*> vehicles_;
     std::vector<std::unique_ptr<Bullet>> bullets_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};

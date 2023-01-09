@@ -2,8 +2,10 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 #include "Config.h"
+#include "Resources.h"
 #include "Vehicle.h"
 #include "map/Base.h"
 #include "map/Brick.h"
@@ -15,7 +17,7 @@
 #include "map/Steel.h"
 #include "map/Water.h"
 
-Map::Map()
+Map::Map(const Resources& resources) : resources_(resources)
 {
     buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
                                Config::mapSize * Config::elementSize);
@@ -30,8 +32,8 @@ Map::Map()
     al_set_target_bitmap(paint_);
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
-            drawMapItem(board_[i][j]->display(), j * Config::elementSize,
-                        i * Config::elementSize);
+            drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
+                        j * Config::elementSize, i * Config::elementSize);
 }
 
 Map::~Map()
@@ -273,13 +275,14 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
 {
     if (board_[i][j]->destroy(power))
     {
-        bool baseDestroyed{board_[i][j]->getId() == Tile::Type::BASE};
+        bool baseDestroyed{board_[i][j]->getResourceType() ==
+                           ResourceType::BASE};
         board_[i][j] = std::make_unique<Plain>();
         if (baseDestroyed)
             playerDestroyed_ = true;
         al_set_target_bitmap(paint_);
-        drawMapItem(board_[i][j]->display(), j * Config::elementSize,
-                    i * Config::elementSize);
+        drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
+                    j * Config::elementSize, i * Config::elementSize);
     }
 }
 
@@ -297,23 +300,23 @@ void Map::setPower(Vehicle* vehicle)
     if (!tile->isPowerUp())
         return;
 
-    switch (tile->getId())
+    switch (tile->getResourceType())
     {
-        case Tile::Type::ARMOR_UP:
+        case ResourceType::ARMOR_UP:
             vehicle->setMaxArmor();
             break;
 
-        case Tile::Type::LEVEL_UP:
+        case ResourceType::LEVEL_UP:
             if (static_cast<int>(vehicle->getTankType()) < 3)
                 vehicle->setType(static_cast<TankType>(
                     static_cast<int>(vehicle->getTankType()) + 1));
             break;
 
-        case Tile::Type::SPEED_UP:
+        case ResourceType::SPEED_UP:
             vehicle->setSpeedUp();
             break;
 
-        case Tile::Type::TANK_UP:
+        case ResourceType::TANK_UP:
             vehicle->addLife();
             break;
 
@@ -324,8 +327,8 @@ void Map::setPower(Vehicle* vehicle)
     tile = std::make_unique<Plain>();
 
     al_set_target_bitmap(paint_);
-    drawMapItem(board_[i][j]->display(), j * Config::elementSize,
-                i * Config::elementSize);
+    drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
+                j * Config::elementSize, i * Config::elementSize);
 }
 
 const std::vector<Vehicle*>& Map::getVehicles() const { return vehicles_; }

@@ -1,14 +1,8 @@
 #include "Plant.h"
 
-#include <iostream>
+#include "../Config.h"
 
-Plant::Plant()
-{
-    id_ = Type::PLANT;
-    source_ = "image/board/plant.tga";
-    if (!loadBitmap())
-        exit(0);
-}
+Plant::Plant() : Tile(ResourceType::PLANT, Config::noArmor) {}
 
 bool Plant::canFly() { return true; }
 

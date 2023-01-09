@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 enum class ResourceType : unsigned char
 {

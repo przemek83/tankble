@@ -98,3 +98,5 @@ void Screen::useWindowedMode()
                         false);
     updateSize();
 }
+
+const Resources& Screen::getResources() const { return resources_; }
