@@ -9,11 +9,11 @@
 
 class Map;
 
-class Vehicle
+class Tank
 {
 public:
-    Vehicle(TankType tankType, unsigned int x, unsigned int y);
-    ~Vehicle();
+    Tank(TankType tankType, unsigned int x, unsigned int y);
+    ~Tank();
     ALLEGRO_BITMAP* display();
     void move(int);
     int getX() const;

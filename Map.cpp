@@ -6,7 +6,7 @@
 
 #include "Config.h"
 #include "Resources.h"
-#include "Vehicle.h"
+#include "Tank.h"
 #include "map/Base.h"
 #include "map/Brick.h"
 #include "map/Bullet.h"
@@ -102,7 +102,7 @@ void Map::moveBullet()
             }
             if (iter >= 0)
             {
-                Vehicle* v{vehicles_.at(iter)};
+                Tank* v{vehicles_.at(iter)};
                 if (v->destroy(b->getPower()))
                 {
                     if (v->isPlayerControlled())
@@ -182,15 +182,15 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Vehicle(TankType::PLAYER_TIER_1,
-                                                    Config::elementSize * j,
-                                                    Config::elementSize * i));
+                    vehicles_.push_back(new Tank(TankType::PLAYER_TIER_1,
+                                                 Config::elementSize * j,
+                                                 Config::elementSize * i));
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Vehicle(TankType::ENEMY_TIER_1,
-                                                    Config::elementSize * j,
-                                                    Config::elementSize * i));
+                    vehicles_.push_back(new Tank(TankType::ENEMY_TIER_1,
+                                                 Config::elementSize * j,
+                                                 Config::elementSize * i));
                     break;
                 case 'A':
                     board_[i][j] = std::make_unique<ArmorUp>();
@@ -258,7 +258,7 @@ int Map::isTank(const std::unique_ptr<Bullet>& bullet)
 {
     for (unsigned int i = 0; i < vehicles_.size(); i++)
     {
-        Vehicle* v{vehicles_.at(i)};
+        Tank* v{vehicles_.at(i)};
         if (bullet->getCenterX() >= v->getX() &&
             bullet->getCenterX() < v->getX() + Config::elementSize &&
             bullet->getCenterY() >= v->getY() &&
@@ -291,7 +291,7 @@ void Map::addBullet(std::unique_ptr<Bullet> bullet)
     bullets_.emplace_back(std::move(bullet));
 }
 
-void Map::setPower(Vehicle* vehicle)
+void Map::setPower(Tank* vehicle)
 {
     const std::size_t j{(vehicle->getX() + 15) / Config::elementSize};
     const std::size_t i{(vehicle->getY() + 15) / Config::elementSize};
@@ -331,6 +331,6 @@ void Map::setPower(Vehicle* vehicle)
                 j * Config::elementSize, i * Config::elementSize);
 }
 
-const std::vector<Vehicle*>& Map::getVehicles() const { return vehicles_; }
+const std::vector<Tank*>& Map::getVehicles() const { return vehicles_; }
 
 bool Map::isPlayerDestroyed() const { return playerDestroyed_; }

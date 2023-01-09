@@ -2,7 +2,7 @@
 
 #include <string>
 
-class Vehicle;
+class Tank;
 class Map;
 class Screen;
 union ALLEGRO_EVENT;
@@ -20,7 +20,7 @@ private:
 
     static bool userWantToQuit(const ALLEGRO_EVENT& event);
 
-    static void movement(Vehicle* myTank, Map& map);
+    static void movement(Tank* myTank, Map& map);
     static void drawMap(Map& map);
     void drawStatusPlaceholder();
     void control(Map& map);

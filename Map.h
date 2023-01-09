@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-class Vehicle;
+class Tank;
 class Bullet;
 class Tile;
 struct ALLEGRO_BITMAP;
@@ -26,9 +26,9 @@ public:
     bool isValid(int, int);
     void addBullet(std::unique_ptr<Bullet> bullet);
     void moveBullet();
-    void setPower(Vehicle* vehicle);
+    void setPower(Tank* vehicle);
 
-    const std::vector<Vehicle*>& getVehicles() const;
+    const std::vector<Tank*>& getVehicles() const;
 
     bool isPlayerDestroyed() const;
 
@@ -45,7 +45,7 @@ private:
     void drawMapItem(ALLEGRO_BITMAP* element, int x, int y);
 
     const Resources& resources_;
-    std::vector<Vehicle*> vehicles_;
+    std::vector<Tank*> vehicles_;
     std::vector<std::unique_ptr<Bullet>> bullets_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
     ALLEGRO_BITMAP* buffer_;

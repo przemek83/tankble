@@ -7,9 +7,9 @@
 #include <allegro5/allegro.h>
 
 #include "../Config.h"
-#include "../Vehicle.h"
+#include "../Tank.h"
 
-Bullet::Bullet(Vehicle* v)
+Bullet::Bullet(Tank* v)
 {
     source_ = "image/board/bullet.tga";
     if (!loadBitmap())

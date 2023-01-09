@@ -1,3 +1,5 @@
+#include "Tank.h"
+
 #include <cstdlib>
 #include <ctime>
 #include <filesystem>
@@ -6,17 +8,16 @@
 #include "Config.h"
 #include "Map.h"
 #include "TankType.h"
-#include "Vehicle.h"
 #include "map/Bullet.h"
 
-const int Vehicle::wayX_[4] = {0, 1, 0, -1};
-const int Vehicle::wayY_[4] = {-1, 0, 1, 0};
-const int Vehicle::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
-const int Vehicle::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
-const int Vehicle::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
-const int Vehicle::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
+const int Tank::wayX_[4] = {0, 1, 0, -1};
+const int Tank::wayY_[4] = {-1, 0, 1, 0};
+const int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
+const int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
+const int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
+const int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Vehicle::Vehicle(TankType tankType, unsigned int x, unsigned int y)
+Tank::Tank(TankType tankType, unsigned int x, unsigned int y)
     : x_(x), y_(y), initialX_(x), initialY_(y)
 {
     direction_ = directions_[static_cast<int>(tankType)];
@@ -29,7 +30,7 @@ Vehicle::Vehicle(TankType tankType, unsigned int x, unsigned int y)
         exit(0);
 }
 
-Vehicle::~Vehicle()
+Tank::~Tank()
 {
     al_destroy_bitmap(bmp_[0]);
     al_destroy_bitmap(bmp_[1]);
@@ -39,7 +40,7 @@ Vehicle::~Vehicle()
               << " is deleted\n";
 }
 
-bool Vehicle::loadBitmaps(TankType tankType)
+bool Tank::loadBitmaps(TankType tankType)
 {
     if (!std::filesystem::exists(
             tankTypesPaths_[static_cast<int>(tankType)].c_str()))
@@ -68,7 +69,7 @@ bool Vehicle::loadBitmaps(TankType tankType)
     return true;
 }
 
-void Vehicle::setType(TankType tankType)
+void Tank::setType(TankType tankType)
 {
     type_ = tankType;
     armor_ = armors_[static_cast<int>(tankType)];
@@ -82,11 +83,11 @@ void Vehicle::setType(TankType tankType)
     }
 }
 
-void Vehicle::move(int xy) { direction_ = xy; }
+void Tank::move(int xy) { direction_ = xy; }
 
-ALLEGRO_BITMAP* Vehicle::display() { return bmp_[getDirection()]; }
+ALLEGRO_BITMAP* Tank::display() { return bmp_[getDirection()]; }
 
-void Vehicle::fire(Map& map)
+void Tank::fire(Map& map)
 {
     time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
@@ -96,7 +97,7 @@ void Vehicle::fire(Map& map)
     }
 }
 
-bool Vehicle::destroy(int power)
+bool Tank::destroy(int power)
 {
     armor_ -= power;
     if (armor_ <= 0)
@@ -109,47 +110,47 @@ bool Vehicle::destroy(int power)
     return false;
 }
 
-int Vehicle::getMaxArmor() const { return maxArmor_; }
+int Tank::getMaxArmor() const { return maxArmor_; }
 
-TankType Vehicle::getTankType() const { return type_; }
+TankType Tank::getTankType() const { return type_; }
 
-int Vehicle::getX() const { return x_; }
-int Vehicle::getY() const { return y_; }
-void Vehicle::setX(int x) { x_ = x; }
-void Vehicle::setY(int y) { y_ = y; }
+int Tank::getX() const { return x_; }
+int Tank::getY() const { return y_; }
+void Tank::setX(int x) { x_ = x; }
+void Tank::setY(int y) { y_ = y; }
 
-void Vehicle::setMaxArmor() { armor_ = getMaxArmor(); }
+void Tank::setMaxArmor() { armor_ = getMaxArmor(); }
 
-void Vehicle::setSpeedUp() { speed_++; }
+void Tank::setSpeedUp() { speed_++; }
 
-int Vehicle::getPower() const { return power_; }
+int Tank::getPower() const { return power_; }
 
-int Vehicle::getSpeed() const { return speed_; }
+int Tank::getSpeed() const { return speed_; }
 
-int Vehicle::getDirection() const { return direction_; }
+int Tank::getDirection() const { return direction_; }
 
-int Vehicle::getDirectionX() const { return wayX_[getDirection()]; }
+int Tank::getDirectionX() const { return wayX_[getDirection()]; }
 
-int Vehicle::getDirectionY() const { return wayY_[getDirection()]; }
+int Tank::getDirectionY() const { return wayY_[getDirection()]; }
 
-bool Vehicle::isPlayerControlled() const
+bool Tank::isPlayerControlled() const
 {
     return type_ == TankType::PLAYER_TIER_1 ||
            type_ == TankType::PLAYER_TIER_2 ||
            type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
 }
 
-void Vehicle::addLife() { lives_++; }
+void Tank::addLife() { lives_++; }
 
-void Vehicle::resetFire() { lastFire_--; }
+void Tank::resetFire() { lastFire_--; }
 
-void Vehicle::go()
+void Tank::go()
 {
     setX(getX() + getDirectionX() + getDirectionX());
     setY(getY() + getDirectionY() + getDirectionY());
 }
 
-void Vehicle::moveRandom(Map& map)
+void Tank::moveRandom(Map& map)
 {
     if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
     {
@@ -172,9 +173,9 @@ void Vehicle::moveRandom(Map& map)
     go();
 }
 
-constexpr double Vehicle::pi() const { return std::atan(1) * 4; }
+constexpr double Tank::pi() const { return std::atan(1) * 4; }
 
-void Vehicle::resetState()
+void Tank::resetState()
 {
     setX(initialX_);
     setY(initialY_);

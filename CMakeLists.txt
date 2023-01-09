@@ -43,8 +43,8 @@ file(COPY missions DESTINATION ${CMAKE_BINARY_DIR})
 
 set(${PROJECT_NAME}_SOURCES
         main.cpp
-        Vehicle.cpp
-        Vehicle.h
+        Tank.cpp
+        Tank.h
         Menu.cpp
         Menu.h
         Map.cpp

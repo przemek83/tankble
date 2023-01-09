@@ -8,14 +8,14 @@
 #include "Config.h"
 #include "Map.h"
 #include "Screen.h"
-#include "Vehicle.h"
+#include "Tank.h"
 
 Game::Game(Screen& screen) : screen_(screen)
 {
     buffer_ = al_create_bitmap(Config::width, Config::height);
 }
 
-void Game::movement(Vehicle* myTank, Map& map)
+void Game::movement(Tank* myTank, Map& map)
 {
     const int pomX = myTank->getX() / Config::elementSize;
     const int pomY = myTank->getY() / Config::elementSize;

@@ -1,12 +1,15 @@
 #pragma once
 
 #include <allegro5/allegro.h>
-#include "../Vehicle.h"
+
+#include "../TankType.h"
+
+class Tank;
 
 class Bullet
 {
 public:
-    explicit Bullet(Vehicle*);
+    explicit Bullet(Tank*);
     ~Bullet();
 
     Bullet& operator=(const Bullet& other) = delete;
@@ -35,7 +38,7 @@ private:
 
     ALLEGRO_BITMAP* bmp_{nullptr};
     const char* source_{nullptr};
-    Vehicle* vehicle_{nullptr};
+    Tank* vehicle_{nullptr};
     int direction_;
     int speed_;
     int power_;
