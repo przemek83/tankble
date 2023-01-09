@@ -32,7 +32,7 @@ private:
         {ResourceType::PLANT, "image/board/plant.tga"},
         {ResourceType::ICE, "image/board/ice.tga"},
         {ResourceType::STEEL, "image/board/steel.tga"},
-        {ResourceType::BASE, "image/board/base_ok.tga"},
+        {ResourceType::BASE, "image/board/base.tga"},
         {ResourceType::ARMOR_UP, "image/board/power-up_shield.tga"},
         {ResourceType::SPEED_UP, "image/board/power-up_time.tga"},
         {ResourceType::TANK_UP, "image/board/power-up_life.tga"},
