@@ -1,9 +1,12 @@
 #include "Tank.h"
 
+#include <cmath>
 #include <cstdlib>
 #include <ctime>
 #include <filesystem>
 #include <iostream>
+
+#include <allegro5/allegro.h>
 
 #include "Config.h"
 #include "Map.h"

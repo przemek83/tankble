@@ -1,13 +1,11 @@
 #pragma once
 
-#include <cmath>
 #include <string>
 #include <vector>
 #include "TankType.h"
 
-#include <allegro5/allegro.h>
-
 class Map;
+struct ALLEGRO_BITMAP;
 
 class Tank
 {
