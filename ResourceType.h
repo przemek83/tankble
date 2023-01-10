@@ -12,7 +12,7 @@ enum class ResourceType : unsigned char
     ICE,
     STEEL,
     BASE,
-    ARMOR_UP,
+    SHIELD_UP,
     SPEED_UP,
     TANK_UP,
     LEVEL_UP

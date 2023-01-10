@@ -193,7 +193,7 @@ void Map::loadMap()
                                                  Config::elementSize * i));
                     break;
                 case 'A':
-                    board_[i][j] = std::make_unique<ArmorUp>();
+                    board_[i][j] = std::make_unique<ShieldUp>();
                     break;
                 case 'S':
                     board_[i][j] = std::make_unique<SpeedUp>();
@@ -302,7 +302,7 @@ void Map::setPower(Tank* vehicle)
 
     switch (tile->getResourceType())
     {
-        case ResourceType::ARMOR_UP:
+        case ResourceType::SHIELD_UP:
             vehicle->setMaxArmor();
             break;
 

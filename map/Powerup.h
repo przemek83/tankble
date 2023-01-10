@@ -11,10 +11,10 @@ public:
     bool canDrive() override;
 };
 
-class ArmorUp : public Powerup
+class ShieldUp : public Powerup
 {
 public:
-    ArmorUp();
+    ShieldUp();
 };
 class SpeedUp : public Powerup
 {

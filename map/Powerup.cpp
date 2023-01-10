@@ -9,7 +9,7 @@ bool Powerup::canFly() { return true; }
 
 bool Powerup::canDrive() { return true; }
 
-ArmorUp::ArmorUp() : Powerup(ResourceType::ARMOR_UP, NO_ARMOR) {}
+ShieldUp::ShieldUp() : Powerup(ResourceType::SHIELD_UP, NO_ARMOR) {}
 
 SpeedUp::SpeedUp() : Powerup(ResourceType::SPEED_UP, NO_ARMOR) {}
 
