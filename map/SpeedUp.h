@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Powerup.h"
+#include "PowerUp.h"
 
-class SpeedUp : public Powerup
+class SpeedUp : public PowerUp
 {
 public:
     SpeedUp();
