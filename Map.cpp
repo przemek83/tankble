@@ -306,7 +306,7 @@ void Map::setPower(Tank* vehicle)
             vehicle->setMaxArmor();
             break;
 
-        case ResourceType::LEVEL_UP:
+        case ResourceType::TIER_UP:
             if (static_cast<int>(vehicle->getTankType()) < 3)
                 vehicle->setType(static_cast<TankType>(
                     static_cast<int>(vehicle->getTankType()) + 1));
@@ -316,7 +316,7 @@ void Map::setPower(Tank* vehicle)
             vehicle->setSpeedUp();
             break;
 
-        case ResourceType::TANK_UP:
+        case ResourceType::LIFE_UP:
             vehicle->addLife();
             break;
 

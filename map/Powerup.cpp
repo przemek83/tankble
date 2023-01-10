@@ -13,6 +13,6 @@ ShieldUp::ShieldUp() : Powerup(ResourceType::SHIELD_UP, NO_ARMOR) {}
 
 SpeedUp::SpeedUp() : Powerup(ResourceType::SPEED_UP, NO_ARMOR) {}
 
-LifeUp::LifeUp() : Powerup(ResourceType::TANK_UP, NO_ARMOR) {}
+LifeUp::LifeUp() : Powerup(ResourceType::LIFE_UP, NO_ARMOR) {}
 
-TierUp::TierUp() : Powerup(ResourceType::LEVEL_UP, NO_ARMOR) {}
+TierUp::TierUp() : Powerup(ResourceType::TIER_UP, NO_ARMOR) {}

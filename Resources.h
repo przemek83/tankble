@@ -35,8 +35,8 @@ private:
         {ResourceType::BASE, "image/board/base.tga"},
         {ResourceType::SHIELD_UP, "image/board/power-up_shield.tga"},
         {ResourceType::SPEED_UP, "image/board/power-up_time.tga"},
-        {ResourceType::TANK_UP, "image/board/power-up_life.tga"},
-        {ResourceType::LEVEL_UP, "image/board/power-up_tank.tga"}};
+        {ResourceType::LIFE_UP, "image/board/power-up_life.tga"},
+        {ResourceType::TIER_UP, "image/board/power-up_tank.tga"}};
 
     std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
 };

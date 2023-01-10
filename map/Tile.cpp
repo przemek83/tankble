@@ -14,9 +14,9 @@ bool Tile::destroy(int power)
 bool Tile::isPowerUp() const
 {
     return resourceType_ == ResourceType::SHIELD_UP ||
-           resourceType_ == ResourceType::LEVEL_UP ||
+           resourceType_ == ResourceType::TIER_UP ||
            resourceType_ == ResourceType::SPEED_UP ||
-           resourceType_ == ResourceType::TANK_UP;
+           resourceType_ == ResourceType::LIFE_UP;
 }
 
 ResourceType Tile::getResourceType() const { return resourceType_; }

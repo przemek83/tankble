@@ -14,6 +14,6 @@ enum class ResourceType : unsigned char
     BASE,
     SHIELD_UP,
     SPEED_UP,
-    TANK_UP,
-    LEVEL_UP
+    LIFE_UP,
+    TIER_UP
 };
