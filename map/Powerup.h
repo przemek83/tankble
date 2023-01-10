@@ -10,24 +10,3 @@ public:
     bool canFly() override;
     bool canDrive() override;
 };
-
-class ShieldUp : public Powerup
-{
-public:
-    ShieldUp();
-};
-class SpeedUp : public Powerup
-{
-public:
-    SpeedUp();
-};
-class LifeUp : public Powerup
-{
-public:
-    LifeUp();
-};
-class TierUp : public Powerup
-{
-public:
-    TierUp();
-};

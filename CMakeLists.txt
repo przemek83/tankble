@@ -67,6 +67,14 @@ set(${PROJECT_NAME}_SOURCES
         map/Steel.h
         map/Powerup.cpp
         map/Powerup.h
+        map/ShieldUp.cpp
+        map/ShieldUp.h
+        map/SpeedUp.cpp
+        map/SpeedUp.h
+        map/LifeUp.cpp
+        map/LifeUp.h
+        map/TierUp.cpp
+        map/TierUp.h
         map/Plant.cpp
         map/Plant.h
         map/Tile.cpp
