@@ -2,35 +2,32 @@
 
 #include "Tile.h"
 
-class ArmorUp : public Tile
+class Powerup : public Tile
+{
+public:
+    Powerup(ResourceType resourceType, int armor);
+
+    bool canFly() override;
+    bool canDrive() override;
+};
+
+class ArmorUp : public Powerup
 {
 public:
     ArmorUp();
-
-    bool canFly() override;
-    bool canDrive() override;
 };
-class SpeedUp : public Tile
+class SpeedUp : public Powerup
 {
 public:
     SpeedUp();
-
-    bool canFly() override;
-    bool canDrive() override;
 };
-class TankUp : public Tile
+class LifeUp : public Powerup
 {
 public:
-    TankUp();
-
-    bool canFly() override;
-    bool canDrive() override;
+    LifeUp();
 };
-class LevelUp : public Tile
+class TierUp : public Powerup
 {
 public:
-    LevelUp();
-
-    bool canFly() override;
-    bool canDrive() override;
+    TierUp();
 };

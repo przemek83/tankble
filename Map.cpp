@@ -199,10 +199,10 @@ void Map::loadMap()
                     board_[i][j] = std::make_unique<SpeedUp>();
                     break;
                 case 'L':
-                    board_[i][j] = std::make_unique<LevelUp>();
+                    board_[i][j] = std::make_unique<TierUp>();
                     break;
                 case 'T':
-                    board_[i][j] = std::make_unique<TankUp>();
+                    board_[i][j] = std::make_unique<LifeUp>();
                     break;
                 default:
                     board_[i][j] = std::make_unique<Plain>();
