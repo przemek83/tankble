@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <allegro5/allegro.h>
+
 #include "Config.h"
 #include "Resources.h"
 #include "Tank.h"
