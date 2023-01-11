@@ -8,9 +8,16 @@ public:
     Tile(ResourceType resourceType, int armor);
     virtual ~Tile() = default;
 
+    Tile& operator=(const Tile& other) = delete;
+    Tile(const Tile& other) = delete;
+
+    Tile& operator=(Tile&& other) = delete;
+    Tile(Tile&& other) = delete;
+
     virtual bool canFly() = 0;
     virtual bool canDrive() = 0;
-    virtual bool destroy(int);
+
+    bool destroy(int);
 
     bool isPowerUp() const;
 
