@@ -161,7 +161,7 @@ bool Game::play()
     al_start_timer(timer);
 
     bool shouldRedraw{true};
-    screen_.clearScreenWithColor({0, 0, 255, 0});
+    Screen::clearScreenWithColor({0, 0, 255, 0});
 
     while (true)
     {
