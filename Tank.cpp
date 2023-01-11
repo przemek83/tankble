@@ -6,8 +6,6 @@
 #include <filesystem>
 #include <iostream>
 
-#include <allegro5/allegro.h>
-
 #include "Config.h"
 #include "Map.h"
 #include "TankType.h"
@@ -20,56 +18,21 @@ const int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Tank::Tank(TankType tankType, unsigned int x, unsigned int y)
-    : x_(x), y_(y), initialX_(x), initialY_(y)
+Tank::Tank(TankType tankType, unsigned int x, unsigned int y,
+           const Resources& resources)
+    : resources_(resources), x_(x), y_(y), initialX_(x), initialY_(y)
 {
     direction_ = directions_[static_cast<int>(tankType)];
     setType(tankType);
 
     if (isPlayerControlled())
         lives_ *= 2;
-
-    if (!loadBitmaps(tankType))
-        exit(0);
 }
 
 Tank::~Tank()
 {
-    al_destroy_bitmap(bmp_[0]);
-    al_destroy_bitmap(bmp_[1]);
-    al_destroy_bitmap(bmp_[2]);
-    al_destroy_bitmap(bmp_[3]);
     std::cout << "Vehicle:" << static_cast<int>(getTankType())
               << " is deleted\n";
-}
-
-bool Tank::loadBitmaps(TankType tankType)
-{
-    if (!std::filesystem::exists(
-            tankTypesPaths_[static_cast<int>(tankType)].c_str()))
-        return false;
-
-    bmp_[0] =
-        al_load_bitmap(tankTypesPaths_[static_cast<int>(tankType)].c_str());
-    const int width{al_get_bitmap_width(bmp_[0])};
-    const int height{al_get_bitmap_height(bmp_[0])};
-
-    bmp_[1] = al_create_bitmap(width, height);
-    al_set_target_bitmap(bmp_[1]);
-    al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, pi() / 2, 0);
-    bmp_[2] = al_create_bitmap(al_get_bitmap_width(bmp_[0]),
-                               al_get_bitmap_height(bmp_[0]));
-    al_set_target_bitmap(bmp_[2]);
-    al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, pi(), 0);
-    bmp_[3] = al_create_bitmap(al_get_bitmap_width(bmp_[0]),
-                               al_get_bitmap_height(bmp_[0]));
-    al_set_target_bitmap(bmp_[3]);
-    al_draw_rotated_bitmap(bmp_[0], width / 2, height / 2, width / 2,
-                           height / 2, 3 * pi() / 2, 0);
-
-    return true;
 }
 
 void Tank::setType(TankType tankType)
@@ -79,16 +42,9 @@ void Tank::setType(TankType tankType)
     maxArmor_ = armors_[static_cast<int>(tankType)];
     power_ = powers_[static_cast<int>(tankType)];
     speed_ = speeds_[static_cast<int>(tankType)];
-
-    if (!loadBitmaps(tankType))
-    {
-        exit(1);
-    }
 }
 
 void Tank::move(int xy) { direction_ = xy; }
-
-ALLEGRO_BITMAP* Tank::display() { return bmp_[getDirection()]; }
 
 void Tank::fire(Map& map)
 {

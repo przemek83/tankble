@@ -8,6 +8,7 @@
 
 #include "Config.h"
 #include "Resources.h"
+#include "Screen.h"
 #include "Tank.h"
 #include "map/Base.h"
 #include "map/Brick.h"
@@ -24,66 +25,17 @@
 
 Map::Map(const Resources& resources) : resources_(resources)
 {
-    buffer_ = al_create_bitmap(Config::mapSize * Config::elementSize,
-                               Config::mapSize * Config::elementSize);
-    paint_ = al_create_bitmap(Config::mapSize * Config::elementSize,
-                              Config::mapSize * Config::elementSize);
-
     board_.reserve(Config::mapSize * Config::mapSize);
     board_.resize(Config::mapSize);
     for (auto& item : board_)
         item.resize(Config::mapSize);
     loadMap();
-    al_set_target_bitmap(paint_);
-    for (unsigned int i = 0; i < Config::mapSize; i++)
-        for (unsigned int j = 0; j < Config::mapSize; j++)
-            drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
-                        j * Config::elementSize, i * Config::elementSize);
 }
 
 Map::~Map()
 {
     if (!vehicles_.empty())
         vehicles_.clear();
-
-    al_destroy_bitmap(buffer_);
-    al_destroy_bitmap(paint_);
-}
-
-ALLEGRO_BITMAP* Map::display()
-{
-    displayMaps();
-    displayVehicles();
-    displayBullets();
-    return buffer_;
-}
-
-void Map::displayMaps()
-{
-    al_set_target_bitmap(buffer_);
-    al_draw_bitmap_region(paint_, 0, 0, Config::elementSize * Config::mapSize,
-                          Config::elementSize * Config::mapSize, 0, 0, 0);
-}
-
-void Map::displayVehicles()
-{
-    for (const auto& vehicle : vehicles_)
-    {
-        al_set_target_bitmap(buffer_);
-        drawMapItem(vehicle->display(), vehicle->getX(), vehicle->getY());
-    }
-}
-
-void Map::displayBullets()
-{
-    for (const auto& bullet : bullets_)
-    {
-        al_set_target_bitmap(buffer_);
-        al_draw_bitmap_region(bullet->display(), 0, 0,
-                              al_get_bitmap_width(bullet->display()),
-                              al_get_bitmap_height(bullet->display()),
-                              bullet->getX(), bullet->getY(), 0);
-    }
 }
 
 void Map::moveBullet()
@@ -187,15 +139,15 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Tank(TankType::PLAYER_TIER_1,
-                                                 Config::elementSize * j,
-                                                 Config::elementSize * i));
+                    vehicles_.push_back(new Tank(
+                        TankType::PLAYER_TIER_1, Config::elementSize * j,
+                        Config::elementSize * i, resources_));
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Tank(TankType::ENEMY_TIER_1,
-                                                 Config::elementSize * j,
-                                                 Config::elementSize * i));
+                    vehicles_.push_back(new Tank(
+                        TankType::ENEMY_TIER_1, Config::elementSize * j,
+                        Config::elementSize * i, resources_));
                     break;
                 case 'A':
                     board_[i][j] = std::make_unique<ShieldUp>();
@@ -219,11 +171,10 @@ void Map::loadMap()
               << " seconds" << std::endl;
 }
 
-void Map::drawMapItem(ALLEGRO_BITMAP* element, int x, int y)
+void Map::drawMapItem(const Screen& screen, ResourceType resourceType, int x,
+                      int y)
 {
-    al_draw_scaled_bitmap(element, 0, 0, al_get_bitmap_width(element),
-                          al_get_bitmap_height(element), x, y,
-                          Config::elementSize, Config::elementSize, 0);
+    screen.drawScaledBitmap(resourceType, x, y, Config::elementSize);
 }
 
 bool Map::canDrive(unsigned int j, unsigned int i)
@@ -285,9 +236,6 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
         board_[i][j] = std::make_unique<Plain>();
         if (baseDestroyed)
             playerDestroyed_ = true;
-        al_set_target_bitmap(paint_);
-        drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
-                    j * Config::elementSize, i * Config::elementSize);
     }
 }
 
@@ -330,10 +278,46 @@ void Map::setPower(Tank* vehicle)
     }
 
     tile = std::make_unique<Plain>();
+}
 
-    al_set_target_bitmap(paint_);
-    drawMapItem(resources_.getBitmap(board_[i][j]->getResourceType()),
-                j * Config::elementSize, i * Config::elementSize);
+void Map::drawBackground(const Screen& screen)
+{
+    for (unsigned int i = 0; i < Config::mapSize; i++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
+            drawMapItem(screen, board_[i][j]->getResourceType(),
+                        j * Config::elementSize, i * Config::elementSize);
+}
+
+void Map::drawForeground(Screen& screen)
+{
+    // TODO
+}
+
+void Map::drawPowers(Screen& screen) {}
+
+void Map::drawVehicles(Screen& screen)
+{
+    for (const auto& vehicle : vehicles_)
+    {
+        ResourceType resourceType = static_cast<ResourceType>(
+            static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
+            static_cast<unsigned char>(vehicle->getTankType()));
+
+        screen.drawScaledBitmapWithRotation(
+            resourceType, vehicle->getX(), vehicle->getY(), Config::elementSize,
+            90 * vehicle->getDirection());
+    }
+}
+
+void Map::drawBullets(Screen& screen)
+{
+    for (const auto& bullet : bullets_)
+    {
+        al_draw_bitmap_region(bullet->display(), 0, 0,
+                              al_get_bitmap_width(bullet->display()),
+                              al_get_bitmap_height(bullet->display()),
+                              bullet->getX(), bullet->getY(), 0);
+    }
 }
 
 const std::vector<Tank*>& Map::getVehicles() const { return vehicles_; }

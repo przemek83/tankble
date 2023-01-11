@@ -39,6 +39,32 @@ void Screen::drawBitmap(ResourceType resourceType, unsigned int x,
                    0);
 }
 
+void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
+                              unsigned int y, int size) const
+{
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
+    al_draw_scaled_bitmap(
+        bitmapToUse, 0, 0, static_cast<float>(al_get_bitmap_width(bitmapToUse)),
+        static_cast<float>(al_get_bitmap_height(bitmapToUse)),
+        static_cast<float>(x), static_cast<float>(y), static_cast<float>(size),
+        static_cast<float>(size), 0);
+}
+
+void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
+                                          unsigned int x, unsigned int y,
+                                          int size, int degrees) const
+{
+    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
+    const float width = static_cast<float>(al_get_bitmap_width(bitmapToUse));
+
+    al_draw_scaled_rotated_bitmap(
+        bitmapToUse, width / 2.f, width / 2.f,
+        static_cast<float>(x) + static_cast<float>(size) / 2.f,
+        static_cast<float>(y) + static_cast<float>(size) / 2.f,
+        static_cast<float>(size) / width, static_cast<float>(size) / width,
+        degrees * (ALLEGRO_PI / 180), 0);
+}
+
 void Screen::clearScreenWithColor(ALLEGRO_COLOR color)
 {
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));

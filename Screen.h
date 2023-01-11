@@ -27,6 +27,13 @@ public:
     void drawBitmap(ResourceType resourceType, unsigned int x,
                     unsigned int y) const;
 
+    void drawScaledBitmap(ResourceType resourceType, unsigned int x,
+                          unsigned int y, int size) const;
+
+    void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
+                                      unsigned int y, int size,
+                                      int degrees) const;
+
     static void clearScreenWithColor(ALLEGRO_COLOR color);
 
     unsigned int getCenterX() const;

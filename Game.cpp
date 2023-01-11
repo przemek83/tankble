@@ -161,6 +161,7 @@ bool Game::play()
     al_start_timer(timer);
 
     bool shouldRedraw{true};
+    screen_.clearScreenWithColor({0, 0, 255, 0});
 
     while (true)
     {
@@ -179,24 +180,20 @@ bool Game::play()
         if (shouldRedraw && al_is_event_queue_empty(events))
         {
             shouldRedraw = false;
-            drawMap(map);
+            map.drawBackground(screen_);
+            map.drawVehicles(screen_);
+            map.drawBullets(screen_);
+            map.drawPowers(screen_);
+            map.drawForeground(screen_);
             drawStatusPlaceholder();
             control(map);
-            al_flip_display();
+            Screen::refresh();
         }
     }
 
     std::cout << "stop" << '\n';
 
     return true;
-}
-
-void Game::drawMap(Map& map)
-{
-    ALLEGRO_BITMAP* q1 = map.display();
-    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap_region(q1, 0, 0, Config::elementSize * Config::mapSize,
-                          Config::height, 0, 0, 0);
 }
 
 void Game::drawStatusPlaceholder()

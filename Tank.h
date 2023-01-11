@@ -1,18 +1,19 @@
 #pragma once
 
-#include <string>
-#include <vector>
+#include <ctime>
+
 #include "TankType.h"
 
 class Map;
-struct ALLEGRO_BITMAP;
+class Resources;
 
 class Tank
 {
 public:
-    Tank(TankType tankType, unsigned int x, unsigned int y);
+    Tank(TankType tankType, unsigned int x, unsigned int y,
+         const Resources& resources);
     ~Tank();
-    ALLEGRO_BITMAP* display();
+
     void move(int);
     int getX() const;
     int getY() const;
@@ -37,9 +38,10 @@ public:
 
 private:
     int getMaxArmor() const;
-    bool loadBitmaps(TankType tankType);
     constexpr double pi() const;
     void resetState();
+
+    const Resources& resources_;
 
     static const int wayX_[4];
     static const int wayY_[4];
@@ -47,11 +49,7 @@ private:
     static const int armors_[8];
     static const int speeds_[8];
     static const int directions_[8];
-    const std::vector<std::string> tankTypesPaths_{
-        "image/board/tank_tier1.tga",       "image/board/tank_tier2.tga",
-        "image/board/tank_tier3.tga",       "image/board/tank_tier4.tga",
-        "image/board/tank_tier1_enemy.tga", "image/board/tank_tier2_enemy.tga",
-        "image/board/tank_tier3_enemy.tga", "image/board/tank_tier4_enemy.tga"};
+
     int direction_;
     int x_;
     int y_;
@@ -61,7 +59,6 @@ private:
     int speed_;
     int maxArmor_;
     time_t lastFire_{0};
-    ALLEGRO_BITMAP* bmp_[4];
     unsigned int lives_{1};
     unsigned int initialX_;
     unsigned int initialY_;

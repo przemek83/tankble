@@ -15,5 +15,13 @@ enum class ResourceType : unsigned char
     SHIELD_UP,
     SPEED_UP,
     LIFE_UP,
-    TIER_UP
+    TIER_UP,
+    PLAYER_TANK_TIER_1,
+    PLAYER_TANK_TIER_2,
+    PLAYER_TANK_TIER_3,
+    PLAYER_TANK_TIER_4,
+    ENEMY_TANK_TIER_1,
+    ENEMY_TANK_TIER_2,
+    ENEMY_TANK_TIER_3,
+    ENEMY_TANK_TIER_4
 };
