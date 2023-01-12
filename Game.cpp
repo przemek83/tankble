@@ -15,10 +15,10 @@ Game::Game(Screen& screen) : screen_(screen)
     buffer_ = al_create_bitmap(Config::width, Config::height);
 }
 
-void Game::movement(Tank* myTank, Map& map)
+void Game::movement(Tank& myTank, Map& map)
 {
-    const int pomX = myTank->getX() / Config::elementSize;
-    const int pomY = myTank->getY() / Config::elementSize;
+    const int pomX = myTank.getX() / Config::elementSize;
+    const int pomY = myTank.getY() / Config::elementSize;
     const int tol = 15;
 
     ALLEGRO_KEYBOARD_STATE key_state;
@@ -26,109 +26,109 @@ void Game::movement(Tank* myTank, Map& map)
 
     if (al_key_down(&key_state, ALLEGRO_KEY_UP))
     {
-        myTank->move(0);
+        myTank.move(0);
     }
     else if (al_key_down(&key_state, ALLEGRO_KEY_DOWN))
     {
-        myTank->move(2);
+        myTank.move(2);
     }
     else if (al_key_down(&key_state, ALLEGRO_KEY_LEFT))
     {
-        myTank->move(3);
+        myTank.move(3);
     }
     else if (al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
     {
-        myTank->move(1);
+        myTank.move(1);
     }
     if (!map.isValid(
-            myTank->getX() + myTank->getDirectionX() + myTank->getDirectionX(),
-            myTank->getY() + myTank->getDirectionY() + myTank->getDirectionY()))
+            myTank.getX() + myTank.getDirectionX() + myTank.getDirectionX(),
+            myTank.getY() + myTank.getDirectionY() + myTank.getDirectionY()))
     {
         return;
     }
 
-    if (myTank->getDirectionX() == 0 && myTank->getDirectionY() != 0)
+    if (myTank.getDirectionX() == 0 && myTank.getDirectionY() != 0)
     {
-        if (myTank->getY() % Config::elementSize == 0)
+        if (myTank.getY() % Config::elementSize == 0)
         {
-            if (myTank->getX() % Config::elementSize == 0)
+            if (myTank.getX() % Config::elementSize == 0)
             {
-                if (map.canDrive(pomX, pomY + myTank->getDirectionY()))
+                if (map.canDrive(pomX, pomY + myTank.getDirectionY()))
                 {
-                    myTank->go();
+                    myTank.go();
                 }
             }
             else
             {
-                if (map.canDrive(pomX, pomY + myTank->getDirectionY()) &&
-                    map.canDrive(pomX + 1, pomY + myTank->getDirectionY()))
+                if (map.canDrive(pomX, pomY + myTank.getDirectionY()) &&
+                    map.canDrive(pomX + 1, pomY + myTank.getDirectionY()))
                 {
-                    myTank->go();
+                    myTank.go();
                 }
                 else
                 {
-                    if (map.canDrive(pomX, pomY + myTank->getDirectionY()) &&
-                        myTank->getX() % Config::elementSize <= tol)
+                    if (map.canDrive(pomX, pomY + myTank.getDirectionY()) &&
+                        myTank.getX() % Config::elementSize <= tol)
                     {
-                        myTank->setX(pomX * Config::elementSize);
-                        myTank->go();
+                        myTank.setX(pomX * Config::elementSize);
+                        myTank.go();
                     }
                     else if (map.canDrive(pomX + 1,
-                                          pomY + myTank->getDirectionY()) &&
-                             myTank->getX() % Config::elementSize >=
+                                          pomY + myTank.getDirectionY()) &&
+                             myTank.getX() % Config::elementSize >=
                                  Config::elementSize - tol)
                     {
-                        myTank->setX((pomX + 1) * Config::elementSize);
-                        myTank->go();
+                        myTank.setX((pomX + 1) * Config::elementSize);
+                        myTank.go();
                     }
                 }
             }
         }
         else
         {
-            myTank->go();
+            myTank.go();
         }
     }
-    else if (myTank->getDirectionY() == 0 && myTank->getDirectionX() != 0)
+    else if (myTank.getDirectionY() == 0 && myTank.getDirectionX() != 0)
     {
-        if (myTank->getX() % Config::elementSize == 0)
+        if (myTank.getX() % Config::elementSize == 0)
         {
-            if (myTank->getY() % Config::elementSize == 0)
+            if (myTank.getY() % Config::elementSize == 0)
             {
-                if (map.canDrive(pomX + myTank->getDirectionX(), pomY))
+                if (map.canDrive(pomX + myTank.getDirectionX(), pomY))
                 {
-                    myTank->go();
+                    myTank.go();
                 }
             }
             else
             {
-                if (map.canDrive(pomX + myTank->getDirectionX(), pomY) &&
-                    map.canDrive(pomX + myTank->getDirectionX(), pomY + 1))
+                if (map.canDrive(pomX + myTank.getDirectionX(), pomY) &&
+                    map.canDrive(pomX + myTank.getDirectionX(), pomY + 1))
                 {
-                    myTank->go();
+                    myTank.go();
                 }
                 else
                 {
-                    if (map.canDrive(pomX + myTank->getDirectionX(), pomY) &&
-                        myTank->getY() % Config::elementSize <= tol)
+                    if (map.canDrive(pomX + myTank.getDirectionX(), pomY) &&
+                        myTank.getY() % Config::elementSize <= tol)
                     {
-                        myTank->setY(pomY * Config::elementSize);
-                        myTank->go();
+                        myTank.setY(pomY * Config::elementSize);
+                        myTank.go();
                     }
-                    else if (map.canDrive(pomX + myTank->getDirectionX(),
+                    else if (map.canDrive(pomX + myTank.getDirectionX(),
                                           pomY + 1) &&
-                             myTank->getY() % Config::elementSize >=
+                             myTank.getY() % Config::elementSize >=
                                  Config::elementSize - tol)
                     {
-                        myTank->setY((pomY + 1) * Config::elementSize);
-                        myTank->go();
+                        myTank.setY((pomY + 1) * Config::elementSize);
+                        myTank.go();
                     }
                 }
             }
         }
         else
         {
-            myTank->go();
+            myTank.go();
         }
     }
     map.setPower(myTank);
@@ -211,16 +211,16 @@ void Game::control(Map& map)
         return;
     }
 
-    if (map.getVehicles().size() == 1)
+    if (map.getTanks().size() == 1)
     {
         drawEndOfGame("You Win");
         gameOver_ = true;
         return;
     }
 
-    for (const auto& tank : map.getVehicles())
+    for (auto& tank : map.getTanks())
     {
-        if (tank->isPlayerControlled())
+        if (tank.isPlayerControlled())
         {
             ALLEGRO_KEYBOARD_STATE key_state;
             al_get_keyboard_state(&key_state);
@@ -235,13 +235,13 @@ void Game::control(Map& map)
             if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
                 al_key_down(&key_state, ALLEGRO_KEY_ENTER))
             {
-                tank->fire(map);
+                tank.fire(map);
             }
         }
         else
         {
-            tank->moveRandom(map);
-            tank->fire(map);
+            tank.moveRandom(map);
+            tank.fire(map);
         }
     }
 

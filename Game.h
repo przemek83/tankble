@@ -20,7 +20,7 @@ private:
 
     static bool userWantToQuit(const ALLEGRO_EVENT& event);
 
-    static void movement(Tank* myTank, Map& map);
+    static void movement(Tank& myTank, Map& map);
     void drawStatusPlaceholder();
     void control(Map& map);
 

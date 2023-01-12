@@ -8,7 +8,6 @@
 class Tank;
 class Bullet;
 class Tile;
-struct ALLEGRO_BITMAP;
 class Resources;
 class Screen;
 
@@ -28,7 +27,7 @@ public:
     bool isValid(int, int);
     void addBullet(std::unique_ptr<Bullet> bullet);
     void moveBullet();
-    void setPower(Tank* vehicle);
+    void setPower(Tank& vehicle);
 
     void drawBackground(const Screen& screen);
     void drawForeground(Screen& screen);
@@ -36,7 +35,7 @@ public:
     void drawVehicles(Screen& screen);
     void drawBullets(Screen& screen);
 
-    const std::vector<Tank*>& getVehicles() const;
+    std::vector<Tank>& getTanks();
 
     bool isPlayerDestroyed() const;
 
@@ -50,7 +49,7 @@ private:
                      int y);
 
     const Resources& resources_;
-    std::vector<Tank*> vehicles_;
+    std::vector<Tank> tanks_;
     std::vector<std::unique_ptr<Bullet>> bullets_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 

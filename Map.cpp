@@ -34,8 +34,8 @@ Map::Map(const Resources& resources) : resources_(resources)
 
 Map::~Map()
 {
-    if (!vehicles_.empty())
-        vehicles_.clear();
+    if (!tanks_.empty())
+        tanks_.clear();
 }
 
 void Map::moveBullet()
@@ -59,13 +59,12 @@ void Map::moveBullet()
             }
             if (iter >= 0)
             {
-                Tank* v{vehicles_.at(iter)};
-                if (v->destroy(b->getPower()))
+                Tank& v{tanks_.at(iter)};
+                if (v.destroy(b->getPower()))
                 {
-                    if (v->isPlayerControlled())
+                    if (v.isPlayerControlled())
                         playerDestroyed_ = true;
-                    delete vehicles_[iter];
-                    vehicles_.erase(vehicles_.begin() + iter);
+                    tanks_.erase(tanks_.begin() + iter);
                 }
                 bullets_.erase(bullets_.begin() + i);
             }
@@ -139,15 +138,15 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Tank(
-                        TankType::PLAYER_TIER_1, Config::elementSize * j,
-                        Config::elementSize * i, resources_));
+                    tanks_.emplace_back(TankType::PLAYER_TIER_1,
+                                        Config::elementSize * j,
+                                        Config::elementSize * i);
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    vehicles_.push_back(new Tank(
-                        TankType::ENEMY_TIER_1, Config::elementSize * j,
-                        Config::elementSize * i, resources_));
+                    tanks_.emplace_back(TankType::ENEMY_TIER_1,
+                                        Config::elementSize * j,
+                                        Config::elementSize * i);
                     break;
                 case 'A':
                     board_[i][j] = std::make_unique<ShieldUp>();
@@ -212,14 +211,14 @@ bool Map::canFly(unsigned int j, unsigned int i)
 
 int Map::isTank(const std::unique_ptr<Bullet>& bullet)
 {
-    for (unsigned int i = 0; i < vehicles_.size(); i++)
+    for (unsigned int i = 0; i < tanks_.size(); i++)
     {
-        Tank* v{vehicles_.at(i)};
-        if (bullet->getCenterX() >= v->getX() &&
-            bullet->getCenterX() < v->getX() + Config::elementSize &&
-            bullet->getCenterY() >= v->getY() &&
-            bullet->getCenterY() < v->getY() + Config::elementSize &&
-            bullet->getTankType() != v->getTankType())
+        const Tank& v{tanks_.at(i)};
+        if (bullet->getCenterX() >= v.getX() &&
+            bullet->getCenterX() < v.getX() + Config::elementSize &&
+            bullet->getCenterY() >= v.getY() &&
+            bullet->getCenterY() < v.getY() + Config::elementSize &&
+            bullet->getTankType() != v.getTankType())
         {  // check friendly fire
             return i;
         }
@@ -244,10 +243,10 @@ void Map::addBullet(std::unique_ptr<Bullet> bullet)
     bullets_.emplace_back(std::move(bullet));
 }
 
-void Map::setPower(Tank* vehicle)
+void Map::setPower(Tank& tank)
 {
-    const std::size_t j{(vehicle->getX() + 15) / Config::elementSize};
-    const std::size_t i{(vehicle->getY() + 15) / Config::elementSize};
+    const std::size_t j{(tank.getX() + 15) / Config::elementSize};
+    const std::size_t i{(tank.getY() + 15) / Config::elementSize};
 
     std::unique_ptr<Tile>& tile{board_[i][j]};
     if (!tile->isPowerUp())
@@ -256,21 +255,21 @@ void Map::setPower(Tank* vehicle)
     switch (tile->getResourceType())
     {
         case ResourceType::SHIELD_UP:
-            vehicle->setMaxArmor();
+            tank.setMaxArmor();
             break;
 
         case ResourceType::TIER_UP:
-            if (static_cast<int>(vehicle->getTankType()) < 3)
-                vehicle->setType(static_cast<TankType>(
-                    static_cast<int>(vehicle->getTankType()) + 1));
+            if (static_cast<int>(tank.getTankType()) < 3)
+                tank.setType(static_cast<TankType>(
+                    static_cast<int>(tank.getTankType()) + 1));
             break;
 
         case ResourceType::SPEED_UP:
-            vehicle->setSpeedUp();
+            tank.setSpeedUp();
             break;
 
         case ResourceType::LIFE_UP:
-            vehicle->addLife();
+            tank.addLife();
             break;
 
         default:
@@ -297,15 +296,15 @@ void Map::drawPowers(Screen& screen) {}
 
 void Map::drawVehicles(Screen& screen)
 {
-    for (const auto& vehicle : vehicles_)
+    for (const auto& vehicle : tanks_)
     {
         ResourceType resourceType = static_cast<ResourceType>(
             static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
-            static_cast<unsigned char>(vehicle->getTankType()));
+            static_cast<unsigned char>(vehicle.getTankType()));
 
-        screen.drawScaledBitmapWithRotation(
-            resourceType, vehicle->getX(), vehicle->getY(), Config::elementSize,
-            90 * vehicle->getDirection());
+        screen.drawScaledBitmapWithRotation(resourceType, vehicle.getX(),
+                                            vehicle.getY(), Config::elementSize,
+                                            90 * vehicle.getDirection());
     }
 }
 
@@ -320,6 +319,6 @@ void Map::drawBullets(Screen& screen)
     }
 }
 
-const std::vector<Tank*>& Map::getVehicles() const { return vehicles_; }
+std::vector<Tank>& Map::getTanks() { return tanks_; }
 
 bool Map::isPlayerDestroyed() const { return playerDestroyed_; }

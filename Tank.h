@@ -10,9 +10,14 @@ class Resources;
 class Tank
 {
 public:
-    Tank(TankType tankType, unsigned int x, unsigned int y,
-         const Resources& resources);
+    Tank(TankType tankType, unsigned int x, unsigned int y);
     ~Tank();
+
+    Tank& operator=(const Tank& other) = delete;
+    Tank(const Tank& other) = delete;
+
+    Tank& operator=(Tank&& other) = default;
+    Tank(Tank&& other) = default;
 
     void move(int);
     int getX() const;
@@ -40,8 +45,6 @@ private:
     int getMaxArmor() const;
     constexpr double pi() const;
     void resetState();
-
-    const Resources& resources_;
 
     static const int wayX_[4];
     static const int wayY_[4];

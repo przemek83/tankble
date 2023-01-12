@@ -18,9 +18,8 @@ const int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
-Tank::Tank(TankType tankType, unsigned int x, unsigned int y,
-           const Resources& resources)
-    : resources_(resources), x_(x), y_(y), initialX_(x), initialY_(y)
+Tank::Tank(TankType tankType, unsigned int x, unsigned int y)
+    : x_(x), y_(y), initialX_(x), initialY_(y)
 {
     direction_ = directions_[static_cast<int>(tankType)];
     setType(tankType);
