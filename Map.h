@@ -24,7 +24,6 @@ public:
     Map& operator=(Map&& other) = delete;
     Map(Map&& other) = delete;
 
-    ALLEGRO_BITMAP* display();
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);
     void addBullet(std::unique_ptr<Bullet> bullet);
