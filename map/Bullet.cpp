@@ -19,7 +19,7 @@ Bullet::Bullet(Tank* v)
     power_ = v->getPower();
     x_ = v->getX() + Config::elementSize / 2 - 3;
     y_ = v->getY() + Config::elementSize / 2 - 3;
-    vehicle_ = v;
+    tank_ = v;
 }
 
 Bullet::~Bullet()
@@ -27,7 +27,7 @@ Bullet::~Bullet()
     al_destroy_bitmap(bmp_);
     try
     {
-        vehicle_->resetFire();
+        tank_->resetFire();
     }
     catch (...)
     {
@@ -47,7 +47,7 @@ bool Bullet::loadBitmap()
 
 ALLEGRO_BITMAP* Bullet::display() const { return bmp_; }
 
-TankType Bullet::getTankType() const { return vehicle_->getTankType(); }
+TankType Bullet::getTankType() const { return tank_->getTankType(); }
 
 int Bullet::getPower() const { return power_; }
 

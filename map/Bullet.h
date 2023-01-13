@@ -37,7 +37,7 @@ private:
 
     ALLEGRO_BITMAP* bmp_{nullptr};
     const char* source_{nullptr};
-    Tank* vehicle_{nullptr};
+    Tank* tank_{nullptr};
     int direction_;
     int speed_;
     int power_;
