@@ -1,10 +1,7 @@
 #include "Map.h"
 
-#include <filesystem>
 #include <fstream>
 #include <iostream>
-
-#include <allegro5/allegro.h>
 
 #include "Config.h"
 #include "Resources.h"
@@ -89,21 +86,18 @@ void Map::loadMap()
 {
     int on = clock();
 
-    if (!std::filesystem::exists("missions/mission1.dat"))
-        exit(1);
-
     char sign;
-    std::fstream fin("missions/mission1.dat", std::fstream::in);
+    std::fstream stream{resources_.getLevel()};
 
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
         {
-            fin >> std::noskipws >> sign;
+            stream >> std::noskipws >> sign;
 
             while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
                    sign != 'M' && sign != 'S' && sign != 'L' && sign != 'A')
             {
-                fin >> std::noskipws >> sign;
+                stream >> std::noskipws >> sign;
                 if (sign == EOF)
                     break;
             }

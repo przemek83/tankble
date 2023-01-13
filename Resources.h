@@ -21,6 +21,8 @@ public:
 
     ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
+    std::fstream getLevel() const;
+
 private:
     std::unordered_map<ResourceType, std::string> resourcePaths_{
         {ResourceType::BACKGROUND, "image/menu/background.bmp"},

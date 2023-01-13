@@ -1,5 +1,9 @@
 #include "Resources.h"
 
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+
 #include <allegro5/allegro.h>
 
 Resources::Resources()
@@ -17,4 +21,13 @@ Resources::~Resources()
 ALLEGRO_BITMAP* Resources::getBitmap(ResourceType resourceType) const
 {
     return bitmaps_.at(resourceType);
+}
+
+std::fstream Resources::getLevel() const
+{
+    if (!std::filesystem::exists("missions/mission1.dat"))
+        exit(1);
+
+    std::fstream stream("missions/mission1.dat", std::fstream::in);
+    return stream;
 }
