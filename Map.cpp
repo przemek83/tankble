@@ -32,11 +32,7 @@ Map::Map(const Resources& resources) : resources_(resources)
     loadMap();
 }
 
-Map::~Map()
-{
-    if (!tanks_.empty())
-        tanks_.clear();
-}
+Map::~Map() {}
 
 void Map::moveBullet()
 {
