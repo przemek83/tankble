@@ -32,8 +32,8 @@ public:
     void drawBackground(const Screen& screen);
     void drawForeground(Screen& screen);
     void drawPowers(Screen& screen);
-    void drawVehicles(Screen& screen);
-    void drawBullets(Screen& screen);
+    void drawVehicles(const Screen& screen);
+    void drawBullets(const Screen& screen);
 
     std::vector<Tank>& getTanks();
 

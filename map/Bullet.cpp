@@ -1,19 +1,12 @@
 #include "Bullet.h"
 
-#include <cstdio>
-#include <filesystem>
 #include <iostream>
-
-#include <allegro5/allegro.h>
 
 #include "../Config.h"
 #include "../Tank.h"
 
 Bullet::Bullet(const Tank& tank) : tankType_(tank.getTankType())
 {
-    source_ = "image/board/bullet.tga";
-    if (!loadBitmap())
-        exit(0);
     direction_ = tank.getDirection();
     speed_ = tank.getSpeed();
     power_ = tank.getPower();
@@ -23,21 +16,9 @@ Bullet::Bullet(const Tank& tank) : tankType_(tank.getTankType())
 
 Bullet::~Bullet()
 {
-    al_destroy_bitmap(bmp_);
     std::cout << "Bullet: " << static_cast<int>(getTankType())
               << " is deleted\n";
 }
-
-bool Bullet::loadBitmap()
-{
-    if (!std::filesystem::exists(source_))
-        return false;
-
-    bmp_ = al_load_bitmap(source_);  //, palette);
-    return true;
-}
-
-ALLEGRO_BITMAP* Bullet::display() const { return bmp_; }
 
 TankType Bullet::getTankType() const { return tankType_; }
 

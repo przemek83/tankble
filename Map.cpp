@@ -290,7 +290,7 @@ void Map::drawForeground(Screen& screen)
 
 void Map::drawPowers(Screen& screen) {}
 
-void Map::drawVehicles(Screen& screen)
+void Map::drawVehicles(const Screen& screen)
 {
     for (const auto& vehicle : tanks_)
     {
@@ -304,14 +304,13 @@ void Map::drawVehicles(Screen& screen)
     }
 }
 
-void Map::drawBullets(Screen& screen)
+void Map::drawBullets(const Screen& screen)
 {
+    const ResourceType resourceType = Bullet::getResourceType();
     for (const auto& bullet : bullets_)
     {
-        al_draw_bitmap_region(bullet->display(), 0, 0,
-                              al_get_bitmap_width(bullet->display()),
-                              al_get_bitmap_height(bullet->display()),
-                              bullet->getX(), bullet->getY(), 0);
+        screen.drawScaledBitmap(resourceType, bullet->getX(), bullet->getY(),
+                                Config::BULLET_SIZE);
     }
 }
 

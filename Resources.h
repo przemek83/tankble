@@ -37,6 +37,7 @@ private:
         {ResourceType::SPEED_UP, "image/board/speed_up.tga"},
         {ResourceType::LIFE_UP, "image/board/life_up.tga"},
         {ResourceType::TIER_UP, "image/board/tier_up.tga"},
+        {ResourceType::BULLET, "image/board/bullet.tga"},
         {ResourceType::PLAYER_TANK_TIER_1, "image/board/tank_tier1.tga"},
         {ResourceType::PLAYER_TANK_TIER_2, "image/board/tank_tier2.tga"},
         {ResourceType::PLAYER_TANK_TIER_3, "image/board/tank_tier3.tga"},

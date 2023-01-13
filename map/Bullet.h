@@ -4,7 +4,6 @@
 #include "../TankType.h"
 
 class Tank;
-struct ALLEGRO_BITMAP;
 
 class Bullet
 {
@@ -18,7 +17,6 @@ public:
     Bullet& operator=(Bullet&& other) = delete;
     Bullet(Bullet&& other) = delete;
 
-    ALLEGRO_BITMAP* display() const;
     TankType getTankType() const;
     int getPower() const;
     int getSpeed() const;
@@ -36,10 +34,6 @@ public:
     static ResourceType getResourceType();
 
 private:
-    bool loadBitmap();
-
-    ALLEGRO_BITMAP* bmp_{nullptr};
-    const char* source_{nullptr};
     TankType tankType_;
     int direction_;
     int speed_;
