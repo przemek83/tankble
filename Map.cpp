@@ -38,25 +38,25 @@ void Map::moveBullet()
 {
     for (unsigned int i = 0; i < bullets_.size(); i++)
     {
-        std::unique_ptr<Bullet>& b{bullets_.at(i)};
-        int px{b->getX() + b->getDirectionX() * b->getSpeed()};
-        int py{b->getY() + b->getDirectionY() * b->getSpeed()};
+        Bullet& b{bullets_.at(i)};
+        int px{b.getX() + b.getDirectionX() * b.getSpeed()};
+        int py{b.getY() + b.getDirectionY() * b.getSpeed()};
         if (isBulletValid(px, py))
         {
-            b->setX(px);
-            b->setY(py);
-            unsigned int pi{b->getCenterY() / Config::elementSize};
-            unsigned int pj{b->getCenterX() / Config::elementSize};
+            b.setX(px);
+            b.setY(py);
+            unsigned int pi{b.getCenterY() / Config::elementSize};
+            unsigned int pj{b.getCenterX() / Config::elementSize};
             int iter{isTank(b)};
             if (!canFly(pj, pi))
             {
-                destroyItem(pj, pi, b->getPower());
+                destroyItem(pj, pi, b.getPower());
                 bullets_.erase(bullets_.begin() + i);
             }
             if (iter >= 0)
             {
                 Tank& v{tanks_.at(iter)};
-                if (v.destroy(b->getPower()))
+                if (v.destroy(b.getPower()))
                 {
                     if (v.isPlayerControlled())
                         playerDestroyed_ = true;
@@ -205,16 +205,16 @@ bool Map::canFly(unsigned int j, unsigned int i)
     return board_[i][j]->canFly();
 }
 
-int Map::isTank(const std::unique_ptr<Bullet>& bullet)
+int Map::isTank(const Bullet& bullet)
 {
     for (unsigned int i = 0; i < tanks_.size(); i++)
     {
         const Tank& v{tanks_.at(i)};
-        if (bullet->getCenterX() >= v.getX() &&
-            bullet->getCenterX() < v.getX() + Config::elementSize &&
-            bullet->getCenterY() >= v.getY() &&
-            bullet->getCenterY() < v.getY() + Config::elementSize &&
-            bullet->getTankType() != v.getTankType())
+        if (bullet.getCenterX() >= v.getX() &&
+            bullet.getCenterX() < v.getX() + Config::elementSize &&
+            bullet.getCenterY() >= v.getY() &&
+            bullet.getCenterY() < v.getY() + Config::elementSize &&
+            bullet.getTankType() != v.getTankType())
         {  // check friendly fire
             return i;
         }
@@ -234,10 +234,7 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
     }
 }
 
-void Map::addBullet(std::unique_ptr<Bullet> bullet)
-{
-    bullets_.emplace_back(std::move(bullet));
-}
+void Map::addBullet(Bullet bullet) { bullets_.emplace_back(std::move(bullet)); }
 
 void Map::setPower(Tank& tank)
 {
@@ -309,7 +306,7 @@ void Map::drawBullets(const Screen& screen)
     const ResourceType resourceType = Bullet::getResourceType();
     for (const auto& bullet : bullets_)
     {
-        screen.drawScaledBitmap(resourceType, bullet->getX(), bullet->getY(),
+        screen.drawScaledBitmap(resourceType, bullet.getX(), bullet.getY(),
                                 Config::BULLET_SIZE);
     }
 }

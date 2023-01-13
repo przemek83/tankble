@@ -14,8 +14,8 @@ public:
     Bullet& operator=(const Bullet& other) = delete;
     Bullet(const Bullet& other) = delete;
 
-    Bullet& operator=(Bullet&& other) = delete;
-    Bullet(Bullet&& other) = delete;
+    Bullet& operator=(Bullet&& other) = default;
+    Bullet(Bullet&& other) = default;
 
     TankType getTankType() const;
     int getPower() const;

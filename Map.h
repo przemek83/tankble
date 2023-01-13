@@ -25,7 +25,7 @@ public:
 
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);
-    void addBullet(std::unique_ptr<Bullet> bullet);
+    void addBullet(Bullet bullet);
     void moveBullet();
     void setPower(Tank& vehicle);
 
@@ -43,14 +43,14 @@ private:
     bool isBulletValid(int x, int y);
     bool canFly(unsigned int j, unsigned int i);
     void destroyItem(unsigned int j, unsigned int i, unsigned int power);
-    int isTank(const std::unique_ptr<Bullet>& bullet);
+    int isTank(const Bullet& bullet);
     void loadMap();
     void drawMapItem(const Screen& screen, ResourceType resourceType, int x,
                      int y);
 
     const Resources& resources_;
     std::vector<Tank> tanks_;
-    std::vector<std::unique_ptr<Bullet>> bullets_;
+    std::vector<Bullet> bullets_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
     bool playerDestroyed_{false};
