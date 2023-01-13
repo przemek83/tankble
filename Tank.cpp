@@ -51,7 +51,7 @@ void Tank::fire(Map& map)
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
-        map.addBullet(std::make_unique<Bullet>(this));
+        map.addBullet(std::make_unique<Bullet>(*this));
     }
 }
 

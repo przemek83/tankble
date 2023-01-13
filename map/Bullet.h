@@ -8,7 +8,7 @@ struct ALLEGRO_BITMAP;
 class Bullet
 {
 public:
-    explicit Bullet(Tank*);
+    explicit Bullet(const Tank& tank);
     ~Bullet();
 
     Bullet& operator=(const Bullet& other) = delete;
@@ -37,7 +37,7 @@ private:
 
     ALLEGRO_BITMAP* bmp_{nullptr};
     const char* source_{nullptr};
-    Tank* tank_{nullptr};
+    TankType tankType_;
     int direction_;
     int speed_;
     int power_;

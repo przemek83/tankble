@@ -9,29 +9,21 @@
 #include "../Config.h"
 #include "../Tank.h"
 
-Bullet::Bullet(Tank* v)
+Bullet::Bullet(const Tank& tank) : tankType_(tank.getTankType())
 {
     source_ = "image/board/bullet.tga";
     if (!loadBitmap())
         exit(0);
-    direction_ = v->getDirection();
-    speed_ = v->getSpeed();
-    power_ = v->getPower();
-    x_ = v->getX() + Config::elementSize / 2 - 3;
-    y_ = v->getY() + Config::elementSize / 2 - 3;
-    tank_ = v;
+    direction_ = tank.getDirection();
+    speed_ = tank.getSpeed();
+    power_ = tank.getPower();
+    x_ = tank.getX() + Config::elementSize / 2 - 3;
+    y_ = tank.getY() + Config::elementSize / 2 - 3;
 }
 
 Bullet::~Bullet()
 {
     al_destroy_bitmap(bmp_);
-    try
-    {
-        tank_->resetFire();
-    }
-    catch (...)
-    {
-    }
     std::cout << "Bullet: " << static_cast<int>(getTankType())
               << " is deleted\n";
 }
@@ -47,7 +39,7 @@ bool Bullet::loadBitmap()
 
 ALLEGRO_BITMAP* Bullet::display() const { return bmp_; }
 
-TankType Bullet::getTankType() const { return tank_->getTankType(); }
+TankType Bullet::getTankType() const { return tankType_; }
 
 int Bullet::getPower() const { return power_; }
 
