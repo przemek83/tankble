@@ -25,7 +25,6 @@
 
 Map::Map(const Resources& resources) : resources_(resources)
 {
-    board_.reserve(Config::mapSize * Config::mapSize);
     board_.resize(Config::mapSize);
     for (auto& item : board_)
         item.resize(Config::mapSize);
