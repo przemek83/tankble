@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../ResourceType.h"
 #include "../TankType.h"
 
 class Tank;
@@ -31,6 +32,8 @@ public:
     void setY(int newY);
     int getDirectionX() const;
     int getDirectionY() const;
+
+    static ResourceType getResourceType();
 
 private:
     bool loadBitmap();

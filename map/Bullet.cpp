@@ -76,3 +76,5 @@ int Bullet::getDirectionY() const
         return 1;
     return 0;
 }
+
+ResourceType Bullet::getResourceType() { return ResourceType::BULLET; }
