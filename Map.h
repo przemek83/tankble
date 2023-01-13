@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "ResourceType.h"
+#include "map/Bullet.h"
+#include "map/Tile.h"
 
 class Tank;
-class Bullet;
-class Tile;
 class Resources;
 class Screen;
 
@@ -15,13 +15,6 @@ class Map
 {
 public:
     explicit Map(const Resources& resources);
-    ~Map();
-
-    Map& operator=(const Map& other) = delete;
-    Map(const Map& other) = delete;
-
-    Map& operator=(Map&& other) = delete;
-    Map(Map&& other) = delete;
 
     bool canDrive(unsigned int j, unsigned int i);
     bool isValid(int, int);

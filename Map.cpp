@@ -31,8 +31,6 @@ Map::Map(const Resources& resources) : resources_(resources)
     loadMap();
 }
 
-Map::~Map() {}
-
 void Map::moveBullet()
 {
     for (unsigned int i = 0; i < bullets_.size(); i++)
