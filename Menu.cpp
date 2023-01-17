@@ -71,7 +71,7 @@ Menu::UserChoice Menu::getUserChoice()
     bool shouldRedraw{true};
     for (unsigned int currentItem{0};;)
     {
-        const InputAction action{input.getAction()};
+        const InputAction action{input.getMenuAction()};
 
         if (action == InputAction::QUIT)
             return UserChoice::EXIT;

@@ -1,10 +1,13 @@
 #pragma once
 
+#include <set>
 #include <string>
 
 class Tank;
 class Map;
 class Screen;
+class Input;
+enum class InputAction : unsigned char;
 
 class Game
 {
@@ -14,7 +17,8 @@ public:
     bool play();
 
 private:
-    static void movement(Tank& myTank, Map& map);
+    static void movement(Tank& myTank, Map& map,
+                         const std::set<InputAction>& actions);
     void drawStatusPlaceholder();
     void control(Map& map);
 

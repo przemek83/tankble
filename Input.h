@@ -1,9 +1,11 @@
 #pragma once
 
+#include <set>
 #include <utility>
 
 struct ALLEGRO_EVENT_QUEUE;
 union ALLEGRO_EVENT;
+struct ALLEGRO_KEYBOARD_STATE;
 enum class InputAction : unsigned char;
 
 class Input final
@@ -11,14 +13,20 @@ class Input final
 public:
     Input();
 
-    InputAction getAction();
+    InputAction getMenuAction();
+
+    static std::set<InputAction> getGameActions();
 
     bool isEmpty() const;
 
     std::pair<unsigned int, unsigned int> getMousePosition() const;
 
 private:
+    static InputAction getCommonAction(const ALLEGRO_EVENT& event);
+
     static bool itemPicked(const ALLEGRO_EVENT& event);
+
+    static bool fired(const ALLEGRO_KEYBOARD_STATE& key_state);
 
     static bool userWantToExit(const ALLEGRO_EVENT& event) ;
 
@@ -28,9 +36,13 @@ private:
 
     static bool keyDownUsed(const ALLEGRO_EVENT& event);
 
-    static bool keyLeftUsed(const ALLEGRO_EVENT& event);
+    static bool keyUpPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
 
-    static bool keyRightUsed(const ALLEGRO_EVENT& event);
+    static bool keyDownPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+
+    static bool keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+
+    static bool keyRightPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
 
     static bool keyEnterUsed(const ALLEGRO_EVENT& event);
 

@@ -1,8 +1,9 @@
 #include "Game.h"
 
+#include <algorithm>
+#include <chrono>
 #include <iostream>
-
-#include <allegro5/allegro_font.h>
+#include <thread>
 
 #include "Config.h"
 #include "Input.h"
@@ -15,28 +16,26 @@ Game::Game(Screen& screen) : screen_(screen)
 {
 }
 
-void Game::movement(Tank& myTank, Map& map)
+void Game::movement(Tank& myTank, Map& map,
+                    const std::set<InputAction>& actions)
 {
     const int pomX = myTank.getX() / Config::elementSize;
     const int pomY = myTank.getY() / Config::elementSize;
     const int tol = 15;
 
-    ALLEGRO_KEYBOARD_STATE key_state;
-    al_get_keyboard_state(&key_state);
-
-    if (al_key_down(&key_state, ALLEGRO_KEY_UP))
+    if (actions.find(InputAction::UP) != actions.end())
     {
         myTank.move(0);
     }
-    else if (al_key_down(&key_state, ALLEGRO_KEY_DOWN))
+    else if (actions.find(InputAction::DOWN) != actions.end())
     {
         myTank.move(2);
     }
-    else if (al_key_down(&key_state, ALLEGRO_KEY_LEFT))
+    else if (actions.find(InputAction::LEFT) != actions.end())
     {
         myTank.move(3);
     }
-    else if (al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
+    else if (actions.find(InputAction::RIGHT) != actions.end())
     {
         myTank.move(1);
     }
@@ -146,7 +145,7 @@ bool Game::play()
 
     while (true)
     {
-        const InputAction action{input.getAction()};
+        const InputAction action{input.getMenuAction()};
 
         if (action == InputAction::BACK || gameOver_)
             break;
@@ -202,18 +201,19 @@ void Game::control(Map& map)
     {
         if (tank.isPlayerControlled())
         {
-            ALLEGRO_KEYBOARD_STATE key_state;
-            al_get_keyboard_state(&key_state);
-
-            if (al_key_down(&key_state, ALLEGRO_KEY_UP) ||
-                al_key_down(&key_state, ALLEGRO_KEY_DOWN) ||
-                al_key_down(&key_state, ALLEGRO_KEY_LEFT) ||
-                al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
+            const auto actions{Input::getGameActions()};
+            if (std::find_if(actions.begin(), actions.end(),
+                             [](InputAction action)
+                             {
+                                 return action == InputAction::UP ||
+                                        action == InputAction::DOWN ||
+                                        action == InputAction::LEFT ||
+                                        action == InputAction::RIGHT;
+                             }) != actions.end())
             {
-                movement(tank, map);
+                movement(tank, map, actions);
             }
-            if (al_key_down(&key_state, ALLEGRO_KEY_SPACE) ||
-                al_key_down(&key_state, ALLEGRO_KEY_ENTER))
+            if (actions.find(InputAction::FIRE) != actions.end())
             {
                 tank.fire(map);
             }
@@ -233,5 +233,5 @@ void Game::drawEndOfGame(const std::string& text)
     Screen::clearScreenWithBlack();
     screen_.drawText(Config::width / 2, Config::height / 2, text);
     Screen::refresh();
-    al_rest(2);
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 }
