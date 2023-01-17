@@ -5,7 +5,6 @@
 class Tank;
 class Map;
 class Screen;
-union ALLEGRO_EVENT;
 
 class Game
 {
@@ -15,10 +14,6 @@ public:
     bool play();
 
 private:
-    static bool userWantToExit(const ALLEGRO_EVENT& event);
-
-    static bool userWantToQuit(const ALLEGRO_EVENT& event);
-
     static void movement(Tank& myTank, Map& map);
     void drawStatusPlaceholder();
     void control(Map& map);

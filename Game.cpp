@@ -134,17 +134,6 @@ void Game::movement(Tank& myTank, Map& map)
     map.setPower(myTank);
 }
 
-bool Game::userWantToExit(const ALLEGRO_EVENT& event)
-{
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
-}
-
-bool Game::userWantToQuit(const ALLEGRO_EVENT& event)
-{
-    return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
-}
-
 bool Game::play()
 {
     Map map(screen_.getResources());
