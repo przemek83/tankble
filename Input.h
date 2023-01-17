@@ -28,6 +28,10 @@ private:
 
     static bool keyDownUsed(const ALLEGRO_EVENT& event);
 
+    static bool keyLeftUsed(const ALLEGRO_EVENT& event);
+
+    static bool keyRightUsed(const ALLEGRO_EVENT& event);
+
     static bool keyEnterUsed(const ALLEGRO_EVENT& event);
 
     static bool keySpaceUsed(const ALLEGRO_EVENT& event);
