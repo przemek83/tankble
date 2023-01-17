@@ -6,7 +6,6 @@ class Tank;
 class Map;
 class Screen;
 union ALLEGRO_EVENT;
-struct ALLEGRO_BITMAP;
 
 class Game
 {
@@ -27,6 +26,5 @@ private:
     void drawEndOfGame(const std::string& text);
 
     Screen& screen_;
-    ALLEGRO_BITMAP* buffer_{nullptr};
     bool gameOver_{false};
 };

@@ -12,7 +12,6 @@
 
 Game::Game(Screen& screen) : screen_(screen)
 {
-    buffer_ = al_create_bitmap(Config::width, Config::height);
 }
 
 void Game::movement(Tank& myTank, Map& map)
