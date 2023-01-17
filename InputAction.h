@@ -4,8 +4,8 @@ enum class InputAction : unsigned char
 {
     EMPTY = 0,
     TIMER,
-    UP,
-    DOWN,
+    UP_RELEASED,
+    DOWN_RELEASED,
     LEFT,
     RIGHT,
     ACCEPT,

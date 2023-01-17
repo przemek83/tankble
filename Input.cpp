@@ -31,10 +31,10 @@ InputAction Input::getAction()
         return InputAction::ACCEPT;
 
     if (keyUpUsed(event))
-        return InputAction::UP;
+        return InputAction::UP_RELEASED;
 
     if (keyDownUsed(event))
-        return InputAction::DOWN;
+        return InputAction::DOWN_RELEASED;
 
     if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
     {
