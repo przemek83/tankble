@@ -202,21 +202,11 @@ void Game::control(Map& map)
         if (tank.isPlayerControlled())
         {
             const auto actions{Input::getGameActions()};
-            if (std::find_if(actions.begin(), actions.end(),
-                             [](InputAction action)
-                             {
-                                 return action == InputAction::UP ||
-                                        action == InputAction::DOWN ||
-                                        action == InputAction::LEFT ||
-                                        action == InputAction::RIGHT;
-                             }) != actions.end())
-            {
+            if (isPlayerMoving(actions))
                 movement(tank, map, actions);
-            }
+
             if (actions.find(InputAction::FIRE) != actions.end())
-            {
                 tank.fire(map);
-            }
         }
         else
         {
@@ -234,4 +224,16 @@ void Game::drawEndOfGame(const std::string& text)
     screen_.drawText(Config::width / 2, Config::height / 2, text);
     Screen::refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
+}
+
+bool Game::isPlayerMoving(const std::set<InputAction>& actions)
+{
+    return std::find_if(actions.begin(), actions.end(),
+                        [](InputAction action)
+                        {
+                            return action == InputAction::UP ||
+                                   action == InputAction::DOWN ||
+                                   action == InputAction::LEFT ||
+                                   action == InputAction::RIGHT;
+                        }) != actions.end();
 }

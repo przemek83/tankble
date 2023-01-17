@@ -21,8 +21,8 @@ private:
                          const std::set<InputAction>& actions);
     void drawStatusPlaceholder();
     void control(Map& map);
-
     void drawEndOfGame(const std::string& text);
+    static bool isPlayerMoving(const std::set<InputAction>& actions);
 
     Screen& screen_;
     bool gameOver_{false};
