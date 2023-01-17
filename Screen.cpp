@@ -65,10 +65,11 @@ void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
         degrees * (ALLEGRO_PI / 180), 0);
 }
 
-void Screen::clearScreenWithColor(ALLEGRO_COLOR color)
+void Screen::clearScreenWithBlack()
 {
+    const ALLEGRO_COLOR blackColor{0, 0, 255, 0};
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_clear_to_color(color);
+    al_clear_to_color(blackColor);
     al_flip_display();
 }
 

@@ -142,7 +142,7 @@ bool Game::play()
 
     Input input;
     bool shouldRedraw{true};
-    Screen::clearScreenWithColor({0, 0, 255, 0});
+    Screen::clearScreenWithBlack();
 
     while (true)
     {
@@ -230,7 +230,7 @@ void Game::control(Map& map)
 
 void Game::drawEndOfGame(const std::string& text)
 {
-    Screen::clearScreenWithColor({0, 0, 255, 0});
+    Screen::clearScreenWithBlack();
     screen_.drawText(Config::width / 2, Config::height / 2, text);
     Screen::refresh();
     al_rest(2);

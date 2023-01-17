@@ -34,7 +34,7 @@ public:
                                       unsigned int y, int size,
                                       int degrees) const;
 
-    static void clearScreenWithColor(ALLEGRO_COLOR color);
+    static void clearScreenWithBlack();
 
     unsigned int getCenterX() const;
 
