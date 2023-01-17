@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "Bullet.h"
 #include "ResourceType.h"
-#include "map/Bullet.h"
 #include "map/Tile.h"
 
 class Tank;

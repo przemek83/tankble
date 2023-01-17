@@ -61,6 +61,8 @@ set(${PROJECT_NAME}_SOURCES
         Input.cpp
         InputAction.h
         TankType.h
+        Bullet.cpp
+        Bullet.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp
@@ -83,8 +85,6 @@ set(${PROJECT_NAME}_SOURCES
         map/Ice.h
         map/Plain.cpp
         map/Plain.h
-        map/Bullet.cpp
-        map/Bullet.h
         map/Brick.cpp
         map/Brick.h
         map/Base.cpp

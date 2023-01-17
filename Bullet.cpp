@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../Config.h"
-#include "../Tank.h"
+#include "Config.h"
+#include "Tank.h"
 
 Bullet::Bullet(const Tank& tank) : tankType_(tank.getTankType())
 {

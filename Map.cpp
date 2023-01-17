@@ -3,13 +3,13 @@
 #include <fstream>
 #include <iostream>
 
+#include "Bullet.h"
 #include "Config.h"
 #include "Resources.h"
 #include "Screen.h"
 #include "Tank.h"
 #include "map/Base.h"
 #include "map/Brick.h"
-#include "map/Bullet.h"
 #include "map/Ice.h"
 #include "map/LifeUp.h"
 #include "map/Plain.h"

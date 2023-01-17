@@ -6,10 +6,10 @@
 #include <filesystem>
 #include <iostream>
 
+#include "Bullet.h"
 #include "Config.h"
 #include "Map.h"
 #include "TankType.h"
-#include "map/Bullet.h"
 
 const int Tank::wayX_[4] = {0, 1, 0, -1};
 const int Tank::wayY_[4] = {-1, 0, 1, 0};

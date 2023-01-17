@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ResourceType.h"
-#include "../TankType.h"
+#include "ResourceType.h"
+#include "TankType.h"
 
 class Tank;
 
