@@ -5,6 +5,8 @@
 #include <allegro5/allegro_font.h>
 
 #include "Config.h"
+#include "Input.h"
+#include "InputAction.h"
 #include "Map.h"
 #include "Screen.h"
 #include "Tank.h"
@@ -149,33 +151,24 @@ bool Game::play()
 
     std::cout << "Map loaded" << std::endl;
 
-    ALLEGRO_EVENT_QUEUE* events{al_create_event_queue()};
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::fps)};
-    al_register_event_source(events, al_get_keyboard_event_source());
-    al_register_event_source(events, al_get_mouse_event_source());
-    al_register_event_source(
-        events, al_get_display_event_source(al_get_current_display()));
-    al_register_event_source(events, al_get_timer_event_source(timer));
-    al_start_timer(timer);
-
+    Input input;
     bool shouldRedraw{true};
     Screen::clearScreenWithColor({0, 0, 255, 0});
 
     while (true)
     {
-        ALLEGRO_EVENT event;
-        al_wait_for_event(events, &event);
+        const InputAction action{input.getAction()};
 
-        if (userWantToExit(event) || gameOver_)
+        if (action == InputAction::BACK || gameOver_)
             break;
 
-        if (userWantToQuit(event))
+        if (action == InputAction::QUIT)
             return false;
 
-        if (event.type == ALLEGRO_EVENT_TIMER)
+        if (action == InputAction::TIMER)
             shouldRedraw = true;
 
-        if (shouldRedraw && al_is_event_queue_empty(events))
+        if (shouldRedraw && input.isEmpty())
         {
             shouldRedraw = false;
             map.drawBackground(screen_);
