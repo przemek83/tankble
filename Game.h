@@ -20,10 +20,10 @@ private:
     static void movement(Tank& myTank, Map& map,
                          const std::set<InputAction>& actions);
     void drawStatusPlaceholder();
-    void control(Map& map);
+    static void control(Map& map);
     void drawEndOfGame(const std::string& text);
     static bool isPlayerMoving(const std::set<InputAction>& actions);
+    bool isGameEnding(Map& map);
 
     Screen& screen_;
-    bool gameOver_{false};
 };

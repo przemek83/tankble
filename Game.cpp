@@ -146,8 +146,7 @@ bool Game::play()
     while (true)
     {
         const InputAction action{input.getMenuAction()};
-
-        if (action == InputAction::BACK || gameOver_)
+        if (action == InputAction::BACK || isGameEnding(map))
             break;
 
         if (action == InputAction::QUIT)
@@ -183,20 +182,6 @@ void Game::drawStatusPlaceholder()
 
 void Game::control(Map& map)
 {
-    if (map.isPlayerDestroyed())
-    {
-        drawEndOfGame("You loose");
-        gameOver_ = true;
-        return;
-    }
-
-    if (map.getTanks().size() == 1)
-    {
-        drawEndOfGame("You Win");
-        gameOver_ = true;
-        return;
-    }
-
     for (auto& tank : map.getTanks())
     {
         if (tank.isPlayerControlled())
@@ -236,4 +221,21 @@ bool Game::isPlayerMoving(const std::set<InputAction>& actions)
                                    action == InputAction::LEFT ||
                                    action == InputAction::RIGHT;
                         }) != actions.end();
+}
+
+bool Game::isGameEnding(Map& map)
+{
+    if (map.isPlayerDestroyed())
+    {
+        drawEndOfGame("You loose");
+        return true;
+    }
+
+    if (map.getTanks().size() == 1)
+    {
+        drawEndOfGame("You Win");
+        return true;
+    }
+
+    return false;
 }
