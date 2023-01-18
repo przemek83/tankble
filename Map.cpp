@@ -84,9 +84,9 @@ T - tank up
 
 void Map::loadMap()
 {
-    int on = clock();
+    const int on = clock();
 
-    char sign;
+    char sign{};
     std::fstream stream{resources_.getLevel()};
 
     for (unsigned int i = 0; i < Config::mapSize; i++)
@@ -152,7 +152,7 @@ void Map::loadMap()
             }
         }
 
-    int off{clock()};
+    const int off{clock()};
     std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
               << " seconds" << std::endl;
 }
