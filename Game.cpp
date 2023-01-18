@@ -139,8 +139,7 @@ bool Game::play()
 {
     Map map;
 
-    std::vector<Tank> tanks =
-        map.loadMap(std::move(screen_.getResources().getLevel()));
+    std::vector<Tank> tanks{map.loadMap(screen_.getResources().getLevel())};
 
     std::cout << "Map loaded" << std::endl;
 
@@ -167,7 +166,6 @@ bool Game::play()
             map.drawBackground(screen_);
             drawTanks(screen_, tanks);
             drawBullets(screen_, bullets);
-            map.drawPowers(screen_);
             map.drawForeground(screen_);
             drawStatusPlaceholder();
             control(map, tanks, bullets);

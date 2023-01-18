@@ -25,7 +25,6 @@ public:
 
     void drawBackground(const Screen& screen);
     void drawForeground(Screen& screen);
-    void drawPowers(Screen& screen);
 
     bool isPlayerDestroyed() const;
 

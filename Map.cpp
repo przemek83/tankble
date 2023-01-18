@@ -205,6 +205,4 @@ void Map::drawForeground(Screen& screen)
     // TODO
 }
 
-void Map::drawPowers(Screen& screen) {}
-
 bool Map::isPlayerDestroyed() const { return playerDestroyed_; }
