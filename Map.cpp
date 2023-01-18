@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "Config.h"
-#include "Resources.h"
 #include "Screen.h"
 #include "Tank.h"
 #include "map/Base.h"
@@ -19,7 +18,7 @@
 #include "map/TierUp.h"
 #include "map/Water.h"
 
-Map::Map(const Resources& resources) : resources_(resources)
+Map::Map()
 {
     board_.resize(Config::mapSize);
     for (auto& item : board_)
@@ -42,12 +41,11 @@ L - level up
 A - armor up
 T - tank up
 */
-std::vector<Tank> Map::loadMap()
+std::vector<Tank> Map::loadMap(std::fstream stream)
 {
     const int on = clock();
 
     char sign{};
-    std::fstream stream{resources_.getLevel()};
     std::vector<Tank> tanks;
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
@@ -125,7 +123,7 @@ void Map::drawMapItem(const Screen& screen, ResourceType resourceType, int x,
     screen.drawScaledBitmap(resourceType, x, y, Config::elementSize);
 }
 
-bool Map::canDrive(unsigned int j, unsigned int i)
+bool Map::canDrive(unsigned int j, unsigned int i) const
 {
     return board_[i][j]->canDrive();
 }

@@ -13,14 +13,14 @@ class Screen;
 class Map
 {
 public:
-    explicit Map(const Resources& resources);
+    Map();
 
-    std::vector<Tank> loadMap();
+    std::vector<Tank> loadMap(std::fstream stream);
 
-    bool canDrive(unsigned int j, unsigned int i);
+    bool canDrive(unsigned int j, unsigned int i) const;
     bool canFly(unsigned int j, unsigned int i) const;
 
-    bool isValid(int, int);
+    bool isValid(int x, int y);
     void setPower(Tank& vehicle);
 
     void drawBackground(const Screen& screen);
@@ -35,7 +35,6 @@ private:
     void drawMapItem(const Screen& screen, ResourceType resourceType, int x,
                      int y);
 
-    const Resources& resources_;
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
     bool playerDestroyed_{false};

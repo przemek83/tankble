@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 #include <iostream>
 #include <thread>
 
@@ -136,8 +137,10 @@ void Game::movement(Tank& myTank, Map& map,
 
 bool Game::play()
 {
-    Map map(screen_.getResources());
-    std::vector<Tank> tanks = map.loadMap();
+    Map map;
+
+    std::vector<Tank> tanks =
+        map.loadMap(std::move(screen_.getResources().getLevel()));
 
     std::cout << "Map loaded" << std::endl;
 
