@@ -26,7 +26,7 @@ public:
     void setY(int);
     void moveRandom(Map& map);
     int getDirection() const;
-    void fire(Map& map);
+    bool canFire();
     bool destroy(int);
     int getSpeed() const;
     int getPower() const;

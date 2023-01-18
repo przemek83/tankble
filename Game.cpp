@@ -5,6 +5,7 @@
 #include <iostream>
 #include <thread>
 
+#include "Bullet.h"
 #include "Config.h"
 #include "Input.h"
 #include "InputAction.h"
@@ -136,17 +137,19 @@ void Game::movement(Tank& myTank, Map& map,
 bool Game::play()
 {
     Map map(screen_.getResources());
+    std::vector<Tank> tanks = map.loadMap();
 
     std::cout << "Map loaded" << std::endl;
 
     Input input;
     bool shouldRedraw{true};
     Screen::clearScreenWithBlack();
+    std::vector<Bullet> bullets;
 
     while (true)
     {
         const InputAction action{input.getMenuAction()};
-        if (action == InputAction::BACK || isGameEnding(map))
+        if (action == InputAction::BACK || isGameEnding(map, tanks))
             break;
 
         if (action == InputAction::QUIT)
@@ -159,13 +162,13 @@ bool Game::play()
         {
             shouldRedraw = false;
             map.drawBackground(screen_);
-            map.drawVehicles(screen_);
-            map.drawBullets(screen_);
+            drawTanks(screen_, tanks);
+            drawBullets(screen_, bullets);
             map.drawPowers(screen_);
             map.drawForeground(screen_);
             drawStatusPlaceholder();
-            control(map);
-            map.moveBullet();
+            control(map, tanks, bullets);
+            moveBullets(bullets, tanks, map);
             Screen::refresh();
         }
     }
@@ -181,9 +184,10 @@ void Game::drawStatusPlaceholder()
                      Config::height / 2, "[Status placeholder]");
 }
 
-void Game::control(Map& map)
+void Game::control(Map& map, std::vector<Tank>& tanks,
+                   std::vector<Bullet>& bullets)
 {
-    for (auto& tank : map.getTanks())
+    for (auto& tank : tanks)
     {
         if (tank.isPlayerControlled())
         {
@@ -191,13 +195,15 @@ void Game::control(Map& map)
             if (isPlayerMoving(actions))
                 movement(tank, map, actions);
 
-            if (actions.find(InputAction::FIRE) != actions.end())
-                tank.fire(map);
+            if (actions.find(InputAction::FIRE) != actions.end() &&
+                tank.canFire())
+                bullets.emplace_back(tank);
         }
         else
         {
             tank.moveRandom(map);
-            tank.fire(map);
+            if (tank.canFire())
+                bullets.emplace_back(tank);
         }
     }
 }
@@ -222,19 +228,111 @@ bool Game::isPlayerMoving(const std::set<InputAction>& actions)
                         }) != actions.end();
 }
 
-bool Game::isGameEnding(Map& map)
+bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
 {
-    if (map.isPlayerDestroyed())
+    if (map.isPlayerDestroyed() || playerDestroyed_)
     {
         drawEndOfGame("You loose");
         return true;
     }
 
-    if (map.getTanks().size() == 1)
+    if (tanks.size() == 1)
     {
         drawEndOfGame("You Win");
         return true;
     }
 
     return false;
+}
+
+void Game::drawTanks(const Screen& screen, const std::vector<Tank>& tanks)
+{
+    for (const auto& vehicle : tanks)
+    {
+        auto resourceType = static_cast<ResourceType>(
+            static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
+            static_cast<unsigned char>(vehicle.getTankType()));
+
+        screen.drawScaledBitmapWithRotation(resourceType, vehicle.getX(),
+                                            vehicle.getY(), Config::elementSize,
+                                            90 * vehicle.getDirection());
+    }
+}
+
+void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
+                       Map& map)
+{
+    for (unsigned int i = 0; i < bullets.size(); i++)
+    {
+        Bullet& b{bullets.at(i)};
+        int px{b.getX() + b.getDirectionX() * b.getSpeed()};
+        int py{b.getY() + b.getDirectionY() * b.getSpeed()};
+        if (isBulletValid(px, py))
+        {
+            b.setX(px);
+            b.setY(py);
+            unsigned int pi{b.getCenterY() / Config::elementSize};
+            unsigned int pj{b.getCenterX() / Config::elementSize};
+            int iter{isTank(b, tanks)};
+            if (!map.canFly(pj, pi))
+            {
+                map.destroyItem(pj, pi, b.getPower());
+                bullets.erase(bullets.begin() + i);
+            }
+            if (iter >= 0)
+            {
+                Tank& v{tanks.at(iter)};
+                if (v.destroy(b.getPower()))
+                {
+                    if (v.isPlayerControlled())
+                        playerDestroyed_ = true;
+                    tanks.erase(tanks.begin() + iter);
+                }
+                bullets.erase(bullets.begin() + i);
+            }
+        }
+        else
+        {
+            bullets.erase(bullets.begin() + i);
+        }
+    }
+}
+
+bool Game::isBulletValid(int x, int y)
+{
+    const int bulletSize{7};
+    if (x >= Config::elementSize * Config::mapSize - bulletSize ||
+        y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
+        x < 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
+{
+    for (unsigned int i = 0; i < tanks.size(); i++)
+    {
+        const Tank& v{tanks.at(i)};
+        if (bullet.getCenterX() >= v.getX() &&
+            bullet.getCenterX() < v.getX() + Config::elementSize &&
+            bullet.getCenterY() >= v.getY() &&
+            bullet.getCenterY() < v.getY() + Config::elementSize &&
+            bullet.getTankType() != v.getTankType())
+        {  // check friendly fire
+            return i;
+        }
+    }
+    return -1;
+}
+
+void Game::drawBullets(const Screen& screen, std::vector<Bullet>& bullets)
+{
+    const ResourceType resourceType = Bullet::getResourceType();
+    for (const auto& bullet : bullets)
+    {
+        screen.drawScaledBitmap(resourceType, bullet.getX(), bullet.getY(),
+                                Config::BULLET_SIZE);
+    }
 }

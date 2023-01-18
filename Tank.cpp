@@ -45,14 +45,16 @@ void Tank::setType(TankType tankType)
 
 void Tank::move(int xy) { direction_ = xy; }
 
-void Tank::fire(Map& map)
+bool Tank::canFire()
 {
     time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
-        map.addBullet(Bullet(*this));
+        return true;
     }
+
+    return false;
 }
 
 bool Tank::destroy(int power)

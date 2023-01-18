@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 
-#include "Bullet.h"
 #include "Config.h"
 #include "Resources.h"
 #include "Screen.h"
@@ -25,46 +24,8 @@ Map::Map(const Resources& resources) : resources_(resources)
     board_.resize(Config::mapSize);
     for (auto& item : board_)
         item.resize(Config::mapSize);
-    loadMap();
 }
 
-void Map::moveBullet()
-{
-    for (unsigned int i = 0; i < bullets_.size(); i++)
-    {
-        Bullet& b{bullets_.at(i)};
-        int px{b.getX() + b.getDirectionX() * b.getSpeed()};
-        int py{b.getY() + b.getDirectionY() * b.getSpeed()};
-        if (isBulletValid(px, py))
-        {
-            b.setX(px);
-            b.setY(py);
-            unsigned int pi{b.getCenterY() / Config::elementSize};
-            unsigned int pj{b.getCenterX() / Config::elementSize};
-            int iter{isTank(b)};
-            if (!canFly(pj, pi))
-            {
-                destroyItem(pj, pi, b.getPower());
-                bullets_.erase(bullets_.begin() + i);
-            }
-            if (iter >= 0)
-            {
-                Tank& v{tanks_.at(iter)};
-                if (v.destroy(b.getPower()))
-                {
-                    if (v.isPlayerControlled())
-                        playerDestroyed_ = true;
-                    tanks_.erase(tanks_.begin() + iter);
-                }
-                bullets_.erase(bullets_.begin() + i);
-            }
-        }
-        else
-        {
-            bullets_.erase(bullets_.begin() + i);
-        }
-    }
-}
 /*
 0 - trawa
 1 - cegla
@@ -81,14 +42,13 @@ L - level up
 A - armor up
 T - tank up
 */
-
-void Map::loadMap()
+std::vector<Tank> Map::loadMap()
 {
     const int on = clock();
 
     char sign{};
     std::fstream stream{resources_.getLevel()};
-
+    std::vector<Tank> tanks;
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
         {
@@ -125,15 +85,15 @@ void Map::loadMap()
                     break;
                 case 'M':
                     board_[i][j] = std::make_unique<Plain>();
-                    tanks_.emplace_back(TankType::PLAYER_TIER_1,
-                                        Config::elementSize * j,
-                                        Config::elementSize * i);
+                    tanks.emplace_back(TankType::PLAYER_TIER_1,
+                                       Config::elementSize * j,
+                                       Config::elementSize * i);
                     break;
                 case 'E':
                     board_[i][j] = std::make_unique<Plain>();
-                    tanks_.emplace_back(TankType::ENEMY_TIER_1,
-                                        Config::elementSize * j,
-                                        Config::elementSize * i);
+                    tanks.emplace_back(TankType::ENEMY_TIER_1,
+                                       Config::elementSize * j,
+                                       Config::elementSize * i);
                     break;
                 case 'A':
                     board_[i][j] = std::make_unique<ShieldUp>();
@@ -155,6 +115,8 @@ void Map::loadMap()
     const int off{clock()};
     std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
               << " seconds" << std::endl;
+
+    return tanks;
 }
 
 void Map::drawMapItem(const Screen& screen, ResourceType resourceType, int x,
@@ -179,38 +141,9 @@ bool Map::isValid(int x, int y)
     return true;
 }
 
-bool Map::isBulletValid(int x, int y)
-{
-    const int bulletSize{7};
-    if (x >= Config::elementSize * Config::mapSize - bulletSize ||
-        y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
-        x < 0)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool Map::canFly(unsigned int j, unsigned int i)
+bool Map::canFly(unsigned int j, unsigned int i) const
 {
     return board_[i][j]->canFly();
-}
-
-int Map::isTank(const Bullet& bullet)
-{
-    for (unsigned int i = 0; i < tanks_.size(); i++)
-    {
-        const Tank& v{tanks_.at(i)};
-        if (bullet.getCenterX() >= v.getX() &&
-            bullet.getCenterX() < v.getX() + Config::elementSize &&
-            bullet.getCenterY() >= v.getY() &&
-            bullet.getCenterY() < v.getY() + Config::elementSize &&
-            bullet.getTankType() != v.getTankType())
-        {  // check friendly fire
-            return i;
-        }
-    }
-    return -1;
 }
 
 void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
@@ -224,8 +157,6 @@ void Map::destroyItem(unsigned int j, unsigned int i, unsigned int power)
             playerDestroyed_ = true;
     }
 }
-
-void Map::addBullet(Bullet bullet) { bullets_.emplace_back(std::move(bullet)); }
 
 void Map::setPower(Tank& tank)
 {
@@ -277,31 +208,5 @@ void Map::drawForeground(Screen& screen)
 }
 
 void Map::drawPowers(Screen& screen) {}
-
-void Map::drawVehicles(const Screen& screen)
-{
-    for (const auto& vehicle : tanks_)
-    {
-        ResourceType resourceType = static_cast<ResourceType>(
-            static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
-            static_cast<unsigned char>(vehicle.getTankType()));
-
-        screen.drawScaledBitmapWithRotation(resourceType, vehicle.getX(),
-                                            vehicle.getY(), Config::elementSize,
-                                            90 * vehicle.getDirection());
-    }
-}
-
-void Map::drawBullets(const Screen& screen)
-{
-    const ResourceType resourceType = Bullet::getResourceType();
-    for (const auto& bullet : bullets_)
-    {
-        screen.drawScaledBitmap(resourceType, bullet.getX(), bullet.getY(),
-                                Config::BULLET_SIZE);
-    }
-}
-
-std::vector<Tank>& Map::getTanks() { return tanks_; }
 
 bool Map::isPlayerDestroyed() const { return playerDestroyed_; }
