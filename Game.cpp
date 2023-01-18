@@ -165,6 +165,7 @@ bool Game::play()
             map.drawForeground(screen_);
             drawStatusPlaceholder();
             control(map);
+            map.moveBullet();
             Screen::refresh();
         }
     }
@@ -199,8 +200,6 @@ void Game::control(Map& map)
             tank.fire(map);
         }
     }
-
-    map.moveBullet();
 }
 
 void Game::drawEndOfGame(const std::string& text)
