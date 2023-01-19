@@ -117,8 +117,8 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
     return tanks;
 }
 
-void Map::drawMapItem(const Screen& screen, ResourceType resourceType, int x,
-                      int y)
+void Map::drawMapItem(const Screen& screen, ResourceType resourceType,
+                      unsigned int x, unsigned int y)
 {
     screen.drawScaledBitmap(resourceType, x, y, Config::elementSize);
 }
@@ -196,12 +196,14 @@ void Map::drawBackground(const Screen& screen)
 {
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
-            if (board_[i][j]->isPartOfBackground())
-                drawMapItem(screen, board_[i][j]->getResourceType(),
-                            j * Config::elementSize, i * Config::elementSize);
-            else
-                drawMapItem(screen, ResourceType::PLAIN,
-                            j * Config::elementSize, i * Config::elementSize);
+        {
+            ResourceType type{board_[i][j]->getResourceType()};
+            if (!board_[i][j]->isPartOfBackground())
+                type = ResourceType::PLAIN;
+
+            drawMapItem(screen, type, j * Config::elementSize,
+                        i * Config::elementSize);
+        }
 }
 
 void Map::drawForeground(const Screen& screen)

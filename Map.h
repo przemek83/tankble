@@ -31,8 +31,8 @@ public:
     void destroyItem(unsigned int j, unsigned int i, unsigned int power);
 
 private:
-    void drawMapItem(const Screen& screen, ResourceType resourceType, int x,
-                     int y);
+    void drawMapItem(const Screen& screen, ResourceType resourceType,
+                     unsigned int x, unsigned int y);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
