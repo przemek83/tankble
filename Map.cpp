@@ -130,13 +130,9 @@ bool Map::canDrive(unsigned int x, unsigned int y) const
 
 bool Map::isValid(int x, int y)
 {
-    if (x >= Config::elementSize * Config::mapSize - Config::elementSize ||
-        y >= Config::elementSize * Config::mapSize - Config::elementSize ||
-        y < 0 || x < 0)
-    {
-        return false;
-    }
-    return true;
+    const int maxCoordinate{
+        static_cast<int>((Config::mapSize - 1) * Config::elementSize)};
+    return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
 
 std::pair<bool, ResourceType> Map::takePowerUp(unsigned int x, unsigned int y)

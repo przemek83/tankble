@@ -20,7 +20,7 @@ public:
     bool canDrive(unsigned int x, unsigned int y) const;
     bool canFly(unsigned int x, unsigned int y) const;
 
-    bool isValid(int x, int y);
+    static bool isValid(int x, int y);
     std::pair<bool, ResourceType> takePowerUp(unsigned int x, unsigned int y);
 
     void drawBackground(const Screen& screen);
