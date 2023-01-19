@@ -41,8 +41,6 @@ Map::Map()
 
 std::vector<Tank> Map::loadMap(std::fstream stream)
 {
-    const int on = clock();
-
     char sign{};
     std::vector<Tank> tanks;
     for (unsigned int y = 0; y < Config::mapSize; y++)
@@ -107,10 +105,6 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
                     tile = std::make_unique<Plain>();
             }
         }
-
-    const int off{clock()};
-    std::cout << "loadMap " << (static_cast<float>(off - on)) / CLOCKS_PER_SEC
-              << " seconds" << std::endl;
 
     return tanks;
 }

@@ -138,11 +138,7 @@ void Game::movement(Tank& myTank, Map& map,
 bool Game::play()
 {
     Map map;
-
     std::vector<Tank> tanks{map.loadMap(screen_.getResources().getLevel())};
-
-    std::cout << "Map loaded" << std::endl;
-
     Input input;
     bool shouldRedraw{true};
     Screen::clearScreenWithBlack();
