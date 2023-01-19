@@ -68,7 +68,6 @@ bool Menu::playGame()
 Menu::UserChoice Menu::getUserChoice()
 {
     Input input;
-    bool shouldRedraw{true};
     for (unsigned int currentItem{0};;)
     {
         const InputAction action{input.getMenuAction()};
@@ -86,13 +85,7 @@ Menu::UserChoice Menu::getUserChoice()
             getCurrentItem(input.getMousePosition(), action, currentItem);
 
         if (action == InputAction::TIMER)
-            shouldRedraw = true;
-
-        if (shouldRedraw && input.isEmpty())
-        {
-            shouldRedraw = false;
             redraw(currentItem);
-        }
     }
 }
 
