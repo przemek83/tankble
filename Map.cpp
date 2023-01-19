@@ -196,13 +196,21 @@ void Map::drawBackground(const Screen& screen)
 {
     for (unsigned int i = 0; i < Config::mapSize; i++)
         for (unsigned int j = 0; j < Config::mapSize; j++)
-            drawMapItem(screen, board_[i][j]->getResourceType(),
-                        j * Config::elementSize, i * Config::elementSize);
+            if (board_[i][j]->isPartOfBackground())
+                drawMapItem(screen, board_[i][j]->getResourceType(),
+                            j * Config::elementSize, i * Config::elementSize);
+            else
+                drawMapItem(screen, ResourceType::PLAIN,
+                            j * Config::elementSize, i * Config::elementSize);
 }
 
-void Map::drawForeground(Screen& screen)
+void Map::drawForeground(const Screen& screen)
 {
-    // TODO
+    for (unsigned int i = 0; i < Config::mapSize; i++)
+        for (unsigned int j = 0; j < Config::mapSize; j++)
+            if (!board_[i][j]->isPartOfBackground())
+                drawMapItem(screen, board_[i][j]->getResourceType(),
+                            j * Config::elementSize, i * Config::elementSize);
 }
 
 bool Map::isPlayerDestroyed() const { return playerDestroyed_; }

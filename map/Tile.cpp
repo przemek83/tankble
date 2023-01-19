@@ -5,6 +5,8 @@ Tile::Tile(ResourceType resourceType, int armor)
 {
 }
 
+bool Tile::isPartOfBackground() { return true; }
+
 bool Tile::destroy(int power)
 {
     armor_ -= power;

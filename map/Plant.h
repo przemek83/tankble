@@ -9,4 +9,5 @@ public:
 
     bool canFly() override;
     bool canDrive() override;
+    bool isPartOfBackground() override;
 };

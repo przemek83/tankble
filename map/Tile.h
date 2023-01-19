@@ -16,6 +16,7 @@ public:
 
     virtual bool canFly() = 0;
     virtual bool canDrive() = 0;
+    virtual bool isPartOfBackground();
 
     bool destroy(int);
 

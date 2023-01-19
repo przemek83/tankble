@@ -24,7 +24,7 @@ public:
     void setPower(Tank& vehicle);
 
     void drawBackground(const Screen& screen);
-    void drawForeground(Screen& screen);
+    void drawForeground(const Screen& screen);
 
     bool isPlayerDestroyed() const;
 
