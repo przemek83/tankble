@@ -163,13 +163,8 @@ bool Game::play()
         if (shouldRedraw && input.isEmpty())
         {
             shouldRedraw = false;
-            map.drawBackground(screen_);
-            drawTanks(screen_, tanks);
-            drawBullets(screen_, bullets);
-            map.drawForeground(screen_);
-            drawStatusPlaceholder();
+            draw(bullets, tanks, map);
             control(map, tanks, bullets);
-            moveBullets(bullets, tanks, map);
             Screen::refresh();
         }
     }
@@ -188,6 +183,8 @@ void Game::drawStatusPlaceholder()
 void Game::control(Map& map, std::vector<Tank>& tanks,
                    std::vector<Bullet>& bullets)
 {
+    moveBullets(bullets, tanks, map);
+
     for (auto& tank : tanks)
     {
         if (tank.isPlayerControlled())
@@ -302,13 +299,9 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
 bool Game::isBulletValid(int x, int y)
 {
     const int bulletSize{7};
-    if (x >= Config::elementSize * Config::mapSize - bulletSize ||
-        y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
-        x < 0)
-    {
-        return false;
-    }
-    return true;
+    return x >= Config::elementSize * Config::mapSize - bulletSize ||
+           y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
+           x < 0;
 }
 
 int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
@@ -328,7 +321,7 @@ int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
     return -1;
 }
 
-void Game::drawBullets(const Screen& screen, std::vector<Bullet>& bullets)
+void Game::drawBullets(const Screen& screen, const std::vector<Bullet>& bullets)
 {
     const ResourceType resourceType = Bullet::getResourceType();
     for (const auto& bullet : bullets)
@@ -336,4 +329,14 @@ void Game::drawBullets(const Screen& screen, std::vector<Bullet>& bullets)
         screen.drawScaledBitmap(resourceType, bullet.getX(), bullet.getY(),
                                 Config::BULLET_SIZE);
     }
+}
+
+void Game::draw(const std::vector<Bullet>& bullets,
+                const std::vector<Tank>& tanks, Map& map)
+{
+    map.drawBackground(screen_);
+    drawTanks(screen_, tanks);
+    drawBullets(screen_, bullets);
+    map.drawForeground(screen_);
+    drawStatusPlaceholder();
 }
