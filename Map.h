@@ -7,7 +7,6 @@
 #include "map/Tile.h"
 
 class Tank;
-class Resources;
 class Screen;
 
 class Map
