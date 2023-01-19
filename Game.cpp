@@ -132,7 +132,7 @@ void Game::movement(Tank& myTank, Map& map,
             myTank.go();
         }
     }
-    map.setPower(myTank);
+    setPower(myTank, map);
 }
 
 bool Game::play()
@@ -339,4 +339,38 @@ void Game::draw(const std::vector<Bullet>& bullets,
     drawBullets(screen_, bullets);
     map.drawForeground(screen_);
     drawStatusPlaceholder();
+}
+
+void Game::setPower(Tank& tank, Map& map)
+{
+    const std::size_t x{(tank.getX() + 15) / Config::elementSize};
+    const std::size_t y{(tank.getY() + 15) / Config::elementSize};
+
+    auto [takenPowerUp, powerUp]{map.takePowerUp(x, y)};
+    if (!takenPowerUp)
+        return;
+
+    switch (powerUp)
+    {
+        case ResourceType::SHIELD_UP:
+            tank.setMaxArmor();
+            break;
+
+        case ResourceType::TIER_UP:
+            if (static_cast<int>(tank.getTankType()) < 3)
+                tank.setType(static_cast<TankType>(
+                    static_cast<int>(tank.getTankType()) + 1));
+            break;
+
+        case ResourceType::SPEED_UP:
+            tank.setSpeedUp();
+            break;
+
+        case ResourceType::LIFE_UP:
+            tank.addLife();
+            break;
+
+        default:
+            break;
+    }
 }

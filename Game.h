@@ -37,6 +37,7 @@ private:
                             const std::vector<Bullet>& bullets);
     void draw(const std::vector<Bullet>& bullets,
               const std::vector<Tank>& tanks, Map& map);
+    static void setPower(Tank& tank, Map& map);
 
     Screen& screen_;
     bool playerDestroyed_{false};
