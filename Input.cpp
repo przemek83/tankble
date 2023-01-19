@@ -70,8 +70,6 @@ std::set<InputAction> Input::getGameActions()
     return ongoingActions;
 }
 
-bool Input::isEmpty() const { return al_is_event_queue_empty(events_); }
-
 std::pair<unsigned int, unsigned int> Input::getMousePosition() const
 {
     return {mouseX_, mouseY_};

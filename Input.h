@@ -17,8 +17,6 @@ public:
 
     static std::set<InputAction> getGameActions();
 
-    bool isEmpty() const;
-
     std::pair<unsigned int, unsigned int> getMousePosition() const;
 
 private:
