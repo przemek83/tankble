@@ -32,6 +32,6 @@ protected:
     static const unsigned int NO_ARMOR{0};
 
 private:
-    unsigned int armor_;
+    int armor_;
     ResourceType resourceType_;
 };
