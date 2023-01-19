@@ -5,7 +5,7 @@
 class Tile
 {
 public:
-    Tile(ResourceType resourceType, int armor);
+    Tile(ResourceType resourceType, unsigned int armor);
     virtual ~Tile() = default;
 
     Tile& operator=(const Tile& other) = delete;
@@ -18,7 +18,7 @@ public:
     virtual bool canDrive() = 0;
     virtual bool isPartOfBackground();
 
-    bool destroy(int);
+    bool destroy(unsigned int power);
 
     bool isPowerUp() const;
 
@@ -32,6 +32,6 @@ protected:
     static const unsigned int NO_ARMOR{0};
 
 private:
-    int armor_;
+    unsigned int armor_;
     ResourceType resourceType_;
 };

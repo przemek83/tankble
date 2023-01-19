@@ -1,13 +1,13 @@
 #include "Tile.h"
 
-Tile::Tile(ResourceType resourceType, int armor)
+Tile::Tile(ResourceType resourceType, unsigned int armor)
     : armor_(armor), resourceType_(resourceType)
 {
 }
 
 bool Tile::isPartOfBackground() { return true; }
 
-bool Tile::destroy(int power)
+bool Tile::destroy(unsigned int power)
 {
     armor_ -= power;
     return armor_ <= 0;

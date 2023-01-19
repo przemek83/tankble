@@ -1,6 +1,6 @@
 #include "PowerUp.h"
 
-PowerUp::PowerUp(ResourceType resourceType, int armor)
+PowerUp::PowerUp(ResourceType resourceType, unsigned int armor)
     : Tile(resourceType, armor)
 {
 }
