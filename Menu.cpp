@@ -27,7 +27,7 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
 
 bool Menu::playGame()
 {
-    screen_.showMouse();
+    Screen::showMouse();
 
     for (;;)
     {
@@ -55,11 +55,11 @@ bool Menu::playGame()
                 break;
 
             case UserChoice::EXIT:
-                screen_.hideMouse();
+                Screen::hideMouse();
                 return false;
 
             case UserChoice::NEW_1P:
-                screen_.hideMouse();
+                Screen::hideMouse();
                 return true;
         }
     }
@@ -140,7 +140,7 @@ void Menu::redraw(unsigned int currentItem)
 {
     screen_.drawBackground(ResourceType::BACKGROUND);
     drawMenuItems(currentItem);
-    screen_.refresh();
+    Screen::refresh();
 }
 
 unsigned int Menu::getLocationOfFirstItem() const
