@@ -140,7 +140,6 @@ bool Game::play()
     Map map;
     std::vector<Tank> tanks{map.loadMap(screen_.getResources().getLevel())};
     Input input;
-    bool shouldRedraw{true};
     Screen::clearScreenWithBlack();
     std::vector<Bullet> bullets;
 
@@ -154,18 +153,12 @@ bool Game::play()
             return false;
 
         if (action == InputAction::TIMER)
-            shouldRedraw = true;
-
-        if (shouldRedraw && input.isEmpty())
         {
-            shouldRedraw = false;
             draw(bullets, tanks, map);
             control(map, tanks, bullets);
             Screen::refresh();
         }
     }
-
-    std::cout << "stop" << '\n';
 
     return true;
 }
