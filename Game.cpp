@@ -287,10 +287,10 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
 
 bool Game::isBulletValid(int x, int y)
 {
-    const int bulletSize{7};
-    return !(x >= Config::elementSize * Config::mapSize - bulletSize ||
-             y >= Config::elementSize * Config::mapSize - bulletSize || y < 0 ||
-             x < 0);
+    constexpr int bulletSize{Config::BULLET_SIZE};
+    constexpr int maxCoordinate{Config::elementSize * Config::mapSize -
+                                bulletSize};
+    return x < maxCoordinate && y < maxCoordinate && y >= 0 && x >= 0;
 }
 
 int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
