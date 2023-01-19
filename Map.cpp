@@ -120,7 +120,8 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
 void Map::drawMapItem(const Screen& screen, ResourceType resourceType,
                       unsigned int x, unsigned int y)
 {
-    screen.drawScaledBitmap(resourceType, x, y, Config::elementSize);
+    const unsigned int tileSize{Config::elementSize};
+    screen.drawScaledBitmap(resourceType, x * tileSize, y * tileSize, tileSize);
 }
 
 bool Map::canDrive(unsigned int x, unsigned int y) const
@@ -130,7 +131,7 @@ bool Map::canDrive(unsigned int x, unsigned int y) const
 
 bool Map::isValid(int x, int y)
 {
-    const int maxCoordinate{
+    constexpr int maxCoordinate{
         static_cast<int>((Config::mapSize - 1) * Config::elementSize)};
     return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
@@ -155,7 +156,7 @@ void Map::destroyItem(unsigned int x, unsigned int y, unsigned int power)
     auto& tile{getTile(x, y)};
     if (tile->destroy(power))
     {
-        bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
+        const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
         tile = std::make_unique<Plain>();
         if (baseDestroyed)
             playerDestroyed_ = true;
@@ -172,8 +173,7 @@ void Map::drawBackground(const Screen& screen)
             if (!tile->isPartOfBackground())
                 type = ResourceType::PLAIN;
 
-            drawMapItem(screen, type, x * Config::elementSize,
-                        y * Config::elementSize);
+            drawMapItem(screen, type, x, y);
         }
 }
 
@@ -184,8 +184,7 @@ void Map::drawForeground(const Screen& screen)
         {
             const auto& tile{getTile(x, y)};
             if (!tile->isPartOfBackground())
-                drawMapItem(screen, tile->getResourceType(),
-                            x * Config::elementSize, y * Config::elementSize);
+                drawMapItem(screen, tile->getResourceType(), x, y);
         }
 }
 
