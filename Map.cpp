@@ -1,7 +1,6 @@
 #include "Map.h"
 
 #include <fstream>
-#include <iostream>
 
 #include "Config.h"
 #include "Screen.h"
