@@ -25,22 +25,20 @@ Map::Map()
         item.resize(Config::mapSize);
 }
 
-/*
-0 - trawa
-1 - cegla
-2 - woda
-3 - zielsko
-4 - lod
-5 - stal
-6 - orzel
-7 -
-M - czolg gracza
-E - czolg przeciwnika
-S - speed up
-L - level up
-A - armor up
-T - tank up
-*/
+// 0 - plain
+// 1 - brick
+// 2 - water
+// 3 - plant
+// 4 - ice
+// 5 - steel
+// 6 - HQ
+// M - my/player tank
+// E - enemy tank
+// S - speed up
+// L - tier up
+// A - shield up
+// T - life up
+
 std::vector<Tank> Map::loadMap(std::fstream stream)
 {
     const int on = clock();
@@ -52,7 +50,7 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
         {
             stream >> std::noskipws >> sign;
 
-            while ((sign < '0' || sign >= '8') && sign != 'T' && sign != 'E' &&
+            while ((sign < '0' || sign >= '7') && sign != 'T' && sign != 'E' &&
                    sign != 'M' && sign != 'S' && sign != 'L' && sign != 'A')
             {
                 stream >> std::noskipws >> sign;
