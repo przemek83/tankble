@@ -3,21 +3,17 @@
 #include <iostream>
 
 #include "Config.h"
+#include "Screen.h"
 #include "Tank.h"
 
-Bullet::Bullet(const Tank& tank) : tankType_(tank.getTankType())
+Bullet::Bullet(const Tank& tank)
+    : Drawable(tank.getX() + Config::elementSize / 2 - 3,
+               tank.getY() + Config::elementSize / 2 - 3),
+      tankType_(tank.getTankType())
 {
     direction_ = tank.getDirection();
     speed_ = tank.getSpeed();
     power_ = tank.getPower();
-    x_ = tank.getX() + Config::elementSize / 2 - 3;
-    y_ = tank.getY() + Config::elementSize / 2 - 3;
-}
-
-Bullet::~Bullet()
-{
-    std::cout << "Bullet: " << static_cast<int>(getTankType())
-              << " is deleted\n";
 }
 
 TankType Bullet::getTankType() const { return tankType_; }
@@ -28,17 +24,9 @@ int Bullet::getSpeed() const { return speed_; }
 
 int Bullet::getDirection() const { return direction_; }
 
-int Bullet::getX() const { return x_; }
+int Bullet::getCenterX() const { return getX() + 3; }
 
-int Bullet::getY() const { return y_; }
-
-int Bullet::getCenterX() const { return x_ + 3; }
-
-int Bullet::getCenterY() const { return y_ + 3; }
-
-void Bullet::setX(int newX) { x_ = newX; }
-
-void Bullet::setY(int newY) { y_ = newY; }
+int Bullet::getCenterY() const { return getY() + 3; }
 
 int Bullet::getDirectionX() const
 {
@@ -58,4 +46,10 @@ int Bullet::getDirectionY() const
     return 0;
 }
 
-ResourceType Bullet::getResourceType() { return ResourceType::BULLET; }
+void Bullet::draw(const Screen& screen) const
+{
+    screen.drawScaledBitmap(getResourceType(), getX(), getY(),
+                            Config::BULLET_SIZE);
+}
+
+ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }

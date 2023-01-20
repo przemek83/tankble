@@ -1,43 +1,32 @@
 #pragma once
 
+#include "Drawable.h"
 #include "ResourceType.h"
 #include "TankType.h"
 
 class Tank;
 
-class Bullet
+class Bullet : public Drawable
 {
 public:
     explicit Bullet(const Tank& tank);
-    ~Bullet();
-
-    Bullet& operator=(const Bullet& other) = delete;
-    Bullet(const Bullet& other) = delete;
-
-    Bullet& operator=(Bullet&& other) = default;
-    Bullet(Bullet&& other) = default;
 
     TankType getTankType() const;
     int getPower() const;
     int getSpeed() const;
     int getDirection() const;
-    int getX() const;
-    int getY() const;
 
     int getCenterX() const;
     int getCenterY() const;
-    void setX(int newX);
-    void setY(int newY);
     int getDirectionX() const;
     int getDirectionY() const;
 
-    static ResourceType getResourceType();
+    void draw(const Screen& screen) const override;
+    ResourceType getResourceType() const override;
 
 private:
     TankType tankType_;
     int direction_;
     int speed_;
     int power_;
-    int x_;
-    int y_;
 };

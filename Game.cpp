@@ -304,12 +304,8 @@ int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
 
 void Game::drawBullets(const Screen& screen, const std::vector<Bullet>& bullets)
 {
-    const ResourceType resourceType = Bullet::getResourceType();
     for (const auto& bullet : bullets)
-    {
-        screen.drawScaledBitmap(resourceType, bullet.getX(), bullet.getY(),
-                                Config::BULLET_SIZE);
-    }
+        bullet.draw(screen_);
 }
 
 void Game::draw(const std::vector<Bullet>& bullets,
