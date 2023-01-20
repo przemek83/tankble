@@ -332,12 +332,9 @@ void Game::draw(const std::vector<Bullet>& bullets,
 
 void Game::setPower(Tank& tank, Map& map)
 {
-    const std::size_t x{(tank.getX() + 15) / Config::elementSize};
-    const std::size_t y{(tank.getY() + 15) / Config::elementSize};
+    const unsigned int x{(tank.getX() + 15) / Config::elementSize};
+    const unsigned int y{(tank.getY() + 15) / Config::elementSize};
 
-    auto [takenPowerUp, powerUp]{map.takePowerUp(x, y)};
-    if (!takenPowerUp)
-        return;
-
-    tank.applyPowerUp(powerUp);
+    if (auto [takenPowerUp, powerUp]{map.takePowerUp(x, y)}; takenPowerUp)
+        tank.applyPowerUp(powerUp);
 }
