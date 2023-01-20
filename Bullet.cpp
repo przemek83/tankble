@@ -24,9 +24,9 @@ unsigned int Bullet::getSpeed() const { return speed_; }
 
 int Bullet::getDirection() const { return direction_; }
 
-int Bullet::getCenterX() const { return getX() + 3; }
+unsigned int Bullet::getCenterX() const { return getX() + 3; }
 
-int Bullet::getCenterY() const { return getY() + 3; }
+unsigned int Bullet::getCenterY() const { return getY() + 3; }
 
 int Bullet::getDirectionX() const
 {

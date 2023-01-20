@@ -16,8 +16,8 @@ public:
     unsigned int getSpeed() const;
     int getDirection() const;
 
-    int getCenterX() const;
-    int getCenterY() const;
+    unsigned int getCenterX() const;
+    unsigned int getCenterY() const;
     int getDirectionX() const;
     int getDirectionY() const;
 
