@@ -6,13 +6,6 @@ class Tile : public Drawable
 {
 public:
     Tile(unsigned int armor, unsigned int x, unsigned int y);
-    ~Tile() override = default;
-
-    Tile& operator=(const Tile& other) = delete;
-    Tile(const Tile& other) = delete;
-
-    Tile& operator=(Tile&& other) = delete;
-    Tile(Tile&& other) = delete;
 
     virtual bool canFly() = 0;
     virtual bool canDrive() = 0;
