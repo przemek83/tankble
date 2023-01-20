@@ -1,6 +1,5 @@
 #include "TierUp.h"
 
-TierUp::TierUp(unsigned int x, unsigned int y)
-    : PowerUp(ResourceType::TIER_UP, NO_ARMOR, x, y)
-{
-}
+TierUp::TierUp(unsigned int x, unsigned int y) : PowerUp(NO_ARMOR, x, y) {}
+
+ResourceType TierUp::getResourceType() const { return ResourceType::TIER_UP; }

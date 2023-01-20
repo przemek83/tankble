@@ -6,4 +6,6 @@ class TierUp : public PowerUp
 {
 public:
     TierUp(unsigned int x, unsigned int y);
+
+    ResourceType getResourceType() const override;
 };

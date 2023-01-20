@@ -1,6 +1,5 @@
 #include "SpeedUp.h"
 
-SpeedUp::SpeedUp(unsigned int x, unsigned int y)
-    : PowerUp(ResourceType::SPEED_UP, NO_ARMOR, x, y)
-{
-}
+SpeedUp::SpeedUp(unsigned int x, unsigned int y) : PowerUp(NO_ARMOR, x, y) {}
+
+ResourceType SpeedUp::getResourceType() const { return ResourceType::SPEED_UP; }

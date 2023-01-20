@@ -6,4 +6,6 @@ class ShieldUp : public PowerUp
 {
 public:
     ShieldUp(unsigned int x, unsigned int y);
+
+    ResourceType getResourceType() const override;
 };

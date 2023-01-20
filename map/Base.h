@@ -9,4 +9,6 @@ public:
 
     bool canFly() override;
     bool canDrive() override;
+
+    ResourceType getResourceType() const override;
 };

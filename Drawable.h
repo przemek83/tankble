@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ResourceType.h"
+
 class Screen;
 
 class Drawable
@@ -15,6 +17,7 @@ public:
     Drawable(Drawable&& other) = default;
 
     virtual void draw(const Screen& screen) const = 0;
+    virtual ResourceType getResourceType() const = 0;
 
     void setX(unsigned int x);
     void setY(unsigned int y);

@@ -1,13 +1,11 @@
 #pragma once
 
 #include "../Drawable.h"
-#include "../ResourceType.h"
 
 class Tile : public Drawable
 {
 public:
-    Tile(ResourceType resourceType, unsigned int armor, unsigned int x,
-         unsigned int y);
+    Tile(unsigned int armor, unsigned int x, unsigned int y);
     ~Tile() override = default;
 
     Tile& operator=(const Tile& other) = delete;
@@ -18,13 +16,12 @@ public:
 
     virtual bool canFly() = 0;
     virtual bool canDrive() = 0;
+
     virtual bool isPartOfBackground();
 
     bool destroy(unsigned int power);
 
     bool isPowerUp() const;
-
-    ResourceType getResourceType() const;
 
     void draw(const Screen& screen) const override;
 
@@ -37,5 +34,4 @@ protected:
 
 private:
     int armor_;
-    ResourceType resourceType_;
 };
