@@ -1,6 +1,9 @@
 #include "Steel.h"
 
-Steel::Steel() : Tile(ResourceType::STEEL, HIGH_ARMOR) {}
+Steel::Steel(unsigned int x, unsigned int y)
+    : Tile(ResourceType::STEEL, HIGH_ARMOR, x, y)
+{
+}
 
 bool Steel::canFly() { return false; }
 

@@ -1,6 +1,9 @@
 #include "Ice.h"
 
-Ice::Ice() : Tile(ResourceType::ICE, NO_ARMOR) {}
+Ice::Ice(unsigned int x, unsigned int y)
+    : Tile(ResourceType::ICE, NO_ARMOR, x, y)
+{
+}
 
 bool Ice::canFly() { return true; }
 

@@ -1,6 +1,9 @@
 #include "Plant.h"
 
-Plant::Plant() : Tile(ResourceType::PLANT, NO_ARMOR) {}
+Plant::Plant(unsigned int x, unsigned int y)
+    : Tile(ResourceType::PLANT, NO_ARMOR, x, y)
+{
+}
 
 bool Plant::canFly() { return true; }
 

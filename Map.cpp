@@ -17,7 +17,7 @@
 #include "map/TierUp.h"
 #include "map/Water.h"
 
-Map::Map()
+Map::Map() : plainTile_{std::make_unique<Plain>(0, 0)}
 {
     board_.resize(Config::mapSize);
     for (auto& item : board_)
@@ -55,64 +55,59 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
                     break;
             }
 
+            const unsigned int xPosition{x * Config::elementSize};
+            const unsigned int yPosition{y * Config::elementSize};
             auto& tile{getTile(x, y)};
             switch (sign)
             {
                 case '1':
-                    tile = std::make_unique<Brick>();
+                    tile = std::make_unique<Brick>(xPosition, yPosition);
                     break;
                 case '2':
-                    tile = std::make_unique<Water>();
+                    tile = std::make_unique<Water>(xPosition, yPosition);
                     break;
                 case '3':
-                    tile = std::make_unique<Plant>();
+                    tile = std::make_unique<Plant>(xPosition, yPosition);
                     break;
                 case '4':
-                    tile = std::make_unique<Ice>();
+                    tile = std::make_unique<Ice>(xPosition, yPosition);
                     break;
                 case '5':
-                    tile = std::make_unique<Steel>();
+                    tile = std::make_unique<Steel>(xPosition, yPosition);
                     break;
                 case '6':
-                    tile = std::make_unique<Base>();
+                    tile = std::make_unique<Base>(xPosition, yPosition);
                     break;
                 case 'M':
-                    tile = std::make_unique<Plain>();
+                    tile = std::make_unique<Plain>(xPosition, yPosition);
                     tanks.emplace_back(TankType::PLAYER_TIER_1,
                                        Config::elementSize * x,
                                        Config::elementSize * y);
                     break;
                 case 'E':
-                    tile = std::make_unique<Plain>();
+                    tile = std::make_unique<Plain>(xPosition, yPosition);
                     tanks.emplace_back(TankType::ENEMY_TIER_1,
                                        Config::elementSize * x,
                                        Config::elementSize * y);
                     break;
                 case 'A':
-                    tile = std::make_unique<ShieldUp>();
+                    tile = std::make_unique<ShieldUp>(xPosition, yPosition);
                     break;
                 case 'S':
-                    tile = std::make_unique<SpeedUp>();
+                    tile = std::make_unique<SpeedUp>(xPosition, yPosition);
                     break;
                 case 'L':
-                    tile = std::make_unique<TierUp>();
+                    tile = std::make_unique<TierUp>(xPosition, yPosition);
                     break;
                 case 'T':
-                    tile = std::make_unique<LifeUp>();
+                    tile = std::make_unique<LifeUp>(xPosition, yPosition);
                     break;
                 default:
-                    tile = std::make_unique<Plain>();
+                    tile = std::make_unique<Plain>(xPosition, yPosition);
             }
         }
 
     return tanks;
-}
-
-void Map::drawMapItem(const Screen& screen, ResourceType resourceType,
-                      unsigned int x, unsigned int y)
-{
-    const unsigned int tileSize{Config::elementSize};
-    screen.drawScaledBitmap(resourceType, x * tileSize, y * tileSize, tileSize);
 }
 
 bool Map::canDrive(unsigned int x, unsigned int y) const
@@ -133,7 +128,9 @@ std::pair<bool, ResourceType> Map::takePowerUp(unsigned int x, unsigned int y)
     if (!tile->isPowerUp())
         return {false, ResourceType::PLAIN};
     const ResourceType type{tile->getResourceType()};
-    tile = std::make_unique<Plain>();
+    const unsigned int xPosition{x * Config::elementSize};
+    const unsigned int yPosition{y * Config::elementSize};
+    tile = std::make_unique<Plain>(xPosition, yPosition);
     return {true, type};
 }
 
@@ -147,8 +144,10 @@ void Map::destroyItem(unsigned int x, unsigned int y, unsigned int power)
     auto& tile{getTile(x, y)};
     if (tile->destroy(power))
     {
+        const unsigned int xPosition{x * Config::elementSize};
+        const unsigned int yPosition{y * Config::elementSize};
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
-        tile = std::make_unique<Plain>();
+        tile = std::make_unique<Plain>(xPosition, yPosition);
         if (baseDestroyed)
             playerDestroyed_ = true;
     }
@@ -160,11 +159,14 @@ void Map::drawBackground(const Screen& screen)
         for (unsigned int y = 0; y < Config::mapSize; y++)
         {
             const auto& tile{getTile(x, y)};
-            ResourceType type{tile->getResourceType()};
-            if (!tile->isPartOfBackground())
-                type = ResourceType::PLAIN;
-
-            drawMapItem(screen, type, x, y);
+            if (tile->isPartOfBackground())
+                tile->draw(screen);
+            else
+            {
+                plainTile_->setX(x * Config::elementSize);
+                plainTile_->setY(y * Config::elementSize);
+                plainTile_->draw(screen);
+            }
         }
 }
 
@@ -175,7 +177,7 @@ void Map::drawForeground(const Screen& screen)
         {
             const auto& tile{getTile(x, y)};
             if (!tile->isPartOfBackground())
-                drawMapItem(screen, tile->getResourceType(), x, y);
+                tile->draw(screen);
         }
 }
 

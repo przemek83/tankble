@@ -5,7 +5,7 @@
 class Water : public Tile
 {
 public:
-    Water();
+    Water(unsigned int x, unsigned int y);
 
     bool canFly() override;
     bool canDrive() override;

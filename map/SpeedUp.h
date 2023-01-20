@@ -5,5 +5,5 @@
 class SpeedUp : public PowerUp
 {
 public:
-    SpeedUp();
+    SpeedUp(unsigned int x, unsigned int y);
 };

@@ -5,5 +5,5 @@
 class TierUp : public PowerUp
 {
 public:
-    TierUp();
+    TierUp(unsigned int x, unsigned int y);
 };

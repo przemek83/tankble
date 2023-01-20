@@ -5,7 +5,7 @@
 class Steel : public Tile
 {
 public:
-    Steel();
+    Steel(unsigned int x, unsigned int y);
 
     bool canFly() override;
     bool canDrive() override;

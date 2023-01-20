@@ -1,6 +1,9 @@
 #include "Water.h"
 
-Water::Water() : Tile(ResourceType::WATER, NO_ARMOR) {}
+Water::Water(unsigned int x, unsigned int y)
+    : Tile(ResourceType::WATER, NO_ARMOR, x, y)
+{
+}
 
 bool Water::canFly() { return true; }
 

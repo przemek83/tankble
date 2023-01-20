@@ -5,5 +5,5 @@
 class ShieldUp : public PowerUp
 {
 public:
-    ShieldUp();
+    ShieldUp(unsigned int x, unsigned int y);
 };

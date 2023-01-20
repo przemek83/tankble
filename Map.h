@@ -30,9 +30,6 @@ public:
     void destroyItem(unsigned int x, unsigned int y, unsigned int power);
 
 private:
-    static void drawMapItem(const Screen& screen, ResourceType resourceType,
-                            unsigned int x, unsigned int y);
-
     inline const std::unique_ptr<Tile>& getTile(unsigned int x,
                                                 unsigned int y) const
     {
@@ -47,4 +44,6 @@ private:
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
     bool playerDestroyed_{false};
+
+    std::unique_ptr<Tile> plainTile_;
 };

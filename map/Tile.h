@@ -1,12 +1,14 @@
 #pragma once
 
+#include "../Drawable.h"
 #include "../ResourceType.h"
 
-class Tile
+class Tile : public Drawable
 {
 public:
-    Tile(ResourceType resourceType, unsigned int armor);
-    virtual ~Tile() = default;
+    Tile(ResourceType resourceType, unsigned int armor, unsigned int x,
+         unsigned int y);
+    ~Tile() override = default;
 
     Tile& operator=(const Tile& other) = delete;
     Tile(const Tile& other) = delete;
@@ -23,6 +25,8 @@ public:
     bool isPowerUp() const;
 
     ResourceType getResourceType() const;
+
+    void draw(const Screen& screen) const override;
 
 protected:
     static const unsigned int MAX_ARMOR{999};

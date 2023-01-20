@@ -5,7 +5,7 @@
 class Brick : public Tile
 {
 public:
-    Brick();
+    Brick(unsigned int x, unsigned int y);
 
     bool canFly() override;
     bool canDrive() override;

@@ -5,5 +5,5 @@
 class LifeUp : public PowerUp
 {
 public:
-    LifeUp();
+    LifeUp(unsigned int x, unsigned int y);
 };

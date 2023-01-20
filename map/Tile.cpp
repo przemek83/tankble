@@ -1,7 +1,11 @@
 #include "Tile.h"
 
-Tile::Tile(ResourceType resourceType, unsigned int armor)
-    : armor_(armor), resourceType_(resourceType)
+#include "../Config.h"
+#include "../Screen.h"
+
+Tile::Tile(ResourceType resourceType, unsigned int armor, unsigned int x,
+           unsigned int y)
+    : Drawable(x, y), armor_(armor), resourceType_(resourceType)
 {
 }
 
@@ -22,3 +26,9 @@ bool Tile::isPowerUp() const
 }
 
 ResourceType Tile::getResourceType() const { return resourceType_; }
+
+void Tile::draw(const Screen& screen) const
+{
+    const unsigned int tileSize{Config::elementSize};
+    screen.drawScaledBitmap(resourceType_, getX(), getY(), tileSize);
+}

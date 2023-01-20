@@ -5,7 +5,7 @@
 class Base : public Tile
 {
 public:
-    Base();
+    Base(unsigned int x, unsigned int y);
 
     bool canFly() override;
     bool canDrive() override;

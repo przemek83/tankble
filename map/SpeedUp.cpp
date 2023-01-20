@@ -1,3 +1,6 @@
 #include "SpeedUp.h"
 
-SpeedUp::SpeedUp() : PowerUp(ResourceType::SPEED_UP, NO_ARMOR) {}
+SpeedUp::SpeedUp(unsigned int x, unsigned int y)
+    : PowerUp(ResourceType::SPEED_UP, NO_ARMOR, x, y)
+{
+}

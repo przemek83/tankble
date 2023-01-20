@@ -1,6 +1,9 @@
 #include "Plain.h"
 
-Plain::Plain() : Tile(ResourceType::PLAIN, NO_ARMOR) {}
+Plain::Plain(unsigned int x, unsigned int y)
+    : Tile(ResourceType::PLAIN, NO_ARMOR, x, y)
+{
+}
 
 bool Plain::canFly() { return true; }
 
