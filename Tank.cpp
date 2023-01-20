@@ -86,9 +86,9 @@ void Tank::setMaxArmor() { armor_ = getMaxArmor(); }
 
 void Tank::setSpeedUp() { speed_++; }
 
-int Tank::getPower() const { return power_; }
+unsigned int Tank::getPower() const { return power_; }
 
-int Tank::getSpeed() const { return speed_; }
+unsigned int Tank::getSpeed() const { return speed_; }
 
 int Tank::getDirection() const { return direction_; }
 

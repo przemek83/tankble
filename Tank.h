@@ -22,8 +22,8 @@ public:
     int getDirection() const;
     bool canFire();
     bool destroy(int);
-    int getSpeed() const;
-    int getPower() const;
+    unsigned int getSpeed() const;
+    unsigned int getPower() const;
     void resetFire();
     void setType(TankType tankType);
     TankType getTankType() const;
@@ -52,8 +52,8 @@ private:
     int direction_;
     TankType type_;
     int armor_;
-    int power_;
-    int speed_;
+    unsigned int power_;
+    unsigned int speed_;
     int maxArmor_;
     time_t lastFire_{0};
     unsigned int lives_{1};
