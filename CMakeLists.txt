@@ -63,6 +63,8 @@ set(${PROJECT_NAME}_SOURCES
         TankType.h
         Bullet.cpp
         Bullet.h
+        Drawable.cpp
+        Drawable.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp
