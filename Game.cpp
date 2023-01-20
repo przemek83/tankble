@@ -244,8 +244,10 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
     for (unsigned int i = 0; i < bullets.size(); i++)
     {
         Bullet& b{bullets.at(i)};
-        int px{b.getX() + b.getDirectionX() * b.getSpeed()};
-        int py{b.getY() + b.getDirectionY() * b.getSpeed()};
+        const int px{static_cast<int>(b.getX()) +
+                     b.getDirectionX() * static_cast<int>(b.getSpeed())};
+        const int py{static_cast<int>(b.getY()) +
+                     b.getDirectionY() * static_cast<int>(b.getSpeed())};
         if (isBulletValid(px, py))
         {
             b.setX(px);
