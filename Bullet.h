@@ -12,8 +12,8 @@ public:
     explicit Bullet(const Tank& tank);
 
     TankType getTankType() const;
-    int getPower() const;
-    int getSpeed() const;
+    unsigned int getPower() const;
+    unsigned int getSpeed() const;
     int getDirection() const;
 
     int getCenterX() const;
@@ -27,6 +27,6 @@ public:
 private:
     TankType tankType_;
     int direction_;
-    int speed_;
-    int power_;
+    unsigned int speed_;
+    unsigned int power_;
 };

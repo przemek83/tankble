@@ -18,9 +18,9 @@ Bullet::Bullet(const Tank& tank)
 
 TankType Bullet::getTankType() const { return tankType_; }
 
-int Bullet::getPower() const { return power_; }
+unsigned int Bullet::getPower() const { return power_; }
 
-int Bullet::getSpeed() const { return speed_; }
+unsigned int Bullet::getSpeed() const { return speed_; }
 
 int Bullet::getDirection() const { return direction_; }
 
