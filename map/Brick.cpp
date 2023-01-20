@@ -1,6 +1,6 @@
 #include "Brick.h"
 
-Brick::Brick(unsigned int x, unsigned int y) : Tile(LOW_ARMOR, x, y) {}
+Brick::Brick(Coordinates coordinates) : Tile(LOW_ARMOR, coordinates) {}
 
 bool Brick::canFly() { return false; }
 

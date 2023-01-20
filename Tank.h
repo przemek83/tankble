@@ -12,7 +12,7 @@ class Resources;
 class Tank : public Drawable
 {
 public:
-    Tank(TankType tankType, unsigned int x, unsigned int y);
+    Tank(TankType tankType, Coordinates coordinates);
 
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;

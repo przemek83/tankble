@@ -5,7 +5,7 @@
 class PowerUp : public Tile
 {
 public:
-    PowerUp(unsigned int armor, unsigned int x, unsigned int y);
+    PowerUp(unsigned int armor, Coordinates coordinates);
 
     bool canFly() override;
     bool canDrive() override;

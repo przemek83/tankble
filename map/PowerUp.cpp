@@ -1,7 +1,7 @@
 #include "PowerUp.h"
 
-PowerUp::PowerUp(unsigned int armor, unsigned int x, unsigned int y)
-    : Tile(armor, x, y)
+PowerUp::PowerUp(unsigned int armor, Coordinates coordinates)
+    : Tile(armor, coordinates)
 {
 }
 

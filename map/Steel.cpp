@@ -1,6 +1,6 @@
 #include "Steel.h"
 
-Steel::Steel(unsigned int x, unsigned int y) : Tile(HIGH_ARMOR, x, y) {}
+Steel::Steel(Coordinates coordinates) : Tile(HIGH_ARMOR, coordinates) {}
 
 bool Steel::canFly() { return false; }
 

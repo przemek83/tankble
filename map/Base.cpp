@@ -1,6 +1,6 @@
 #include "Base.h"
 
-Base::Base(unsigned int x, unsigned int y) : Tile(MEDIUM_ARMOR, x, y) {}
+Base::Base(Coordinates coordinates) : Tile(MEDIUM_ARMOR, coordinates) {}
 
 bool Base::canFly() { return false; }
 

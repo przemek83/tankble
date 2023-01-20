@@ -5,7 +5,7 @@
 class Ice : public Tile
 {
 public:
-    Ice(unsigned int x, unsigned int y);
+    explicit Ice(Coordinates coordinates);
 
     bool canFly() override;
     bool canDrive() override;

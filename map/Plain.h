@@ -5,7 +5,7 @@
 class Plain : public Tile
 {
 public:
-    Plain(unsigned int x, unsigned int y);
+    explicit Plain(Coordinates coordinates);
 
     bool canFly() override;
     bool canDrive() override;

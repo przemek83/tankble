@@ -7,8 +7,8 @@
 #include "Tank.h"
 
 Bullet::Bullet(const Tank& tank)
-    : Drawable(tank.getX() + Config::elementSize / 2 - 3,
-               tank.getY() + Config::elementSize / 2 - 3),
+    : Drawable({tank.getX() + Config::elementSize / 2 - 3,
+                tank.getY() + Config::elementSize / 2 - 3}),
       tankType_(tank.getTankType())
 {
     direction_ = tank.getDirection();

@@ -1,5 +1,5 @@
 #include "TierUp.h"
 
-TierUp::TierUp(unsigned int x, unsigned int y) : PowerUp(NO_ARMOR, x, y) {}
+TierUp::TierUp(Coordinates coordinates) : PowerUp(NO_ARMOR, coordinates) {}
 
 ResourceType TierUp::getResourceType() const { return ResourceType::TIER_UP; }

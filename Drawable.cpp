@@ -1,7 +1,7 @@
 #include "Drawable.h"
 
-Drawable::Drawable(unsigned int x, unsigned int y) : x_(x), y_(y) {}
+Drawable::Drawable(Coordinates coordinates) : coordinates_(coordinates) {}
 
-void Drawable::setX(unsigned int x) { x_ = x; }
+void Drawable::setX(unsigned int x) { coordinates_.x = x; }
 
-void Drawable::setY(unsigned int y) { y_ = y; }
+void Drawable::setY(unsigned int y) { coordinates_.y = y; }

@@ -5,7 +5,7 @@
 class LifeUp : public PowerUp
 {
 public:
-    LifeUp(unsigned int x, unsigned int y);
+    explicit LifeUp(Coordinates coordinates);
 
     ResourceType getResourceType() const override;
 };

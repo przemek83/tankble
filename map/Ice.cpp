@@ -1,6 +1,6 @@
 #include "Ice.h"
 
-Ice::Ice(unsigned int x, unsigned int y) : Tile(NO_ARMOR, x, y) {}
+Ice::Ice(Coordinates coordinates) : Tile(NO_ARMOR, coordinates) {}
 
 bool Ice::canFly() { return true; }
 

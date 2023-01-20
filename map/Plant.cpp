@@ -1,6 +1,6 @@
 #include "Plant.h"
 
-Plant::Plant(unsigned int x, unsigned int y) : Tile(NO_ARMOR, x, y) {}
+Plant::Plant(Coordinates coordinates) : Tile(NO_ARMOR, coordinates) {}
 
 bool Plant::canFly() { return true; }
 
