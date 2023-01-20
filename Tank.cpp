@@ -46,7 +46,7 @@ void Tank::move(int xy) { direction_ = xy; }
 
 bool Tank::canFire()
 {
-    time_t ti = time(nullptr);
+    const time_t ti = time(nullptr);
     if (difftime(ti, lastFire_) > 1.0)
     {
         lastFire_ = ti;
