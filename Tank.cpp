@@ -101,6 +101,33 @@ bool Tank::isPlayerControlled() const
 
 void Tank::addLife() { lives_++; }
 
+void Tank::applyPowerUp(ResourceType powerUpType)
+{
+    switch (powerUpType)
+    {
+        case ResourceType::SHIELD_UP:
+            setMaxArmor();
+            break;
+
+        case ResourceType::TIER_UP:
+            if (static_cast<int>(getTankType()) < 3)
+                setType(
+                    static_cast<TankType>(static_cast<int>(getTankType()) + 1));
+            break;
+
+        case ResourceType::SPEED_UP:
+            setSpeedUp();
+            break;
+
+        case ResourceType::LIFE_UP:
+            addLife();
+            break;
+
+        default:
+            break;
+    }
+}
+
 void Tank::resetFire() { lastFire_--; }
 
 void Tank::go()

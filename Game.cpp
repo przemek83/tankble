@@ -339,27 +339,5 @@ void Game::setPower(Tank& tank, Map& map)
     if (!takenPowerUp)
         return;
 
-    switch (powerUp)
-    {
-        case ResourceType::SHIELD_UP:
-            tank.setMaxArmor();
-            break;
-
-        case ResourceType::TIER_UP:
-            if (static_cast<int>(tank.getTankType()) < 3)
-                tank.setType(static_cast<TankType>(
-                    static_cast<int>(tank.getTankType()) + 1));
-            break;
-
-        case ResourceType::SPEED_UP:
-            tank.setSpeedUp();
-            break;
-
-        case ResourceType::LIFE_UP:
-            tank.addLife();
-            break;
-
-        default:
-            break;
-    }
+    tank.applyPowerUp(powerUp);
 }

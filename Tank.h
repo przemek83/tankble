@@ -2,6 +2,7 @@
 
 #include <ctime>
 
+#include "ResourceType.h"
 #include "TankType.h"
 
 class Map;
@@ -32,16 +33,18 @@ public:
     int getPower() const;
     void resetFire();
     void setType(TankType tankType);
-    void setMaxArmor();
     TankType getTankType() const;
-    void setSpeedUp();
     void go();
     int getDirectionX() const;
     int getDirectionY() const;
     bool isPlayerControlled() const;
-    void addLife();
+
+    void applyPowerUp(ResourceType powerUpType);
 
 private:
+    void setSpeedUp();
+    void addLife();
+    void setMaxArmor();
     int getMaxArmor() const;
     constexpr double pi() const;
     void resetState();
