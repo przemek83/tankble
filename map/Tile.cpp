@@ -12,8 +12,12 @@ bool Tile::isPartOfBackground() { return true; }
 
 bool Tile::destroy(unsigned int power)
 {
-    armor_ -= power;
-    return armor_ <= 0;
+    if (power > armor_)
+        armor_ = 0;
+    else
+        armor_ -= power;
+
+    return armor_ == 0;
 }
 
 bool Tile::isPowerUp() const

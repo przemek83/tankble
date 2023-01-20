@@ -33,5 +33,5 @@ protected:
     static const unsigned int NO_ARMOR{0};
 
 private:
-    int armor_;
+    unsigned int armor_;
 };
