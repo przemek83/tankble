@@ -235,15 +235,7 @@ bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
 void Game::drawTanks(const Screen& screen, const std::vector<Tank>& tanks)
 {
     for (const auto& tank : tanks)
-    {
-        auto resourceType = static_cast<ResourceType>(
-            static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
-            static_cast<unsigned char>(tank.getTankType()));
-
-        screen.drawScaledBitmapWithRotation(resourceType, tank.getX(),
-                                            tank.getY(), Config::elementSize,
-                                            90 * tank.getDirection());
-    }
+        tank.draw(screen_);
 }
 
 void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,

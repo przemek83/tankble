@@ -2,29 +2,22 @@
 
 #include <ctime>
 
+#include "Drawable.h"
 #include "ResourceType.h"
 #include "TankType.h"
 
 class Map;
 class Resources;
 
-class Tank
+class Tank : public Drawable
 {
 public:
     Tank(TankType tankType, unsigned int x, unsigned int y);
-    ~Tank();
 
-    Tank& operator=(const Tank& other) = delete;
-    Tank(const Tank& other) = delete;
-
-    Tank& operator=(Tank&& other) = default;
-    Tank(Tank&& other) = default;
+    void draw(const Screen& screen) const override;
+    ResourceType getResourceType() const override;
 
     void move(int);
-    int getX() const;
-    int getY() const;
-    void setX(int);
-    void setY(int);
     void moveRandom(Map& map);
     int getDirection() const;
     bool canFire();
@@ -57,8 +50,6 @@ private:
     static const int directions_[8];
 
     int direction_;
-    int x_;
-    int y_;
     TankType type_;
     int armor_;
     int power_;

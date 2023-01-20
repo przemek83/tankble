@@ -8,6 +8,7 @@
 
 #include "Config.h"
 #include "Map.h"
+#include "Screen.h"
 #include "TankType.h"
 
 const int Tank::wayX_[4] = {0, 1, 0, -1};
@@ -18,7 +19,7 @@ const int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
 const int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
 Tank::Tank(TankType tankType, unsigned int x, unsigned int y)
-    : x_(x), y_(y), initialX_(x), initialY_(y)
+    : Drawable(x, y), initialX_(x), initialY_(y)
 {
     direction_ = directions_[static_cast<int>(tankType)];
     setType(tankType);
@@ -27,10 +28,18 @@ Tank::Tank(TankType tankType, unsigned int x, unsigned int y)
         lives_ *= 2;
 }
 
-Tank::~Tank()
+void Tank::draw(const Screen& screen) const
 {
-    std::cout << "Vehicle:" << static_cast<int>(getTankType())
-              << " is deleted\n";
+    screen.drawScaledBitmapWithRotation(getResourceType(), getX(), getY(),
+                                        Config::elementSize,
+                                        90 * getDirection());
+}
+
+ResourceType Tank::getResourceType() const
+{
+    return static_cast<ResourceType>(
+        static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
+        static_cast<unsigned char>(getTankType()));
 }
 
 void Tank::setType(TankType tankType)
@@ -72,11 +81,6 @@ bool Tank::destroy(int power)
 int Tank::getMaxArmor() const { return maxArmor_; }
 
 TankType Tank::getTankType() const { return type_; }
-
-int Tank::getX() const { return x_; }
-int Tank::getY() const { return y_; }
-void Tank::setX(int x) { x_ = x; }
-void Tank::setY(int y) { y_ = y; }
 
 void Tank::setMaxArmor() { armor_ = getMaxArmor(); }
 
