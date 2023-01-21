@@ -232,7 +232,7 @@ bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
     return false;
 }
 
-void Game::drawTanks(const Screen& screen, const std::vector<Tank>& tanks)
+void Game::drawTanks(const std::vector<Tank>& tanks)
 {
     for (const auto& tank : tanks)
         tank.draw(screen_);
@@ -304,7 +304,7 @@ int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
     return -1;
 }
 
-void Game::drawBullets(const Screen& screen, const std::vector<Bullet>& bullets)
+void Game::drawBullets(const std::vector<Bullet>& bullets)
 {
     for (const auto& bullet : bullets)
         bullet.draw(screen_);
@@ -314,8 +314,8 @@ void Game::draw(const std::vector<Bullet>& bullets,
                 const std::vector<Tank>& tanks, Map& map)
 {
     map.drawBackground(screen_);
-    drawTanks(screen_, tanks);
-    drawBullets(screen_, bullets);
+    drawTanks(tanks);
+    drawBullets(bullets);
     map.drawForeground(screen_);
     drawStatusPlaceholder();
 }

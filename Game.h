@@ -31,9 +31,9 @@ private:
     static bool isBulletValid(int x, int y);
 
     void drawStatusPlaceholder();
-    void drawTanks(const Screen& screen, const std::vector<Tank>& tanks);
+    void drawTanks(const std::vector<Tank>& tanks);
     void drawEndOfGame(const std::string& text);
-    void drawBullets(const Screen& screen, const std::vector<Bullet>& bullets);
+    void drawBullets(const std::vector<Bullet>& bullets);
     void draw(const std::vector<Bullet>& bullets,
               const std::vector<Tank>& tanks, Map& map);
     static void setPower(Tank& tank, Map& map);
