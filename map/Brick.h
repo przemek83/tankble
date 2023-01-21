@@ -5,7 +5,7 @@
 class Brick : public Tile
 {
 public:
-    explicit Brick(Coordinates coordinates);
+    explicit Brick(Point point);
 
     bool canFly() override;
     bool canDrive() override;

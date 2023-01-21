@@ -5,7 +5,7 @@
 class Ice : public Tile
 {
 public:
-    explicit Ice(Coordinates coordinates);
+    explicit Ice(Point point);
 
     bool canFly() override;
     bool canDrive() override;

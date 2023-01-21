@@ -5,7 +5,7 @@
 class Plant : public Tile
 {
 public:
-    explicit Plant(Coordinates coordinates);
+    explicit Plant(Point point);
 
     bool canFly() override;
     bool canDrive() override;

@@ -5,7 +5,7 @@
 class Tile : public Drawable
 {
 public:
-    Tile(unsigned int armor, Coordinates coordinates);
+    Tile(unsigned int armor, Point point);
 
     virtual bool canFly() = 0;
     virtual bool canDrive() = 0;

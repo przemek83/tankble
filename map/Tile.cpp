@@ -3,8 +3,8 @@
 #include "../Config.h"
 #include "../Screen.h"
 
-Tile::Tile(unsigned int armor, Coordinates coordinates)
-    : Drawable(coordinates), armor_(armor)
+Tile::Tile(unsigned int armor, Point point)
+    : Drawable(point), armor_(armor)
 {
 }
 

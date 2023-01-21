@@ -5,7 +5,7 @@
 class Plain : public Tile
 {
 public:
-    explicit Plain(Coordinates coordinates);
+    explicit Plain(Point point);
 
     bool canFly() override;
     bool canDrive() override;

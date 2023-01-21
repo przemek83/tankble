@@ -5,7 +5,7 @@
 class SpeedUp : public PowerUp
 {
 public:
-    explicit SpeedUp(Coordinates coordinates);
+    explicit SpeedUp(Point point);
 
     ResourceType getResourceType() const override;
 };

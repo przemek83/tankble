@@ -1,6 +1,6 @@
 #include "Plain.h"
 
-Plain::Plain(Coordinates coordinates) : Tile(NO_ARMOR, coordinates) {}
+Plain::Plain(Point point) : Tile(NO_ARMOR, point) {}
 
 bool Plain::canFly() { return true; }
 

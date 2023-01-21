@@ -5,7 +5,7 @@
 class TierUp : public PowerUp
 {
 public:
-    explicit TierUp(Coordinates coordinates);
+    explicit TierUp(Point point);
 
     ResourceType getResourceType() const override;
 };

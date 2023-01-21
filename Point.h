@@ -1,6 +1,6 @@
 #pragma once
 
-struct Coordinates
+struct Point
 {
     unsigned int x;
     unsigned int y;

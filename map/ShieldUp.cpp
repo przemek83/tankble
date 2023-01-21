@@ -1,6 +1,6 @@
 #include "ShieldUp.h"
 
-ShieldUp::ShieldUp(Coordinates coordinates) : PowerUp(NO_ARMOR, coordinates) {}
+ShieldUp::ShieldUp(Point point) : PowerUp(NO_ARMOR, point) {}
 
 ResourceType ShieldUp::getResourceType() const
 {

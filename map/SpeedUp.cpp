@@ -1,5 +1,5 @@
 #include "SpeedUp.h"
 
-SpeedUp::SpeedUp(Coordinates coordinates) : PowerUp(NO_ARMOR, coordinates) {}
+SpeedUp::SpeedUp(Point point) : PowerUp(NO_ARMOR, point) {}
 
 ResourceType SpeedUp::getResourceType() const { return ResourceType::SPEED_UP; }

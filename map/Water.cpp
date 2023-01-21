@@ -1,6 +1,6 @@
 #include "Water.h"
 
-Water::Water(Coordinates coordinates) : Tile(NO_ARMOR, coordinates) {}
+Water::Water(Point point) : Tile(NO_ARMOR, point) {}
 
 bool Water::canFly() { return true; }
 

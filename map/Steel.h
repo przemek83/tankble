@@ -5,7 +5,7 @@
 class Steel : public Tile
 {
 public:
-    explicit Steel(Coordinates coordinates);
+    explicit Steel(Point point);
 
     bool canFly() override;
     bool canDrive() override;

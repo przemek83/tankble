@@ -5,7 +5,7 @@
 class ShieldUp : public PowerUp
 {
 public:
-    explicit ShieldUp(Coordinates coordinates);
+    explicit ShieldUp(Point point);
 
     ResourceType getResourceType() const override;
 };

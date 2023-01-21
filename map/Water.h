@@ -5,7 +5,7 @@
 class Water : public Tile
 {
 public:
-    explicit Water(Coordinates coordinates);
+    explicit Water(Point point);
 
     bool canFly() override;
     bool canDrive() override;

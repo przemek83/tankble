@@ -1,6 +1,6 @@
 #include "Steel.h"
 
-Steel::Steel(Coordinates coordinates) : Tile(HIGH_ARMOR, coordinates) {}
+Steel::Steel(Point point) : Tile(HIGH_ARMOR, point) {}
 
 bool Steel::canFly() { return false; }
 

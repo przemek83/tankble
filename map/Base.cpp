@@ -1,6 +1,6 @@
 #include "Base.h"
 
-Base::Base(Coordinates coordinates) : Tile(MEDIUM_ARMOR, coordinates) {}
+Base::Base(Point point) : Tile(MEDIUM_ARMOR, point) {}
 
 bool Base::canFly() { return false; }
 

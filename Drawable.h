@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Coordinates.h"
+#include "Point.h"
 #include "ResourceType.h"
 
 class Screen;
@@ -8,7 +8,7 @@ class Screen;
 class Drawable
 {
 public:
-    explicit Drawable(Coordinates coordinates);
+    explicit Drawable(Point point_);
     virtual ~Drawable() = default;
 
     Drawable& operator=(const Drawable& other) = delete;
@@ -23,9 +23,9 @@ public:
     void setX(unsigned int x);
     void setY(unsigned int y);
 
-    inline unsigned int getX() const { return coordinates_.x; }
-    inline unsigned int getY() const { return coordinates_.y; }
+    inline unsigned int getX() const { return point_.x; }
+    inline unsigned int getY() const { return point_.y; }
 
 private:
-    Coordinates coordinates_;
+    Point point_;
 };
