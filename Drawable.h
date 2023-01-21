@@ -8,7 +8,7 @@ class Screen;
 class Drawable
 {
 public:
-    explicit Drawable(Point point_);
+    explicit Drawable(Point point);
     virtual ~Drawable() = default;
 
     Drawable& operator=(const Drawable& other) = delete;
