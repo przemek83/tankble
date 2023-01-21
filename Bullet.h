@@ -15,8 +15,7 @@ public:
     unsigned int getPower() const;
     unsigned int getSpeed() const;
 
-    unsigned int getCenterX() const;
-    unsigned int getCenterY() const;
+    Point getCenter() const;
     int getDirectionX() const;
     int getDirectionY() const;
 

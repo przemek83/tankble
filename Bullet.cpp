@@ -22,9 +22,7 @@ unsigned int Bullet::getPower() const { return power_; }
 
 unsigned int Bullet::getSpeed() const { return speed_; }
 
-unsigned int Bullet::getCenterX() const { return getX() + 3; }
-
-unsigned int Bullet::getCenterY() const { return getY() + 3; }
+Point Bullet::getCenter() const { return {getX() + 3, getY() + 3}; }
 
 int Bullet::getDirectionX() const
 {

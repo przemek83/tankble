@@ -246,12 +246,11 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
         Bullet& bullet{bullets.at(i)};
         if (bullet.move())
         {
-            const unsigned int pi{bullet.getCenterY() / Config::elementSize};
-            const unsigned int pj{bullet.getCenterX() / Config::elementSize};
+            const Point bulletCenter{bullet.getCenter()};
             const int iter{isTank(bullet, tanks)};
-            if (!map.canFly(pj, pi))
+            if (!map.canFly(bulletCenter))
             {
-                map.destroyItem(pj, pi, bullet.getPower());
+                map.destroyItem(bulletCenter, bullet.getPower());
                 bullets.erase(bullets.begin() + i);
             }
             if (iter >= 0)
@@ -277,11 +276,12 @@ int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
 {
     for (unsigned int i = 0; i < tanks.size(); i++)
     {
+        const Point bulletCenter{bullet.getCenter()};
         const Tank& v{tanks.at(i)};
-        if (bullet.getCenterX() >= v.getX() &&
-            bullet.getCenterX() < v.getX() + Config::elementSize &&
-            bullet.getCenterY() >= v.getY() &&
-            bullet.getCenterY() < v.getY() + Config::elementSize &&
+        if (bulletCenter.x >= v.getX() &&
+            bulletCenter.x < v.getX() + Config::elementSize &&
+            bulletCenter.y >= v.getY() &&
+            bulletCenter.y < v.getY() + Config::elementSize &&
             bullet.getTankType() != v.getTankType())
         {  // check friendly fire
             return i;

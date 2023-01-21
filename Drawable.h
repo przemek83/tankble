@@ -26,6 +26,8 @@ public:
     inline unsigned int getX() const { return point_.x; }
     inline unsigned int getY() const { return point_.y; }
 
+    Point getLocation() const;
+
 private:
     Point point_;
 };

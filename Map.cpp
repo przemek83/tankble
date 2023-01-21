@@ -57,7 +57,7 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
 
             const Point point{x * Config::elementSize, y * Config::elementSize};
 
-            auto& tile{getTile(x, y)};
+            auto& tile{getTile({x, y})};
             switch (sign)
             {
                 case '1':
@@ -108,7 +108,7 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
 
 bool Map::canDrive(unsigned int x, unsigned int y) const
 {
-    return getTile(x, y)->canDrive();
+    return getTile({x, y})->canDrive();
 }
 
 bool Map::isValid(int x, int y)
@@ -120,7 +120,7 @@ bool Map::isValid(int x, int y)
 
 std::pair<bool, ResourceType> Map::takePowerUp(unsigned int x, unsigned int y)
 {
-    auto& tile{getTile(x, y)};
+    auto& tile{getTile({x, y})};
     if (!tile->isPowerUp())
         return {false, ResourceType::PLAIN};
     const ResourceType type{tile->getResourceType()};
@@ -129,22 +129,26 @@ std::pair<bool, ResourceType> Map::takePowerUp(unsigned int x, unsigned int y)
     return {true, type};
 }
 
-bool Map::canFly(unsigned int x, unsigned int y) const
+bool Map::canFly(Point point) const
 {
-    return getTile(x, y)->canFly();
+    return getTile(screenPointToTile(point))->canFly();
 }
 
-void Map::destroyItem(unsigned int x, unsigned int y, unsigned int power)
+void Map::destroyItem(Point point, unsigned int power)
 {
-    auto& tile{getTile(x, y)};
+    auto& tile{getTile(screenPointToTile(point))};
     if (tile->destroy(power))
     {
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
-        tile = std::make_unique<Plain>(
-            Point{x * Config::elementSize, y * Config::elementSize});
+        tile = std::make_unique<Plain>(tile->getLocation());
         if (baseDestroyed)
             playerDestroyed_ = true;
     }
+}
+
+Point Map::screenPointToTile(Point location)
+{
+    return {location.x / Config::elementSize, location.y / Config::elementSize};
 }
 
 void Map::drawBackground(const Screen& screen)
@@ -152,7 +156,7 @@ void Map::drawBackground(const Screen& screen)
     for (unsigned int x = 0; x < Config::mapSize; x++)
         for (unsigned int y = 0; y < Config::mapSize; y++)
         {
-            const auto& tile{getTile(x, y)};
+            const auto& tile{getTile({x, y})};
             if (tile->isPartOfBackground())
                 tile->draw(screen);
             else
@@ -169,7 +173,7 @@ void Map::drawForeground(const Screen& screen)
     for (unsigned int x = 0; x < Config::mapSize; x++)
         for (unsigned int y = 0; y < Config::mapSize; y++)
         {
-            const auto& tile{getTile(x, y)};
+            const auto& tile{getTile({x, y})};
             if (!tile->isPartOfBackground())
                 tile->draw(screen);
         }
