@@ -14,7 +14,6 @@ public:
     TankType getTankType() const;
     unsigned int getPower() const;
     unsigned int getSpeed() const;
-    int getDirection() const;
 
     unsigned int getCenterX() const;
     unsigned int getCenterY() const;
