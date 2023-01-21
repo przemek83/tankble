@@ -44,6 +44,19 @@ int Bullet::getDirectionY() const
     return 0;
 }
 
+bool Bullet::move()
+{
+    const int px{static_cast<int>(getX()) +
+                 getDirectionX() * static_cast<int>(getSpeed())};
+    const int py{static_cast<int>(getY()) +
+                 getDirectionY() * static_cast<int>(getSpeed())};
+    if (!isValid(px, py))
+        return false;
+    setX(px);
+    setY(py);
+    return true;
+}
+
 void Bullet::draw(const Screen& screen) const
 {
     screen.drawScaledBitmap(getResourceType(), getX(), getY(),
@@ -51,3 +64,12 @@ void Bullet::draw(const Screen& screen) const
 }
 
 ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }
+
+bool Bullet::isValid(int newX, int newY)
+{
+    constexpr int bulletSize{Config::BULLET_SIZE};
+    constexpr int maxCoordinate{Config::elementSize * Config::mapSize -
+                                bulletSize};
+    return newX < maxCoordinate && newY < maxCoordinate && newY >= 0 &&
+           newX >= 0;
+}

@@ -20,10 +20,13 @@ public:
     int getDirectionX() const;
     int getDirectionY() const;
 
+    bool move();
+
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;
 
 private:
+    static bool isValid(int newX, int newY);
     TankType tankType_;
     int direction_;
     unsigned int speed_;

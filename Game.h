@@ -28,7 +28,6 @@ private:
     void moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
                      Map& map);
     int isTank(const Bullet& bullet, std::vector<Tank>& tanks);
-    static bool isBulletValid(int x, int y);
 
     void drawStatusPlaceholder();
     void drawTanks(const std::vector<Tank>& tanks);

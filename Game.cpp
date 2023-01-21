@@ -241,31 +241,25 @@ void Game::drawTanks(const std::vector<Tank>& tanks)
 void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
                        Map& map)
 {
-    for (unsigned int i = 0; i < bullets.size(); i++)
+    for (int i = static_cast<int>(bullets.size()) - 1; i >= 0; i--)
     {
-        Bullet& b{bullets.at(i)};
-        const int px{static_cast<int>(b.getX()) +
-                     b.getDirectionX() * static_cast<int>(b.getSpeed())};
-        const int py{static_cast<int>(b.getY()) +
-                     b.getDirectionY() * static_cast<int>(b.getSpeed())};
-        if (isBulletValid(px, py))
+        Bullet& bullet{bullets.at(i)};
+        if (bullet.move())
         {
-            b.setX(px);
-            b.setY(py);
-            unsigned int pi{b.getCenterY() / Config::elementSize};
-            unsigned int pj{b.getCenterX() / Config::elementSize};
-            int iter{isTank(b, tanks)};
+            const unsigned int pi{bullet.getCenterY() / Config::elementSize};
+            const unsigned int pj{bullet.getCenterX() / Config::elementSize};
+            const int iter{isTank(bullet, tanks)};
             if (!map.canFly(pj, pi))
             {
-                map.destroyItem(pj, pi, b.getPower());
+                map.destroyItem(pj, pi, bullet.getPower());
                 bullets.erase(bullets.begin() + i);
             }
             if (iter >= 0)
             {
-                Tank& v{tanks.at(iter)};
-                if (v.destroy(b.getPower()))
+                Tank& tank{tanks.at(iter)};
+                if (tank.destroy(bullet.getPower()))
                 {
-                    if (v.isPlayerControlled())
+                    if (tank.isPlayerControlled())
                         playerDestroyed_ = true;
                     tanks.erase(tanks.begin() + iter);
                 }
@@ -277,14 +271,6 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
             bullets.erase(bullets.begin() + i);
         }
     }
-}
-
-bool Game::isBulletValid(int x, int y)
-{
-    constexpr int bulletSize{Config::BULLET_SIZE};
-    constexpr int maxCoordinate{Config::elementSize * Config::mapSize -
-                                bulletSize};
-    return x < maxCoordinate && y < maxCoordinate && y >= 0 && x >= 0;
 }
 
 int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
