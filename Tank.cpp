@@ -183,4 +183,5 @@ void Tank::resetState()
     setY(initialY_);
     if (isPlayerControlled())
         setType(TankType::PLAYER_TIER_1);
+    direction_ = directions_[static_cast<int>(getTankType())];
 }
