@@ -118,14 +118,13 @@ bool Map::isValid(int x, int y)
     return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
 
-std::pair<bool, ResourceType> Map::takePowerUp(unsigned int x, unsigned int y)
+std::pair<bool, ResourceType> Map::takePowerUp(Point point)
 {
-    auto& tile{getTile({x, y})};
+    auto& tile{getTile(screenPointToTile(point))};
     if (!tile->isPowerUp())
         return {false, ResourceType::PLAIN};
     const ResourceType type{tile->getResourceType()};
-    tile = std::make_unique<Plain>(
-        Point{x * Config::elementSize, y * Config::elementSize});
+    tile = std::make_unique<Plain>(tile->getLocation());
     return {true, type};
 }
 

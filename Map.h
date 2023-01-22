@@ -20,7 +20,7 @@ public:
     bool canFly(Point point) const;
 
     static bool isValid(int x, int y);
-    std::pair<bool, ResourceType> takePowerUp(unsigned int x, unsigned int y);
+    std::pair<bool, ResourceType> takePowerUp(Point point);
 
     void drawBackground(const Screen& screen);
     void drawForeground(const Screen& screen);
