@@ -141,7 +141,7 @@ bool Game::play()
     std::vector<Tank> tanks{map.loadMap(screen_.getResources().getLevel())};
     Input input;
     Screen::clearScreenWithBlack();
-    std::vector<Bullet> bullets;
+    std::list<Bullet> bullets;
 
     while (true)
     {
@@ -170,7 +170,7 @@ void Game::drawStatusPlaceholder()
 }
 
 void Game::control(Map& map, std::vector<Tank>& tanks,
-                   std::vector<Bullet>& bullets)
+                   std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
 
@@ -238,41 +238,36 @@ void Game::drawTanks(const std::vector<Tank>& tanks)
         tank.draw(screen_);
 }
 
-void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
+void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
                        Map& map)
 {
-    for (int i = static_cast<int>(bullets.size()) - 1; i >= 0; i--)
+    for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
     {
-        Bullet& bullet{bullets.at(i)};
-        if (!bullet.move())
+        bool erase{!bulletIter->move()};
+        if (const Point bulletCenter{bulletIter->getCenter()};
+            !erase && !map.canFly(bulletCenter))
         {
-            bullets.erase(bullets.begin() + i);
-            continue;
+            map.destroyItem(bulletCenter, bulletIter->getPower());
+            erase = true;
         }
 
-        const Point bulletCenter{bullet.getCenter()};
-        if (!map.canFly(bulletCenter))
+        if (auto tankIter{hitTank(*bulletIter, tanks)};
+            !erase && tankIter != tanks.end())
         {
-            map.destroyItem(bulletCenter, bullet.getPower());
-            bullets.erase(bullets.begin() + i);
-            continue;
-        }
-
-        if (auto tankIter{isTank(bullet, tanks)}; tankIter != tanks.end())
-        {
-            if (tankIter->destroy(bullet.getPower()))
+            if (tankIter->destroy(bulletIter->getPower()))
             {
                 if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;
                 tanks.erase(tankIter);
             }
-            bullets.erase(bullets.begin() + i);
+            erase = true;
         }
+        bulletIter = (erase ? bullets.erase(bulletIter) : ++bulletIter);
     }
 }
 
-std::vector<Tank>::iterator Game::isTank(const Bullet& bullet,
-                                         std::vector<Tank>& tanks)
+std::vector<Tank>::iterator Game::hitTank(const Bullet& bullet,
+                                          std::vector<Tank>& tanks)
 {
     return std::find_if(tanks.begin(), tanks.end(),
                         [&bullet](const auto& tank)
@@ -282,13 +277,13 @@ std::vector<Tank>::iterator Game::isTank(const Bullet& bullet,
                         });
 }
 
-void Game::drawBullets(const std::vector<Bullet>& bullets)
+void Game::drawBullets(const std::list<Bullet>& bullets)
 {
     for (const auto& bullet : bullets)
         bullet.draw(screen_);
 }
 
-void Game::draw(const std::vector<Bullet>& bullets,
+void Game::draw(const std::list<Bullet>& bullets,
                 const std::vector<Tank>& tanks, Map& map)
 {
     map.drawBackground(screen_);
