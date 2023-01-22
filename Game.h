@@ -27,7 +27,8 @@ private:
     bool isGameEnding(const Map& map, const std::vector<Tank>& tanks);
     void moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
                      Map& map);
-    int isTank(const Bullet& bullet, std::vector<Tank>& tanks);
+    std::vector<Tank>::iterator isTank(const Bullet& bullet,
+                                       std::vector<Tank>& tanks);
 
     void drawStatusPlaceholder();
     void drawTanks(const std::vector<Tank>& tanks);

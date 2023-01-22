@@ -251,42 +251,36 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
         }
 
         const Point bulletCenter{bullet.getCenter()};
-        const int iter{isTank(bullet, tanks)};
         if (!map.canFly(bulletCenter))
         {
             map.destroyItem(bulletCenter, bullet.getPower());
             bullets.erase(bullets.begin() + i);
+            continue;
         }
-        if (iter >= 0)
+
+        if (auto tankIter{isTank(bullet, tanks)}; tankIter != tanks.end())
         {
-            Tank& tank{tanks.at(iter)};
-            if (tank.destroy(bullet.getPower()))
+            if (tankIter->destroy(bullet.getPower()))
             {
-                if (tank.isPlayerControlled())
+                if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;
-                tanks.erase(tanks.begin() + iter);
+                tanks.erase(tankIter);
             }
             bullets.erase(bullets.begin() + i);
         }
     }
 }
 
-int Game::isTank(const Bullet& bullet, std::vector<Tank>& tanks)
+std::vector<Tank>::iterator Game::isTank(const Bullet& bullet,
+                                         std::vector<Tank>& tanks)
 {
-    for (unsigned int i = 0; i < tanks.size(); i++)
+    for (auto iter = tanks.begin(); iter != tanks.end(); ++iter)
     {
-        const Point bulletCenter{bullet.getCenter()};
-        const Tank& v{tanks.at(i)};
-        if (bulletCenter.x >= v.getX() &&
-            bulletCenter.x < v.getX() + Config::elementSize &&
-            bulletCenter.y >= v.getY() &&
-            bulletCenter.y < v.getY() + Config::elementSize &&
-            bullet.getTankType() != v.getTankType())
-        {  // check friendly fire
-            return i;
-        }
+        if (iter->isWithin(bullet.getCenter()) &&
+            bullet.getTankType() != iter->getTankType())
+            return iter;
     }
-    return -1;
+    return tanks.end();
 }
 
 void Game::drawBullets(const std::vector<Bullet>& bullets)
