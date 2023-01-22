@@ -243,16 +243,16 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
 {
     for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
     {
-        bool erase{!bulletIter->move()};
+        bool valid{bulletIter->move()};
         if (const Point bulletCenter{bulletIter->getCenter()};
-            !erase && !map.canFly(bulletCenter))
+            valid && !map.canFly(bulletCenter))
         {
             map.destroyItem(bulletCenter, bulletIter->getPower());
-            erase = true;
+            valid = false;
         }
 
         if (auto tankIter{hitTank(*bulletIter, tanks)};
-            !erase && tankIter != tanks.end())
+            valid && tankIter != tanks.end())
         {
             if (tankIter->destroy(bulletIter->getPower()))
             {
@@ -260,9 +260,9 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
                     playerDestroyed_ = true;
                 tanks.erase(tankIter);
             }
-            erase = true;
+            valid = false;
         }
-        bulletIter = (erase ? bullets.erase(bulletIter) : ++bulletIter);
+        bulletIter = (valid ? ++bulletIter : bullets.erase(bulletIter));
     }
 }
 
