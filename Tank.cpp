@@ -12,8 +12,6 @@
 #include "Screen.h"
 #include "TankType.h"
 
-const int Tank::wayX_[4] = {0, 1, 0, -1};
-const int Tank::wayY_[4] = {-1, 0, 1, 0};
 const unsigned int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
 const unsigned int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const unsigned int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
@@ -206,5 +204,4 @@ void Tank::resetState()
     if (isPlayerControlled())
         setType(TankType::PLAYER_TIER_1);
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
-    ;
 }

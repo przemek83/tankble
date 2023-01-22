@@ -46,8 +46,6 @@ private:
     constexpr double pi() const;
     void resetState();
 
-    static const int wayX_[4];
-    static const int wayY_[4];
     static const unsigned int powers_[8];
     static const unsigned int armors_[8];
     static const unsigned int speeds_[8];
