@@ -274,13 +274,12 @@ void Game::moveBullets(std::vector<Bullet>& bullets, std::vector<Tank>& tanks,
 std::vector<Tank>::iterator Game::isTank(const Bullet& bullet,
                                          std::vector<Tank>& tanks)
 {
-    for (auto iter = tanks.begin(); iter != tanks.end(); ++iter)
-    {
-        if (iter->isWithin(bullet.getCenter()) &&
-            bullet.getTankType() != iter->getTankType())
-            return iter;
-    }
-    return tanks.end();
+    return std::find_if(tanks.begin(), tanks.end(),
+                        [&bullet](const auto& tank)
+                        {
+                            return tank.isWithin(bullet.getCenter()) &&
+                                   bullet.getTankType() != tank.getTankType();
+                        });
 }
 
 void Game::drawBullets(const std::vector<Bullet>& bullets)
