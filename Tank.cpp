@@ -138,6 +138,12 @@ void Tank::applyPowerUp(ResourceType powerUpType)
     }
 }
 
+bool Tank::isWithin(Point point) const
+{
+    return point.x >= getX() && point.x < getX() + Config::elementSize &&
+           point.y >= getY() && point.y < getY() + Config::elementSize;
+}
+
 void Tank::resetFire() { lastFire_--; }
 
 void Tank::go()

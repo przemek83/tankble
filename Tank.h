@@ -35,6 +35,8 @@ public:
 
     void applyPowerUp(ResourceType powerUpType);
 
+    bool isWithin(Point point) const;
+
 private:
     void setSpeedUp();
     void addLife();
