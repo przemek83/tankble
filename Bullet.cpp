@@ -50,8 +50,8 @@ bool Bullet::move()
                  getDirectionY() * static_cast<int>(getSpeed())};
     if (!isValid(px, py))
         return false;
-    setX(px);
-    setY(py);
+    setX(static_cast<unsigned int>(px));
+    setY(static_cast<unsigned int>(py));
     return true;
 }
 
