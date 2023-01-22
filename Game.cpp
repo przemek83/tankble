@@ -27,19 +27,19 @@ void Game::movement(Tank& myTank, Map& map,
 
     if (actions.find(InputAction::UP) != actions.end())
     {
-        myTank.move(0);
+        myTank.move(Direction::UP);
     }
     else if (actions.find(InputAction::DOWN) != actions.end())
     {
-        myTank.move(2);
+        myTank.move(Direction::DOWN);
     }
     else if (actions.find(InputAction::LEFT) != actions.end())
     {
-        myTank.move(3);
+        myTank.move(Direction::LEFT);
     }
     else if (actions.find(InputAction::RIGHT) != actions.end())
     {
-        myTank.move(1);
+        myTank.move(Direction::RIGHT);
     }
     if (!map.isValid(
             myTank.getX() + myTank.getDirectionX() + myTank.getDirectionX(),

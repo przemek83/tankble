@@ -26,18 +26,18 @@ Point Bullet::getCenter() const { return {getX() + 3, getY() + 3}; }
 
 int Bullet::getDirectionX() const
 {
-    if (direction_ == 1)
+    if (direction_ == Direction::RIGHT)
         return 1;
-    if (direction_ == 3)
+    if (direction_ == Direction::LEFT)
         return -1;
     return 0;
 }
 
 int Bullet::getDirectionY() const
 {
-    if (direction_ == 0)
+    if (direction_ == Direction::UP)
         return -1;
-    if (direction_ == 2)
+    if (direction_ == Direction::DOWN)
         return 1;
     return 0;
 }

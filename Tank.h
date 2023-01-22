@@ -2,6 +2,7 @@
 
 #include <ctime>
 
+#include "Direction.h"
 #include "Drawable.h"
 #include "ResourceType.h"
 #include "TankType.h"
@@ -18,9 +19,9 @@ public:
     ResourceType getResourceType() const override;
     Point getCenter() const override;
 
-    void move(int);
+    void move(Direction direction);
     void moveRandom(Map& map);
-    int getDirection() const;
+    Direction getDirection() const;
     bool canFire();
     bool destroy(unsigned int);
     unsigned int getSpeed() const;
@@ -50,9 +51,8 @@ private:
     static const unsigned int powers_[8];
     static const unsigned int armors_[8];
     static const unsigned int speeds_[8];
-    static const unsigned int directions_[8];
 
-    int direction_;
+    Direction direction_;
     TankType type_;
     unsigned int armor_;
     unsigned int power_;

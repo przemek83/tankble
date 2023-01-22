@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "Config.h"
+#include "Direction.h"
 #include "Map.h"
 #include "Screen.h"
 #include "TankType.h"
@@ -16,13 +17,12 @@ const int Tank::wayY_[4] = {-1, 0, 1, 0};
 const unsigned int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
 const unsigned int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
 const unsigned int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
-const unsigned int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
 Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x), initialY_(point.y)
 {
-    direction_ = directions_[static_cast<int>(tankType)];
     setType(tankType);
+    direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 
     if (isPlayerControlled())
         lives_ *= 2;
@@ -32,7 +32,7 @@ void Tank::draw(const Screen& screen) const
 {
     screen.drawScaledBitmapWithRotation(getResourceType(), getX(), getY(),
                                         Config::elementSize,
-                                        90 * getDirection());
+                                        90 * static_cast<int>(getDirection()));
 }
 
 ResourceType Tank::getResourceType() const
@@ -57,7 +57,7 @@ void Tank::setType(TankType tankType)
     speed_ = speeds_[static_cast<int>(tankType)];
 }
 
-void Tank::move(int xy) { direction_ = xy; }
+void Tank::move(Direction direction) { direction_ = direction; }
 
 bool Tank::canFire()
 {
@@ -100,11 +100,29 @@ unsigned int Tank::getPower() const { return power_; }
 
 unsigned int Tank::getSpeed() const { return speed_; }
 
-int Tank::getDirection() const { return direction_; }
+Direction Tank::getDirection() const { return direction_; }
 
-int Tank::getDirectionX() const { return wayX_[getDirection()]; }
+int Tank::getDirectionX() const
+{
+    if (getDirection() == Direction::LEFT)
+        return -1;
 
-int Tank::getDirectionY() const { return wayY_[getDirection()]; }
+    if (getDirection() == Direction::RIGHT)
+        return 1;
+
+    return 0;
+}
+
+int Tank::getDirectionY() const
+{
+    if (getDirection() == Direction::UP)
+        return -1;
+
+    if (getDirection() == Direction::DOWN)
+        return 1;
+
+    return 0;
+}
 
 bool Tank::isPlayerControlled() const
 {
@@ -163,7 +181,7 @@ void Tank::moveRandom(Map& map)
         const int i{rand() % 8};
         if (i < 4)
         {
-            direction_ = i;
+            direction_ = static_cast<Direction>(i);
         }
         if (!(map.isValid(getX() + getDirectionX() + getDirectionX(),
                           getY() + getDirectionY() + getDirectionY())))
@@ -187,5 +205,6 @@ void Tank::resetState()
     setY(initialY_);
     if (isPlayerControlled())
         setType(TankType::PLAYER_TIER_1);
-    direction_ = directions_[static_cast<int>(getTankType())];
+    direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
+    ;
 }

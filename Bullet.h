@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Direction.h"
 #include "Drawable.h"
 #include "ResourceType.h"
 #include "TankType.h"
@@ -13,10 +14,6 @@ public:
 
     TankType getTankType() const;
     unsigned int getPower() const;
-    unsigned int getSpeed() const;
-
-    int getDirectionX() const;
-    int getDirectionY() const;
 
     bool move();
 
@@ -25,9 +22,13 @@ public:
     Point getCenter() const override;
 
 private:
+    unsigned int getSpeed() const;
+    int getDirectionX() const;
+    int getDirectionY() const;
     static bool isValid(int newX, int newY);
+
     TankType tankType_;
-    int direction_;
+    Direction direction_;
     unsigned int speed_;
     unsigned int power_;
 };
