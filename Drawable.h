@@ -19,6 +19,7 @@ public:
 
     virtual void draw(const Screen& screen) const = 0;
     virtual ResourceType getResourceType() const = 0;
+    virtual Point getCenter() const = 0;
 
     void setX(unsigned int x);
     void setY(unsigned int y);

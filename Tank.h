@@ -16,6 +16,7 @@ public:
 
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;
+    Point getCenter() const override;
 
     void move(int);
     void moveRandom(Map& map);

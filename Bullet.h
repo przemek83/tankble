@@ -15,7 +15,6 @@ public:
     unsigned int getPower() const;
     unsigned int getSpeed() const;
 
-    Point getCenter() const;
     int getDirectionX() const;
     int getDirectionY() const;
 
@@ -23,6 +22,7 @@ public:
 
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;
+    Point getCenter() const override;
 
 private:
     static bool isValid(int newX, int newY);

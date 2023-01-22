@@ -17,6 +17,7 @@ public:
     bool isPowerUp() const;
 
     void draw(const Screen& screen) const override;
+    Point getCenter() const override;
 
 protected:
     static const unsigned int MAX_ARMOR{999};

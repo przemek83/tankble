@@ -42,6 +42,12 @@ ResourceType Tank::getResourceType() const
         static_cast<unsigned char>(getTankType()));
 }
 
+Point Tank::getCenter() const
+{
+    const unsigned int middle{Config::elementSize / 2};
+    return {getX() + middle, getY() + middle};
+}
+
 void Tank::setType(TankType tankType)
 {
     type_ = tankType;

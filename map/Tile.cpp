@@ -32,3 +32,9 @@ void Tile::draw(const Screen& screen) const
     const unsigned int tileSize{Config::elementSize};
     screen.drawScaledBitmap(getResourceType(), getX(), getY(), tileSize);
 }
+
+Point Tile::getCenter() const
+{
+    const unsigned int middle{Config::elementSize};
+    return {getX() + middle, getY() + middle};
+}
