@@ -23,7 +23,7 @@ ALLEGRO_BITMAP* Resources::getBitmap(ResourceType resourceType) const
     return bitmaps_.at(resourceType);
 }
 
-std::fstream Resources::getLevel() const
+std::fstream Resources::getLevel()
 {
     const std::string levelName{"missions/mission1.dat"};
     if (!std::filesystem::exists(levelName))
