@@ -13,10 +13,10 @@
 
 const int Tank::wayX_[4] = {0, 1, 0, -1};
 const int Tank::wayY_[4] = {-1, 0, 1, 0};
-const int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
-const int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
-const int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
-const int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
+const unsigned int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
+const unsigned int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
+const unsigned int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
+const unsigned int Tank::directions_[8] = {0, 0, 0, 0, 2, 2, 2, 2};
 
 Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x), initialY_(point.y)
@@ -71,10 +71,14 @@ bool Tank::canFire()
     return false;
 }
 
-bool Tank::destroy(int power)
+bool Tank::destroy(unsigned int power)
 {
-    armor_ -= power;
-    if (armor_ <= 0)
+    if (power > armor_)
+        armor_ = 0;
+    else
+        armor_ -= power;
+
+    if (armor_ == 0)
     {
         if (lives_ <= 1)
             return true;
@@ -84,7 +88,7 @@ bool Tank::destroy(int power)
     return false;
 }
 
-int Tank::getMaxArmor() const { return maxArmor_; }
+unsigned int Tank::getMaxArmor() const { return maxArmor_; }
 
 TankType Tank::getTankType() const { return type_; }
 

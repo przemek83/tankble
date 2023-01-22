@@ -22,7 +22,7 @@ public:
     void moveRandom(Map& map);
     int getDirection() const;
     bool canFire();
-    bool destroy(int);
+    bool destroy(unsigned int);
     unsigned int getSpeed() const;
     unsigned int getPower() const;
     void resetFire();
@@ -41,23 +41,23 @@ private:
     void setSpeedUp();
     void addLife();
     void setMaxArmor();
-    int getMaxArmor() const;
+    unsigned int getMaxArmor() const;
     constexpr double pi() const;
     void resetState();
 
     static const int wayX_[4];
     static const int wayY_[4];
-    static const int powers_[8];
-    static const int armors_[8];
-    static const int speeds_[8];
-    static const int directions_[8];
+    static const unsigned int powers_[8];
+    static const unsigned int armors_[8];
+    static const unsigned int speeds_[8];
+    static const unsigned int directions_[8];
 
     int direction_;
     TankType type_;
-    int armor_;
+    unsigned int armor_;
     unsigned int power_;
     unsigned int speed_;
-    int maxArmor_;
+    unsigned int maxArmor_;
     time_t lastFire_{0};
     unsigned int lives_{1};
     unsigned int initialX_;
