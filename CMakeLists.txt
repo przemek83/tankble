@@ -66,6 +66,7 @@ set(${PROJECT_NAME}_SOURCES
         Drawable.cpp
         Drawable.h
         Point.h
+        Direction.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp
