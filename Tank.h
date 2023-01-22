@@ -44,7 +44,7 @@ private:
     void setMaxArmor();
     unsigned int getMaxArmor() const;
     constexpr double pi() const;
-    void resetState();
+    void respawn();
 
     static const unsigned int powers_[8];
     static const unsigned int armors_[8];

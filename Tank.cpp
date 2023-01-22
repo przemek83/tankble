@@ -81,7 +81,7 @@ bool Tank::destroy(unsigned int power)
         if (lives_ <= 1)
             return true;
         lives_--;
-        resetState();
+        respawn();
     }
     return false;
 }
@@ -197,7 +197,7 @@ void Tank::moveRandom(Map& map)
 
 constexpr double Tank::pi() const { return std::atan(1) * 4; }
 
-void Tank::resetState()
+void Tank::respawn()
 {
     setX(initialX_);
     setY(initialY_);
