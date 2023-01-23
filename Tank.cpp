@@ -121,12 +121,8 @@ bool Tank::isPlayerControlled() const
 std::pair<int, int> Tank::getNextExpectedPosition()
 {
     std::pair<int, int> nextPosition{
-        static_cast<int>(getX()) +
-            (direction_ == Direction::RIGHT ? Config::elementSize - 1 : 0) +
-            getDirectionX(),
-        static_cast<int>(getY()) +
-            (direction_ == Direction::DOWN ? Config::elementSize - 1 : 0) +
-            getDirectionY()};
+        static_cast<int>(getX()) + getDirectionX(),
+        static_cast<int>(getY()) + getDirectionY()};
     return nextPosition;
 }
 

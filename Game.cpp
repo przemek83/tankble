@@ -39,8 +39,20 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
     if (Map::isValid(newX, newY) &&
+        Map::isValid(newX + Config::elementSize - 1, newY) &&
+        Map::isValid(newX, newY + Config::elementSize - 1) &&
+        Map::isValid(newX + Config::elementSize - 1,
+                     newY + Config::elementSize - 1) &&
+        map.canDrive({static_cast<unsigned int>(newX),
+                      static_cast<unsigned int>(newY)}) &&
+        map.canDrive({static_cast<unsigned int>(newX) + Config::elementSize - 1,
+                      static_cast<unsigned int>(newY)}) &&
         map.canDrive(
-            {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)}))
+            {static_cast<unsigned int>(newX),
+             static_cast<unsigned int>(newY) + Config::elementSize - 1}) &&
+        map.canDrive(
+            {static_cast<unsigned int>(newX) + Config::elementSize - 1,
+             static_cast<unsigned int>(newY) + Config::elementSize - 1}))
         tank.go();
 }
 
