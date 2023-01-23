@@ -138,7 +138,7 @@ void Game::movement(Tank& myTank, Map& map,
 bool Game::play()
 {
     Map map;
-    std::vector<Tank> tanks{map.loadMap(screen_.getResources().getLevel())};
+    std::vector<Tank> tanks{map.loadMap(Resources::getLevel())};
     Input input;
     Screen::clearScreenWithBlack();
     std::list<Bullet> bullets;
