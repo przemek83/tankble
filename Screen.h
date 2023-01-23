@@ -32,7 +32,7 @@ public:
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
                                       unsigned int y, int size,
-                                      int degrees) const;
+                                      unsigned int degrees) const;
 
     static void clearScreenWithBlack();
 

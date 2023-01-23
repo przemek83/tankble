@@ -52,13 +52,13 @@ void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
 
 void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
                                           unsigned int x, unsigned int y,
-                                          int size, int degrees) const
+                                          int size, unsigned int degrees) const
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     const auto width = static_cast<float>(al_get_bitmap_width(bitmapToUse));
 
     al_draw_scaled_rotated_bitmap(
-        bitmapToUse, width / 2.F, width / 2.f,
+        bitmapToUse, width / 2.F, width / 2.F,
         static_cast<float>(x) + static_cast<float>(size) / 2.F,
         static_cast<float>(y) + static_cast<float>(size) / 2.F,
         static_cast<float>(size) / width, static_cast<float>(size) / width,
