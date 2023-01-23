@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ctime>
+#include <map>
 
 #include "Direction.h"
 #include "Drawable.h"
@@ -41,21 +42,29 @@ public:
 private:
     void setSpeedUp();
     void addLife();
-    void setMaxArmor();
-    unsigned int getMaxArmor() const;
     constexpr double pi() const;
     void respawn();
 
-    static const unsigned int powers_[8];
-    static const unsigned int armors_[8];
-    static const unsigned int speeds_[8];
+    struct Stats
+    {
+        unsigned int power;
+        unsigned int armor;
+        unsigned int speed;
+    };
+
+    std::map<TankType, Stats> typesStats_{
+        {TankType::PLAYER_TIER_1, {2, 8, 4}},
+        {TankType::PLAYER_TIER_2, {4, 16, 4}},
+        {TankType::PLAYER_TIER_3, {8, 32, 6}},
+        {TankType::PLAYER_TIER_4, {16, 64, 8}},
+        {TankType::ENEMY_TIER_1, {1, 4, 4}},
+        {TankType::ENEMY_TIER_2, {2, 8, 4}},
+        {TankType::ENEMY_TIER_3, {4, 16, 6}},
+        {TankType::ENEMY_TIER_4, {8, 32, 8}}};
 
     Direction direction_;
     TankType type_;
-    unsigned int armor_;
-    unsigned int power_;
-    unsigned int speed_;
-    unsigned int maxArmor_;
+    Stats stats_;
     time_t lastFire_{0};
     unsigned int lives_{1};
     unsigned int initialX_;

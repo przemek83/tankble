@@ -12,10 +12,6 @@
 #include "Screen.h"
 #include "TankType.h"
 
-const unsigned int Tank::powers_[8] = {2, 4, 8, 16, 1, 2, 4, 8};
-const unsigned int Tank::armors_[8] = {8, 16, 32, 64, 4, 8, 16, 32};
-const unsigned int Tank::speeds_[8] = {4, 4, 6, 8, 4, 4, 6, 8};
-
 Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x), initialY_(point.y)
 {
@@ -49,10 +45,7 @@ Point Tank::getCenter() const
 void Tank::setType(TankType tankType)
 {
     type_ = tankType;
-    armor_ = armors_[static_cast<int>(tankType)];
-    maxArmor_ = armors_[static_cast<int>(tankType)];
-    power_ = powers_[static_cast<int>(tankType)];
-    speed_ = speeds_[static_cast<int>(tankType)];
+    stats_ = typesStats_[tankType];
 }
 
 void Tank::move(Direction direction) { direction_ = direction; }
@@ -71,12 +64,12 @@ bool Tank::canFire()
 
 bool Tank::destroy(unsigned int power)
 {
-    if (power > armor_)
-        armor_ = 0;
+    if (power > stats_.armor)
+        stats_.armor = 0;
     else
-        armor_ -= power;
+        stats_.armor -= power;
 
-    if (armor_ == 0)
+    if (stats_.armor == 0)
     {
         if (lives_ <= 1)
             return true;
@@ -86,17 +79,13 @@ bool Tank::destroy(unsigned int power)
     return false;
 }
 
-unsigned int Tank::getMaxArmor() const { return maxArmor_; }
-
 TankType Tank::getTankType() const { return type_; }
 
-void Tank::setMaxArmor() { armor_ = getMaxArmor(); }
+void Tank::setSpeedUp() { stats_.speed++; }
 
-void Tank::setSpeedUp() { speed_++; }
+unsigned int Tank::getPower() const { return stats_.power; }
 
-unsigned int Tank::getPower() const { return power_; }
-
-unsigned int Tank::getSpeed() const { return speed_; }
+unsigned int Tank::getSpeed() const { return stats_.speed; }
 
 Direction Tank::getDirection() const { return direction_; }
 
@@ -136,7 +125,7 @@ void Tank::applyPowerUp(ResourceType powerUpType)
     switch (powerUpType)
     {
         case ResourceType::SHIELD_UP:
-            setMaxArmor();
+            stats_.armor = typesStats_[getTankType()].armor;
             break;
 
         case ResourceType::TIER_UP:
