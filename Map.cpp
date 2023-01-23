@@ -1,6 +1,7 @@
 #include "Map.h"
 
 #include <fstream>
+#include <iostream>
 
 #include "Config.h"
 #include "Screen.h"
@@ -106,15 +107,15 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
     return tanks;
 }
 
-bool Map::canDrive(unsigned int x, unsigned int y) const
+bool Map::canDrive(Point point) const
 {
-    return getTile({x, y})->canDrive();
+    return getTile(screenPointToTile(point))->canDrive();
 }
 
 bool Map::isValid(int x, int y)
 {
     constexpr int maxCoordinate{
-        static_cast<int>((Config::mapSize - 1) * Config::elementSize)};
+        static_cast<int>(Config::mapSize * Config::elementSize)};
     return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
 

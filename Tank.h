@@ -20,29 +20,31 @@ public:
     ResourceType getResourceType() const override;
     Point getCenter() const override;
 
-    void move(Direction direction);
-    void moveRandom(Map& map);
+    void setDirection(Direction direction);
     Direction getDirection() const;
     bool canFire();
     bool destroy(unsigned int);
     unsigned int getSpeed() const;
     unsigned int getPower() const;
     void resetFire();
-    void setType(TankType tankType);
     TankType getTankType() const;
     void go();
-    int getDirectionX() const;
-    int getDirectionY() const;
     bool isPlayerControlled() const;
+
+    std::pair<int, int> getNextExpectedPosition();
 
     void applyPowerUp(ResourceType powerUpType);
 
     bool isWithin(Point point) const;
 
 private:
+    void setType(TankType tankType);
+
+    int getDirectionX() const;
+    int getDirectionY() const;
+
     void setSpeedUp();
     void addLife();
-    constexpr double pi() const;
     void respawn();
 
     struct Stats

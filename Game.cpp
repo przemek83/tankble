@@ -14,125 +14,34 @@
 #include "Screen.h"
 #include "Tank.h"
 
-Game::Game(Screen& screen) : screen_(screen)
+Game::Game(Screen& screen) : screen_(screen) {}
+
+std::pair<bool, Direction> Game::inputActionsToDirection(
+    const std::set<InputAction>& actions)
 {
+    if (actions.find(InputAction::UP) != actions.end())
+        return {true, Direction::UP};
+
+    if (actions.find(InputAction::DOWN) != actions.end())
+        return {true, Direction::DOWN};
+
+    if (actions.find(InputAction::LEFT) != actions.end())
+        return {true, Direction::LEFT};
+
+    if (actions.find(InputAction::RIGHT) != actions.end())
+        return {true, Direction::RIGHT};
+
+    return {false, Direction::UP};
 }
 
-void Game::movement(Tank& myTank, Map& map,
-                    const std::set<InputAction>& actions)
+void Game::movement(Tank& tank, Map& map, Direction direction)
 {
-    const int pomX = myTank.getX() / Config::elementSize;
-    const int pomY = myTank.getY() / Config::elementSize;
-    const int tol = 15;
-
-    if (actions.find(InputAction::UP) != actions.end())
-    {
-        myTank.move(Direction::UP);
-    }
-    else if (actions.find(InputAction::DOWN) != actions.end())
-    {
-        myTank.move(Direction::DOWN);
-    }
-    else if (actions.find(InputAction::LEFT) != actions.end())
-    {
-        myTank.move(Direction::LEFT);
-    }
-    else if (actions.find(InputAction::RIGHT) != actions.end())
-    {
-        myTank.move(Direction::RIGHT);
-    }
-    if (!map.isValid(
-            myTank.getX() + myTank.getDirectionX() + myTank.getDirectionX(),
-            myTank.getY() + myTank.getDirectionY() + myTank.getDirectionY()))
-    {
-        return;
-    }
-
-    if (myTank.getDirectionX() == 0 && myTank.getDirectionY() != 0)
-    {
-        if (myTank.getY() % Config::elementSize == 0)
-        {
-            if (myTank.getX() % Config::elementSize == 0)
-            {
-                if (map.canDrive(pomX, pomY + myTank.getDirectionY()))
-                {
-                    myTank.go();
-                }
-            }
-            else
-            {
-                if (map.canDrive(pomX, pomY + myTank.getDirectionY()) &&
-                    map.canDrive(pomX + 1, pomY + myTank.getDirectionY()))
-                {
-                    myTank.go();
-                }
-                else
-                {
-                    if (map.canDrive(pomX, pomY + myTank.getDirectionY()) &&
-                        myTank.getX() % Config::elementSize <= tol)
-                    {
-                        myTank.setX(pomX * Config::elementSize);
-                        myTank.go();
-                    }
-                    else if (map.canDrive(pomX + 1,
-                                          pomY + myTank.getDirectionY()) &&
-                             myTank.getX() % Config::elementSize >=
-                                 Config::elementSize - tol)
-                    {
-                        myTank.setX((pomX + 1) * Config::elementSize);
-                        myTank.go();
-                    }
-                }
-            }
-        }
-        else
-        {
-            myTank.go();
-        }
-    }
-    else if (myTank.getDirectionY() == 0 && myTank.getDirectionX() != 0)
-    {
-        if (myTank.getX() % Config::elementSize == 0)
-        {
-            if (myTank.getY() % Config::elementSize == 0)
-            {
-                if (map.canDrive(pomX + myTank.getDirectionX(), pomY))
-                {
-                    myTank.go();
-                }
-            }
-            else
-            {
-                if (map.canDrive(pomX + myTank.getDirectionX(), pomY) &&
-                    map.canDrive(pomX + myTank.getDirectionX(), pomY + 1))
-                {
-                    myTank.go();
-                }
-                else
-                {
-                    if (map.canDrive(pomX + myTank.getDirectionX(), pomY) &&
-                        myTank.getY() % Config::elementSize <= tol)
-                    {
-                        myTank.setY(pomY * Config::elementSize);
-                        myTank.go();
-                    }
-                    else if (map.canDrive(pomX + myTank.getDirectionX(),
-                                          pomY + 1) &&
-                             myTank.getY() % Config::elementSize >=
-                                 Config::elementSize - tol)
-                    {
-                        myTank.setY((pomY + 1) * Config::elementSize);
-                        myTank.go();
-                    }
-                }
-            }
-        }
-        else
-        {
-            myTank.go();
-        }
-    }
-    setPower(myTank, map);
+    tank.setDirection(direction);
+    auto [newX, newY]{tank.getNextExpectedPosition()};
+    if (Map::isValid(newX, newY) &&
+        map.canDrive(
+            {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)}))
+        tank.go();
 }
 
 bool Game::play()
@@ -176,22 +85,32 @@ void Game::control(Map& map, std::vector<Tank>& tanks,
 
     for (auto& tank : tanks)
     {
+        Direction direction{Direction::UP};
         if (tank.isPlayerControlled())
         {
+            setPower(tank, map);
             const auto actions{Input::getGameActions()};
-            if (isPlayerMoving(actions))
-                movement(tank, map, actions);
-
             if (actions.find(InputAction::FIRE) != actions.end() &&
                 tank.canFire())
                 bullets.emplace_back(tank);
+
+            bool shouldMove{false};
+            std::tie(shouldMove, direction) = inputActionsToDirection(actions);
+            if (!shouldMove)
+                continue;
         }
         else
         {
-            tank.moveRandom(map);
             if (tank.canFire())
                 bullets.emplace_back(tank);
+            const int i{rand() % 8};
+            if (tank.getX() % Config::elementSize == 0 &&
+                tank.getY() % Config::elementSize == 0 && i < 4)
+                direction = static_cast<Direction>(i);
+            else
+                direction = tank.getDirection();
         }
+        movement(tank, map, direction);
     }
 }
 
@@ -201,18 +120,6 @@ void Game::drawEndOfGame(const std::string& text)
     screen_.drawText(Config::width / 2, Config::height / 2, text);
     Screen::refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
-}
-
-bool Game::isPlayerMoving(const std::set<InputAction>& actions)
-{
-    return std::find_if(actions.begin(), actions.end(),
-                        [](InputAction action)
-                        {
-                            return action == InputAction::UP ||
-                                   action == InputAction::DOWN ||
-                                   action == InputAction::LEFT ||
-                                   action == InputAction::RIGHT;
-                        }) != actions.end();
 }
 
 bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)

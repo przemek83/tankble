@@ -16,7 +16,7 @@ public:
 
     std::vector<Tank> loadMap(std::fstream stream);
 
-    bool canDrive(unsigned int x, unsigned int y) const;
+    bool canDrive(Point point) const;
     bool canFly(Point point) const;
 
     static bool isValid(int x, int y);

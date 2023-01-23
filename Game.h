@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Direction.h"
+
 class Tank;
 class Map;
 class Screen;
@@ -20,11 +22,9 @@ public:
     bool play();
 
 private:
-    static void movement(Tank& myTank, Map& map,
-                         const std::set<InputAction>& actions);
+    static void movement(Tank& tank, Map& map, Direction direction);
     void control(Map& map, std::vector<Tank>& tanks,
                  std::list<Bullet>& bullets);
-    static bool isPlayerMoving(const std::set<InputAction>& actions);
     bool isGameEnding(const Map& map, const std::vector<Tank>& tanks);
     void moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
                      Map& map);
@@ -38,6 +38,9 @@ private:
     void draw(const std::list<Bullet>& bullets, const std::vector<Tank>& tanks,
               Map& map);
     static void setPower(Tank& tank, Map& map);
+
+    static std::pair<bool, Direction> inputActionsToDirection(
+        const std::set<InputAction>& actions);
 
     Screen& screen_;
     bool playerDestroyed_{false};

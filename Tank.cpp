@@ -8,7 +8,6 @@
 
 #include "Config.h"
 #include "Direction.h"
-#include "Map.h"
 #include "Screen.h"
 #include "TankType.h"
 
@@ -49,7 +48,7 @@ void Tank::setType(TankType tankType)
     stats_ = typesStats_[tankType];
 }
 
-void Tank::move(Direction direction) { direction_ = direction; }
+void Tank::setDirection(Direction direction) { direction_ = direction; }
 
 bool Tank::canFire()
 {
@@ -119,6 +118,18 @@ bool Tank::isPlayerControlled() const
            type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
 }
 
+std::pair<int, int> Tank::getNextExpectedPosition()
+{
+    std::pair<int, int> nextPosition{
+        static_cast<int>(getX()) +
+            (direction_ == Direction::RIGHT ? Config::elementSize - 1 : 0) +
+            getDirectionX(),
+        static_cast<int>(getY()) +
+            (direction_ == Direction::DOWN ? Config::elementSize - 1 : 0) +
+            getDirectionY()};
+    return nextPosition;
+}
+
 void Tank::addLife() { lives_++; }
 
 void Tank::applyPowerUp(ResourceType powerUpType)
@@ -158,34 +169,9 @@ void Tank::resetFire() { lastFire_--; }
 
 void Tank::go()
 {
-    setX(getX() + getDirectionX() + getDirectionX());
-    setY(getY() + getDirectionY() + getDirectionY());
+    setX(static_cast<unsigned int>(static_cast<int>(getX()) + getDirectionX()));
+    setY(static_cast<unsigned int>(static_cast<int>(getY()) + getDirectionY()));
 }
-
-void Tank::moveRandom(Map& map)
-{
-    if (getX() % Config::elementSize == 0 && getY() % Config::elementSize == 0)
-    {
-        const int i{rand() % 8};
-        if (i < 4)
-        {
-            direction_ = static_cast<Direction>(i);
-        }
-        if (!(map.isValid(getX() + getDirectionX() + getDirectionX(),
-                          getY() + getDirectionY() + getDirectionY())))
-        {
-            return;
-        }
-        if (!map.canDrive(getX() / Config::elementSize + getDirectionX(),
-                          getY() / Config::elementSize + getDirectionY()))
-        {
-            return;
-        }
-    }
-    go();
-}
-
-constexpr double Tank::pi() const { return std::atan(1) * 4; }
 
 void Tank::respawn()
 {
