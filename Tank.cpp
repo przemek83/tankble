@@ -24,9 +24,10 @@ Tank::Tank(TankType tankType, Point point)
 
 void Tank::draw(const Screen& screen) const
 {
-    screen.drawScaledBitmapWithRotation(getResourceType(), getX(), getY(),
-                                        Config::elementSize,
-                                        90 * static_cast<int>(getDirection()));
+    const unsigned int rightAngle{90};
+    screen.drawScaledBitmapWithRotation(
+        getResourceType(), getX(), getY(), Config::elementSize,
+        rightAngle * static_cast<unsigned int>(getDirection()));
 }
 
 ResourceType Tank::getResourceType() const
