@@ -53,7 +53,8 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
         map.canDrive(
             {static_cast<unsigned int>(newX) + Config::elementSize - 1,
              static_cast<unsigned int>(newY) + Config::elementSize - 1}))
-        tank.go();
+        tank.move(
+            {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)});
 }
 
 bool Game::play()

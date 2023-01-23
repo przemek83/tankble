@@ -163,10 +163,10 @@ bool Tank::isWithin(Point point) const
 
 void Tank::resetFire() { lastFire_--; }
 
-void Tank::go()
+void Tank::move(Point point)
 {
-    setX(static_cast<unsigned int>(static_cast<int>(getX()) + getDirectionX()));
-    setY(static_cast<unsigned int>(static_cast<int>(getY()) + getDirectionY()));
+    setX(point.x);
+    setY(point.y);
 }
 
 void Tank::respawn()

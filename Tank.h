@@ -28,7 +28,7 @@ public:
     unsigned int getPower() const;
     void resetFire();
     TankType getTankType() const;
-    void go();
+    void move(Point point);
     bool isPlayerControlled() const;
 
     std::pair<int, int> getNextExpectedPosition();
