@@ -73,11 +73,12 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
 
 bool Game::tankIsInMap(int newX, int newY)
 {
+    const int sizeOfElementMinuxOnePixel{Config::elementSize - 1};
     return Map::isValid(newX, newY) &&
-           Map::isValid(newX + Config::elementSize - 1, newY) &&
-           Map::isValid(newX, newY + Config::elementSize - 1) &&
-           Map::isValid(newX + Config::elementSize - 1,
-                        newY + Config::elementSize - 1);
+           Map::isValid(newX + sizeOfElementMinuxOnePixel, newY) &&
+           Map::isValid(newX, newY + sizeOfElementMinuxOnePixel) &&
+           Map::isValid(newX + sizeOfElementMinuxOnePixel,
+                        newY + sizeOfElementMinuxOnePixel);
 }
 
 void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
