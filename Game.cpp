@@ -34,27 +34,106 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     return {false, Direction::UP};
 }
 
+std::vector<Point> getMovingPoints(Point leftUpperCorner, Direction direction)
+{
+    const unsigned int oneThirdOfTank{Config::elementSize / 3};
+    switch (direction)
+    {
+        case Direction::UP:
+        {
+            return {
+                {leftUpperCorner.x + oneThirdOfTank, leftUpperCorner.y},
+                {leftUpperCorner.x + 2 * oneThirdOfTank, leftUpperCorner.y}};
+        }
+        case Direction::DOWN:
+        {
+            return {{leftUpperCorner.x + oneThirdOfTank,
+                     leftUpperCorner.y + Config::elementSize - 1},
+                    {leftUpperCorner.x + 2 * oneThirdOfTank,
+                     leftUpperCorner.y + Config::elementSize - 1}};
+        }
+        case Direction::LEFT:
+        {
+            return {
+                {leftUpperCorner.x, leftUpperCorner.y + oneThirdOfTank},
+                {leftUpperCorner.x, leftUpperCorner.y + 2 * oneThirdOfTank}};
+        }
+        case Direction::RIGHT:
+        {
+            return {{leftUpperCorner.x + Config::elementSize - 1,
+                     leftUpperCorner.y + oneThirdOfTank},
+                    {leftUpperCorner.x + Config::elementSize - 1,
+                     leftUpperCorner.y + 2 * oneThirdOfTank}};
+        }
+    }
+
+    return {};
+}
+
+bool tankIsInMap(int newX, int newY)
+{
+    return Map::isValid(newX, newY) &&
+           Map::isValid(newX + Config::elementSize - 1, newY) &&
+           Map::isValid(newX, newY + Config::elementSize - 1) &&
+           Map::isValid(newX + Config::elementSize - 1,
+                        newY + Config::elementSize - 1);
+}
+
+void shiftIfNeeded(Point& point, const Map& map, Direction direction)
+{
+    switch (direction)
+    {
+        case Direction::UP:
+        case Direction::DOWN:
+        {
+            if (!map.canDrive(point) ||
+                !map.canDrive({point.x, point.y + Config::elementSize - 1}))
+                point.x =
+                    (point.x / Config::elementSize + 1) * Config::elementSize;
+
+            if (!map.canDrive({point.x + Config::elementSize - 1, point.y}) ||
+                !map.canDrive({point.x + Config::elementSize - 1,
+                               point.y + Config::elementSize - 1}))
+                point.x = (point.x / Config::elementSize) * Config::elementSize;
+            break;
+        }
+
+        case Direction::LEFT:
+        case Direction::RIGHT:
+        {
+            if (!map.canDrive(point) ||
+                !map.canDrive({point.x + Config::elementSize - 1, point.y}))
+                point.y =
+                    (point.y / Config::elementSize + 1) * Config::elementSize;
+
+            if (!map.canDrive({point.x, point.y + Config::elementSize - 1}) ||
+                !map.canDrive({point.x + Config::elementSize - 1,
+                               point.y + Config::elementSize - 1}))
+                point.y = (point.y / Config::elementSize) * Config::elementSize;
+            break;
+        }
+    }
+}
+
 void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (Map::isValid(newX, newY) &&
-        Map::isValid(newX + Config::elementSize - 1, newY) &&
-        Map::isValid(newX, newY + Config::elementSize - 1) &&
-        Map::isValid(newX + Config::elementSize - 1,
-                     newY + Config::elementSize - 1) &&
-        map.canDrive({static_cast<unsigned int>(newX),
-                      static_cast<unsigned int>(newY)}) &&
-        map.canDrive({static_cast<unsigned int>(newX) + Config::elementSize - 1,
-                      static_cast<unsigned int>(newY)}) &&
-        map.canDrive(
-            {static_cast<unsigned int>(newX),
-             static_cast<unsigned int>(newY) + Config::elementSize - 1}) &&
-        map.canDrive(
-            {static_cast<unsigned int>(newX) + Config::elementSize - 1,
-             static_cast<unsigned int>(newY) + Config::elementSize - 1}))
-        tank.move(
-            {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)});
+    if (!tankIsInMap(newX, newY))
+        return;
+
+    const auto pointsToCheck{getMovingPoints(
+        {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)},
+        direction)};
+    if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
+                    [&map](Point point) { return map.canDrive(point); }))
+    {
+        Point newPoint{static_cast<unsigned int>(newX),
+                       static_cast<unsigned int>(newY)};
+        if (tank.isPlayerControlled())
+            shiftIfNeeded(newPoint, map, direction);
+        tank.move(newPoint);
+    }
 }
 
 bool Game::play()
