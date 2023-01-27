@@ -22,19 +22,6 @@ foreach(file_i ${THIRD_PARTY_LIBS})
     link_directories(${CMAKE_BINARY_DIR}/${file_i}/install/bin)
 endforeach(file_i)
 
-# Gtest / Gmock
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src 
-    ${CMAKE_BINARY_DIR}/googletest-build)
-
 file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
 file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -102,5 +89,6 @@ target_link_libraries(${PROJECT_NAME} optimized allegro-5.2 debug allegro-debug-
 target_link_libraries(${PROJECT_NAME} optimized allegro_image-5.2 debug allegro_image-debug-5.2)
 target_link_libraries(${PROJECT_NAME} optimized allegro_font-5.2 debug allegro_font-debug-5.2)
 
+Include(tests.cmake)
 enable_testing()
 add_subdirectory(test)

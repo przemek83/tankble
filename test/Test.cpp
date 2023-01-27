@@ -1,6 +1,3 @@
-#include "gtest/gtest.h"
+#include <catch2/catch_test_macros.hpp>
 
-TEST(TankBleTest, test)
-{
-    EXPECT_EQ(1, 1);
-}
+TEST_CASE("Test", "[factorial]") { REQUIRE(1 == 1); }
