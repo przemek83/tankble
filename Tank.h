@@ -10,6 +10,7 @@
 
 class Map;
 class Resources;
+class Bullet;
 
 class Tank : public Drawable
 {
@@ -30,6 +31,7 @@ public:
     TankType getTankType() const;
     void move(Point point);
     bool isPlayerControlled() const;
+    Bullet fire();
 
     std::pair<int, int> getNextExpectedPosition();
 

@@ -186,7 +186,7 @@ void Game::control(Map& map, std::vector<Tank>& tanks,
             const auto actions{Input::getGameActions()};
             if (actions.find(InputAction::FIRE) != actions.end() &&
                 tank.canFire())
-                bullets.emplace_back(tank);
+                bullets.emplace_back(tank.fire());
 
             bool shouldMove{false};
             std::tie(shouldMove, direction) = inputActionsToDirection(actions);
@@ -196,7 +196,7 @@ void Game::control(Map& map, std::vector<Tank>& tanks,
         else
         {
             if (tank.canFire())
-                bullets.emplace_back(tank);
+                bullets.emplace_back(tank.fire());
             const int i{rand() % 8};
             if (tank.getX() % Config::elementSize == 0 &&
                 tank.getY() % Config::elementSize == 0 && i < 4)
