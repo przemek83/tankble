@@ -119,7 +119,11 @@ bool Tank::isPlayerControlled() const
            type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
 }
 
-Bullet Tank::fire() { return Bullet(*this); }
+Bullet Tank::fire()
+{
+    return Bullet(getCenter(), getSpeed(), getTankType(), getPower(),
+                  getDirection());
+}
 
 std::pair<int, int> Tank::getNextExpectedPosition()
 {

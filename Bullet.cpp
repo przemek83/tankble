@@ -1,18 +1,17 @@
 #include "Bullet.h"
 
-#include <iostream>
-
 #include "Config.h"
+#include "Direction.h"
 #include "Screen.h"
-#include "Tank.h"
 
-Bullet::Bullet(const Tank& tank)
-    : Drawable({tank.getX() + Config::elementSize / 2 - 3,
-                tank.getY() + Config::elementSize / 2 - 3}),
-      tankType_(tank.getTankType()),
-      direction_(tank.getDirection()),
-      speed_(tank.getSpeed()),
-      power_(tank.getPower())
+Bullet::Bullet(Point startingPoint, unsigned int speed, TankType tankType,
+               unsigned int power, Direction direction)
+    : Drawable({startingPoint.x - Config::BULLET_SIZE / 2,
+                startingPoint.y - Config::BULLET_SIZE / 2}),
+      tankType_(tankType),
+      direction_(direction),
+      speed_(speed),
+      power_(power)
 {
 }
 
@@ -22,7 +21,10 @@ unsigned int Bullet::getPower() const { return power_; }
 
 unsigned int Bullet::getSpeed() const { return speed_; }
 
-Point Bullet::getCenter() const { return {getX() + 3, getY() + 3}; }
+Point Bullet::getCenter() const
+{
+    return {getX() + Config::BULLET_SIZE / 2, getY() + Config::BULLET_SIZE / 2};
+}
 
 int Bullet::getDirectionX() const
 {

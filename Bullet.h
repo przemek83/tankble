@@ -1,16 +1,17 @@
 #pragma once
 
-#include "Direction.h"
 #include "Drawable.h"
-#include "ResourceType.h"
-#include "TankType.h"
 
+enum class ResourceType : unsigned char;
+enum class Direction : unsigned char;
+enum class TankType : unsigned char;
 class Tank;
 
 class Bullet : public Drawable
 {
 public:
-    explicit Bullet(const Tank& tank);
+    Bullet(Point startingPoint, unsigned int speed, TankType tankType,
+           unsigned int power, Direction direction);
 
     TankType getTankType() const;
     unsigned int getPower() const;
