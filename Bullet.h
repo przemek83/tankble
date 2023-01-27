@@ -27,8 +27,8 @@ private:
     int getDirectionY() const;
     static bool isValid(int newX, int newY);
 
-    TankType tankType_;
-    Direction direction_;
-    unsigned int speed_;
-    unsigned int power_;
+    const TankType tankType_;
+    const Direction direction_;
+    const unsigned int speed_;
+    const unsigned int power_;
 };

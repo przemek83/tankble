@@ -9,11 +9,11 @@
 Bullet::Bullet(const Tank& tank)
     : Drawable({tank.getX() + Config::elementSize / 2 - 3,
                 tank.getY() + Config::elementSize / 2 - 3}),
-      tankType_(tank.getTankType())
+      tankType_(tank.getTankType()),
+      direction_(tank.getDirection()),
+      speed_(tank.getSpeed()),
+      power_(tank.getPower())
 {
-    direction_ = tank.getDirection();
-    speed_ = tank.getSpeed();
-    power_ = tank.getPower();
 }
 
 TankType Bullet::getTankType() const { return tankType_; }
