@@ -34,7 +34,8 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     return {false, Direction::UP};
 }
 
-std::vector<Point> getMovingPoints(Point leftUpperCorner, Direction direction)
+std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
+                                         Direction direction)
 {
     const unsigned int oneThirdOfTank{Config::elementSize / 3};
     switch (direction)
@@ -70,7 +71,7 @@ std::vector<Point> getMovingPoints(Point leftUpperCorner, Direction direction)
     return {};
 }
 
-bool tankIsInMap(int newX, int newY)
+bool Game::tankIsInMap(int newX, int newY)
 {
     return Map::isValid(newX, newY) &&
            Map::isValid(newX + Config::elementSize - 1, newY) &&
@@ -79,7 +80,7 @@ bool tankIsInMap(int newX, int newY)
                         newY + Config::elementSize - 1);
 }
 
-void shiftIfNeeded(Point& point, const Map& map, Direction direction)
+void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
 {
     switch (direction)
     {

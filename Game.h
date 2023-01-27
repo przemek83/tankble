@@ -7,6 +7,7 @@
 
 #include "Direction.h"
 
+class Point;
 class Tank;
 class Map;
 class Screen;
@@ -41,6 +42,12 @@ private:
 
     static std::pair<bool, Direction> inputActionsToDirection(
         const std::set<InputAction>& actions);
+
+    static std::vector<Point> getMovingPoints(Point leftUpperCorner,
+                                              Direction direction);
+    static bool tankIsInMap(int newX, int newY);
+    static void shiftIfNeeded(Point& point, const Map& map,
+                              Direction direction);
 
     Screen& screen_;
     bool playerDestroyed_{false};
