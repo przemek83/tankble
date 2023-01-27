@@ -89,6 +89,6 @@ target_link_libraries(${PROJECT_NAME} optimized allegro-5.2 debug allegro-debug-
 target_link_libraries(${PROJECT_NAME} optimized allegro_image-5.2 debug allegro_image-debug-5.2)
 target_link_libraries(${PROJECT_NAME} optimized allegro_font-5.2 debug allegro_font-debug-5.2)
 
-Include(tests.cmake)
+Include(Tests.cmake)
 enable_testing()
 add_subdirectory(test)
