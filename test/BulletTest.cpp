@@ -111,13 +111,23 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(centerBeforeMove.x + bulletSpeed == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
     }
-    SECTION("bullet moving outside valid area going up")
+    SECTION("location and center not changed after invalid move")
     {
         Bullet bullet{getExampleBullet()};
         const Point centerBeforeMove{bullet.getCenter()};
+        const Point locationBeforeMove{bullet.getLocation()};
         REQUIRE(bullet.move() == false);
         const Point centerAfterMove{bullet.getCenter()};
         REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+        const Point locationAfterMove{bullet.getLocation()};
+        REQUIRE(locationBeforeMove.x == locationAfterMove.x);
+        REQUIRE(locationBeforeMove.y == locationAfterMove.y);
+    }
+    SECTION("bullet moving outside valid area going up")
+    {
+        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
+                      Direction::UP};
+        REQUIRE(bullet.move() == false);
     }
 }
