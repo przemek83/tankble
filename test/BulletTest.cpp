@@ -4,10 +4,18 @@
 #include "Direction.h"
 #include "TankType.h"
 
+const unsigned int bulletPower{4};
+const unsigned int bulletSpeed{10};
+const Point point{10, 10};
+
+static Bullet getExampleBullet()
+{
+    return {point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
+            Direction::UP};
+}
+
 TEST_CASE("Bullet power")
 {
-    const unsigned int bulletPower{4};
-    const Bullet bullet({10, 10}, 10, TankType::ENEMY_TIER_1, bulletPower,
-                        Direction::UP);
+    const Bullet bullet{getExampleBullet()};
     REQUIRE(bullet.getPower() == bulletPower);
 }
