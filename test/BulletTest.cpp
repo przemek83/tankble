@@ -87,15 +87,15 @@ TEST_CASE("Bullet moving", "[bullet]")
         Bullet bullet{point, 0, TankType::ENEMY_TIER_1, bulletPower,
                       Direction::UP};
         const Point centerBeforeMove{bullet.getCenter()};
+
         bullet.move();
+
         const Point centerAfterMove{bullet.getCenter()};
         REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
     }
     SECTION("bullet moving inside valid area")
     {
-        const Point startPoint{Config::mapSize * Config::elementSize / 2,
-                               Config::mapSize * Config::elementSize / 2};
         using inputPair = std::pair<Direction, Point>;
         const unsigned int middle{Config::mapSize * Config::elementSize / 2};
         auto [direction, expectedPoint] = GENERATE(table<Direction, Point>(
@@ -104,9 +104,13 @@ TEST_CASE("Bullet moving", "[bullet]")
              inputPair{Direction::RIGHT, Point{middle + bulletSpeed, middle}},
              inputPair{Direction::LEFT, Point{middle - bulletSpeed, middle}}}));
 
+        const Point startPoint{Config::mapSize * Config::elementSize / 2,
+                               Config::mapSize * Config::elementSize / 2};
         Bullet bullet{startPoint, bulletSpeed, TankType::ENEMY_TIER_1,
                       bulletPower, direction};
+
         bullet.move();
+
         REQUIRE(bullet.getCenter().x == expectedPoint.x);
         REQUIRE(bullet.getCenter().y == expectedPoint.y);
     }
@@ -115,7 +119,9 @@ TEST_CASE("Bullet moving", "[bullet]")
         Bullet bullet{getExampleBullet()};
         const Point centerBeforeMove{bullet.getCenter()};
         const Point locationBeforeMove{bullet.getLocation()};
+
         REQUIRE(bullet.move() == false);
+
         const Point centerAfterMove{bullet.getCenter()};
         REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
@@ -138,5 +144,6 @@ TEST_CASE("Bullet moving to invalid area", "[bullet]")
 
     Bullet bullet{pointGenerated, bulletSpeed, TankType::ENEMY_TIER_1,
                   bulletPower, direction};
+
     REQUIRE(bullet.move() == false);
 }
