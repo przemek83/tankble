@@ -91,4 +91,24 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
     }
+    SECTION("bullet moving down in valid area")
+    {
+        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
+                      Direction::DOWN};
+        const Point centerBeforeMove{bullet.getCenter()};
+        REQUIRE(bullet.move() == true);
+        const Point centerAfterMove{bullet.getCenter()};
+        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
+        REQUIRE(centerBeforeMove.y + bulletSpeed == centerAfterMove.y);
+    }
+    SECTION("bullet moving right in valid area")
+    {
+        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
+                      Direction::RIGHT};
+        const Point centerBeforeMove{bullet.getCenter()};
+        REQUIRE(bullet.move() == true);
+        const Point centerAfterMove{bullet.getCenter()};
+        REQUIRE(centerBeforeMove.x + bulletSpeed == centerAfterMove.x);
+        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+    }
 }
