@@ -7,7 +7,7 @@
 
 const unsigned int bulletPower{4};
 const unsigned int bulletSpeed{10};
-const Point point{10, 10};
+const Point point{5, 5};
 
 static Bullet getExampleBullet()
 {
@@ -109,6 +109,15 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(bullet.move() == true);
         const Point centerAfterMove{bullet.getCenter()};
         REQUIRE(centerBeforeMove.x + bulletSpeed == centerAfterMove.x);
+        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+    }
+    SECTION("bullet moving outside valid area going up")
+    {
+        Bullet bullet{getExampleBullet()};
+        const Point centerBeforeMove{bullet.getCenter()};
+        REQUIRE(bullet.move() == false);
+        const Point centerAfterMove{bullet.getCenter()};
+        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
     }
 }
