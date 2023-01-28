@@ -35,7 +35,7 @@ TEST_CASE("Bullet getters", "[bullet]")
 
 TEST_CASE("Bullet coordinates", "[bullet]")
 {
-    const Bullet bullet{getExampleBullet()};
+    Bullet bullet{getExampleBullet()};
 
     SECTION("location is correct")
     {
@@ -49,18 +49,32 @@ TEST_CASE("Bullet coordinates", "[bullet]")
         REQUIRE(currentPoint.x == point.x);
         REQUIRE(currentPoint.y == point.y);
     }
-
     SECTION("getX is working")
     {
         const Point currentPoint{bullet.getLocation()};
         const unsigned int currentX{bullet.getX()};
         REQUIRE(currentX == currentPoint.x);
     }
-
     SECTION("getY is working")
     {
         const Point currentPoint{bullet.getLocation()};
         const unsigned int currentY{bullet.getY()};
         REQUIRE(currentY == currentPoint.y);
+    }
+
+    SECTION("setX is working")
+    {
+        const unsigned int newX{15};
+        bullet.setX(newX);
+        const unsigned int currentX{bullet.getX()};
+        REQUIRE(currentX == newX);
+    }
+
+    SECTION("setY is working")
+    {
+        const unsigned int newY{27};
+        bullet.setY(newY);
+        const unsigned int currentY{bullet.getY()};
+        REQUIRE(currentY == newY);
     }
 }
