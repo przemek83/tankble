@@ -63,7 +63,7 @@ bool Tank::canFire()
     return false;
 }
 
-bool Tank::destroy(unsigned int power)
+bool Tank::hit(unsigned int power)
 {
     if (power > stats_.armor)
         stats_.armor = 0;

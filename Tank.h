@@ -24,7 +24,7 @@ public:
     void setDirection(Direction direction);
     Direction getDirection() const;
     bool canFire();
-    bool destroy(unsigned int);
+    bool hit(unsigned int power);
     unsigned int getSpeed() const;
     unsigned int getPower() const;
     void resetFire();
