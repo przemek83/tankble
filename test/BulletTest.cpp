@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 #include "Bullet.h"
 #include "Config.h"
@@ -124,10 +125,20 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(locationBeforeMove.x == locationAfterMove.x);
         REQUIRE(locationBeforeMove.y == locationAfterMove.y);
     }
-    SECTION("bullet moving outside valid area going up")
-    {
-        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
-                      Direction::UP};
-        REQUIRE(bullet.move() == false);
-    }
+}
+
+TEST_CASE("Bullet moving to invalid area", "[bullet]")
+{
+    using inputPair = std::pair<Direction, Point>;
+    const unsigned int nearEndOfMap{Config::mapSize * Config::elementSize -
+                                    bulletSpeed / 2};
+    auto [direction, pointGenerated] = GENERATE(table<Direction, Point>(
+        {inputPair{Direction::UP, point},
+         inputPair{Direction::DOWN, Point{point.x, nearEndOfMap}},
+         inputPair{Direction::RIGHT, Point{nearEndOfMap, point.y}},
+         inputPair{Direction::LEFT, point}}));
+
+    Bullet bullet{pointGenerated, bulletSpeed, TankType::ENEMY_TIER_1,
+                  bulletPower, direction};
+    REQUIRE(bullet.move() == false);
 }
