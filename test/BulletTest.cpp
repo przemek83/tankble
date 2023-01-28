@@ -78,3 +78,17 @@ TEST_CASE("Bullet coordinates", "[bullet]")
         REQUIRE(currentY == newY);
     }
 }
+
+TEST_CASE("Bullet moving", "[bullet]")
+{
+    SECTION("bullet moving with 0 speed")
+    {
+        Bullet bullet{point, 0, TankType::ENEMY_TIER_1, bulletPower,
+                      Direction::UP};
+        const Point centerBeforeMove{bullet.getCenter()};
+        bullet.move();
+        const Point centerAfterMove{bullet.getCenter()};
+        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
+        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+    }
+}
