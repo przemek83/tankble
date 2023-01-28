@@ -92,25 +92,23 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(centerBeforeMove.x == centerAfterMove.x);
         REQUIRE(centerBeforeMove.y == centerAfterMove.y);
     }
-    SECTION("bullet moving down in valid area")
+    SECTION("bullet moving inside valid area")
     {
-        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
-                      Direction::DOWN};
-        const Point centerBeforeMove{bullet.getCenter()};
-        REQUIRE(bullet.move() == true);
-        const Point centerAfterMove{bullet.getCenter()};
-        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
-        REQUIRE(centerBeforeMove.y + bulletSpeed == centerAfterMove.y);
-    }
-    SECTION("bullet moving right in valid area")
-    {
-        Bullet bullet{point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
-                      Direction::RIGHT};
-        const Point centerBeforeMove{bullet.getCenter()};
-        REQUIRE(bullet.move() == true);
-        const Point centerAfterMove{bullet.getCenter()};
-        REQUIRE(centerBeforeMove.x + bulletSpeed == centerAfterMove.x);
-        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+        const Point startPoint{Config::mapSize * Config::elementSize / 2,
+                               Config::mapSize * Config::elementSize / 2};
+        using inputPair = std::pair<Direction, Point>;
+        const unsigned int middle{Config::mapSize * Config::elementSize / 2};
+        auto [direction, expectedPoint] = GENERATE(table<Direction, Point>(
+            {inputPair{Direction::UP, Point{middle, middle - bulletSpeed}},
+             inputPair{Direction::DOWN, Point{middle, middle + bulletSpeed}},
+             inputPair{Direction::RIGHT, Point{middle + bulletSpeed, middle}},
+             inputPair{Direction::LEFT, Point{middle - bulletSpeed, middle}}}));
+
+        Bullet bullet{startPoint, bulletSpeed, TankType::ENEMY_TIER_1,
+                      bulletPower, direction};
+        bullet.move();
+        REQUIRE(bullet.getCenter().x == expectedPoint.x);
+        REQUIRE(bullet.getCenter().y == expectedPoint.y);
     }
     SECTION("location and center not changed after invalid move")
     {
