@@ -71,14 +71,14 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
     return {};
 }
 
-bool Game::tankIsInMap(int newX, int newY)
+bool Game::tankIsInMap(const Map& map, int newX, int newY)
 {
     const int sizeOfElementMinuxOnePixel{Config::elementSize - 1};
-    return Map::isValid(newX, newY) &&
-           Map::isValid(newX + sizeOfElementMinuxOnePixel, newY) &&
-           Map::isValid(newX, newY + sizeOfElementMinuxOnePixel) &&
-           Map::isValid(newX + sizeOfElementMinuxOnePixel,
-                        newY + sizeOfElementMinuxOnePixel);
+    return map.isValid(newX, newY) &&
+           map.isValid(newX + sizeOfElementMinuxOnePixel, newY) &&
+           map.isValid(newX, newY + sizeOfElementMinuxOnePixel) &&
+           map.isValid(newX + sizeOfElementMinuxOnePixel,
+                       newY + sizeOfElementMinuxOnePixel);
 }
 
 void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
@@ -121,7 +121,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (!tankIsInMap(newX, newY))
+    if (!tankIsInMap(map, newX, newY))
         return;
 
     const auto pointsToCheck{getMovingPoints(
@@ -140,7 +140,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 
 bool Game::play()
 {
-    Map map;
+    Map map(Config::mapSize);
     std::vector<Tank> tanks{map.loadMap(Resources::getLevel())};
     Input input;
     Screen::clearScreenWithBlack();
@@ -255,7 +255,7 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
         if (auto tankIter{hitTank(*bulletIter, tanks)};
             valid && tankIter != tanks.end())
         {
-            if (tankIter->destroy(bulletIter->getPower()))
+            if (tankIter->hit(bulletIter->getPower()))
             {
                 if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;

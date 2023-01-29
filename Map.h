@@ -12,14 +12,14 @@ class Screen;
 class Map
 {
 public:
-    Map();
+    explicit Map(unsigned int mapDimension);
 
     std::vector<Tank> loadMap(std::fstream stream);
 
     bool canDrive(Point point) const;
     bool canFly(Point point) const;
 
-    static bool isValid(int x, int y);
+    bool isValid(int x, int y) const;
     std::pair<bool, ResourceType> takePowerUp(Point point);
 
     void drawBackground(const Screen& screen);
@@ -47,4 +47,5 @@ private:
     bool playerDestroyed_{false};
 
     std::unique_ptr<Tile> plainTile_;
+    const unsigned int mapDimension_;
 };

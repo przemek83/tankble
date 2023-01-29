@@ -18,11 +18,13 @@
 #include "map/TierUp.h"
 #include "map/Water.h"
 
-Map::Map() : plainTile_{std::make_unique<Plain>(Point{0, 0})}
+Map::Map(unsigned int mapDimension)
+    : plainTile_{std::make_unique<Plain>(Point{0, 0})},
+      mapDimension_(mapDimension)
 {
-    board_.resize(Config::mapSize);
+    board_.resize(mapDimension_);
     for (auto& item : board_)
-        item.resize(Config::mapSize);
+        item.resize(mapDimension_);
 }
 
 // 0 - plain
@@ -43,8 +45,8 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
 {
     char sign{};
     std::vector<Tank> tanks;
-    for (unsigned int y = 0; y < Config::mapSize; y++)
-        for (unsigned int x = 0; x < Config::mapSize; x++)
+    for (unsigned int y = 0; y < mapDimension_; y++)
+        for (unsigned int x = 0; x < mapDimension_; x++)
         {
             stream >> std::noskipws >> sign;
 
@@ -112,10 +114,10 @@ bool Map::canDrive(Point point) const
     return getTile(screenPointToTile(point))->canDrive();
 }
 
-bool Map::isValid(int x, int y)
+bool Map::isValid(int x, int y) const
 {
-    constexpr int maxCoordinate{
-        static_cast<int>(Config::mapSize * Config::elementSize)};
+    const int maxCoordinate{
+        static_cast<int>(mapDimension_ * Config::elementSize)};
     return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
 
@@ -153,8 +155,8 @@ Point Map::screenPointToTile(Point location)
 
 void Map::drawBackground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < Config::mapSize; x++)
-        for (unsigned int y = 0; y < Config::mapSize; y++)
+    for (unsigned int x = 0; x < mapDimension_; x++)
+        for (unsigned int y = 0; y < mapDimension_; y++)
         {
             const auto& tile{getTile({x, y})};
             if (tile->isPartOfBackground())
@@ -170,8 +172,8 @@ void Map::drawBackground(const Screen& screen)
 
 void Map::drawForeground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < Config::mapSize; x++)
-        for (unsigned int y = 0; y < Config::mapSize; y++)
+    for (unsigned int x = 0; x < mapDimension_; x++)
+        for (unsigned int y = 0; y < mapDimension_; y++)
         {
             const auto& tile{getTile({x, y})};
             if (!tile->isPartOfBackground())
