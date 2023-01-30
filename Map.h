@@ -28,8 +28,6 @@ public:
 
     void destroyItem(Point point, unsigned int power);
 
-    static Point screenPointToTile(Point location);
-
 private:
     inline const std::unique_ptr<Tile>& getTile(Point point) const
     {
@@ -40,6 +38,8 @@ private:
     {
         return board_[point.y][point.x];
     }
+
+    static Point screenPointToTile(Point location);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
