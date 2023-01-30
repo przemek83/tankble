@@ -12,16 +12,16 @@ Point pointFromSigned(int x, int y)
 bool isValidPoint(int x, int y, unsigned int objectSize)
 {
     const int maxCoordinate{
-        static_cast<int>(Config::getInstance().getElementSize() *
-                             Config::getInstance().getMapSize() -
+        static_cast<int>(Config::getInstance().getTileSize() *
+                             Config::getInstance().getTileCount() -
                          objectSize)};
     return x < maxCoordinate && y < maxCoordinate && y >= 0 && x >= 0;
 }
 
 bool isValidPoint(Point point)
 {
-    const unsigned int maxCoordinate{Config::getInstance().getElementSize() *
-                                     Config::getInstance().getMapSize()};
+    const unsigned int maxCoordinate{Config::getInstance().getTileSize() *
+                                     Config::getInstance().getTileCount()};
     return point.x < maxCoordinate && point.y < maxCoordinate;
 }
 

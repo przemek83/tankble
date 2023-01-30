@@ -37,8 +37,7 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
 std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
                                          Direction direction)
 {
-    const unsigned int oneThirdOfTank{Config::getInstance().getElementSize() /
-                                      3};
+    const unsigned int oneThirdOfTank{Config::getInstance().getTileSize() / 3};
     switch (direction)
     {
         case Direction::UP:
@@ -49,12 +48,11 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
         }
         case Direction::DOWN:
         {
-            return {{leftUpperCorner.x + oneThirdOfTank,
-                     leftUpperCorner.y +
-                         Config::getInstance().getElementSize() - 1},
-                    {leftUpperCorner.x + 2 * oneThirdOfTank,
-                     leftUpperCorner.y +
-                         Config::getInstance().getElementSize() - 1}};
+            return {
+                {leftUpperCorner.x + oneThirdOfTank,
+                 leftUpperCorner.y + Config::getInstance().getTileSize() - 1},
+                {leftUpperCorner.x + 2 * oneThirdOfTank,
+                 leftUpperCorner.y + Config::getInstance().getTileSize() - 1}};
         }
         case Direction::LEFT:
         {
@@ -65,9 +63,9 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
         case Direction::RIGHT:
         {
             return {
-                {leftUpperCorner.x + Config::getInstance().getElementSize() - 1,
+                {leftUpperCorner.x + Config::getInstance().getTileSize() - 1,
                  leftUpperCorner.y + oneThirdOfTank},
-                {leftUpperCorner.x + Config::getInstance().getElementSize() - 1,
+                {leftUpperCorner.x + Config::getInstance().getTileSize() - 1,
                  leftUpperCorner.y + 2 * oneThirdOfTank}};
         }
     }
@@ -78,7 +76,7 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
 bool Game::tankIsInMap(const Map& map, int newX, int newY)
 {
     const int sizeOfElementMinusOnePixel{
-        static_cast<int>(Config::getInstance().getElementSize()) - 1};
+        static_cast<int>(Config::getInstance().getTileSize()) - 1};
     return map.isValid(newX, newY) &&
            map.isValid(newX + sizeOfElementMinusOnePixel, newY) &&
            map.isValid(newX, newY + sizeOfElementMinusOnePixel) &&
@@ -96,19 +94,18 @@ void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
             if (!map.canDrive(point) ||
                 !map.canDrive(
                     {point.x,
-                     point.y + Config::getInstance().getElementSize() - 1}))
-                point.x =
-                    (point.x / Config::getInstance().getElementSize() + 1) *
-                    Config::getInstance().getElementSize();
+                     point.y + Config::getInstance().getTileSize() - 1}))
+                point.x = (point.x / Config::getInstance().getTileSize() + 1) *
+                          Config::getInstance().getTileSize();
 
             if (!map.canDrive(
-                    {point.x + Config::getInstance().getElementSize() - 1,
+                    {point.x + Config::getInstance().getTileSize() - 1,
                      point.y}) ||
                 !map.canDrive(
-                    {point.x + Config::getInstance().getElementSize() - 1,
-                     point.y + Config::getInstance().getElementSize() - 1}))
-                point.x = (point.x / Config::getInstance().getElementSize()) *
-                          Config::getInstance().getElementSize();
+                    {point.x + Config::getInstance().getTileSize() - 1,
+                     point.y + Config::getInstance().getTileSize() - 1}))
+                point.x = (point.x / Config::getInstance().getTileSize()) *
+                          Config::getInstance().getTileSize();
             break;
         }
 
@@ -117,20 +114,19 @@ void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
         {
             if (!map.canDrive(point) ||
                 !map.canDrive(
-                    {point.x + Config::getInstance().getElementSize() - 1,
+                    {point.x + Config::getInstance().getTileSize() - 1,
                      point.y}))
-                point.y =
-                    (point.y / Config::getInstance().getElementSize() + 1) *
-                    Config::getInstance().getElementSize();
+                point.y = (point.y / Config::getInstance().getTileSize() + 1) *
+                          Config::getInstance().getTileSize();
 
             if (!map.canDrive(
                     {point.x,
-                     point.y + Config::getInstance().getElementSize() - 1}) ||
+                     point.y + Config::getInstance().getTileSize() - 1}) ||
                 !map.canDrive(
-                    {point.x + Config::getInstance().getElementSize() - 1,
-                     point.y + Config::getInstance().getElementSize() - 1}))
-                point.y = (point.y / Config::getInstance().getElementSize()) *
-                          Config::getInstance().getElementSize();
+                    {point.x + Config::getInstance().getTileSize() - 1,
+                     point.y + Config::getInstance().getTileSize() - 1}))
+                point.y = (point.y / Config::getInstance().getTileSize()) *
+                          Config::getInstance().getTileSize();
             break;
         }
     }
@@ -159,7 +155,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 
 bool Game::play()
 {
-    Map map(Config::getInstance().getMapSize());
+    Map map(Config::getInstance().getTileCount());
     std::vector<Tank> tanks{map.loadMap(Resources::getLevel())};
     Input input;
     Screen::clearScreenWithBlack();
@@ -219,9 +215,8 @@ void Game::control(Map& map, std::vector<Tank>& tanks,
             if (tank.canFire())
                 bullets.emplace_back(tank.fire());
             const int i{rand() % 8};
-            if (tank.getX() % Config::getInstance().getElementSize() == 0 &&
-                tank.getY() % Config::getInstance().getElementSize() == 0 &&
-                i < 4)
+            if (tank.getX() % Config::getInstance().getTileSize() == 0 &&
+                tank.getY() % Config::getInstance().getTileSize() == 0 && i < 4)
                 direction = static_cast<Direction>(i);
             else
                 direction = tank.getDirection();

@@ -26,8 +26,7 @@ void Tank::draw(const Screen& screen) const
 {
     const unsigned int rightAngle{90};
     screen.drawScaledBitmapWithRotation(
-        getResourceType(), getX(), getY(),
-        Config::getInstance().getElementSize(),
+        getResourceType(), getX(), getY(), Config::getInstance().getTileSize(),
         rightAngle * static_cast<unsigned int>(getDirection()));
 }
 
@@ -40,7 +39,7 @@ ResourceType Tank::getResourceType() const
 
 Point Tank::getCenter() const
 {
-    const unsigned int middle{Config::getInstance().getElementSize() / 2};
+    const unsigned int middle{Config::getInstance().getTileSize() / 2};
     return {getX() + middle, getY() + middle};
 }
 
@@ -166,9 +165,9 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 bool Tank::isWithin(Point point) const
 {
     return point.x >= getX() &&
-           point.x < getX() + Config::getInstance().getElementSize() &&
+           point.x < getX() + Config::getInstance().getTileSize() &&
            point.y >= getY() &&
-           point.y < getY() + Config::getInstance().getElementSize();
+           point.y < getY() + Config::getInstance().getTileSize();
 }
 
 void Tank::resetFire() { lastFire_--; }
