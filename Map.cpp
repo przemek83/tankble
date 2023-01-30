@@ -58,7 +58,8 @@ std::vector<Tank> Map::loadMap(std::fstream stream)
                     break;
             }
 
-            const Point point{x * Config::elementSize, y * Config::elementSize};
+            const Point point{x * Config::getInstance().getElementSize(),
+                              y * Config::getInstance().getElementSize()};
 
             auto& tile{getTile({x, y})};
             switch (sign)
@@ -116,8 +117,8 @@ bool Map::canDrive(Point point) const
 
 bool Map::isValid(int x, int y) const
 {
-    const int maxCoordinate{
-        static_cast<int>(mapDimension_ * Config::elementSize)};
+    const int maxCoordinate{static_cast<int>(
+        mapDimension_ * Config::getInstance().getElementSize())};
     return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
 }
 
@@ -150,7 +151,8 @@ void Map::destroyItem(Point point, unsigned int power)
 
 Point Map::screenPointToTile(Point location)
 {
-    return {location.x / Config::elementSize, location.y / Config::elementSize};
+    return {location.x / Config::getInstance().getElementSize(),
+            location.y / Config::getInstance().getElementSize()};
 }
 
 void Map::drawBackground(const Screen& screen)
@@ -163,8 +165,8 @@ void Map::drawBackground(const Screen& screen)
                 tile->draw(screen);
             else
             {
-                plainTile_->setX(x * Config::elementSize);
-                plainTile_->setY(y * Config::elementSize);
+                plainTile_->setX(x * Config::getInstance().getElementSize());
+                plainTile_->setY(y * Config::getInstance().getElementSize());
                 plainTile_->draw(screen);
             }
         }

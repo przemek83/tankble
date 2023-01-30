@@ -6,8 +6,8 @@
 
 Bullet::Bullet(Point startingPoint, unsigned int speed, TankType tankType,
                unsigned int power, Direction direction)
-    : Drawable({startingPoint.x - Config::BULLET_SIZE / 2,
-                startingPoint.y - Config::BULLET_SIZE / 2}),
+    : Drawable({startingPoint.x - Config::getInstance().getBulletSize() / 2,
+                startingPoint.y - Config::getInstance().getBulletSize() / 2}),
       tankType_(tankType),
       direction_(direction),
       speed_(speed),
@@ -23,7 +23,8 @@ unsigned int Bullet::getSpeed() const { return speed_; }
 
 Point Bullet::getCenter() const
 {
-    return {getX() + Config::BULLET_SIZE / 2, getY() + Config::BULLET_SIZE / 2};
+    return {getX() + Config::getInstance().getBulletSize() / 2,
+            getY() + Config::getInstance().getBulletSize() / 2};
 }
 
 int Bullet::getDirectionX() const
@@ -60,16 +61,17 @@ bool Bullet::move()
 void Bullet::draw(const Screen& screen) const
 {
     screen.drawScaledBitmap(getResourceType(), getX(), getY(),
-                            Config::BULLET_SIZE);
+                            Config::getInstance().getBulletSize());
 }
 
 ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }
 
 bool Bullet::isValid(int newX, int newY)
 {
-    constexpr int bulletSize{Config::BULLET_SIZE};
-    constexpr int maxCoordinate{Config::elementSize * Config::mapSize -
-                                bulletSize};
+    const unsigned int bulletSize{Config::getInstance().getBulletSize()};
+    const unsigned int maxCoordinate{Config::getInstance().getElementSize() *
+                                         Config::getInstance().getMapSize() -
+                                     bulletSize};
     return newX < maxCoordinate && newY < maxCoordinate && newY >= 0 &&
            newX >= 0;
 }

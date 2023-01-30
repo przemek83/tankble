@@ -1,18 +1,33 @@
 #pragma once
 
-namespace Config
+class Config
 {
-constexpr unsigned int fps{30};
+public:
+    Config& operator=(const Config& other) = delete;
+    Config(const Config& other) = delete;
 
-constexpr unsigned int mapSize{20};
+    Config& operator=(Config&& other) = delete;
+    Config(Config&& other) = delete;
 
-constexpr unsigned int elementSize{30};
+    static Config& getInstance();
 
-constexpr unsigned int BULLET_SIZE{elementSize / 5};
+    inline unsigned int getFps() const { return fps_; }
+    inline unsigned int getMapSize() const { return mapSize_; }
+    inline unsigned int getElementSize() const { return elementSize_; }
+    inline unsigned int getBulletSize() const { return bulletSize_; }
+    inline unsigned int getBoardWidth() const { return boardWidth_; }
+    inline unsigned int getBoardHeight() const { return boardHeight_; }
+    inline unsigned int getSatusWidth() const { return statusWidth_; }
 
-constexpr unsigned int width{800};
+private:
+    Config() = default;
+    ~Config() = default;
 
-constexpr unsigned int height{600};
-
-constexpr unsigned int statusPlaceholderWidth{200};
-};  // namespace Config
+    const unsigned int fps_{30};
+    const unsigned int mapSize_{20};
+    const unsigned int elementSize_{30};
+    const unsigned int bulletSize_{elementSize_ / 5};
+    const unsigned int boardWidth_{800};
+    const unsigned int boardHeight_{600};
+    const unsigned int statusWidth_{200};
+};

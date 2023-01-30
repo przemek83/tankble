@@ -41,8 +41,10 @@ TEST_CASE("Bullet coordinates", "[bullet]")
     SECTION("location is correct")
     {
         const Point currentPoint{bullet.getLocation()};
-        REQUIRE(currentPoint.x == point.x - Config::BULLET_SIZE / 2);
-        REQUIRE(currentPoint.y == point.y - Config::BULLET_SIZE / 2);
+        REQUIRE(currentPoint.x ==
+                point.x - Config::getInstance().getBulletSize() / 2);
+        REQUIRE(currentPoint.y ==
+                point.y - Config::getInstance().getBulletSize() / 2);
     }
     SECTION("center is correct")
     {
@@ -96,16 +98,19 @@ TEST_CASE("Bullet moving", "[bullet]")
     }
     SECTION("bullet moving inside valid area")
     {
-        using inputPair = std::pair<Direction, Point>;
-        const unsigned int middle{Config::mapSize * Config::elementSize / 2};
-        auto [direction, expectedPoint] = GENERATE(table<Direction, Point>(
-            {inputPair{Direction::UP, Point{middle, middle - bulletSpeed}},
-             inputPair{Direction::DOWN, Point{middle, middle + bulletSpeed}},
-             inputPair{Direction::RIGHT, Point{middle + bulletSpeed, middle}},
-             inputPair{Direction::LEFT, Point{middle - bulletSpeed, middle}}}));
+        using TestData = std::pair<Direction, Point>;
+        const unsigned int middle{Config::getInstance().getMapSize() *
+                                  Config::getInstance().getElementSize() / 2};
+        auto [direction, expectedPoint] = GENERATE_REF(
+            TestData{Direction::UP, Point{middle, middle - bulletSpeed}},
+            TestData{Direction::DOWN, Point{middle, middle + bulletSpeed}},
+            TestData{Direction::RIGHT, Point{middle + bulletSpeed, middle}},
+            TestData{Direction::LEFT, Point{middle - bulletSpeed, middle}});
 
-        const Point startPoint{Config::mapSize * Config::elementSize / 2,
-                               Config::mapSize * Config::elementSize / 2};
+        const Point startPoint{Config::getInstance().getMapSize() *
+                                   Config::getInstance().getElementSize() / 2,
+                               Config::getInstance().getMapSize() *
+                                   Config::getInstance().getElementSize() / 2};
         Bullet bullet{startPoint, bulletSpeed, TankType::ENEMY_TIER_1,
                       bulletPower, direction};
 
@@ -133,14 +138,15 @@ TEST_CASE("Bullet moving", "[bullet]")
 
 TEST_CASE("Bullet moving to invalid area", "[bullet]")
 {
-    using inputPair = std::pair<Direction, Point>;
-    const unsigned int nearEndOfMap{Config::mapSize * Config::elementSize -
+    using TestData = std::pair<Direction, Point>;
+    const unsigned int nearEndOfMap{Config::getInstance().getMapSize() *
+                                        Config::getInstance().getElementSize() -
                                     bulletSpeed / 2};
-    auto [direction, pointGenerated] = GENERATE(table<Direction, Point>(
-        {inputPair{Direction::UP, point},
-         inputPair{Direction::DOWN, Point{point.x, nearEndOfMap}},
-         inputPair{Direction::RIGHT, Point{nearEndOfMap, point.y}},
-         inputPair{Direction::LEFT, point}}));
+    auto [direction, pointGenerated] =
+        GENERATE_REF(TestData{Direction::UP, point},
+                     TestData{Direction::DOWN, Point{point.x, nearEndOfMap}},
+                     TestData{Direction::RIGHT, Point{nearEndOfMap, point.y}},
+                     TestData{Direction::LEFT, point});
 
     Bullet bullet{pointGenerated, bulletSpeed, TankType::ENEMY_TIER_1,
                   bulletPower, direction};

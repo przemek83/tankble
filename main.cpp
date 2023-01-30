@@ -24,7 +24,8 @@ static void setupGraphics()
 
     al_install_keyboard();
 
-    if (al_create_display(Config::width, Config::height) == nullptr)
+    if (al_create_display(Config::getInstance().getBoardWidth(),
+                          Config::getInstance().getBoardHeight()) == nullptr)
     {
         std::cerr << "failed to create display!\n" << std::endl;
         return;

@@ -7,7 +7,7 @@
 
 Input::Input() : events_(al_create_event_queue())
 {
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::fps)};
+    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::getInstance().getFps())};
     al_register_event_source(events_, al_get_keyboard_event_source());
     al_register_event_source(events_, al_get_mouse_event_source());
     al_register_event_source(

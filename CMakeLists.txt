@@ -37,6 +37,7 @@ set(${PROJECT_NAME}_SOURCES
         Map.h
         Game.cpp
         Game.h
+        Config.cpp
         Config.h
         Screen.h
         Screen.cpp
