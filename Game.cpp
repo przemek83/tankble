@@ -11,6 +11,7 @@
 #include "Input.h"
 #include "InputAction.h"
 #include "Map.h"
+#include "PointUtils.h"
 #include "Screen.h"
 #include "Tank.h"
 
@@ -73,15 +74,15 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
     return {};
 }
 
-bool Game::tankIsInMap(const Map& map, int newX, int newY)
+bool Game::tankIsInMap(int newX, int newY)
 {
     const int sizeOfElementMinusOnePixel{
         static_cast<int>(Config::getInstance().getTileSize()) - 1};
-    return map.isValid(newX, newY) &&
-           map.isValid(newX + sizeOfElementMinusOnePixel, newY) &&
-           map.isValid(newX, newY + sizeOfElementMinusOnePixel) &&
-           map.isValid(newX + sizeOfElementMinusOnePixel,
-                       newY + sizeOfElementMinusOnePixel);
+    return PointUtils::isValidPoint(newX, newY) &&
+           PointUtils::isValidPoint(newX + sizeOfElementMinusOnePixel, newY) &&
+           PointUtils::isValidPoint(newX, newY + sizeOfElementMinusOnePixel) &&
+           PointUtils::isValidPoint(newX + sizeOfElementMinusOnePixel,
+                                    newY + sizeOfElementMinusOnePixel);
 }
 
 void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
@@ -136,7 +137,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (!tankIsInMap(map, newX, newY))
+    if (!tankIsInMap(newX, newY))
         return;
 
     const auto pointsToCheck{getMovingPoints(

@@ -45,7 +45,7 @@ private:
 
     static std::vector<Point> getMovingPoints(Point leftUpperCorner,
                                               Direction direction);
-    static bool tankIsInMap(const Map& map, int newX, int newY);
+    static bool tankIsInMap(int newX, int newY);
     static void shiftIfNeeded(Point& point, const Map& map,
                               Direction direction);
 

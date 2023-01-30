@@ -19,7 +19,6 @@ public:
     bool canDrive(Point point) const;
     bool canFly(Point point) const;
 
-    bool isValid(int x, int y) const;
     std::pair<bool, ResourceType> takePowerUp(Point point);
 
     void drawBackground(const Screen& screen);

@@ -115,13 +115,6 @@ bool Map::canDrive(Point point) const
     return getTile(screenPointToTile(point))->canDrive();
 }
 
-bool Map::isValid(int x, int y) const
-{
-    const int maxCoordinate{
-        static_cast<int>(mapDimension_ * Config::getInstance().getTileSize())};
-    return x >= 0 && x < maxCoordinate && y >= 0 && y < maxCoordinate;
-}
-
 std::pair<bool, ResourceType> Map::takePowerUp(Point point)
 {
     auto& tile{getTile(screenPointToTile(point))};
