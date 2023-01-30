@@ -1,6 +1,5 @@
 #include "Map.h"
 
-#include <fstream>
 #include <iostream>
 
 #include "Config.h"
@@ -41,7 +40,7 @@ Map::Map(unsigned int mapDimension)
 // A - shield up
 // T - life up
 
-std::vector<Tank> Map::loadMap(std::fstream stream)
+std::vector<Tank> Map::loadMap(std::iostream& stream)
 {
     char sign{};
     std::vector<Tank> tanks;

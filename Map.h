@@ -14,7 +14,7 @@ class Map
 public:
     explicit Map(unsigned int mapDimension);
 
-    std::vector<Tank> loadMap(std::fstream stream);
+    std::vector<Tank> loadMap(std::iostream& stream);
 
     bool canDrive(Point point) const;
     bool canFly(Point point) const;

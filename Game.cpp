@@ -157,7 +157,10 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 bool Game::play()
 {
     Map map(Config::getInstance().getTileCount());
-    std::vector<Tank> tanks{map.loadMap(Resources::getLevel())};
+    std::fstream level{Resources::getLevel()};
+    std::vector<Tank> tanks{map.loadMap(level)};
+    level.close();
+
     Input input;
     Screen::clearScreenWithBlack();
     std::list<Bullet> bullets;
