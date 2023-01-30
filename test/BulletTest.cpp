@@ -99,18 +99,14 @@ TEST_CASE("Bullet moving", "[bullet]")
     SECTION("bullet moving inside valid area")
     {
         using TestData = std::pair<Direction, Point>;
-        const unsigned int middle{Config::getInstance().getTileCount() *
-                                  Config::getInstance().getTileSize() / 2};
+        const unsigned int middle{Config::getInstance().getBoardWidth() / 2};
         auto [direction, expectedPoint] = GENERATE_REF(
             TestData{Direction::UP, Point{middle, middle - bulletSpeed}},
             TestData{Direction::DOWN, Point{middle, middle + bulletSpeed}},
             TestData{Direction::RIGHT, Point{middle + bulletSpeed, middle}},
             TestData{Direction::LEFT, Point{middle - bulletSpeed, middle}});
 
-        const Point startPoint{Config::getInstance().getTileCount() *
-                                   Config::getInstance().getTileSize() / 2,
-                               Config::getInstance().getTileCount() *
-                                   Config::getInstance().getTileSize() / 2};
+        const Point startPoint{middle, middle};
         Bullet bullet{startPoint, bulletSpeed, TankType::ENEMY_TIER_1,
                       bulletPower, direction};
 
@@ -139,8 +135,7 @@ TEST_CASE("Bullet moving", "[bullet]")
 TEST_CASE("Bullet moving to invalid area", "[bullet]")
 {
     using TestData = std::pair<Direction, Point>;
-    const unsigned int nearEndOfMap{Config::getInstance().getTileCount() *
-                                        Config::getInstance().getTileSize() -
+    const unsigned int nearEndOfMap{Config::getInstance().getBoardWidth() -
                                     bulletSpeed / 2};
     auto [direction, pointGenerated] =
         GENERATE_REF(TestData{Direction::UP, point},

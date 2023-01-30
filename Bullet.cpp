@@ -69,8 +69,7 @@ ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }
 bool Bullet::isValid(int newX, int newY)
 {
     const unsigned int bulletSize{Config::getInstance().getBulletSize()};
-    const unsigned int maxCoordinate{Config::getInstance().getTileSize() *
-                                         Config::getInstance().getTileCount() -
+    const unsigned int maxCoordinate{Config::getInstance().getBoardWidth() -
                                      bulletSize};
     return newX < maxCoordinate && newY < maxCoordinate && newY >= 0 &&
            newX >= 0;
