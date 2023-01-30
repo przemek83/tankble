@@ -102,4 +102,37 @@ TEST_CASE("Check driving and flying", "[map]")
         map.loadMap(stream);
         REQUIRE(map.canDrive(point) == canDrive);
     }
+
+    SECTION("check flying")
+    {
+        using TestData = std::pair<Point, bool>;
+        auto [point, canFly] = GENERATE_REF(TestData{tileToPoint(0, 0), true},
+                                            TestData{tileToPoint(1, 0), true},
+                                            TestData{tileToPoint(2, 0), false},
+                                            TestData{tileToPoint(3, 0), true},
+                                            TestData{tileToPoint(4, 0), true},
+                                            TestData{tileToPoint(0, 1), true},
+                                            TestData{tileToPoint(1, 1), false},
+                                            TestData{tileToPoint(2, 1), true},
+                                            TestData{tileToPoint(3, 1), true},
+                                            TestData{tileToPoint(4, 1), false},
+                                            TestData{tileToPoint(0, 2), true},
+                                            TestData{tileToPoint(1, 2), false},
+                                            TestData{tileToPoint(2, 2), true},
+                                            TestData{tileToPoint(3, 2), false},
+                                            TestData{tileToPoint(4, 2), true},
+                                            TestData{tileToPoint(0, 3), true},
+                                            TestData{tileToPoint(1, 3), true},
+                                            TestData{tileToPoint(2, 3), false},
+                                            TestData{tileToPoint(3, 3), true},
+                                            TestData{tileToPoint(4, 3), true},
+                                            TestData{tileToPoint(0, 4), false},
+                                            TestData{tileToPoint(1, 4), true},
+                                            TestData{tileToPoint(2, 4), true},
+                                            TestData{tileToPoint(3, 4), true},
+                                            TestData{tileToPoint(4, 4), false});
+
+        map.loadMap(stream);
+        REQUIRE(map.canFly(point) == canFly);
+    }
 }
