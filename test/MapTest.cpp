@@ -2,7 +2,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "Config.h"
 #include "Map.h"
+#include "Point.h"
 #include "Tank.h"
 
 // 0 - plain
@@ -31,9 +33,19 @@ TEST_CASE("Map loading", "[map]")
         "50401\n"};
     std::stringstream stream(testMap);
 
-    SECTION("loading tanks")
+    SECTION("check number of tanks after loading")
     {
         auto tanks{map.loadMap(stream)};
         REQUIRE(tanks.size() == 3);
+    }
+
+    SECTION("check tanks locations after loading")
+    {
+        auto tanks{map.loadMap(stream)};
+        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        CHECK(tanks.size() == 3);
+        REQUIRE(tanks[0].getLocation() == Point{0, 0});
+        REQUIRE(tanks[1].getLocation() == Point{0, 2 * tileSize});
+        REQUIRE(tanks[2].getLocation() == Point{4 * tileSize, 3 * tileSize});
     }
 }
