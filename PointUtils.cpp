@@ -9,6 +9,8 @@ Point pointFromSigned(int x, int y)
     return {static_cast<unsigned int>(x), static_cast<unsigned int>(y)};
 }
 
+bool isValidPoint(int x, int y) { return isValidPoint(x, y, 0); }
+
 bool isValidPoint(int x, int y, unsigned int objectSize)
 {
     const int maxCoordinate{
