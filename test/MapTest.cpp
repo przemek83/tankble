@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include <catch2/catch_test_macros.hpp>
+#include "catch2/generators/catch_generators.hpp"
 
 #include "Config.h"
 #include "Map.h"
@@ -54,5 +55,51 @@ TEST_CASE("Map loading", "[map]")
         REQUIRE(tanks[0].getLocation() == Point{0, 0});
         REQUIRE(tanks[1].getLocation() == Point{0, 2 * tileSize});
         REQUIRE(tanks[2].getLocation() == Point{4 * tileSize, 3 * tileSize});
+    }
+}
+
+Point tileToPoint(unsigned int tileX, unsigned int tileY)
+{
+    static const unsigned int tileSize{Config::getInstance().getTileSize()};
+    return {tileX * tileSize, tileY * tileSize};
+}
+
+TEST_CASE("Check driving and flying", "[map]")
+{
+    Map map(tileCount);
+    std::stringstream stream(getTestMap());
+
+    SECTION("check driving")
+    {
+        using TestData = std::pair<Point, bool>;
+        auto [point, canDrive] =
+            GENERATE_REF(TestData{tileToPoint(0, 0), true},
+                         TestData{tileToPoint(1, 0), true},
+                         TestData{tileToPoint(2, 0), false},
+                         TestData{tileToPoint(3, 0), true},
+                         TestData{tileToPoint(4, 0), true},
+                         TestData{tileToPoint(0, 1), true},
+                         TestData{tileToPoint(1, 1), false},
+                         TestData{tileToPoint(2, 1), true},
+                         TestData{tileToPoint(3, 1), true},
+                         TestData{tileToPoint(4, 1), false},
+                         TestData{tileToPoint(0, 2), true},
+                         TestData{tileToPoint(1, 2), false},
+                         TestData{tileToPoint(2, 2), true},
+                         TestData{tileToPoint(3, 2), false},
+                         TestData{tileToPoint(4, 2), true},
+                         TestData{tileToPoint(0, 3), true},
+                         TestData{tileToPoint(1, 3), false},
+                         TestData{tileToPoint(2, 3), false},
+                         TestData{tileToPoint(3, 3), true},
+                         TestData{tileToPoint(4, 3), true},
+                         TestData{tileToPoint(0, 4), false},
+                         TestData{tileToPoint(1, 4), true},
+                         TestData{tileToPoint(2, 4), true},
+                         TestData{tileToPoint(3, 4), true},
+                         TestData{tileToPoint(4, 4), false});
+
+        map.loadMap(stream);
+        REQUIRE(map.canDrive(point) == canDrive);
     }
 }
