@@ -21,17 +21,25 @@
 // A - shield up
 // T - life up
 
-TEST_CASE("Map loading", "[map]")
+namespace
 {
-    const unsigned int tileCount{5};
-    Map map(tileCount);
-    const std::string testMap{
+const unsigned int tileCount{5};
+
+std::string getTestMap()
+{
+    return {
         "E01TA\n"
         "01SL1\n"
         "E6010\n"
         "0213M\n"
         "50401\n"};
-    std::stringstream stream(testMap);
+}
+}  // namespace
+
+TEST_CASE("Map loading", "[map]")
+{
+    Map map(tileCount);
+    std::stringstream stream(getTestMap());
 
     SECTION("check number of tanks")
     {
