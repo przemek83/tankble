@@ -2,6 +2,7 @@
 
 #include "Config.h"
 #include "Direction.h"
+#include "PointUtils.h"
 #include "Screen.h"
 
 Bullet::Bullet(Point startingPoint, unsigned int speed, TankType tankType,
@@ -51,7 +52,7 @@ bool Bullet::move()
                  getDirectionX() * static_cast<int>(getSpeed())};
     const int py{static_cast<int>(getY()) +
                  getDirectionY() * static_cast<int>(getSpeed())};
-    if (!isValid(px, py))
+    if (!PointUtils::isValidPoint(px, py, size_))
         return false;
     setX(static_cast<unsigned int>(px));
     setY(static_cast<unsigned int>(py));
@@ -64,11 +65,3 @@ void Bullet::draw(const Screen& screen) const
 }
 
 ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }
-
-bool Bullet::isValid(int newX, int newY)
-{
-    const unsigned int maxCoordinate{Config::getInstance().getBoardWidth() -
-                                     size_};
-    return newX < maxCoordinate && newY < maxCoordinate && newY >= 0 &&
-           newX >= 0;
-}
