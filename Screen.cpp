@@ -6,7 +6,8 @@
 
 Screen::Screen(Resources resources)
     : resources_(std::move(resources)),
-      width_(Config::getInstance().getBoardWidth()),
+      width_(Config::getInstance().getBoardWidth() +
+             Config::getInstance().getSatusWidth()),
       height_(Config::getInstance().getBoardHeight()),
       font_{al_create_builtin_font()}
 {

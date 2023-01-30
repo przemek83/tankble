@@ -27,7 +27,7 @@ private:
     const unsigned int mapSize_{20};
     const unsigned int elementSize_{30};
     const unsigned int bulletSize_{elementSize_ / 5};
-    const unsigned int boardWidth_{800};
-    const unsigned int boardHeight_{600};
-    const unsigned int statusWidth_{200};
+    const unsigned int boardWidth_{mapSize_ * elementSize_};
+    const unsigned int boardHeight_{boardWidth_};
+    const unsigned int statusWidth_{boardWidth_ / 3};
 };

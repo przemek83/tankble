@@ -187,7 +187,7 @@ bool Game::play()
 
 void Game::drawStatusPlaceholder()
 {
-    screen_.drawText(Config::getInstance().getBoardWidth() -
+    screen_.drawText(Config::getInstance().getBoardWidth() +
                          Config::getInstance().getSatusWidth() / 2,
                      Config::getInstance().getBoardHeight() / 2,
                      "[Status placeholder]");
@@ -233,7 +233,9 @@ void Game::control(Map& map, std::vector<Tank>& tanks,
 void Game::drawEndOfGame(const std::string& text)
 {
     Screen::clearScreenWithBlack();
-    screen_.drawText(Config::getInstance().getBoardWidth() / 2,
+    screen_.drawText((Config::getInstance().getBoardWidth() +
+                      Config::getInstance().getSatusWidth()) /
+                         2,
                      Config::getInstance().getBoardHeight() / 2, text);
     Screen::refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
