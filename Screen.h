@@ -28,7 +28,7 @@ public:
                     unsigned int y) const;
 
     void drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                          unsigned int y, int size) const;
+                          unsigned int y, unsigned int size) const;
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
                                       unsigned int y, int size,

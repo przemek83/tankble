@@ -41,7 +41,7 @@ void Screen::drawBitmap(ResourceType resourceType, unsigned int x,
 }
 
 void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                              unsigned int y, int size) const
+                              unsigned int y, unsigned int size) const
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     al_draw_scaled_bitmap(
