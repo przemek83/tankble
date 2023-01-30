@@ -26,8 +26,9 @@ private:
     unsigned int getSpeed() const;
     int getDirectionX() const;
     int getDirectionY() const;
-    static bool isValid(int newX, int newY);
+    bool isValid(int newX, int newY);
 
+    const unsigned int size_;
     const TankType tankType_;
     const Direction direction_;
     const unsigned int speed_;
