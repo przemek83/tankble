@@ -215,7 +215,21 @@ TEST_CASE("Power ups", "[map]")
                      TestData{tileToPoint(2, 4), false});  // brick
 
         map.loadMap(stream);
-        auto [currentPowerup, resourceType]{map.takePowerUp(point)};
+        auto [currentPowerup, _]{map.takePowerUp(point)};
         REQUIRE(currentPowerup == expectedPowerup);
+    }
+
+    SECTION("retaking power up")
+    {
+        Point point = GENERATE(Point{tileToPoint(3, 0)},   // life up
+                               Point{tileToPoint(4, 0)},   // shield up
+                               Point{tileToPoint(2, 1)},   // tier up
+                               Point{tileToPoint(3, 1)});  // speed up
+
+        map.loadMap(stream);
+        auto [currentPowerup, _]{map.takePowerUp(point)};
+        REQUIRE(currentPowerup == true);
+        std::tie(currentPowerup, _) = map.takePowerUp(point);
+        REQUIRE(currentPowerup == false);
     }
 }
