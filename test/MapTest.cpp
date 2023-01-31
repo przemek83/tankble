@@ -172,4 +172,13 @@ TEST_CASE("Check hitting", "[map]")
         REQUIRE(map.canDrive(point) == false);
         REQUIRE(map.canFly(point) == true);
     }
+
+    SECTION("check base status after hit")
+    {
+        const Point point{tileToPoint(1, 2)};
+        map.loadMap(stream);
+        REQUIRE(map.isBaseDestroyed() == false);
+        map.hit(point, testHitStrength);
+        REQUIRE(map.isBaseDestroyed() == true);
+    }
 }
