@@ -12,7 +12,7 @@ public:
 
     virtual bool isPartOfBackground();
 
-    bool destroy(unsigned int power);
+    bool hit(unsigned int power);
 
     bool isPowerUp() const;
 

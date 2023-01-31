@@ -10,7 +10,7 @@ Tile::Tile(unsigned int armor, Point point)
 
 bool Tile::isPartOfBackground() { return true; }
 
-bool Tile::destroy(unsigned int power)
+bool Tile::hit(unsigned int power)
 {
     if (power > armor_)
         armor_ = 0;

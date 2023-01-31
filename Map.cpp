@@ -132,7 +132,7 @@ bool Map::canFly(Point point) const
 void Map::hit(Point point, unsigned int power)
 {
     auto& tile{getTile(screenPointToTile(point))};
-    if (!canFly(point) && tile->destroy(power))
+    if (!canFly(point) && tile->hit(power))
     {
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
         tile = std::make_unique<Plain>(tile->getLocation());
