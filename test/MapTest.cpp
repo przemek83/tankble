@@ -137,3 +137,28 @@ TEST_CASE("Check driving and flying", "[map]")
         REQUIRE(map.canFly(point) == expectedCanFly);
     }
 }
+
+TEST_CASE("Check hitting", "[map]")
+{
+    Map map(tileCount);
+    std::stringstream stream(getTestMap());
+
+    SECTION("check tile hit reaction")
+    {
+        using TestData = std::pair<Point, bool>;
+        auto [point, expectedCanDriveAndFly] =
+            GENERATE(TestData{tileToPoint(2, 0), true},
+                     TestData{tileToPoint(1, 1), true},
+                     TestData{tileToPoint(4, 1), true},
+                     TestData{tileToPoint(1, 2), true},
+                     TestData{tileToPoint(3, 2), true},
+                     TestData{tileToPoint(2, 3), true},
+                     TestData{tileToPoint(0, 4), false},
+                     TestData{tileToPoint(4, 4), true});
+
+        map.loadMap(stream);
+        map.hit(point, 10);
+        REQUIRE(map.canDrive(point) == expectedCanDriveAndFly);
+        REQUIRE(map.canFly(point) == expectedCanDriveAndFly);
+    }
+}
