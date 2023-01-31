@@ -52,10 +52,12 @@ bool Bullet::move()
                  getDirectionX() * static_cast<int>(getSpeed())};
     const int py{static_cast<int>(getY()) +
                  getDirectionY() * static_cast<int>(getSpeed())};
+
     if (!PointUtils::isValidPoint(px, py, size_))
         return false;
-    setX(static_cast<unsigned int>(px));
-    setY(static_cast<unsigned int>(py));
+
+    setLocation(PointUtils::pointFromSigned(px, py));
+
     return true;
 }
 
