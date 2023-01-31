@@ -21,8 +21,6 @@ TankType Bullet::getTankType() const { return tankType_; }
 
 unsigned int Bullet::getPower() const { return power_; }
 
-unsigned int Bullet::getSpeed() const { return speed_; }
-
 Point Bullet::getCenter() const
 {
     return {getX() + size_ / 2, getY() + size_ / 2};
@@ -49,9 +47,9 @@ int Bullet::getDirectionY() const
 bool Bullet::move()
 {
     const int px{static_cast<int>(getX()) +
-                 getDirectionX() * static_cast<int>(getSpeed())};
+                 getDirectionX() * static_cast<int>(speed_)};
     const int py{static_cast<int>(getY()) +
-                 getDirectionY() * static_cast<int>(getSpeed())};
+                 getDirectionY() * static_cast<int>(speed_)};
 
     if (!PointUtils::isValidPoint(px, py, size_))
         return false;

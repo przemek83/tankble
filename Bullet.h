@@ -23,10 +23,8 @@ public:
     Point getCenter() const override;
 
 private:
-    unsigned int getSpeed() const;
     int getDirectionX() const;
     int getDirectionY() const;
-    bool isValid(int newX, int newY);
 
     const unsigned int size_;
     const TankType tankType_;
