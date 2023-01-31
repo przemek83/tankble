@@ -41,6 +41,8 @@ Point tileToPoint(unsigned int tileX, unsigned int tileY)
     static const unsigned int tileSize{Config::getInstance().getTileSize()};
     return {tileX * tileSize, tileY * tileSize};
 }
+
+const unsigned int testHitStrength{10};
 }  // namespace
 
 TEST_CASE("Map loading", "[map]")
@@ -147,18 +149,27 @@ TEST_CASE("Check hitting", "[map]")
     {
         using TestData = std::pair<Point, bool>;
         auto [point, expectedCanDriveAndFly] =
-            GENERATE(TestData{tileToPoint(2, 0), true},
-                     TestData{tileToPoint(1, 1), true},
-                     TestData{tileToPoint(4, 1), true},
-                     TestData{tileToPoint(1, 2), true},
-                     TestData{tileToPoint(3, 2), true},
-                     TestData{tileToPoint(2, 3), true},
-                     TestData{tileToPoint(0, 4), false},
-                     TestData{tileToPoint(4, 4), true});
+            GENERATE(TestData{tileToPoint(2, 0), true},   // brick
+                     TestData{tileToPoint(1, 1), true},   // brick
+                     TestData{tileToPoint(4, 1), true},   // brick
+                     TestData{tileToPoint(1, 2), true},   // base
+                     TestData{tileToPoint(3, 2), true},   // brick
+                     TestData{tileToPoint(2, 3), true},   // brick
+                     TestData{tileToPoint(0, 4), false},  // steel
+                     TestData{tileToPoint(4, 4), true});  // brick
 
         map.loadMap(stream);
-        map.hit(point, 10);
+        map.hit(point, testHitStrength);
         REQUIRE(map.canDrive(point) == expectedCanDriveAndFly);
         REQUIRE(map.canFly(point) == expectedCanDriveAndFly);
+    }
+
+    SECTION("check water hit reaction")
+    {
+        const Point point{tileToPoint(1, 3)};
+        map.loadMap(stream);
+        map.hit(point, testHitStrength);
+        REQUIRE(map.canDrive(point) == false);
+        REQUIRE(map.canFly(point) == true);
     }
 }
