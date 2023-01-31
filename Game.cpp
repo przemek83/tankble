@@ -272,7 +272,7 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
         if (const Point bulletCenter{bulletIter->getCenter()};
             valid && !map.canFly(bulletCenter))
         {
-            map.destroyItem(bulletCenter, bulletIter->getPower());
+            map.hit(bulletCenter, bulletIter->getPower());
             valid = false;
         }
 

@@ -129,7 +129,7 @@ bool Map::canFly(Point point) const
     return getTile(screenPointToTile(point))->canFly();
 }
 
-void Map::destroyItem(Point point, unsigned int power)
+void Map::hit(Point point, unsigned int power)
 {
     auto& tile{getTile(screenPointToTile(point))};
     if (tile->destroy(power))

@@ -26,7 +26,7 @@ public:
 
     bool isPlayerDestroyed() const;
 
-    void destroyItem(Point point, unsigned int power);
+    void hit(Point point, unsigned int power);
 
 private:
     inline const std::unique_ptr<Tile>& getTile(Point point) const
