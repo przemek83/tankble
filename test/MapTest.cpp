@@ -215,7 +215,6 @@ TEST_CASE("Power ups", "[map]")
                      TestData{tileToPoint(2, 4), false});  // brick
 
         map.loadMap(stream);
-        map.hit(point, testHitStrength);
         auto [currentPowerup, resourceType]{map.takePowerUp(point)};
         REQUIRE(currentPowerup == expectedPowerup);
     }
