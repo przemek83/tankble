@@ -58,7 +58,7 @@ TEST_CASE("Map loading", "[map]")
 
     SECTION("check tanks location")
     {
-        auto tanks{map.loadMap(stream)};
+        const auto tanks{map.loadMap(stream)};
         const unsigned int tileSize{Config::getInstance().getTileSize()};
         REQUIRE(tanks[0].getLocation() == Point{0, 0});
         REQUIRE(tanks[1].getLocation() == Point{0, 2 * tileSize});
@@ -74,7 +74,7 @@ TEST_CASE("Check driving and flying", "[map]")
     SECTION("check driving")
     {
         using TestData = std::pair<Point, bool>;
-        auto [point, expectedCanDrive] =
+        const auto [point, expectedCanDrive] =
             GENERATE(TestData{tileToPoint(0, 0), true},    // enemy
                      TestData{tileToPoint(1, 0), true},    // plain
                      TestData{tileToPoint(2, 0), false},   // brick
@@ -108,7 +108,7 @@ TEST_CASE("Check driving and flying", "[map]")
     SECTION("check flying")
     {
         using TestData = std::pair<Point, bool>;
-        auto [point, expectedCanFly] =
+        const auto [point, expectedCanFly] =
             GENERATE(TestData{tileToPoint(0, 0), true},    // enemy
                      TestData{tileToPoint(1, 0), true},    // plain
                      TestData{tileToPoint(2, 0), false},   // brick
@@ -148,7 +148,7 @@ TEST_CASE("Check hitting", "[map]")
     SECTION("check tiles reaction for hit")
     {
         using TestData = std::pair<Point, bool>;
-        auto [point, expectedCanDriveAndFly] =
+        const auto [point, expectedCanDriveAndFly] =
             GENERATE(TestData{tileToPoint(2, 0), true},   // brick
                      TestData{tileToPoint(1, 1), true},   // brick
                      TestData{tileToPoint(4, 1), true},   // brick
@@ -202,7 +202,7 @@ TEST_CASE("Power ups", "[map]")
     SECTION("taking power up")
     {
         using TestData = std::pair<Point, bool>;
-        auto [point, expectedPowerup] =
+        const auto [point, expectedPowerup] =
             GENERATE(TestData{tileToPoint(2, 0), false},   // brick
                      TestData{tileToPoint(3, 0), true},    // life up
                      TestData{tileToPoint(4, 0), true},    // shield up
@@ -221,15 +221,29 @@ TEST_CASE("Power ups", "[map]")
 
     SECTION("retaking power up")
     {
-        Point point = GENERATE(Point{tileToPoint(3, 0)},   // life up
-                               Point{tileToPoint(4, 0)},   // shield up
-                               Point{tileToPoint(2, 1)},   // tier up
-                               Point{tileToPoint(3, 1)});  // speed up
+        const Point point = GENERATE(Point{tileToPoint(3, 0)},   // life up
+                                     Point{tileToPoint(4, 0)},   // shield up
+                                     Point{tileToPoint(2, 1)},   // speed up
+                                     Point{tileToPoint(3, 1)});  // tier up
 
         map.loadMap(stream);
         auto [currentPowerup, _]{map.takePowerUp(point)};
         REQUIRE(currentPowerup == true);
         std::tie(currentPowerup, _) = map.takePowerUp(point);
         REQUIRE(currentPowerup == false);
+    }
+
+    SECTION("recognizing power ups")
+    {
+        using TestData = std::pair<Point, ResourceType>;
+        auto [point, expectedResourceType] = GENERATE(
+            TestData{tileToPoint(3, 0), ResourceType::LIFE_UP},    // life up
+            TestData{tileToPoint(4, 0), ResourceType::SHIELD_UP},  // shield up
+            TestData{tileToPoint(2, 1), ResourceType::SPEED_UP},   // speed up
+            TestData{tileToPoint(3, 1), ResourceType::TIER_UP});   // tier up
+
+        map.loadMap(stream);
+        auto [_, currentResourceType] = map.takePowerUp(point);
+        REQUIRE(currentResourceType == expectedResourceType);
     }
 }
