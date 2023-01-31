@@ -145,7 +145,7 @@ TEST_CASE("Check hitting", "[map]")
     Map map(tileCount);
     std::stringstream stream(getTestMap());
 
-    SECTION("check tile hit reaction")
+    SECTION("check tiles reaction for hit")
     {
         using TestData = std::pair<Point, bool>;
         auto [point, expectedCanDriveAndFly] =
@@ -164,7 +164,7 @@ TEST_CASE("Check hitting", "[map]")
         REQUIRE(map.canFly(point) == expectedCanDriveAndFly);
     }
 
-    SECTION("check water hit reaction")
+    SECTION("check water reaction for hit")
     {
         const Point point{tileToPoint(1, 3)};
         map.loadMap(stream);
@@ -191,5 +191,32 @@ TEST_CASE("Check hitting", "[map]")
         REQUIRE(map.isBaseDestroyed() == false);
         map.hit(point, testHitStrength / 2);
         REQUIRE(map.isBaseDestroyed() == true);
+    }
+}
+
+TEST_CASE("Power ups", "[map]")
+{
+    Map map(tileCount);
+    std::stringstream stream(getTestMap());
+
+    SECTION("taking power up")
+    {
+        using TestData = std::pair<Point, bool>;
+        auto [point, expectedPowerup] =
+            GENERATE(TestData{tileToPoint(2, 0), false},   // brick
+                     TestData{tileToPoint(3, 0), true},    // life up
+                     TestData{tileToPoint(4, 0), true},    // shield up
+                     TestData{tileToPoint(0, 1), false},   // plain
+                     TestData{tileToPoint(2, 1), true},    // speed up
+                     TestData{tileToPoint(3, 1), true},    // tier up
+                     TestData{tileToPoint(1, 2), false},   // base
+                     TestData{tileToPoint(3, 3), false},   // plant
+                     TestData{tileToPoint(0, 4), false},   // ice
+                     TestData{tileToPoint(2, 4), false});  // brick
+
+        map.loadMap(stream);
+        map.hit(point, testHitStrength);
+        auto [currentPowerup, resourceType]{map.takePowerUp(point)};
+        REQUIRE(currentPowerup == expectedPowerup);
     }
 }
