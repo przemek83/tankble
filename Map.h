@@ -24,7 +24,7 @@ public:
     void drawBackground(const Screen& screen);
     void drawForeground(const Screen& screen);
 
-    bool isPlayerDestroyed() const;
+    bool isBaseDestroyed() const;
 
     void hit(Point point, unsigned int power);
 
@@ -43,7 +43,7 @@ private:
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
-    bool playerDestroyed_{false};
+    bool baseDestroyed_{false};
 
     std::unique_ptr<Tile> plainTile_;
     const unsigned int mapDimension_;

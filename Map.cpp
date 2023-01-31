@@ -137,7 +137,7 @@ void Map::hit(Point point, unsigned int power)
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
         tile = std::make_unique<Plain>(tile->getLocation());
         if (baseDestroyed)
-            playerDestroyed_ = true;
+            baseDestroyed_ = true;
     }
 }
 
@@ -175,4 +175,4 @@ void Map::drawForeground(const Screen& screen)
         }
 }
 
-bool Map::isPlayerDestroyed() const { return playerDestroyed_; }
+bool Map::isBaseDestroyed() const { return baseDestroyed_; }

@@ -242,7 +242,7 @@ void Game::drawEndOfGame(const std::string& text)
 
 bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
 {
-    if (map.isPlayerDestroyed() || playerDestroyed_)
+    if (map.isBaseDestroyed() || playerDestroyed_)
     {
         drawEndOfGame("You loose");
         return true;
