@@ -75,31 +75,31 @@ TEST_CASE("Check driving and flying", "[map]")
     {
         using TestData = std::pair<Point, bool>;
         auto [point, expectedCanDrive] =
-            GENERATE(TestData{tileToPoint(0, 0), true},
-                     TestData{tileToPoint(1, 0), true},
-                     TestData{tileToPoint(2, 0), false},
-                     TestData{tileToPoint(3, 0), true},
-                     TestData{tileToPoint(4, 0), true},
-                     TestData{tileToPoint(0, 1), true},
-                     TestData{tileToPoint(1, 1), false},
-                     TestData{tileToPoint(2, 1), true},
-                     TestData{tileToPoint(3, 1), true},
-                     TestData{tileToPoint(4, 1), false},
-                     TestData{tileToPoint(0, 2), true},
-                     TestData{tileToPoint(1, 2), false},
-                     TestData{tileToPoint(2, 2), true},
-                     TestData{tileToPoint(3, 2), false},
-                     TestData{tileToPoint(4, 2), true},
-                     TestData{tileToPoint(0, 3), true},
-                     TestData{tileToPoint(1, 3), false},
-                     TestData{tileToPoint(2, 3), false},
-                     TestData{tileToPoint(3, 3), true},
-                     TestData{tileToPoint(4, 3), true},
-                     TestData{tileToPoint(0, 4), false},
-                     TestData{tileToPoint(1, 4), true},
-                     TestData{tileToPoint(2, 4), true},
-                     TestData{tileToPoint(3, 4), true},
-                     TestData{tileToPoint(4, 4), false});
+            GENERATE(TestData{tileToPoint(0, 0), true},    // enemy
+                     TestData{tileToPoint(1, 0), true},    // plain
+                     TestData{tileToPoint(2, 0), false},   // brick
+                     TestData{tileToPoint(3, 0), true},    // life
+                     TestData{tileToPoint(4, 0), true},    // shiel
+                     TestData{tileToPoint(0, 1), true},    // plain
+                     TestData{tileToPoint(1, 1), false},   // brick
+                     TestData{tileToPoint(2, 1), true},    // speed
+                     TestData{tileToPoint(3, 1), true},    // tier
+                     TestData{tileToPoint(4, 1), false},   // brick
+                     TestData{tileToPoint(0, 2), true},    // enemy
+                     TestData{tileToPoint(1, 2), false},   // base
+                     TestData{tileToPoint(2, 2), true},    // plain
+                     TestData{tileToPoint(3, 2), false},   // brick
+                     TestData{tileToPoint(4, 2), true},    // plain
+                     TestData{tileToPoint(0, 3), true},    // plain
+                     TestData{tileToPoint(1, 3), false},   // water
+                     TestData{tileToPoint(2, 3), false},   // brick
+                     TestData{tileToPoint(3, 3), true},    // plant
+                     TestData{tileToPoint(4, 3), true},    // playe
+                     TestData{tileToPoint(0, 4), false},   // steel
+                     TestData{tileToPoint(1, 4), true},    // plain
+                     TestData{tileToPoint(2, 4), true},    // ice
+                     TestData{tileToPoint(3, 4), true},    // plain
+                     TestData{tileToPoint(4, 4), false});  // brick
 
         map.loadMap(stream);
         REQUIRE(map.canDrive(point) == expectedCanDrive);
@@ -109,31 +109,31 @@ TEST_CASE("Check driving and flying", "[map]")
     {
         using TestData = std::pair<Point, bool>;
         auto [point, expectedCanFly] =
-            GENERATE(TestData{tileToPoint(0, 0), true},
-                     TestData{tileToPoint(1, 0), true},
-                     TestData{tileToPoint(2, 0), false},
-                     TestData{tileToPoint(3, 0), true},
-                     TestData{tileToPoint(4, 0), true},
-                     TestData{tileToPoint(0, 1), true},
-                     TestData{tileToPoint(1, 1), false},
-                     TestData{tileToPoint(2, 1), true},
-                     TestData{tileToPoint(3, 1), true},
-                     TestData{tileToPoint(4, 1), false},
-                     TestData{tileToPoint(0, 2), true},
-                     TestData{tileToPoint(1, 2), false},
-                     TestData{tileToPoint(2, 2), true},
-                     TestData{tileToPoint(3, 2), false},
-                     TestData{tileToPoint(4, 2), true},
-                     TestData{tileToPoint(0, 3), true},
-                     TestData{tileToPoint(1, 3), true},
-                     TestData{tileToPoint(2, 3), false},
-                     TestData{tileToPoint(3, 3), true},
-                     TestData{tileToPoint(4, 3), true},
-                     TestData{tileToPoint(0, 4), false},
-                     TestData{tileToPoint(1, 4), true},
-                     TestData{tileToPoint(2, 4), true},
-                     TestData{tileToPoint(3, 4), true},
-                     TestData{tileToPoint(4, 4), false});
+            GENERATE(TestData{tileToPoint(0, 0), true},    // enemy
+                     TestData{tileToPoint(1, 0), true},    // plain
+                     TestData{tileToPoint(2, 0), false},   // brick
+                     TestData{tileToPoint(3, 0), true},    // life up
+                     TestData{tileToPoint(4, 0), true},    // shield up
+                     TestData{tileToPoint(0, 1), true},    // plain
+                     TestData{tileToPoint(1, 1), false},   // brick
+                     TestData{tileToPoint(2, 1), true},    // speed up
+                     TestData{tileToPoint(3, 1), true},    // tier up
+                     TestData{tileToPoint(4, 1), false},   // brick
+                     TestData{tileToPoint(0, 2), true},    // enemy
+                     TestData{tileToPoint(1, 2), false},   // base
+                     TestData{tileToPoint(2, 2), true},    // plain
+                     TestData{tileToPoint(3, 2), false},   // brick
+                     TestData{tileToPoint(4, 2), true},    // plain
+                     TestData{tileToPoint(0, 3), true},    // plain
+                     TestData{tileToPoint(1, 3), true},    // water
+                     TestData{tileToPoint(2, 3), false},   // brick
+                     TestData{tileToPoint(3, 3), true},    // plant
+                     TestData{tileToPoint(4, 3), true},    // player
+                     TestData{tileToPoint(0, 4), false},   // steel
+                     TestData{tileToPoint(1, 4), true},    // plain
+                     TestData{tileToPoint(2, 4), true},    // ice
+                     TestData{tileToPoint(3, 4), true},    // plain
+                     TestData{tileToPoint(4, 4), false});  // brick
 
         map.loadMap(stream);
         REQUIRE(map.canFly(point) == expectedCanFly);
