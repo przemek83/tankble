@@ -181,4 +181,15 @@ TEST_CASE("Check hitting", "[map]")
         map.hit(point, testHitStrength);
         REQUIRE(map.isBaseDestroyed() == true);
     }
+
+    SECTION("hitting tile multiple times")
+    {
+        const Point point{tileToPoint(1, 2)};
+        map.loadMap(stream);
+        REQUIRE(map.isBaseDestroyed() == false);
+        map.hit(point, testHitStrength / 2);
+        REQUIRE(map.isBaseDestroyed() == false);
+        map.hit(point, testHitStrength / 2);
+        REQUIRE(map.isBaseDestroyed() == true);
+    }
 }
