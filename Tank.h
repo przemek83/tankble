@@ -31,7 +31,7 @@ public:
     TankType getTankType() const;
     void move(Point point);
     bool isPlayerControlled() const;
-    Bullet fire();
+    Bullet fire() const;
 
     std::pair<int, int> getNextExpectedPosition();
 
