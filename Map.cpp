@@ -147,6 +147,12 @@ Point Map::screenPointToTile(Point location)
             location.y / Config::getInstance().getTileSize()};
 }
 
+Point Map::tileToScreenPoint(Point point)
+{
+    return {point.x * Config::getInstance().getTileSize(),
+            point.y * Config::getInstance().getTileSize()};
+}
+
 void Map::drawBackground(const Screen& screen)
 {
     for (unsigned int x = 0; x < mapDimension_; x++)
@@ -157,8 +163,7 @@ void Map::drawBackground(const Screen& screen)
                 tile->draw(screen);
             else
             {
-                plainTile_->setX(x * Config::getInstance().getTileSize());
-                plainTile_->setY(y * Config::getInstance().getTileSize());
+                plainTile_->setLocation(tileToScreenPoint({x, y}));
                 plainTile_->draw(screen);
             }
         }

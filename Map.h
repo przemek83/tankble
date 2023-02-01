@@ -40,6 +40,7 @@ private:
     }
 
     static Point screenPointToTile(Point location);
+    static Point tileToScreenPoint(Point point);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
