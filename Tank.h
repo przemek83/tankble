@@ -71,6 +71,6 @@ private:
     Stats stats_;
     time_t lastFire_{0};
     unsigned int lives_{1};
-    unsigned int initialX_;
-    unsigned int initialY_;
+    const unsigned int initialX_;
+    const unsigned int initialY_;
 };
