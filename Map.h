@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <memory>
 #include <vector>
 
@@ -14,7 +15,7 @@ class Map
 public:
     explicit Map(unsigned int mapDimension);
 
-    std::vector<Tank> loadMap(std::iostream& stream);
+    std::list<Tank> loadMap(std::iostream& stream);
 
     bool canDrive(Point point) const;
     bool canFly(Point point) const;

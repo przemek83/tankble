@@ -60,9 +60,11 @@ TEST_CASE("Map loading", "[map]")
     {
         const auto tanks{map.loadMap(stream)};
         const unsigned int tileSize{Config::getInstance().getTileSize()};
-        REQUIRE(tanks[0].getLocation() == Point{0, 0});
-        REQUIRE(tanks[1].getLocation() == Point{0, 2 * tileSize});
-        REQUIRE(tanks[2].getLocation() == Point{4 * tileSize, 3 * tileSize});
+        auto tankIter{tanks.begin()};
+        REQUIRE(tankIter->getLocation() == Point{0, 0});
+        REQUIRE((++tankIter)->getLocation() == Point{0, 2 * tileSize});
+        REQUIRE((++tankIter)->getLocation() ==
+                Point{4 * tileSize, 3 * tileSize});
     }
 }
 

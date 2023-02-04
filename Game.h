@@ -24,19 +24,18 @@ public:
 
 private:
     static void movement(Tank& tank, Map& map, Direction direction);
-    void control(Map& map, std::vector<Tank>& tanks,
-                 std::list<Bullet>& bullets);
-    bool isGameEnding(const Map& map, const std::vector<Tank>& tanks);
-    void moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
+    void control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets);
+    bool isGameEnding(const Map& map, const std::list<Tank>& tanks);
+    void moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
                      Map& map);
-    static std::vector<Tank>::iterator hitTank(const Bullet& bullet,
-                                               std::vector<Tank>& tanks);
+    static std::list<Tank>::iterator hitTank(const Bullet& bullet,
+                                             std::list<Tank>& tanks);
 
     void drawStatusPlaceholder();
-    void drawTanks(const std::vector<Tank>& tanks);
+    void drawTanks(const std::list<Tank>& tanks);
     void drawEndOfGame(const std::string& text);
     void drawBullets(const std::list<Bullet>& bullets);
-    void draw(const std::list<Bullet>& bullets, const std::vector<Tank>& tanks,
+    void draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
               Map& map);
     static void setPower(Tank& tank, Map& map);
 

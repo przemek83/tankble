@@ -40,10 +40,10 @@ Map::Map(unsigned int mapDimension)
 // A - shield up
 // T - life up
 
-std::vector<Tank> Map::loadMap(std::iostream& stream)
+std::list<Tank> Map::loadMap(std::iostream& stream)
 {
     char sign{};
-    std::vector<Tank> tanks;
+    std::list<Tank> tanks;
     for (unsigned int y = 0; y < mapDimension_; y++)
         for (unsigned int x = 0; x < mapDimension_; x++)
         {

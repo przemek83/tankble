@@ -158,7 +158,7 @@ bool Game::play()
 {
     Map map(Config::getInstance().getTileCount());
     std::fstream level{Resources::getLevel()};
-    std::vector<Tank> tanks{map.loadMap(level)};
+    std::list<Tank> tanks{map.loadMap(level)};
     level.close();
 
     Input input;
@@ -193,8 +193,7 @@ void Game::drawStatusPlaceholder()
                      "[Status placeholder]");
 }
 
-void Game::control(Map& map, std::vector<Tank>& tanks,
-                   std::list<Bullet>& bullets)
+void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
 
@@ -240,7 +239,7 @@ void Game::drawEndOfGame(const std::string& text)
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
-bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
+bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks)
 {
     if (map.isBaseDestroyed() || playerDestroyed_)
     {
@@ -257,13 +256,13 @@ bool Game::isGameEnding(const Map& map, const std::vector<Tank>& tanks)
     return false;
 }
 
-void Game::drawTanks(const std::vector<Tank>& tanks)
+void Game::drawTanks(const std::list<Tank>& tanks)
 {
     for (const auto& tank : tanks)
         tank.draw(screen_);
 }
 
-void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
+void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
                        Map& map)
 {
     for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
@@ -291,8 +290,8 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::vector<Tank>& tanks,
     }
 }
 
-std::vector<Tank>::iterator Game::hitTank(const Bullet& bullet,
-                                          std::vector<Tank>& tanks)
+std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
+                                        std::list<Tank>& tanks)
 {
     return std::find_if(tanks.begin(), tanks.end(),
                         [&bullet](const auto& tank)
@@ -308,8 +307,8 @@ void Game::drawBullets(const std::list<Bullet>& bullets)
         bullet.draw(screen_);
 }
 
-void Game::draw(const std::list<Bullet>& bullets,
-                const std::vector<Tank>& tanks, Map& map)
+void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
+                Map& map)
 {
     map.drawBackground(screen_);
     drawTanks(tanks);
