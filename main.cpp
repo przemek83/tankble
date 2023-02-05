@@ -1,5 +1,3 @@
-#include <vector>
-
 #include "Game.h"
 #include "Input.h"
 #include "Menu.h"
