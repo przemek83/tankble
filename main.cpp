@@ -9,8 +9,8 @@ int main()
     Input::init();
 
     Screen screen({});
-
     Menu menu(screen);
+
     for (;;)
     {
         if (!menu.playGame())
