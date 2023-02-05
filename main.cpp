@@ -5,15 +5,8 @@
 #include "Menu.h"
 #include "Screen.h"
 
-static void initRandomGenerator()
-{
-    srand(static_cast<unsigned int>(time(nullptr)));
-}
-
 int main()
 {
-    initRandomGenerator();
-
     Screen::init();
     Input::init();
 
@@ -30,5 +23,5 @@ int main()
             break;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
