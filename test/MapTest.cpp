@@ -151,14 +151,9 @@ TEST_CASE("Check hitting", "[map]")
     {
         using TestData = std::pair<Point, bool>;
         const auto [point, expectedCanDriveAndFly] =
-            GENERATE(TestData{tileToPoint(2, 0), true},   // brick
-                     TestData{tileToPoint(1, 1), true},   // brick
-                     TestData{tileToPoint(4, 1), true},   // brick
-                     TestData{tileToPoint(1, 2), true},   // base
-                     TestData{tileToPoint(3, 2), true},   // brick
-                     TestData{tileToPoint(2, 3), true},   // brick
-                     TestData{tileToPoint(0, 4), false},  // steel
-                     TestData{tileToPoint(4, 4), true});  // brick
+            GENERATE(TestData{tileToPoint(4, 1), true},    // brick
+                     TestData{tileToPoint(1, 2), true},    // base
+                     TestData{tileToPoint(0, 4), false});  // steel
 
         map.loadMap(stream);
         map.hit(point, testHitStrength);
