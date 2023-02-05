@@ -1,5 +1,8 @@
 #include "Screen.h"
 
+#include <iostream>
+
+#include <allegro5/allegro_image.h>
 #include "allegro5/allegro_font.h"
 
 #include "Config.h"
@@ -14,6 +17,31 @@ Screen::Screen(Resources resources)
 }
 
 Screen::~Screen() { al_destroy_font(font_); }
+
+void Screen::init()
+{
+    if (!al_init())
+    {
+        std::cerr << "failed to initialize allegro!\n" << std::endl;
+        abort();
+    }
+
+    if (al_create_display(Config::getInstance().getBoardWidth() +
+                              Config::getInstance().getSatusWidth(),
+                          Config::getInstance().getBoardHeight()) == nullptr)
+    {
+        std::cerr << "failed to create display!\n" << std::endl;
+        abort();
+    }
+
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_flip_display();
+
+    al_init_image_addon();
+    al_init_font_addon();
+
+    al_set_window_title(al_get_current_display(), "TankBle");
+}
 
 void Screen::drawText(unsigned int x, unsigned y, const std::string& text)
 {

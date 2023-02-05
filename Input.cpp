@@ -16,6 +16,12 @@ Input::Input() : events_(al_create_event_queue())
     al_start_timer(timer);
 }
 
+void Input::init()
+{
+    al_install_keyboard();
+    al_install_mouse();
+}
+
 InputAction Input::getMenuAction()
 {
     ALLEGRO_EVENT event;

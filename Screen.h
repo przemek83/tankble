@@ -20,6 +20,8 @@ public:
     Screen& operator=(Screen&& other) = delete;
     Screen(Screen&& other) = delete;
 
+    static void init();
+
     void drawText(unsigned int x, unsigned y, const std::string& text);
 
     void drawBackground(ResourceType resourceType) const;

@@ -13,6 +13,8 @@ class Input final
 public:
     Input();
 
+    static void init();
+
     InputAction getMenuAction();
 
     static std::set<InputAction> getGameActions();
