@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <random>
 #include <set>
 #include <string>
 #include <vector>
@@ -48,6 +49,7 @@ private:
     static void shiftIfNeeded(Point& point, const Map& map,
                               Direction direction);
 
+    std::mt19937 randomGenerator_;
     Screen& screen_;
     bool playerDestroyed_{false};
 };

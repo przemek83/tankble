@@ -4,6 +4,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <thread>
 
 #include "Bullet.h"
@@ -15,7 +16,10 @@
 #include "Screen.h"
 #include "Tank.h"
 
-Game::Game(Screen& screen) : screen_(screen) {}
+Game::Game(Screen& screen)
+    : randomGenerator_(Config::getRandomSeed()), screen_(screen)
+{
+}
 
 std::pair<bool, Direction> Game::inputActionsToDirection(
     const std::set<InputAction>& actions)
@@ -197,6 +201,8 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
 
+    std::uniform_int_distribution<> distribution(0, 7);
+
     for (auto& tank : tanks)
     {
         Direction direction{Direction::UP};
@@ -217,10 +223,11 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
         {
             if (tank.canFire())
                 bullets.emplace_back(tank.fire());
-            const int i{rand() % 8};
+            const int randomDirection{distribution(randomGenerator_)};
             if (tank.getX() % Config::getInstance().getTileSize() == 0 &&
-                tank.getY() % Config::getInstance().getTileSize() == 0 && i < 4)
-                direction = static_cast<Direction>(i);
+                tank.getY() % Config::getInstance().getTileSize() == 0 &&
+                randomDirection < 4)
+                direction = static_cast<Direction>(randomDirection);
             else
                 direction = tank.getDirection();
         }

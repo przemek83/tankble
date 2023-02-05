@@ -19,6 +19,8 @@ public:
     inline unsigned int getBoardHeight() const { return boardHeight_; }
     inline unsigned int getSatusWidth() const { return statusWidth_; }
 
+    static unsigned int getRandomSeed();
+
 private:
     Config() = default;
     ~Config() = default;
