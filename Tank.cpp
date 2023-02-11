@@ -163,10 +163,9 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 
 bool Tank::isWithin(Point point) const
 {
-    return point.x >= getX() &&
-           point.x < getX() + Config::getInstance().getTileSize() &&
-           point.y >= getY() &&
-           point.y < getY() + Config::getInstance().getTileSize();
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    return point.x >= getX() && point.x < getX() + tileSize &&
+           point.y >= getY() && point.y < getY() + tileSize;
 }
 
 void Tank::resetFire() { lastFire_--; }
