@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
 
+#include "Config.h"
 #include "Tank.h"
 
 TEST_CASE("Tank creation", "[tank]")
@@ -73,5 +74,25 @@ TEST_CASE("check control", "[tank]")
     {
         const Tank tank(tankType, point);
         REQUIRE(tank.isPlayerControlled() == playerControlled);
+    }
+}
+
+TEST_CASE("location related", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("get location")
+    {
+        const Tank tank(TankType::ENEMY_TIER_1, point);
+        REQUIRE(tank.getLocation() == Point{100, 100});
+    }
+
+    SECTION("get center")
+    {
+        const unsigned int halfOfTile{Config::getInstance().getTileSize() / 2};
+        const Tank tank(TankType::ENEMY_TIER_1, point);
+        REQUIRE(tank.getCenter() == Point{
+                                        100 + halfOfTile,
+                                        100 + halfOfTile,
+                                    });
     }
 }
