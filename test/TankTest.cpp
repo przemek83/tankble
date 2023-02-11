@@ -95,4 +95,24 @@ TEST_CASE("location related", "[tank]")
                                         100 + halfOfTile,
                                     });
     }
+
+    SECTION("is within")
+    {
+        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        using TestData = std::pair<Point, bool>;
+        const auto [pointToTest, expectedIsWithin] = GENERATE_REF(
+            TestData{Point{99, 99}, false}, TestData{Point{99, 100}, false},
+            TestData{Point{100, 99}, false}, TestData{Point{100, 100}, true},
+            TestData{Point{100 + tileSize - 1, 100}, true},
+            TestData{Point{100 + tileSize, 100}, false},
+            TestData{Point{100, 100 + tileSize - 1}, true},
+            TestData{Point{100, 100 + tileSize}, false},
+            TestData{Point{100 + tileSize - 1, 100 + tileSize - 1}, true},
+            TestData{Point{100 + tileSize - 1, 100 + tileSize}, false},
+            TestData{Point{100 + tileSize, 100 + tileSize - 1}, false},
+            TestData{Point{100 + tileSize, 100 + tileSize}, false});
+
+        const Tank tank(TankType::ENEMY_TIER_1, point);
+        REQUIRE(tank.isWithin(pointToTest) == expectedIsWithin);
+    }
 }
