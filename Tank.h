@@ -32,6 +32,7 @@ public:
     TankType getTankType() const;
     void move(Point point);
     bool isPlayerControlled() const;
+    unsigned int getLives() const;
 
     std::pair<int, int> getNextExpectedPosition();
 
@@ -51,26 +52,26 @@ private:
 
     struct Stats
     {
-        unsigned int power;
+        unsigned int attackPower;
         unsigned int armor;
         unsigned int speed;
+        unsigned int lives;
     };
 
     std::map<TankType, Stats> typesStats_{
-        {TankType::PLAYER_TIER_1, {2, 8, 4}},
-        {TankType::PLAYER_TIER_2, {4, 16, 4}},
-        {TankType::PLAYER_TIER_3, {8, 32, 6}},
-        {TankType::PLAYER_TIER_4, {16, 64, 8}},
-        {TankType::ENEMY_TIER_1, {1, 4, 4}},
-        {TankType::ENEMY_TIER_2, {2, 8, 4}},
-        {TankType::ENEMY_TIER_3, {4, 16, 6}},
-        {TankType::ENEMY_TIER_4, {8, 32, 8}}};
+        {TankType::PLAYER_TIER_1, {2, 8, 4, 2}},
+        {TankType::PLAYER_TIER_2, {4, 16, 4, 2}},
+        {TankType::PLAYER_TIER_3, {8, 32, 6, 2}},
+        {TankType::PLAYER_TIER_4, {16, 64, 8, 2}},
+        {TankType::ENEMY_TIER_1, {1, 4, 4, 1}},
+        {TankType::ENEMY_TIER_2, {2, 8, 4, 1}},
+        {TankType::ENEMY_TIER_3, {4, 16, 6, 1}},
+        {TankType::ENEMY_TIER_4, {8, 32, 8, 1}}};
 
     Direction direction_;
     TankType type_;
     Stats stats_;
     time_t lastFire_{0};
-    unsigned int lives_{1};
     const unsigned int initialX_;
     const unsigned int initialY_;
 };

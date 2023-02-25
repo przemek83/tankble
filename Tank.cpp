@@ -17,9 +17,6 @@ Tank::Tank(TankType tankType, Point point)
 {
     setType(tankType);
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
-
-    if (isPlayerControlled())
-        lives_ *= 2;
 }
 
 void Tank::draw(const Screen& screen) const
@@ -72,9 +69,9 @@ bool Tank::hit(unsigned int power)
 
     if (stats_.armor == 0)
     {
-        if (lives_ <= 1)
+        if (stats_.lives <= 1)
             return true;
-        lives_--;
+        stats_.lives--;
         respawn();
     }
     return false;
@@ -117,7 +114,7 @@ bool Tank::isPlayerControlled() const
 
 Bullet Tank::fire() const
 {
-    return {getCenter(), stats_.speed, getTankType(), stats_.power,
+    return {getCenter(), stats_.speed, getTankType(), stats_.attackPower,
             getDirection()};
 }
 
@@ -129,7 +126,7 @@ std::pair<int, int> Tank::getNextExpectedPosition()
     return nextPosition;
 }
 
-void Tank::addLife() { lives_++; }
+void Tank::addLife() { stats_.lives++; }
 
 void Tank::applyPowerUp(ResourceType powerUpType)
 {
