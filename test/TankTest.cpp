@@ -10,13 +10,13 @@ TEST_CASE("Tank creation", "[tank]")
     SECTION("check type - enemy")
     {
         const Tank tank(TankType::ENEMY_TIER_1, point);
-        REQUIRE(tank.getTankType() == TankType::ENEMY_TIER_1);
+        REQUIRE(tank.isPlayerControlled() == false);
     }
 
     SECTION("check type - player")
     {
         const Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.getTankType() == TankType::PLAYER_TIER_1);
+        REQUIRE(tank.isPlayerControlled() == true);
     }
 
     SECTION("check tank location")

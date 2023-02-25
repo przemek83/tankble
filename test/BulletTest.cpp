@@ -4,16 +4,16 @@
 #include "Bullet.h"
 #include "Config.h"
 #include "Direction.h"
-#include "TankType.h"
 
 const unsigned int bulletPower{4};
 const unsigned int bulletSpeed{10};
 const Point point{5, 5};
+const bool enemyOrigin = false;
+const bool playerOrigin = true;
 
 static Bullet getExampleBullet()
 {
-    return {point, bulletSpeed, TankType::ENEMY_TIER_1, bulletPower,
-            Direction::UP};
+    return {point, bulletSpeed, enemyOrigin, bulletPower, Direction::UP};
 }
 
 TEST_CASE("Bullet getters", "[bullet]")
@@ -24,9 +24,15 @@ TEST_CASE("Bullet getters", "[bullet]")
     {
         REQUIRE(bullet.getPower() == bulletPower);
     }
-    SECTION("tank type is set")
+    SECTION("origin is set to enemy")
     {
-        REQUIRE(bullet.getTankType() == TankType::ENEMY_TIER_1);
+        REQUIRE(bullet.isPlayerOrigin() == enemyOrigin);
+    }
+    SECTION("origin is set to player")
+    {
+        const Bullet bulletToTest{point, bulletSpeed, playerOrigin, bulletPower,
+                                  Direction::UP};
+        REQUIRE(bulletToTest.isPlayerOrigin() == playerOrigin);
     }
     SECTION("resource type is set")
     {
@@ -86,8 +92,7 @@ TEST_CASE("Bullet moving", "[bullet]")
 {
     SECTION("bullet moving with 0 speed")
     {
-        Bullet bullet{point, 0, TankType::ENEMY_TIER_1, bulletPower,
-                      Direction::UP};
+        Bullet bullet{point, 0, enemyOrigin, bulletPower, Direction::UP};
         const Point centerBeforeMove{bullet.getCenter()};
 
         bullet.move();
@@ -107,8 +112,8 @@ TEST_CASE("Bullet moving", "[bullet]")
             TestData{Direction::LEFT, Point{middle - bulletSpeed, middle}});
 
         const Point startPoint{middle, middle};
-        Bullet bullet{startPoint, bulletSpeed, TankType::ENEMY_TIER_1,
-                      bulletPower, direction};
+        Bullet bullet{startPoint, bulletSpeed, enemyOrigin, bulletPower,
+                      direction};
 
         bullet.move();
 
@@ -143,8 +148,8 @@ TEST_CASE("Bullet moving to invalid area", "[bullet]")
                      TestData{Direction::RIGHT, Point{nearEndOfMap, point.y}},
                      TestData{Direction::LEFT, point});
 
-    Bullet bullet{pointGenerated, bulletSpeed, TankType::ENEMY_TIER_1,
-                  bulletPower, direction};
+    Bullet bullet{pointGenerated, bulletSpeed, enemyOrigin, bulletPower,
+                  direction};
 
     REQUIRE(bullet.move() == false);
 }

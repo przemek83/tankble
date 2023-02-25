@@ -30,7 +30,6 @@ public:
     void resetFire();
 
     bool hit(unsigned int power);
-    TankType getTankType() const;
     void move(Point point);
     bool isPlayerControlled() const;
     unsigned int getLives() const;

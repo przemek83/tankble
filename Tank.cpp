@@ -31,7 +31,7 @@ ResourceType Tank::getResourceType() const
 {
     return static_cast<ResourceType>(
         static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
-        static_cast<unsigned char>(getTankType()));
+        static_cast<unsigned char>(type_));
 }
 
 Point Tank::getCenter() const
@@ -77,8 +77,6 @@ bool Tank::hit(unsigned int power)
     return false;
 }
 
-TankType Tank::getTankType() const { return type_; }
-
 void Tank::setSpeedUp() { stats_.speed++; }
 
 Direction Tank::getDirection() const { return direction_; }
@@ -114,7 +112,7 @@ bool Tank::isPlayerControlled() const
 
 Bullet Tank::fire() const
 {
-    return {getCenter(), stats_.speed, getTankType(), stats_.attackPower,
+    return {getCenter(), stats_.speed, isPlayerControlled(), stats_.attackPower,
             getDirection()};
 }
 
@@ -133,13 +131,12 @@ void Tank::applyPowerUp(ResourceType powerUpType)
     switch (powerUpType)
     {
         case ResourceType::SHIELD_UP:
-            stats_.armor = typesStats_[getTankType()].armor;
+            stats_.armor = typesStats_[type_].armor;
             break;
 
         case ResourceType::TIER_UP:
-            if (static_cast<int>(getTankType()) < 3)
-                setType(
-                    static_cast<TankType>(static_cast<int>(getTankType()) + 1));
+            if (static_cast<int>(type_) < 3)
+                setType(static_cast<TankType>(static_cast<int>(type_) + 1));
             break;
 
         case ResourceType::SPEED_UP:

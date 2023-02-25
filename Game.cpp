@@ -304,7 +304,8 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
                         [&bullet](const auto& tank)
                         {
                             return tank.isWithin(bullet.getCenter()) &&
-                                   bullet.getTankType() != tank.getTankType();
+                                   bullet.isPlayerOrigin() !=
+                                       tank.isPlayerControlled();
                         });
 }
 

@@ -5,19 +5,19 @@
 #include "PointUtils.h"
 #include "Screen.h"
 
-Bullet::Bullet(Point startingPoint, unsigned int speed, TankType tankType,
+Bullet::Bullet(Point startingPoint, unsigned int speed, bool playerOrigin,
                unsigned int power, Direction direction)
     : Drawable({startingPoint.x - Config::getInstance().getBulletSize() / 2,
                 startingPoint.y - Config::getInstance().getBulletSize() / 2}),
       size_(Config::getInstance().getBulletSize()),
-      tankType_(tankType),
+      playerOrigin_(playerOrigin),
       direction_(direction),
       speed_(speed),
       power_(power)
 {
 }
 
-TankType Bullet::getTankType() const { return tankType_; }
+bool Bullet::isPlayerOrigin() const { return playerOrigin_; }
 
 unsigned int Bullet::getPower() const { return power_; }
 
