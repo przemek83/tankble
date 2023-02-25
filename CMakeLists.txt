@@ -56,6 +56,7 @@ set(${PROJECT_NAME}_SOURCES
         PointUtils.cpp
         PointUtils.h
         Direction.h
+        TankStats.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp

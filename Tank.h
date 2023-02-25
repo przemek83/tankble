@@ -6,6 +6,7 @@
 #include "Direction.h"
 #include "Drawable.h"
 #include "ResourceType.h"
+#include "TankStats.h"
 #include "TankType.h"
 
 class Map;
@@ -50,15 +51,7 @@ private:
     void addLife();
     void respawn();
 
-    struct Stats
-    {
-        unsigned int attackPower;
-        unsigned int armor;
-        unsigned int speed;
-        unsigned int lives;
-    };
-
-    std::map<TankType, Stats> typesStats_{
+    std::map<TankType, TankStats> typesStats_{
         {TankType::PLAYER_TIER_1, {2, 8, 4, 2}},
         {TankType::PLAYER_TIER_2, {4, 16, 4, 2}},
         {TankType::PLAYER_TIER_3, {8, 32, 6, 2}},
@@ -70,7 +63,7 @@ private:
 
     Direction direction_;
     TankType type_;
-    Stats stats_;
+    TankStats stats_;
     time_t lastFire_{0};
     const unsigned int initialX_;
     const unsigned int initialY_;
