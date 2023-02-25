@@ -26,7 +26,6 @@ public:
     bool canFire();
     bool hit(unsigned int power);
     unsigned int getSpeed() const;
-    unsigned int getPower() const;
     void resetFire();
     TankType getTankType() const;
     void move(Point point);

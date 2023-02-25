@@ -84,8 +84,6 @@ TankType Tank::getTankType() const { return type_; }
 
 void Tank::setSpeedUp() { stats_.speed++; }
 
-unsigned int Tank::getPower() const { return stats_.power; }
-
 unsigned int Tank::getSpeed() const { return stats_.speed; }
 
 Direction Tank::getDirection() const { return direction_; }
@@ -121,7 +119,8 @@ bool Tank::isPlayerControlled() const
 
 Bullet Tank::fire() const
 {
-    return {getCenter(), getSpeed(), getTankType(), getPower(), getDirection()};
+    return {getCenter(), getSpeed(), getTankType(), stats_.power,
+            getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition()
