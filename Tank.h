@@ -23,13 +23,15 @@ public:
 
     void setDirection(Direction direction);
     Direction getDirection() const;
+
+    Bullet fire() const;
     bool canFire();
-    bool hit(unsigned int power);
     void resetFire();
+
+    bool hit(unsigned int power);
     TankType getTankType() const;
     void move(Point point);
     bool isPlayerControlled() const;
-    Bullet fire() const;
 
     std::pair<int, int> getNextExpectedPosition();
 
