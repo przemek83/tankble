@@ -116,3 +116,25 @@ TEST_CASE("location related", "[tank]")
         REQUIRE(tank.isWithin(pointToTest) == expectedIsWithin);
     }
 }
+
+TEST_CASE("statistics", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("getting initial basic enemy statistics")
+    {
+        const Tank tank(TankType::ENEMY_TIER_1, point);
+        REQUIRE(tank.getStats().attackPower == 1);
+        REQUIRE(tank.getStats().health == 1);
+        REQUIRE(tank.getStats().speed == 4);
+        REQUIRE(tank.getStats().lives == 1);
+    }
+
+    SECTION("getting initial basic player statistics")
+    {
+        const Tank tank(TankType::PLAYER_TIER_1, point);
+        REQUIRE(tank.getStats().attackPower == 1);
+        REQUIRE(tank.getStats().health == 1);
+        REQUIRE(tank.getStats().speed == 4);
+        REQUIRE(tank.getStats().lives == 2);
+    }
+}
