@@ -33,6 +33,8 @@ public:
     void move(Point point);
     bool isPlayerControlled() const;
 
+    TankStats getStats() const;
+
     std::pair<int, int> getNextExpectedPosition();
 
     void applyPowerUp(ResourceType powerUpType);

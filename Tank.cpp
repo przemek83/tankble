@@ -110,6 +110,8 @@ bool Tank::isPlayerControlled() const
            type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
 }
 
+TankStats Tank::getStats() const { return stats_; }
+
 Bullet Tank::fire() const
 {
     return {getCenter(), stats_.speed, isPlayerControlled(), stats_.attackPower,
