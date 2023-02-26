@@ -62,12 +62,12 @@ bool Tank::canFire()
 
 bool Tank::hit(unsigned int power)
 {
-    if (power > stats_.armor)
-        stats_.armor = 0;
+    if (power > stats_.health)
+        stats_.health = 0;
     else
-        stats_.armor -= power;
+        stats_.health -= power;
 
-    if (stats_.armor == 0)
+    if (stats_.health == 0)
     {
         if (stats_.lives <= 1)
             return true;
@@ -133,7 +133,7 @@ void Tank::applyPowerUp(ResourceType powerUpType)
     switch (powerUpType)
     {
         case ResourceType::SHIELD_UP:
-            stats_.armor = typesStats_[type_].armor;
+            stats_.health = typesStats_[type_].health;
             break;
 
         case ResourceType::TIER_UP:
