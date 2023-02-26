@@ -32,7 +32,6 @@ public:
     bool hit(unsigned int power);
     void move(Point point);
     bool isPlayerControlled() const;
-    unsigned int getLives() const;
 
     std::pair<int, int> getNextExpectedPosition();
 
