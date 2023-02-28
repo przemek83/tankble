@@ -138,3 +138,31 @@ TEST_CASE("statistics", "[tank]")
         REQUIRE(tank.getStats().lives == 2);
     }
 }
+
+TEST_CASE("hitting", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("single hit, not destroying")
+    {
+        Tank tank(TankType::ENEMY_TIER_2, point);
+        REQUIRE(tank.getStats().health == 2);
+        tank.hit(1);
+        REQUIRE(tank.getStats().health == 1);
+    }
+
+    SECTION("double hit, not destroying")
+    {
+        Tank tank(TankType::ENEMY_TIER_3, point);
+        REQUIRE(tank.getStats().health == 3);
+        tank.hit(1);
+        tank.hit(1);
+        REQUIRE(tank.getStats().health == 1);
+    }
+
+    SECTION("single hit, destroying, no more lives")
+    {
+        Tank tank(TankType::ENEMY_TIER_1, point);
+        tank.hit(1);
+        REQUIRE(tank.getStats().health == 0);
+    }
+}
