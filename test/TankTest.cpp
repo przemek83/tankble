@@ -192,4 +192,12 @@ TEST_CASE("respawn", "[tank]")
         tank.hit(3);
         REQUIRE(tank.getLocation() == point);
     }
+
+    SECTION("check direction after respawn")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        tank.setDirection(Direction::LEFT);
+        tank.hit(3);
+        REQUIRE(tank.getDirection() == Direction::UP);
+    }
 }
