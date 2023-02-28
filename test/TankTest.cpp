@@ -145,7 +145,7 @@ TEST_CASE("hitting", "[tank]")
     SECTION("single hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_2, point);
-        REQUIRE(tank.getStats().health == 2);
+        CHECK(tank.getStats().health == 2);
         tank.hit(1);
         REQUIRE(tank.getStats().health == 1);
     }
@@ -153,7 +153,7 @@ TEST_CASE("hitting", "[tank]")
     SECTION("double hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_3, point);
-        REQUIRE(tank.getStats().health == 3);
+        CHECK(tank.getStats().health == 3);
         tank.hit(1);
         tank.hit(1);
         REQUIRE(tank.getStats().health == 1);
@@ -169,7 +169,7 @@ TEST_CASE("hitting", "[tank]")
     SECTION("single hit, destroying, 1 more life")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.getStats().lives == 2);
+        CHECK(tank.getStats().lives == 2);
         tank.hit(1);
         REQUIRE(tank.getStats().lives == 1);
     }
