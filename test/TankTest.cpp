@@ -174,3 +174,22 @@ TEST_CASE("hitting", "[tank]")
         REQUIRE(tank.getStats().lives == 1);
     }
 }
+
+TEST_CASE("respawn", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("checking downgrading after respawn")
+    {
+        Tank tank(TankType::PLAYER_TIER_3, point);
+        tank.hit(3);
+        REQUIRE(tank.getStats().health == 1);
+    }
+
+    SECTION("check positions after respawn")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        tank.move({200, 200});
+        tank.hit(3);
+        REQUIRE(tank.getLocation() == point);
+    }
+}
