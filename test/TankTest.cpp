@@ -115,6 +115,14 @@ TEST_CASE("location related", "[tank]")
         const Tank tank(TankType::ENEMY_TIER_1, point);
         REQUIRE(tank.isWithin(pointToTest) == expectedIsWithin);
     }
+
+    SECTION("moving")
+    {
+        const Point newPoint{200, 200};
+        Tank tank(TankType::ENEMY_TIER_1, point);
+        tank.move(newPoint);
+        REQUIRE(tank.getLocation() == newPoint);
+    }
 }
 
 TEST_CASE("statistics", "[tank]")
