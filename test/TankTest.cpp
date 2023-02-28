@@ -165,4 +165,12 @@ TEST_CASE("hitting", "[tank]")
         tank.hit(1);
         REQUIRE(tank.getStats().health == 0);
     }
+
+    SECTION("single hit, destroying, 1 more life")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        REQUIRE(tank.getStats().lives == 2);
+        tank.hit(1);
+        REQUIRE(tank.getStats().lives == 1);
+    }
 }
