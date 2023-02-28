@@ -70,9 +70,13 @@ bool Tank::hit(unsigned int power)
     if (stats_.health == 0)
     {
         if (stats_.lives <= 1)
+        {
+            stats_.lives = 0;
             return true;
-        stats_.lives--;
+        }
+        const unsigned int livesLeft = stats_.lives - 1;
         respawn();
+        stats_.lives = livesLeft;
     }
     return false;
 }
