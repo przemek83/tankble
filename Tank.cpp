@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <cstdlib>
-#include <ctime>
 #include <filesystem>
 #include <iostream>
 
@@ -48,9 +47,11 @@ void Tank::setType(TankType tankType)
 
 void Tank::setDirection(Direction direction) { direction_ = direction; }
 
-bool Tank::canFire(time_t currentTime)
+bool Tank::canFire(TimePoint currentTime)
 {
-    if (difftime(currentTime, lastFire_) > 1.0)
+    using std::chrono::duration_cast;
+    using std::chrono::seconds;
+    if (duration_cast<seconds>(currentTime - lastFire_) >= seconds(2))
     {
         lastFire_ = currentTime;
         return true;
@@ -164,7 +165,7 @@ bool Tank::isWithin(Point point) const
            point.y >= getY() && point.y < getY() + tileSize;
 }
 
-void Tank::resetFire() { lastFire_--; }
+void Tank::resetFire() { lastFire_ = TimePoint(); }
 
 void Tank::move(Point point)
 {

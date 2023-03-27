@@ -215,6 +215,8 @@ TEST_CASE("respawn", "[tank]")
 
 TEST_CASE("firing", "[tank]")
 {
+    using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
+
     const Point point{100, 100};
     SECTION("center of created bullet")
     {
@@ -228,9 +230,7 @@ TEST_CASE("firing", "[tank]")
 
     SECTION("first fire possibility")
     {
-        using namespace std::chrono_literals;
-        const time_t time{std::chrono::milliseconds(1s).count()};
         Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.canFire(time) == true);
+        REQUIRE(tank.canFire(TimePoint().max()) == true);
     }
 }

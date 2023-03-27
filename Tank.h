@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ctime>
+#include <chrono>
 #include <map>
 
 #include "Direction.h"
@@ -26,7 +26,9 @@ public:
     Direction getDirection() const;
 
     Bullet fire() const;
-    bool canFire(time_t currentTime);
+
+    using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
+    bool canFire(TimePoint currentTime);
     void resetFire();
 
     bool hit(unsigned int power);
@@ -79,7 +81,7 @@ private:
     Direction direction_;
     TankType type_;
     TankStats stats_;
-    time_t lastFire_{0};
+    TimePoint lastFire_{TimePoint()};
     const unsigned int initialX_;
     const unsigned int initialY_;
 };
