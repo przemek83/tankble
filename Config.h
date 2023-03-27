@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 class Config
 {
 public:
@@ -21,6 +23,8 @@ public:
 
     static unsigned int getRandomSeed();
 
+    inline std::chrono::seconds getFireDelay() const { return fireDelay; }
+
 private:
     Config() = default;
     ~Config() = default;
@@ -32,4 +36,5 @@ private:
     const unsigned int boardWidth_{tileCount_ * tileSize_};
     const unsigned int boardHeight_{boardWidth_};
     const unsigned int statusWidth_{boardWidth_ / 3};
+    const std::chrono::seconds fireDelay{2};
 };

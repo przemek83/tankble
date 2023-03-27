@@ -46,7 +46,8 @@ bool Tank::canFire(TimePoint currentTime) const
 {
     using std::chrono::duration_cast;
     using std::chrono::seconds;
-    return duration_cast<seconds>(currentTime - lastFire_) >= seconds(2);
+    return duration_cast<seconds>(currentTime - lastFire_) >=
+           Config::getInstance().getFireDelay();
 }
 
 bool Tank::hit(unsigned int power)
