@@ -42,17 +42,11 @@ void Tank::setType(TankType tankType)
 
 void Tank::setDirection(Direction direction) { direction_ = direction; }
 
-bool Tank::canFire(TimePoint currentTime)
+bool Tank::canFire(TimePoint currentTime) const
 {
     using std::chrono::duration_cast;
     using std::chrono::seconds;
-    if (duration_cast<seconds>(currentTime - lastFire_) >= seconds(2))
-    {
-        lastFire_ = currentTime;
-        return true;
-    }
-
-    return false;
+    return duration_cast<seconds>(currentTime - lastFire_) >= seconds(2);
 }
 
 bool Tank::hit(unsigned int power)
@@ -111,8 +105,9 @@ bool Tank::isPlayerControlled() const
 
 TankStats Tank::getStats() const { return stats_; }
 
-Bullet Tank::fire() const
+Bullet Tank::fire(TimePoint currentTime)
 {
+    lastFire_ = currentTime;
     return {getCenter(), stats_.speed, isPlayerControlled(), stats_.attackPower,
             getDirection()};
 }

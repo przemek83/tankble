@@ -25,10 +25,9 @@ public:
     void setDirection(Direction direction);
     Direction getDirection() const;
 
-    Bullet fire() const;
-
     using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
-    bool canFire(TimePoint currentTime);
+    Bullet fire(TimePoint currentTime);
+    bool canFire(TimePoint currentTime) const;
     void resetFire();
 
     bool hit(unsigned int power);

@@ -221,8 +221,8 @@ TEST_CASE("firing", "[tank]")
     SECTION("center of created bullet")
     {
         const unsigned int tileSize{Config::getInstance().getTileSize()};
-        const Tank tank(TankType::PLAYER_TIER_1, point);
-        const Bullet bullet = tank.fire();
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        const Bullet bullet = tank.fire(TimePoint::max());
         const Point expectedBulletCenter{point.x + tileSize / 2,
                                          point.y + tileSize / 2};
         REQUIRE(bullet.getCenter() == expectedBulletCenter);
@@ -231,6 +231,6 @@ TEST_CASE("firing", "[tank]")
     SECTION("first fire possibility")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.canFire(TimePoint().max()) == true);
+        REQUIRE(tank.canFire(TimePoint::max()) == true);
     }
 }

@@ -208,9 +208,10 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
         {
             setPower(tank, map);
             const auto actions{Input::getGameActions()};
+            const auto now{std::chrono::system_clock::now()};
             if (actions.find(InputAction::FIRE) != actions.end() &&
-                tank.canFire(std::chrono::system_clock::now()))
-                bullets.emplace_back(tank.fire());
+                tank.canFire(now))
+                bullets.emplace_back(tank.fire(now));
 
             bool shouldMove{false};
             std::tie(shouldMove, direction) = inputActionsToDirection(actions);
@@ -219,8 +220,9 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
         }
         else
         {
-            if (tank.canFire(std::chrono::system_clock::now()))
-                bullets.emplace_back(tank.fire());
+            const auto now{std::chrono::system_clock::now()};
+            if (tank.canFire(now))
+                bullets.emplace_back(tank.fire(now));
             const int randomDirection{distribution(randomGenerator_)};
             if (tank.getX() % Config::getInstance().getTileSize() == 0 &&
                 tank.getY() % Config::getInstance().getTileSize() == 0 &&
