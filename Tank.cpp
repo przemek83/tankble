@@ -1,10 +1,5 @@
 #include "Tank.h"
 
-#include <cmath>
-#include <cstdlib>
-#include <filesystem>
-#include <iostream>
-
 #include "Bullet.h"
 #include "Config.h"
 #include "Direction.h"
