@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
 
+#include "Bullet.h"
 #include "Config.h"
 #include "Tank.h"
 
@@ -207,5 +208,19 @@ TEST_CASE("respawn", "[tank]")
         tank.setDirection(Direction::LEFT);
         tank.hit(3);
         REQUIRE(tank.getDirection() == Direction::UP);
+    }
+}
+
+TEST_CASE("firing", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("center of created bullet")
+    {
+        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        const Tank tank(TankType::PLAYER_TIER_1, point);
+        const Bullet bullet = tank.fire();
+        const Point expectedBulletCenter{point.x + tileSize / 2,
+                                         point.y + tileSize / 2};
+        REQUIRE(bullet.getCenter() == expectedBulletCenter);
     }
 }
