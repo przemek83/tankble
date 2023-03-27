@@ -216,6 +216,7 @@ TEST_CASE("respawn", "[tank]")
 TEST_CASE("firing", "[tank]")
 {
     using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
+    std::chrono::seconds delay{Config::getInstance().getFireDelay()};
 
     const Point point{100, 100};
     SECTION("center of created bullet")
@@ -231,22 +232,22 @@ TEST_CASE("firing", "[tank]")
     SECTION("first fire possibility")
     {
         const Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.canFire(TimePoint() + std::chrono::seconds(2)) == true);
+        REQUIRE(tank.canFire(TimePoint() + delay) == true);
     }
 
     SECTION("second fire too soon")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const TimePoint firstFireTime{TimePoint() + std::chrono::seconds(2)};
+        const TimePoint firstFireTime{TimePoint() + delay};
         tank.fire(firstFireTime);
-        REQUIRE(tank.canFire(firstFireTime + std::chrono::seconds(1)) == false);
+        REQUIRE(tank.canFire(firstFireTime + delay / 2) == false);
     }
 
     SECTION("second fire possible")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const TimePoint firstFireTime{TimePoint() + std::chrono::seconds(2)};
+        const TimePoint firstFireTime{TimePoint() + delay};
         tank.fire(firstFireTime);
-        REQUIRE(tank.canFire(firstFireTime + std::chrono::seconds(2)) == true);
+        REQUIRE(tank.canFire(firstFireTime + delay) == true);
     }
 }
