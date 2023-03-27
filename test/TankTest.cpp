@@ -241,4 +241,12 @@ TEST_CASE("firing", "[tank]")
         tank.fire(firstFireTime);
         REQUIRE(tank.canFire(firstFireTime + std::chrono::seconds(1)) == false);
     }
+
+    SECTION("second fire possible")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        const TimePoint firstFireTime{TimePoint() + std::chrono::seconds(2)};
+        tank.fire(firstFireTime);
+        REQUIRE(tank.canFire(firstFireTime + std::chrono::seconds(2)) == true);
+    }
 }
