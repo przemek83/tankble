@@ -203,6 +203,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 
     std::uniform_int_distribution<> distribution(0, 7);
 
+    const time_t currentTime{time(nullptr)};
     for (auto& tank : tanks)
     {
         Direction direction{Direction::UP};
@@ -211,7 +212,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             setPower(tank, map);
             const auto actions{Input::getGameActions()};
             if (actions.find(InputAction::FIRE) != actions.end() &&
-                tank.canFire())
+                tank.canFire(currentTime))
                 bullets.emplace_back(tank.fire());
 
             bool shouldMove{false};
@@ -221,7 +222,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
         }
         else
         {
-            if (tank.canFire())
+            if (tank.canFire(currentTime))
                 bullets.emplace_back(tank.fire());
             const int randomDirection{distribution(randomGenerator_)};
             if (tank.getX() % Config::getInstance().getTileSize() == 0 &&

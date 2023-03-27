@@ -26,7 +26,7 @@ public:
     Direction getDirection() const;
 
     Bullet fire() const;
-    bool canFire();
+    bool canFire(time_t currentTime);
     void resetFire();
 
     bool hit(unsigned int power);

@@ -48,12 +48,11 @@ void Tank::setType(TankType tankType)
 
 void Tank::setDirection(Direction direction) { direction_ = direction; }
 
-bool Tank::canFire()
+bool Tank::canFire(time_t currentTime)
 {
-    const time_t ti = time(nullptr);
-    if (difftime(ti, lastFire_) > 1.0)
+    if (difftime(currentTime, lastFire_) > 1.0)
     {
-        lastFire_ = ti;
+        lastFire_ = currentTime;
         return true;
     }
 
