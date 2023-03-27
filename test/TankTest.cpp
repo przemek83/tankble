@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
 
@@ -222,5 +224,13 @@ TEST_CASE("firing", "[tank]")
         const Point expectedBulletCenter{point.x + tileSize / 2,
                                          point.y + tileSize / 2};
         REQUIRE(bullet.getCenter() == expectedBulletCenter);
+    }
+
+    SECTION("first fire possibility")
+    {
+        using namespace std::chrono_literals;
+        const time_t time{std::chrono::milliseconds(1s).count()};
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        REQUIRE(tank.canFire(time) == true);
     }
 }
