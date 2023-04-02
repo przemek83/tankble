@@ -260,3 +260,35 @@ TEST_CASE("firing", "[tank]")
         REQUIRE(tank.canFire(firstFireTime + delay / 2) == true);
     }
 }
+
+namespace
+{
+void statsAreSame(TankStats left, TankStats right)
+{
+    REQUIRE(left.attackPower == right.attackPower);
+    REQUIRE(left.health == right.health);
+    REQUIRE(left.lives == right.lives);
+    REQUIRE(left.speed == right.speed);
+}
+}  // namespace
+
+TEST_CASE("power-ups", "[tank]")
+{
+    const Point point{100, 100};
+    SECTION("shield-up full health")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        const TankStats initialStats{tank.getStats()};
+        tank.applyPowerUp(ResourceType::SHIELD_UP);
+        statsAreSame(tank.getStats(), initialStats);
+    }
+
+    SECTION("shield-up partial health")
+    {
+        Tank tank(TankType::PLAYER_TIER_4, point);
+        const TankStats initialStats{tank.getStats()};
+        tank.hit(1);
+        tank.applyPowerUp(ResourceType::SHIELD_UP);
+        statsAreSame(tank.getStats(), initialStats);
+    }
+}
