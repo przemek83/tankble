@@ -131,7 +131,7 @@ TEST_CASE("location related", "[tank]")
     {
         Tank tank(TankType::ENEMY_TIER_1, point);
         std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition == std::pair<int, int>{100, 101});
+        REQUIRE(nextPosition == std::pair<int, int>{100, 102});
     }
 
     SECTION("next position after direction change")
@@ -139,9 +139,28 @@ TEST_CASE("location related", "[tank]")
         Tank tank(TankType::ENEMY_TIER_1, point);
         tank.setDirection(Direction::LEFT);
         std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition == std::pair<int, int>{99, 100});
+        REQUIRE(nextPosition == std::pair<int, int>{98, 100});
+    }
+
+    SECTION("next position after speed change")
+    {
+        Tank tank(TankType::ENEMY_TIER_1, point);
+        tank.applyPowerUp(ResourceType::SPEED_UP);
+        std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
+        REQUIRE(nextPosition == std::pair<int, int>{100, 103});
     }
 }
+
+namespace
+{
+void statsAreSame(TankStats left, TankStats right)
+{
+    REQUIRE(left.attackPower == right.attackPower);
+    REQUIRE(left.health == right.health);
+    REQUIRE(left.lives == right.lives);
+    REQUIRE(left.speed == right.speed);
+}
+}  // namespace
 
 TEST_CASE("statistics", "[tank]")
 {
@@ -149,19 +168,13 @@ TEST_CASE("statistics", "[tank]")
     SECTION("getting initial basic enemy statistics")
     {
         const Tank tank(TankType::ENEMY_TIER_1, point);
-        REQUIRE(tank.getStats().attackPower == 1);
-        REQUIRE(tank.getStats().health == 1);
-        REQUIRE(tank.getStats().speed == 4);
-        REQUIRE(tank.getStats().lives == 1);
+        statsAreSame(tank.getStats(), {1, 1, 2, 1});
     }
 
     SECTION("getting initial basic player statistics")
     {
         const Tank tank(TankType::PLAYER_TIER_1, point);
-        REQUIRE(tank.getStats().attackPower == 1);
-        REQUIRE(tank.getStats().health == 1);
-        REQUIRE(tank.getStats().speed == 4);
-        REQUIRE(tank.getStats().lives == 2);
+        statsAreSame(tank.getStats(), {1, 1, 2, 2});
     }
 }
 
@@ -275,17 +288,6 @@ TEST_CASE("firing", "[tank]")
         REQUIRE(tank.canFire(firstFireTime + delay / 2) == true);
     }
 }
-
-namespace
-{
-void statsAreSame(TankStats left, TankStats right)
-{
-    REQUIRE(left.attackPower == right.attackPower);
-    REQUIRE(left.health == right.health);
-    REQUIRE(left.lives == right.lives);
-    REQUIRE(left.speed == right.speed);
-}
-}  // namespace
 
 TEST_CASE("power-ups", "[tank]")
 {
