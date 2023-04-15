@@ -109,15 +109,16 @@ TankStats Tank::getStats() const { return stats_; }
 Bullet Tank::fire(TimePoint currentTime)
 {
     lastFire_ = currentTime;
-    return {getCenter(), stats_.speed, isPlayerControlled(), stats_.attackPower,
-            getDirection()};
+    return {getCenter(), stats_.speed + 2, isPlayerControlled(),
+            stats_.attackPower, getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition()
 {
+    const int speed{static_cast<int>(stats_.speed)};
     std::pair<int, int> nextPosition{
-        static_cast<int>(getX()) + getDirectionX(),
-        static_cast<int>(getY()) + getDirectionY()};
+        static_cast<int>(getX()) + getDirectionX() * speed,
+        static_cast<int>(getY()) + getDirectionY() * speed};
     return nextPosition;
 }
 
