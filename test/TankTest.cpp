@@ -313,4 +313,12 @@ TEST_CASE("power-ups", "[tank]")
         tank.applyPowerUp(ResourceType::TIER_UP);
         REQUIRE(tank.getResourceType() == ResourceType::PLAYER_TANK_TIER_4);
     }
+
+    SECTION("speed-up")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        const unsigned int initialSpeed{tank.getStats().speed};
+        tank.applyPowerUp(ResourceType::SPEED_UP);
+        REQUIRE(initialSpeed < tank.getStats().speed);
+    }
 }
