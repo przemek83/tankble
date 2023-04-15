@@ -54,7 +54,7 @@ private:
 
     static const unsigned int BASIC_ATTACK{1};
     static const unsigned int BASIC_HEALTH{1};
-    static const unsigned int BASIC_SPEED{4};
+    static const unsigned int BASIC_SPEED{2};
     static const unsigned int SINGLE_LIFE{1};
 
     std::map<TankType, TankStats> typesStats_{
@@ -63,19 +63,19 @@ private:
         {TankType::PLAYER_TIER_2,
          {2 * BASIC_ATTACK, 2 * BASIC_HEALTH, BASIC_SPEED, 2 * SINGLE_LIFE}},
         {TankType::PLAYER_TIER_3,
-         {3 * BASIC_ATTACK, 3 * BASIC_HEALTH, BASIC_SPEED + 2,
+         {3 * BASIC_ATTACK, 3 * BASIC_HEALTH, BASIC_SPEED + 1,
           2 * SINGLE_LIFE}},
         {TankType::PLAYER_TIER_4,
-         {4 * BASIC_ATTACK, 4 * BASIC_HEALTH, BASIC_SPEED + 4,
+         {4 * BASIC_ATTACK, 4 * BASIC_HEALTH, BASIC_SPEED + 2,
           2 * SINGLE_LIFE}},
         {TankType::ENEMY_TIER_1,
          {BASIC_ATTACK, BASIC_HEALTH, BASIC_SPEED, SINGLE_LIFE}},
         {TankType::ENEMY_TIER_2,
          {2 * BASIC_ATTACK, 2 * BASIC_HEALTH, BASIC_SPEED, SINGLE_LIFE}},
         {TankType::ENEMY_TIER_3,
-         {3 * BASIC_ATTACK, 3 * BASIC_HEALTH, BASIC_SPEED + 2, SINGLE_LIFE}},
+         {3 * BASIC_ATTACK, 3 * BASIC_HEALTH, BASIC_SPEED + 1, SINGLE_LIFE}},
         {TankType::ENEMY_TIER_4,
-         {4 * BASIC_ATTACK, 4 * BASIC_HEALTH, BASIC_SPEED + 4, SINGLE_LIFE}}};
+         {4 * BASIC_ATTACK, 4 * BASIC_HEALTH, BASIC_SPEED + 2, SINGLE_LIFE}}};
 
     Direction direction_;
     TankType type_;
