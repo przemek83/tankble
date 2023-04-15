@@ -89,26 +89,19 @@ bool Game::tankIsInMap(int newX, int newY)
 
 void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
 {
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
     switch (direction)
     {
         case Direction::UP:
         case Direction::DOWN:
         {
             if (!map.canDrive(point) ||
-                !map.canDrive(
-                    {point.x,
-                     point.y + Config::getInstance().getTileSize() - 1}))
-                point.x = (point.x / Config::getInstance().getTileSize() + 1) *
-                          Config::getInstance().getTileSize();
+                !map.canDrive({point.x, point.y + tileSize - 1}))
+                point.x = (point.x / tileSize + 1) * tileSize;
 
-            if (!map.canDrive(
-                    {point.x + Config::getInstance().getTileSize() - 1,
-                     point.y}) ||
-                !map.canDrive(
-                    {point.x + Config::getInstance().getTileSize() - 1,
-                     point.y + Config::getInstance().getTileSize() - 1}))
-                point.x = (point.x / Config::getInstance().getTileSize()) *
-                          Config::getInstance().getTileSize();
+            if (!map.canDrive({point.x + tileSize - 1, point.y}) ||
+                !map.canDrive({point.x + tileSize - 1, point.y + tileSize - 1}))
+                point.x = (point.x / tileSize) * tileSize;
             break;
         }
 
@@ -116,20 +109,12 @@ void Game::shiftIfNeeded(Point& point, const Map& map, Direction direction)
         case Direction::RIGHT:
         {
             if (!map.canDrive(point) ||
-                !map.canDrive(
-                    {point.x + Config::getInstance().getTileSize() - 1,
-                     point.y}))
-                point.y = (point.y / Config::getInstance().getTileSize() + 1) *
-                          Config::getInstance().getTileSize();
+                !map.canDrive({point.x + tileSize - 1, point.y}))
+                point.y = (point.y / tileSize + 1) * tileSize;
 
-            if (!map.canDrive(
-                    {point.x,
-                     point.y + Config::getInstance().getTileSize() - 1}) ||
-                !map.canDrive(
-                    {point.x + Config::getInstance().getTileSize() - 1,
-                     point.y + Config::getInstance().getTileSize() - 1}))
-                point.y = (point.y / Config::getInstance().getTileSize()) *
-                          Config::getInstance().getTileSize();
+            if (!map.canDrive({point.x, point.y + tileSize - 1}) ||
+                !map.canDrive({point.x + tileSize - 1, point.y + tileSize - 1}))
+                point.y = (point.y / tileSize) * tileSize;
             break;
         }
     }
