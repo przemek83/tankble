@@ -291,4 +291,12 @@ TEST_CASE("power-ups", "[tank]")
         tank.applyPowerUp(ResourceType::SHIELD_UP);
         statsAreSame(tank.getStats(), initialStats);
     }
+
+    SECTION("life-up")
+    {
+        Tank tank(TankType::PLAYER_TIER_4, point);
+        const unsigned int initialLives{tank.getStats().lives};
+        tank.applyPowerUp(ResourceType::LIFE_UP);
+        REQUIRE(initialLives + 1 == tank.getStats().lives);
+    }
 }
