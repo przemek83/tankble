@@ -297,7 +297,7 @@ TEST_CASE("power-ups", "[tank]")
         Tank tank(TankType::PLAYER_TIER_4, point);
         const unsigned int initialLives{tank.getStats().lives};
         tank.applyPowerUp(ResourceType::LIFE_UP);
-        REQUIRE(initialLives + 1 == tank.getStats().lives);
+        REQUIRE(tank.getStats().lives == initialLives + 1);
     }
 
     SECTION("tier-up basic tank")
@@ -319,6 +319,6 @@ TEST_CASE("power-ups", "[tank]")
         Tank tank(TankType::PLAYER_TIER_1, point);
         const unsigned int initialSpeed{tank.getStats().speed};
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        REQUIRE(initialSpeed < tank.getStats().speed);
+        REQUIRE(tank.getStats().speed > initialSpeed);
     }
 }
