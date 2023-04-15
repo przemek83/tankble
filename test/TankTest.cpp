@@ -306,4 +306,11 @@ TEST_CASE("power-ups", "[tank]")
         tank.applyPowerUp(ResourceType::TIER_UP);
         REQUIRE(tank.getResourceType() == ResourceType::PLAYER_TANK_TIER_2);
     }
+
+    SECTION("tier-up max tier tank")
+    {
+        Tank tank(TankType::PLAYER_TIER_4, point);
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        REQUIRE(tank.getResourceType() == ResourceType::PLAYER_TANK_TIER_4);
+    }
 }
