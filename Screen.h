@@ -33,7 +33,7 @@ public:
                           unsigned int y, unsigned int size) const;
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
-                                      unsigned int y, int size,
+                                      unsigned int y, unsigned int size,
                                       unsigned int degrees) const;
 
     static void clearScreenWithBlack();

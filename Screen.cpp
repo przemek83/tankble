@@ -81,7 +81,8 @@ void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
 
 void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
                                           unsigned int x, unsigned int y,
-                                          int size, unsigned int degrees) const
+                                          unsigned int size,
+                                          unsigned int degrees) const
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     const auto width = static_cast<float>(al_get_bitmap_width(bitmapToUse));
