@@ -40,7 +40,8 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
 std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
                                          Direction direction)
 {
-    const unsigned int oneThirdOfTank{Config::getInstance().getTileSize() / 3};
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const unsigned int oneThirdOfTank{tileSize / 3};
     switch (direction)
     {
         case Direction::UP:
@@ -51,11 +52,10 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
         }
         case Direction::DOWN:
         {
-            return {
-                {leftUpperCorner.x + oneThirdOfTank,
-                 leftUpperCorner.y + Config::getInstance().getTileSize() - 1},
-                {leftUpperCorner.x + 2 * oneThirdOfTank,
-                 leftUpperCorner.y + Config::getInstance().getTileSize() - 1}};
+            return {{leftUpperCorner.x + oneThirdOfTank,
+                     leftUpperCorner.y + tileSize - 1},
+                    {leftUpperCorner.x + 2 * oneThirdOfTank,
+                     leftUpperCorner.y + tileSize - 1}};
         }
         case Direction::LEFT:
         {
@@ -65,11 +65,10 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
         }
         case Direction::RIGHT:
         {
-            return {
-                {leftUpperCorner.x + Config::getInstance().getTileSize() - 1,
-                 leftUpperCorner.y + oneThirdOfTank},
-                {leftUpperCorner.x + Config::getInstance().getTileSize() - 1,
-                 leftUpperCorner.y + 2 * oneThirdOfTank}};
+            return {{leftUpperCorner.x + tileSize - 1,
+                     leftUpperCorner.y + oneThirdOfTank},
+                    {leftUpperCorner.x + tileSize - 1,
+                     leftUpperCorner.y + 2 * oneThirdOfTank}};
         }
     }
 
