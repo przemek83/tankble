@@ -299,4 +299,11 @@ TEST_CASE("power-ups", "[tank]")
         tank.applyPowerUp(ResourceType::LIFE_UP);
         REQUIRE(initialLives + 1 == tank.getStats().lives);
     }
+
+    SECTION("tier-up basic tank")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        REQUIRE(tank.getResourceType() == ResourceType::PLAYER_TANK_TIER_2);
+    }
 }
