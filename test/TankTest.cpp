@@ -331,6 +331,35 @@ TEST_CASE("power-ups", "[tank]")
         REQUIRE(tank.getResourceType() == ResourceType::PLAYER_TANK_TIER_4);
     }
 
+    SECTION("tier-up keep lives")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        tank.applyPowerUp(ResourceType::LIFE_UP);
+        const unsigned int initialLives{tank.getStats().lives};
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        REQUIRE(tank.getStats().lives == initialLives);
+    }
+
+    SECTION("tier-up keep speed new tier slower")
+    {
+        Tank tank(TankType::PLAYER_TIER_2, point);
+        tank.applyPowerUp(ResourceType::SPEED_UP);
+        tank.applyPowerUp(ResourceType::SPEED_UP);
+        const unsigned int initialSpeed{tank.getStats().speed};
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        REQUIRE(tank.getStats().speed == initialSpeed);
+    }
+
+    SECTION("tier-up keep speed new tier faster")
+    {
+        Tank tank(TankType::PLAYER_TIER_2, point);
+        tank.applyPowerUp(ResourceType::SPEED_UP);
+        const unsigned int initialSpeed{tank.getStats().speed};
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        tank.applyPowerUp(ResourceType::TIER_UP);
+        REQUIRE(tank.getStats().speed > initialSpeed);
+    }
+
     SECTION("speed-up")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);

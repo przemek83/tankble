@@ -134,7 +134,12 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 
         case ResourceType::TIER_UP:
             if (static_cast<int>(type_) < 3)
+            {
+                const TankStats oldStats{stats_};
                 setType(static_cast<TankType>(static_cast<int>(type_) + 1));
+                stats_.lives = oldStats.lives;
+                stats_.speed = std::max(oldStats.speed, stats_.speed);
+            }
             break;
 
         case ResourceType::SPEED_UP:
