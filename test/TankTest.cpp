@@ -126,6 +126,21 @@ TEST_CASE("location related", "[tank]")
         tank.move(newPoint);
         REQUIRE(tank.getLocation() == newPoint);
     }
+
+    SECTION("next position")
+    {
+        Tank tank(TankType::ENEMY_TIER_1, point);
+        std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
+        REQUIRE(nextPosition == std::pair<int, int>{100, 101});
+    }
+
+    SECTION("next position after direction change")
+    {
+        Tank tank(TankType::ENEMY_TIER_1, point);
+        tank.setDirection(Direction::LEFT);
+        std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
+        REQUIRE(nextPosition == std::pair<int, int>{99, 100});
+    }
 }
 
 TEST_CASE("statistics", "[tank]")
