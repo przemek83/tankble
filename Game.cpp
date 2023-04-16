@@ -15,8 +15,8 @@
 #include "Tank.h"
 
 Game::Game(Screen& screen)
-    : randomGenerator_(Config::getRandomSeed()),
-      status_({Config::getInstance().getBoardWidth(), 0}),
+    : status_({Config::getInstance().getBoardWidth(), 0}),
+      randomGenerator_(Config::getRandomSeed()),
       screen_(screen)
 {
 }
