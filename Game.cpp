@@ -314,11 +314,11 @@ void Game::drawBullets(const std::list<Bullet>& bullets)
 void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
                 Map& map)
 {
-    status_.update(getPlayerTank(tanks).getStats(), screen_);
     map.drawBackground(screen_);
     drawTanks(tanks);
     drawBullets(bullets);
     map.drawForeground(screen_);
+    status_.update(getPlayerTank(tanks).getStats(), screen_);
 }
 
 void Game::setPower(Tank& tank, Map& map)
