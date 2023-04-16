@@ -52,12 +52,12 @@ bool Tank::canFire(TimePoint currentTime) const
 
 bool Tank::hit(unsigned int power)
 {
-    if (power > stats_.health)
-        stats_.health = 0;
+    if (power > stats_.shield)
+        stats_.shield = 0;
     else
-        stats_.health -= power;
+        stats_.shield -= power;
 
-    if (stats_.health == 0)
+    if (stats_.shield == 0)
     {
         if (stats_.lives <= 1)
         {
@@ -129,7 +129,7 @@ void Tank::applyPowerUp(ResourceType powerUpType)
     switch (powerUpType)
     {
         case ResourceType::SHIELD_UP:
-            stats_.health = typesStats_[type_].health;
+            stats_.shield = typesStats_[type_].shield;
             break;
 
         case ResourceType::TIER_UP:

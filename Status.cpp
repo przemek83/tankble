@@ -8,7 +8,7 @@ Status::Status(Point point) : Drawable(point) {}
 void Status::update(TankStats newStats, const Screen& screen)
 {
     if (stats_.attackPower != newStats.attackPower ||
-        stats_.health != newStats.health || stats_.lives != newStats.lives ||
+        stats_.shield != newStats.shield || stats_.lives != newStats.lives ||
         stats_.speed != newStats.speed)
     {
         stats_ = newStats;
@@ -22,7 +22,7 @@ void Status::draw(const Screen& screen) const
     screen.drawTextWithBackground(getCenter().x, spacer * 1,
                                   "Lives: " + std::to_string(stats_.lives));
     screen.drawTextWithBackground(getCenter().x, spacer * 2,
-                                  "Health: " + std::to_string(stats_.health));
+                                  "Shield: " + std::to_string(stats_.shield));
     screen.drawTextWithBackground(getCenter().x, spacer * 3,
                                   "Speed: " + std::to_string(stats_.speed));
     screen.drawTextWithBackground(

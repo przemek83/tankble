@@ -156,7 +156,7 @@ namespace
 void statsAreSame(TankStats left, TankStats right)
 {
     REQUIRE(left.attackPower == right.attackPower);
-    REQUIRE(left.health == right.health);
+    REQUIRE(left.shield == right.shield);
     REQUIRE(left.lives == right.lives);
     REQUIRE(left.speed == right.speed);
 }
@@ -184,25 +184,25 @@ TEST_CASE("hitting", "[tank]")
     SECTION("single hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_2, point);
-        CHECK(tank.getStats().health == 2);
+        CHECK(tank.getStats().shield == 2);
         tank.hit(1);
-        REQUIRE(tank.getStats().health == 1);
+        REQUIRE(tank.getStats().shield == 1);
     }
 
     SECTION("double hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_3, point);
-        CHECK(tank.getStats().health == 3);
+        CHECK(tank.getStats().shield == 3);
         tank.hit(1);
         tank.hit(1);
-        REQUIRE(tank.getStats().health == 1);
+        REQUIRE(tank.getStats().shield == 1);
     }
 
     SECTION("single hit, destroying, no more lives")
     {
         Tank tank(TankType::ENEMY_TIER_1, point);
         tank.hit(1);
-        REQUIRE(tank.getStats().health == 0);
+        REQUIRE(tank.getStats().shield == 0);
     }
 
     SECTION("single hit, destroying, 1 more life")
@@ -221,7 +221,7 @@ TEST_CASE("respawn", "[tank]")
     {
         Tank tank(TankType::PLAYER_TIER_3, point);
         tank.hit(3);
-        REQUIRE(tank.getStats().health == 1);
+        REQUIRE(tank.getStats().shield == 1);
     }
 
     SECTION("check positions after respawn")
