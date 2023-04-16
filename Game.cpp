@@ -75,17 +75,6 @@ std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
     return {};
 }
 
-bool Game::tankIsInMap(int newX, int newY)
-{
-    const int sizeOfElementMinusOnePixel{
-        static_cast<int>(Config::getInstance().getTileSize()) - 1};
-    return PointUtils::isValidPoint(newX, newY) &&
-           PointUtils::isValidPoint(newX + sizeOfElementMinusOnePixel, newY) &&
-           PointUtils::isValidPoint(newX, newY + sizeOfElementMinusOnePixel) &&
-           PointUtils::isValidPoint(newX + sizeOfElementMinusOnePixel,
-                                    newY + sizeOfElementMinusOnePixel);
-}
-
 void Game::shiftIfNeeded(Point& leftUpper, const Map& map, Direction direction)
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
@@ -143,7 +132,8 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (!tankIsInMap(newX, newY))
+    if (!PointUtils::isValidPoint(newX, newY,
+                                  Config::getInstance().getTileSize()))
         return;
 
     const auto pointsToCheck{getMovingPoints(

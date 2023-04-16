@@ -45,10 +45,9 @@ private:
 
     static std::vector<Point> getMovingPoints(Point leftUpperCorner,
                                               Direction direction);
-    static bool tankIsInMap(int newX, int newY);
+
     static void shiftIfNeeded(Point& leftUpper, const Map& map,
                               Direction direction);
-
     static void shiftRight(Point& point, unsigned int tileSize);
     static void shiftLeft(Point& point, unsigned int tileSize);
     static void shiftUp(Point& point, unsigned int tileSize);

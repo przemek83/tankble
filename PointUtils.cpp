@@ -9,12 +9,12 @@ Point pointFromSigned(int x, int y)
     return {static_cast<unsigned int>(x), static_cast<unsigned int>(y)};
 }
 
-bool isValidPoint(int x, int y) { return isValidPoint(x, y, 0); }
+bool isValidPoint(int x, int y) { return isValidPoint(x, y, 1); }
 
 bool isValidPoint(int x, int y, unsigned int objectSize)
 {
-    const int maxCoordinate{
-        static_cast<int>(Config::getInstance().getBoardWidth() - objectSize)};
+    const int maxCoordinate{static_cast<int>(
+        Config::getInstance().getBoardWidth() - (objectSize - 1))};
     return x < maxCoordinate && y < maxCoordinate && y >= 0 && x >= 0;
 }
 
