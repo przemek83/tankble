@@ -15,7 +15,9 @@
 #include "Tank.h"
 
 Game::Game(Screen& screen)
-    : randomGenerator_(Config::getRandomSeed()), screen_(screen)
+    : randomGenerator_(Config::getRandomSeed()),
+      status_({Config::getInstance().getBoardWidth(), 0}),
+      screen_(screen)
 {
 }
 
@@ -181,14 +183,6 @@ bool Game::play()
     return true;
 }
 
-void Game::drawStatusPlaceholder()
-{
-    screen_.drawText(Config::getInstance().getBoardWidth() +
-                         Config::getInstance().getSatusWidth() / 2,
-                     Config::getInstance().getBoardHeight() / 2,
-                     "[Status placeholder]");
-}
-
 void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
@@ -316,7 +310,7 @@ void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
     drawTanks(tanks);
     drawBullets(bullets);
     map.drawForeground(screen_);
-    drawStatusPlaceholder();
+    status_.draw(screen_);
 }
 
 void Game::setPower(Tank& tank, Map& map)

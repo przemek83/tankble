@@ -43,7 +43,7 @@ void Screen::init()
     al_set_window_title(al_get_current_display(), "TankBle");
 }
 
-void Screen::drawText(unsigned int x, unsigned y, const std::string& text)
+void Screen::drawText(unsigned int x, unsigned y, const std::string& text) const
 {
     const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
     al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),

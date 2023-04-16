@@ -22,7 +22,7 @@ public:
 
     static void init();
 
-    void drawText(unsigned int x, unsigned y, const std::string& text);
+    void drawText(unsigned int x, unsigned y, const std::string& text) const;
 
     void drawBackground(ResourceType resourceType) const;
 

@@ -7,8 +7,9 @@
 #include <vector>
 
 #include "Direction.h"
+#include "Status.h"
 
-class Point;
+struct Point;
 class Tank;
 class Map;
 class Screen;
@@ -32,7 +33,6 @@ private:
     static std::list<Tank>::iterator hitTank(const Bullet& bullet,
                                              std::list<Tank>& tanks);
 
-    void drawStatusPlaceholder();
     void drawTanks(const std::list<Tank>& tanks);
     void drawEndOfGame(const std::string& text);
     void drawBullets(const std::list<Bullet>& bullets);
@@ -53,6 +53,7 @@ private:
     static void shiftUp(Point& point, unsigned int tileSize);
     static void shiftDown(Point& point, unsigned int tileSize);
 
+    Status status_;
     std::mt19937 randomGenerator_;
     Screen& screen_;
     bool playerDestroyed_{false};
