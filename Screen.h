@@ -24,6 +24,9 @@ public:
 
     void drawText(unsigned int x, unsigned y, const std::string& text) const;
 
+    void drawTextWithBackground(unsigned int x, unsigned y,
+                                const std::string& text) const;
+
     void drawBackground(ResourceType resourceType) const;
 
     void drawBitmap(ResourceType resourceType, unsigned int x,

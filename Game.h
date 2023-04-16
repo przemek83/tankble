@@ -53,6 +53,8 @@ private:
     static void shiftUp(Point& point, unsigned int tileSize);
     static void shiftDown(Point& point, unsigned int tileSize);
 
+    static const Tank& getPlayerTank(const std::list<Tank>& tanks);
+
     Status status_;
     std::mt19937 randomGenerator_;
     Screen& screen_;

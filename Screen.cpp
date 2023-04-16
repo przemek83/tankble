@@ -2,8 +2,9 @@
 
 #include <iostream>
 
+#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
-#include "allegro5/allegro_font.h"
+#include <allegro5/allegro_primitives.h>
 
 #include "Config.h"
 
@@ -39,6 +40,7 @@ void Screen::init()
 
     al_init_image_addon();
     al_init_font_addon();
+    al_init_primitives_addon();
 
     al_set_window_title(al_get_current_display(), "TankBle");
 }
@@ -48,6 +50,19 @@ void Screen::drawText(unsigned int x, unsigned y, const std::string& text) const
     const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
     al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),
                  ALLEGRO_ALIGN_CENTER, text.c_str());
+}
+
+void Screen::drawTextWithBackground(unsigned int x, unsigned int y,
+                                    const std::string& text) const
+{
+    const unsigned int margin{10};
+    const float radius{10};
+    const int height{al_get_font_line_height(font_)};
+    const int width{al_get_text_width(font_, text.c_str())};
+    al_draw_filled_rounded_rectangle(
+        x - width / 2 - margin, y - margin, x + width / 2 + margin,
+        y + height + margin, radius, radius, al_map_rgb(0, 0, 255));
+    drawText(x, y, text);
 }
 
 void Screen::drawBackground(ResourceType resourceType) const
@@ -97,7 +112,7 @@ void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
 
 void Screen::clearScreenWithBlack()
 {
-    const ALLEGRO_COLOR blackColor{0, 0, 255, 0};
+    const ALLEGRO_COLOR blackColor{al_map_rgb(0, 0, 0)};
     al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
     al_clear_to_color(blackColor);
     al_flip_display();

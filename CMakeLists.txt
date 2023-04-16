@@ -90,10 +90,12 @@ set(${PROJECT_NAME}_SOURCES
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES})
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib)
-target_link_libraries(${PROJECT_NAME} optimized allegro-5.2 debug allegro-debug-5.2)
-target_link_libraries(${PROJECT_NAME} optimized allegro_image-5.2 debug allegro_image-debug-5.2)
-target_link_libraries(${PROJECT_NAME} optimized allegro_font-5.2 debug allegro_font-debug-5.2)
+target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib
+    optimized allegro-5.2 debug allegro-debug-5.2
+    optimized allegro_image-5.2 debug allegro_image-debug-5.2
+    optimized allegro_font-5.2 debug allegro_font-debug-5.2
+    optimized allegro_primitives-5.2 debug allegro_primitives-debug-5.2
+)
 
 Include(Tests.cmake)
 enable_testing()

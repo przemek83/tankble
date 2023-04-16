@@ -130,6 +130,14 @@ void Game::shiftDown(Point& point, unsigned int tileSize)
     point.y = (point.y / tileSize + 1) * tileSize;
 }
 
+const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
+{
+    const auto& playerTank = std::find_if(
+        tanks.begin(), tanks.end(),
+        [](const auto& tank) { return tank.isPlayerControlled(); });
+    return *playerTank;
+}
+
 void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     tank.setDirection(direction);
@@ -306,11 +314,11 @@ void Game::drawBullets(const std::list<Bullet>& bullets)
 void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
                 Map& map)
 {
+    status_.update(getPlayerTank(tanks).getStats(), screen_);
     map.drawBackground(screen_);
     drawTanks(tanks);
     drawBullets(bullets);
     map.drawForeground(screen_);
-    status_.draw(screen_);
 }
 
 void Game::setPower(Tank& tank, Map& map)
