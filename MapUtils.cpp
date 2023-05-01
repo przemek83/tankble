@@ -28,7 +28,7 @@ void shiftDown(Point& point, unsigned int tileSize)
 
 namespace MapUtils
 {
-std::vector<Point> getMovingPoints(Point leftUpperCorner, Direction direction)
+std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction)
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     const unsigned int oneThirdOfTank{tileSize / 3};

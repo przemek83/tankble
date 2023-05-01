@@ -56,7 +56,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
                                   Config::getInstance().getTileSize()))
         return;
 
-    const auto pointsToCheck{MapUtils::getMovingPoints(
+    const auto pointsToCheck{MapUtils::getMovePoints(
         {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)},
         direction)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),

@@ -9,6 +9,6 @@ class Map;
 
 namespace MapUtils
 {
-std::vector<Point> getMovingPoints(Point leftUpperCorner, Direction direction);
+std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction);
 void shiftIfNeeded(Point& leftUpper, const Map& map, Direction direction);
 }  // namespace MapUtils
