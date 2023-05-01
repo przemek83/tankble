@@ -10,6 +10,7 @@
 #include "Input.h"
 #include "InputAction.h"
 #include "Map.h"
+#include "MapUtils.h"
 #include "PointUtils.h"
 #include "Screen.h"
 #include "Tank.h"
@@ -39,97 +40,6 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     return {false, Direction::UP};
 }
 
-std::vector<Point> Game::getMovingPoints(Point leftUpperCorner,
-                                         Direction direction)
-{
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
-    const unsigned int oneThirdOfTank{tileSize / 3};
-    switch (direction)
-    {
-        case Direction::UP:
-        {
-            return {
-                {leftUpperCorner.x + oneThirdOfTank, leftUpperCorner.y},
-                {leftUpperCorner.x + 2 * oneThirdOfTank, leftUpperCorner.y}};
-        }
-        case Direction::DOWN:
-        {
-            return {{leftUpperCorner.x + oneThirdOfTank,
-                     leftUpperCorner.y + tileSize - 1},
-                    {leftUpperCorner.x + 2 * oneThirdOfTank,
-                     leftUpperCorner.y + tileSize - 1}};
-        }
-        case Direction::LEFT:
-        {
-            return {
-                {leftUpperCorner.x, leftUpperCorner.y + oneThirdOfTank},
-                {leftUpperCorner.x, leftUpperCorner.y + 2 * oneThirdOfTank}};
-        }
-        case Direction::RIGHT:
-        {
-            return {{leftUpperCorner.x + tileSize - 1,
-                     leftUpperCorner.y + oneThirdOfTank},
-                    {leftUpperCorner.x + tileSize - 1,
-                     leftUpperCorner.y + 2 * oneThirdOfTank}};
-        }
-    }
-
-    return {};
-}
-
-void Game::shiftIfNeeded(Point& leftUpper, const Map& map, Direction direction)
-{
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
-    const Point leftLower{leftUpper.x, leftUpper.y + tileSize - 1};
-    const Point rightUpper{leftUpper.x + tileSize - 1, leftUpper.y};
-    const Point rightLower{leftUpper.x + tileSize - 1,
-                           leftUpper.y + tileSize - 1};
-    switch (direction)
-    {
-        case Direction::UP:
-        case Direction::DOWN:
-        {
-            if (!map.canDrive(leftUpper) || !map.canDrive(leftLower))
-                shiftRight(leftUpper, tileSize);
-
-            if (!map.canDrive(rightUpper) || !map.canDrive(rightLower))
-                shiftLeft(leftUpper, tileSize);
-            break;
-        }
-
-        case Direction::LEFT:
-        case Direction::RIGHT:
-        {
-            if (!map.canDrive(leftUpper) || !map.canDrive(rightUpper))
-                shiftDown(leftUpper, tileSize);
-
-            if (!map.canDrive(leftLower) || !map.canDrive(rightLower))
-                shiftUp(leftUpper, tileSize);
-            break;
-        }
-    }
-}
-
-void Game::shiftRight(Point& point, unsigned int tileSize)
-{
-    point.x = (point.x / tileSize + 1) * tileSize;
-}
-
-void Game::shiftLeft(Point& point, unsigned int tileSize)
-{
-    point.x = (point.x / tileSize) * tileSize;
-}
-
-void Game::shiftUp(Point& point, unsigned int tileSize)
-{
-    point.y = (point.y / tileSize) * tileSize;
-}
-
-void Game::shiftDown(Point& point, unsigned int tileSize)
-{
-    point.y = (point.y / tileSize + 1) * tileSize;
-}
-
 const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 {
     const auto& playerTankIter = std::find_if(
@@ -146,7 +56,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
                                   Config::getInstance().getTileSize()))
         return;
 
-    const auto pointsToCheck{getMovingPoints(
+    const auto pointsToCheck{MapUtils::getMovingPoints(
         {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)},
         direction)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
@@ -155,7 +65,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
         Point newPoint{static_cast<unsigned int>(newX),
                        static_cast<unsigned int>(newY)};
         if (tank.isPlayerControlled())
-            shiftIfNeeded(newPoint, map, direction);
+            MapUtils::shiftIfNeeded(newPoint, map, direction);
         tank.move(newPoint);
     }
 }

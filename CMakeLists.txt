@@ -59,6 +59,8 @@ set(${PROJECT_NAME}_SOURCES
         TankStats.h
         Status.h
         Status.cpp
+        MapUtils.h
+        MapUtils.cpp
         map/Water.cpp
         map/Water.h
         map/Steel.cpp

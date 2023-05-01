@@ -43,16 +43,6 @@ private:
     static std::pair<bool, Direction> inputActionsToDirection(
         const std::set<InputAction>& actions);
 
-    static std::vector<Point> getMovingPoints(Point leftUpperCorner,
-                                              Direction direction);
-
-    static void shiftIfNeeded(Point& leftUpper, const Map& map,
-                              Direction direction);
-    static void shiftRight(Point& point, unsigned int tileSize);
-    static void shiftLeft(Point& point, unsigned int tileSize);
-    static void shiftUp(Point& point, unsigned int tileSize);
-    static void shiftDown(Point& point, unsigned int tileSize);
-
     static const Tank& getPlayerTank(const std::list<Tank>& tanks);
 
     Status status_;
