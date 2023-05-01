@@ -132,10 +132,10 @@ void Game::shiftDown(Point& point, unsigned int tileSize)
 
 const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 {
-    const auto& playerTank = std::find_if(
+    const auto& playerTankIter = std::find_if(
         tanks.begin(), tanks.end(),
         [](const auto& tank) { return tank.isPlayerControlled(); });
-    return *playerTank;
+    return *playerTankIter;
 }
 
 void Game::movement(Tank& tank, Map& map, Direction direction)
