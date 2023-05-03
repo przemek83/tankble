@@ -50,20 +50,19 @@ const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 
 void Game::movement(Tank& tank, Map& map, Direction direction)
 {
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
     tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (!PointUtils::isValidPoint(newX, newY,
-                                  Config::getInstance().getTileSize()))
+    if (!PointUtils::isValidPoint(newX, newY, tileSize))
         return;
 
-    const auto pointsToCheck{MapUtils::getMovePoints(
-        {static_cast<unsigned int>(newX), static_cast<unsigned int>(newY)},
-        direction)};
+    Point newPoint{static_cast<unsigned int>(newX),
+                   static_cast<unsigned int>(newY)};
+    const std::vector<Point> pointsToCheck{
+        MapUtils::getMovePoints(newPoint, direction, tileSize)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
                     [&map](Point point) { return map.canDrive(point); }))
     {
-        Point newPoint{static_cast<unsigned int>(newX),
-                       static_cast<unsigned int>(newY)};
         if (tank.isPlayerControlled())
             MapUtils::shiftIfNeeded(newPoint, map, direction);
         tank.move(newPoint);
