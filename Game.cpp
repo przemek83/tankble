@@ -64,7 +64,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
                     [&map](Point point) { return map.canDrive(point); }))
     {
         if (tank.isPlayerControlled())
-            MapUtils::shiftIfNeeded(newPoint, map, direction);
+            map.shift(newPoint, direction);
         tank.move(newPoint);
     }
 }

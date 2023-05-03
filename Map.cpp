@@ -141,6 +141,40 @@ void Map::hit(Point point, unsigned int power)
     }
 }
 
+void Map::shift(Point& pointToShift, Direction direction) const
+{
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const Point leftUpper{pointToShift};
+    const Point leftLower{leftUpper.x, leftUpper.y + tileSize - 1};
+    const Point rightUpper{leftUpper.x + tileSize - 1, leftUpper.y};
+    const Point rightLower{leftUpper.x + tileSize - 1,
+                           leftUpper.y + tileSize - 1};
+    switch (direction)
+    {
+        case Direction::UP:
+        case Direction::DOWN:
+        {
+            if (!canDrive(leftUpper) || !canDrive(leftLower))
+                shiftRight(pointToShift, tileSize);
+
+            if (!canDrive(rightUpper) || !canDrive(rightLower))
+                shiftLeft(pointToShift, tileSize);
+            break;
+        }
+
+        case Direction::LEFT:
+        case Direction::RIGHT:
+        {
+            if (!canDrive(leftUpper) || !canDrive(rightUpper))
+                shiftDown(pointToShift, tileSize);
+
+            if (!canDrive(leftLower) || !canDrive(rightLower))
+                shiftUp(pointToShift, tileSize);
+            break;
+        }
+    }
+}
+
 Point Map::screenPointToTile(Point location)
 {
     return {location.x / Config::getInstance().getTileSize(),
@@ -151,6 +185,26 @@ Point Map::tileToScreenPoint(Point point)
 {
     return {point.x * Config::getInstance().getTileSize(),
             point.y * Config::getInstance().getTileSize()};
+}
+
+void Map::shiftRight(Point& point, unsigned int tileSize)
+{
+    point.x = (point.x / tileSize + 1) * tileSize;
+}
+
+void Map::shiftLeft(Point& point, unsigned int tileSize)
+{
+    point.x = (point.x / tileSize) * tileSize;
+}
+
+void Map::shiftUp(Point& point, unsigned int tileSize)
+{
+    point.y = (point.y / tileSize) * tileSize;
+}
+
+void Map::shiftDown(Point& point, unsigned int tileSize)
+{
+    point.y = (point.y / tileSize + 1) * tileSize;
 }
 
 void Map::drawBackground(const Screen& screen)

@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Direction.h"
 #include "ResourceType.h"
 #include "map/Tile.h"
 
@@ -29,6 +30,8 @@ public:
 
     void hit(Point point, unsigned int power);
 
+    void shift(Point& pointToShift, Direction direction) const;
+
 private:
     inline const std::unique_ptr<Tile>& getTile(Point point) const
     {
@@ -42,6 +45,11 @@ private:
 
     static Point screenPointToTile(Point location);
     static Point tileToScreenPoint(Point point);
+
+    static void shiftRight(Point& point, unsigned int tileSize);
+    static void shiftLeft(Point& point, unsigned int tileSize);
+    static void shiftUp(Point& point, unsigned int tileSize);
+    static void shiftDown(Point& point, unsigned int tileSize);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
