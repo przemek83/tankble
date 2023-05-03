@@ -6,6 +6,7 @@ set(${PROJECT_TEST}_SOURCES
     BulletTest.cpp
     MapTest.cpp
     TankTest.cpp
+    MapUtilsTest.cpp
     )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
