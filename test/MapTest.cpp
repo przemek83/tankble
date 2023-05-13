@@ -244,3 +244,62 @@ TEST_CASE("Power ups", "[map]")
         REQUIRE(currentResourceType == expectedResourceType);
     }
 }
+
+std::string getTestMapForShifting()
+{
+    return {
+        "000\n"
+        "010\n"
+        "000\n"};
+}
+
+const unsigned int tileCountForShifting{3};
+
+TEST_CASE("shift", "[map]")
+{
+    std::stringstream stream(getTestMapForShifting());
+    static const unsigned int tileSize{Config::getInstance().getTileSize()};
+    static const unsigned int twoTiles{tileSize * 2};
+
+    Map map(tileCountForShifting);
+    map.loadMap(stream);
+
+    SECTION("shift left while moving up")
+    {
+        using TestData = std::tuple<Point, Point, Direction>;
+        auto [pointToShift, expectedShiftedPoint, direction] = GENERATE(
+            TestData{{0, twoTiles - 1}, {0, twoTiles - 1}, Direction::UP},
+            TestData{{1, twoTiles - 1}, {0, twoTiles - 1}, Direction::UP},
+            TestData{{twoTiles - 1, twoTiles - 1},
+                     {twoTiles, twoTiles - 1},
+                     Direction::UP},
+            TestData{{twoTiles, twoTiles - 1},
+                     {twoTiles, twoTiles - 1},
+                     Direction::UP},
+
+            TestData{{0, 1}, {0, 1}, Direction::DOWN},
+            TestData{{1, 1}, {0, 1}, Direction::DOWN},
+            TestData{{twoTiles - 1, 1}, {twoTiles, 1}, Direction::DOWN},
+            TestData{{twoTiles, 1}, {twoTiles, 1}, Direction::DOWN},
+
+            TestData{{tileSize + 1, 0}, {tileSize + 1, 0}, Direction::RIGHT},
+            TestData{{tileSize + 1, 1}, {tileSize + 1, 0}, Direction::RIGHT},
+            TestData{{tileSize + 1, twoTiles - 1},
+                     {tileSize + 1, twoTiles},
+                     Direction::RIGHT},
+            TestData{{tileSize + 1, twoTiles},
+                     {tileSize + 1, twoTiles},
+                     Direction::RIGHT},
+
+            TestData{{twoTiles - 1, 0}, {twoTiles - 1, 0}, Direction::LEFT},
+            TestData{{twoTiles - 1, 1}, {twoTiles - 1, 0}, Direction::LEFT},
+            TestData{{twoTiles - 1, twoTiles - 1},
+                     {twoTiles - 1, twoTiles},
+                     Direction::LEFT},
+            TestData{{twoTiles - 1, twoTiles},
+                     {twoTiles - 1, twoTiles},
+                     Direction::LEFT});
+        map.shift(pointToShift, direction);
+        REQUIRE(pointToShift == expectedShiftedPoint);
+    }
+}
