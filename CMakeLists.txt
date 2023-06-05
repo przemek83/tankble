@@ -19,7 +19,7 @@ foreach(file_i ${THIRD_PARTY_LIBS})
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${file_i} )
 
     include_directories(${CMAKE_BINARY_DIR}/${file_i}/install/include)
-    link_directories(${CMAKE_BINARY_DIR}/${file_i}/install/bin)
+    link_directories(${CMAKE_BINARY_DIR}/${file_i}/install/lib)
 endforeach(file_i)
 
 file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
@@ -93,10 +93,10 @@ add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES})
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib
-    optimized allegro-5.2 debug allegro-debug-5.2
-    optimized allegro_image-5.2 debug allegro_image-debug-5.2
-    optimized allegro_font-5.2 debug allegro_font-debug-5.2
-    optimized allegro_primitives-5.2 debug allegro_primitives-debug-5.2
+    optimized allegro debug allegro-debug
+    optimized allegro_image debug allegro_image-debug
+    optimized allegro_font debug allegro_font-debug
+    optimized allegro_primitives debug allegro_primitives-debug
 )
 
 Include(Tests.cmake)
