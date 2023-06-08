@@ -9,14 +9,18 @@ Menu::Menu(Screen& screen) : screen_(screen), items_(getMainMenu()) {}
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu()
 {
-    return {{"NEW GAME", UserChoice::NEW_MENU},
+    return {{"NEW GAME", UserChoice::LEVEL_MENU},
             {"OPTIONS", UserChoice::OPTIONS_MENU},
             {"EXIT", UserChoice::EXIT}};
 }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getNewGameMenu()
 {
-    return {{"1 PLAYER", UserChoice::NEW_1P}, {"BACK", UserChoice::BACK}};
+    return {{"LEVEL 1", UserChoice::LEVEL_1},
+            {"LEVEL 2", UserChoice::LEVEL_2},
+            {"LEVEL 3", UserChoice::LEVEL_3},
+            {"LEVEL 4", UserChoice::LEVEL_4},
+            {"BACK", UserChoice::BACK}};
 }
 
 std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
@@ -39,7 +43,7 @@ std::pair<bool, Level> Menu::playGame()
                 items_ = getMainMenu();
                 break;
 
-            case UserChoice::NEW_MENU:
+            case UserChoice::LEVEL_MENU:
                 items_ = getNewGameMenu();
                 break;
 
@@ -59,9 +63,21 @@ std::pair<bool, Level> Menu::playGame()
                 Screen::hideMouse();
                 return {false, Level::LEVEL_1};
 
-            case UserChoice::NEW_1P:
+            case UserChoice::LEVEL_1:
                 Screen::hideMouse();
                 return {true, Level::LEVEL_1};
+
+            case UserChoice::LEVEL_2:
+                Screen::hideMouse();
+                return {true, Level::LEVEL_2};
+
+            case UserChoice::LEVEL_3:
+                Screen::hideMouse();
+                return {true, Level::LEVEL_3};
+
+            case UserChoice::LEVEL_4:
+                Screen::hideMouse();
+                return {true, Level::LEVEL_4};
         }
     }
 }

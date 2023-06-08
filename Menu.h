@@ -19,8 +19,11 @@ private:
     enum class UserChoice : unsigned char
     {
         MAIN_MENU = 0,
-        NEW_MENU,
-        NEW_1P,
+        LEVEL_MENU,
+        LEVEL_1,
+        LEVEL_2,
+        LEVEL_3,
+        LEVEL_4,
         OPTIONS_MENU,
         WINDOWED,
         FULLSCREEN,

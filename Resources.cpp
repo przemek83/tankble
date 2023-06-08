@@ -8,8 +8,9 @@
 
 const std::unordered_map<Level, std::string> Resources::levels_{
     {Level::LEVEL_1, "missions/mission1.dat"},
-    {Level::LEVEL_1, "missions/mission2.dat"},
-    {Level::LEVEL_1, "missions/mission4.dat"}};
+    {Level::LEVEL_2, "missions/mission2.dat"},
+    {Level::LEVEL_3, "missions/mission3.dat"},
+    {Level::LEVEL_4, "missions/mission4.dat"}};
 
 Resources::Resources()
 {
