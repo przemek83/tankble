@@ -6,13 +6,14 @@
 class Screen;
 union ALLEGRO_EVENT;
 enum class InputAction : unsigned char;
+enum class Level : unsigned char;
 
 class Menu final
 {
 public:
     explicit Menu(Screen& screen);
 
-    bool playGame();
+    std::pair<bool, Level> playGame();
 
 private:
     enum class UserChoice : unsigned char

@@ -16,13 +16,14 @@ class Screen;
 class Input;
 enum class InputAction : unsigned char;
 class Bullet;
+enum class Level : unsigned char;
 
 class Game
 {
 public:
     explicit Game(Screen& screen);
 
-    bool play();
+    bool play(Level level);
 
 private:
     static void movement(Tank& tank, Map& map, Direction direction);

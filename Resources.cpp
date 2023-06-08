@@ -6,6 +6,11 @@
 
 #include <allegro5/allegro.h>
 
+const std::unordered_map<Level, std::string> Resources::levels_{
+    {Level::LEVEL_1, "missions/mission1.dat"},
+    {Level::LEVEL_1, "missions/mission2.dat"},
+    {Level::LEVEL_1, "missions/mission4.dat"}};
+
 Resources::Resources()
 {
     for (const auto& [resourceType, path] : resourcePaths_)
@@ -23,9 +28,9 @@ ALLEGRO_BITMAP* Resources::getBitmap(ResourceType resourceType) const
     return bitmaps_.at(resourceType);
 }
 
-std::fstream Resources::getLevel()
+std::fstream Resources::getLevel(Level level)
 {
-    const std::string levelName{"missions/mission1.dat"};
+    const std::string& levelName{levels_.at(level)};
     if (!std::filesystem::exists(levelName))
         exit(1);
 

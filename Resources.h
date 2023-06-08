@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "Level.h"
 #include "ResourceType.h"
 
 struct ALLEGRO_BITMAP;
@@ -21,7 +22,7 @@ public:
 
     ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
-    static std::fstream getLevel();
+    static std::fstream getLevel(Level level);
 
 private:
     std::unordered_map<ResourceType, std::string> resourcePaths_{
@@ -50,4 +51,6 @@ private:
         {ResourceType::ENEMY_TANK_TIER_4, "image/board/tank_tier4_enemy.tga"}};
 
     std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
+
+    static const std::unordered_map<Level, std::string> levels_;
 };

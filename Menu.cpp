@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "InputAction.h"
+#include "Level.h"
 #include "Screen.h"
 
 Menu::Menu(Screen& screen) : screen_(screen), items_(getMainMenu()) {}
@@ -25,7 +26,7 @@ std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
             {"BACK", UserChoice::BACK}};
 }
 
-bool Menu::playGame()
+std::pair<bool, Level> Menu::playGame()
 {
     Screen::showMouse();
 
@@ -56,11 +57,11 @@ bool Menu::playGame()
 
             case UserChoice::EXIT:
                 Screen::hideMouse();
-                return false;
+                return {false, Level::LEVEL_1};
 
             case UserChoice::NEW_1P:
                 Screen::hideMouse();
-                return true;
+                return {true, Level::LEVEL_1};
         }
     }
 }

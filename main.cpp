@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Input.h"
+#include "Level.h"
 #include "Menu.h"
 #include "Screen.h"
 
@@ -13,11 +14,12 @@ int main()
 
     for (;;)
     {
-        if (!menu.playGame())
+        auto [play, level] = menu.playGame();
+        if (!play)
             break;
 
         Game game(screen);
-        if (!game.play())
+        if (!game.play(level))
             break;
     }
 

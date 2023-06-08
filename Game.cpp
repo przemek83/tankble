@@ -9,6 +9,7 @@
 #include "Config.h"
 #include "Input.h"
 #include "InputAction.h"
+#include "Level.h"
 #include "Map.h"
 #include "MapUtils.h"
 #include "PointUtils.h"
@@ -69,12 +70,12 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
     }
 }
 
-bool Game::play()
+bool Game::play(Level level)
 {
     Map map(Config::getInstance().getTileCount());
-    std::fstream level{Resources::getLevel()};
-    std::list<Tank> tanks{map.loadMap(level)};
-    level.close();
+    std::fstream levelContent{Resources::getLevel(level)};
+    std::list<Tank> tanks{map.loadMap(levelContent)};
+    levelContent.close();
 
     Input input;
     Screen::clearScreenWithBlack();

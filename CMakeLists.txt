@@ -61,6 +61,7 @@ set(${PROJECT_NAME}_SOURCES
         Status.cpp
         MapUtils.h
         MapUtils.cpp
+        Level.h
         map/Water.cpp
         map/Water.h
         map/Steel.cpp
