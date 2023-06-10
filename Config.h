@@ -13,6 +13,8 @@ public:
 
     static Config& getInstance();
 
+    void screenSizeChanged(unsigned int newWidth, unsigned int newHeight);
+
     inline unsigned int getFps() const { return fps_; }
     inline unsigned int getTileCount() const { return tileCount_; }
     inline unsigned int getTileSize() const { return tileSize_; }
@@ -31,10 +33,10 @@ private:
 
     const unsigned int fps_{30};
     const unsigned int tileCount_{20};
-    const unsigned int tileSize_{30};
-    const unsigned int bulletSize_{tileSize_ / 5};
-    const unsigned int boardWidth_{tileCount_ * tileSize_};
-    const unsigned int boardHeight_{boardWidth_};
-    const unsigned int statusWidth_{boardWidth_ / 3};
+    unsigned int tileSize_{30};
+    unsigned int bulletSize_{tileSize_ / 5};
+    unsigned int boardWidth_{tileCount_ * tileSize_};
+    unsigned int boardHeight_{boardWidth_};
+    unsigned int statusWidth_{boardWidth_ / 3};
     const std::chrono::seconds fireDelay{2};
 };

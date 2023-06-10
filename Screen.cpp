@@ -124,6 +124,8 @@ void Screen::updateSize()
         al_get_display_width(al_get_current_display()));
     height_ = static_cast<unsigned int>(
         al_get_display_height(al_get_current_display()));
+
+    Config::getInstance().screenSizeChanged(getWidth(), getHeight());
 }
 
 unsigned int Screen::getWidth() const { return width_; }
