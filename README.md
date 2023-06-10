@@ -6,7 +6,7 @@
 - [Description](#description)
 - [History](#history)
 - [Used tools and libs](#used-tools-and-libs)
-- [Compilation and installation](#Compilation-and-installation)
+- [Compilation and installation](#compilation-and-installation)
 - [Licensing](#licensing)
 - [Testing](#testing)
 - [Potential further improvements](#potential-further-improvements)
