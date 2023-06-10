@@ -1,7 +1,7 @@
+
 ## Table of content
 - [Example screenshot](#example-screenshot)
 - [Description](#description)
-- [History](#history)
 - [Used tools and libs](#used-tools-and-libs)
 - [Compilation and installation](#compilation-and-installation)
 - [Licensing](#licensing)
@@ -14,40 +14,37 @@
  ![Alt text](game_firing.png?raw=true "")
 
 ## Description
-Clone of old arcade game named Battle City / Tank 1990 based on very old group project from studies.
+Clone of old arcade game named Battle City / Tank 1990 based on very old group project from studies. 15 years after the original version, I've decided to heavily revamp, modernize, apply new ideas and publish it as open source. Effects you can observe in this repository.
 
-TODO
-
-## History
-TODO
+**Remark**: For creation of bitmaps I've used all my graphics designing skills which are somewhat close to none ;)
 
 ## Used tools and libs
 | Tool |  Windows | Lubuntu |
 | --- | --- | --- |
 | OS version | 10 22H2 | 22.04 |
 | GCC | 8.1.0 | 9.5.0 |
-| Cmake | 3.25.0 | 3.25.0 |
+| CMake | 3.25.0 | 3.25.0 |
 | Git | 2.38.1 | 2.34.1 |
-| QtCreator | 9.0.0 | 9.0.0 |
+| Qt Creator | 9.0.0 | 9.0.0 |
 | Allegro | 5.2.6.0 | 5.2.6.0 |
 | Catch2 | 3.3.0 | 3.3.0 |
-| VSCode | 1.73.1 | -|
+| VS Code | 1.73.1 | -|
 
 ## Compilation and installation
-Use directly Cmake or any IDE supporting Cmake project. Cmake **should**:
+Use directly CMake or any IDE supporting CMake project. CMake **should**:
 - configure everything automatically, 
 - download dependencies using Git (Allegro, Catch2), 
 - build dependencies, 
 - compile Tankble and link binaries.  
 
-This is of course happy path...
+This is of course a happy path...
 
-**TIPS**: on Linux you might need to install `libxcursor-dev` to be able to use Allegro library.  
+**TIPS**: on Linux, you might need to install `libxcursor-dev` to be able to use Allegro library.  
 
 ## Licensing
 Tankble is published under MIT license. 
 
-Project uses following software and licenses:
+The project uses the following software and licenses:
 * Allegro - The giftware license (more on https://liballeg.org and https://github.com/liballeg/allegro5),    
 * Catch2 - Boost Software License 1.0 (more on https://github.com/catchorg/Catch2).
 
@@ -59,7 +56,10 @@ Project uses following software and licenses:
 Tests are done using Catch2 test framework.
 
 ## Potential further improvements
-TODO
+Ideas:
+- Add sounds and some music in menu.
+- Add points received during gameplay.
+- Use more sophisticated font than basic built in one from Allegro library.
 
 ## Screenshots
 ![Alt text](menu_main.png?raw=true "")
