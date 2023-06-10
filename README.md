@@ -14,7 +14,7 @@
  ![Alt text](game_firing.png?raw=true "")
 
 ## Description
-Clone of old arcade game named Battle City / Tank 1990 based on very old group project from studies. 15 years after the original version, I've decided to heavily revamp, modernize, apply new ideas and publish it as open source. Effects you can observe in this repository.
+Clone of old arcade game named Battle City / Tank 1990 based on very old group project from studies. 15 years after the original version, I've decided to heavily revamp, modernize, apply new ideas and publish it as open source. The effects can be observed in this repository.
 
 **Remark**: For creation of bitmaps I've used all my graphics designing skills which are somewhat close to none ;)
 
