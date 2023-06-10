@@ -1,8 +1,5 @@
-# tankble - WIP (Work In Progress)
- 
- ![Alt text](game_firing.png?raw=true "")
-
 ## Table of content
+- [Example screenshot](#example-screenshot)
 - [Description](#description)
 - [History](#history)
 - [Used tools and libs](#used-tools-and-libs)
@@ -11,6 +8,10 @@
 - [Testing](#testing)
 - [Potential further improvements](#potential-further-improvements)
 - [Screenshots](#screenshots)
+
+## Example screenshot
+
+ ![Alt text](game_firing.png?raw=true "")
 
 ## Description
 Clone of old arcade game named Battle City / Tank 1990 based on very old group project from studies.
