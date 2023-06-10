@@ -1,9 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include "Bullet.h"
-#include "Config.h"
-#include "Direction.h"
+#include <src/Bullet.h>
+#include <src/Config.h>
+#include <src/Direction.h>
 
 const unsigned int bulletPower{4};
 const unsigned int bulletSpeed{10};

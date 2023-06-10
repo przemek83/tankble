@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "MapUtils.h"
+#include <src/MapUtils.h>
 
 TEST_CASE("Move points", "[MapUtils]")
 {

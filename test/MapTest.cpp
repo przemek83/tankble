@@ -3,10 +3,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
 
-#include "Config.h"
-#include "Map.h"
-#include "Point.h"
-#include "Tank.h"
+#include <src/Config.h>
+#include <src/Map.h>
+#include <src/Point.h>
+#include <src/Tank.h>
 
 // 0 - plain
 // 1 - brick

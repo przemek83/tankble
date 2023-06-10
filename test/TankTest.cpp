@@ -3,9 +3,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
 
-#include "Bullet.h"
-#include "Config.h"
-#include "Tank.h"
+#include <src/Bullet.h>
+#include <src/Config.h>
+#include <src/Tank.h>
 
 TEST_CASE("Tank creation", "[tank]")
 {

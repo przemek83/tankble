@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "Config.h"
+#include <src/Config.h>
 
 TEST_CASE("Set element sizes", "[config]")
 {
