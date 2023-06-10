@@ -32,8 +32,12 @@ public:
     void drawBitmap(ResourceType resourceType, unsigned int x,
                     unsigned int y) const;
 
+    void drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
+                                unsigned int y, unsigned int size) const;
+
     void drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                          unsigned int y, unsigned int size) const;
+                          unsigned int y, unsigned int width,
+                          unsigned int height) const;
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
                                       unsigned int y, unsigned int size,
@@ -61,12 +65,12 @@ public:
 
     const Resources& getResources() const;
 
-private:
-    void updateSize();
-
     unsigned int getWidth() const;
 
     unsigned int getHeight() const;
+
+private:
+    void updateSize();
 
     std::pair<unsigned int, unsigned int> getCenter() const;
 

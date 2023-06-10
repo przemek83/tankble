@@ -83,15 +83,22 @@ void Screen::drawBitmap(ResourceType resourceType, unsigned int x,
                    0);
 }
 
+void Screen::drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
+                                    unsigned int y, unsigned int size) const
+{
+    drawScaledBitmap(resourceType, x, y, size, size);
+}
+
 void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                              unsigned int y, unsigned int size) const
+                              unsigned int y, unsigned int width,
+                              unsigned int height) const
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     al_draw_scaled_bitmap(
         bitmapToUse, 0, 0, static_cast<float>(al_get_bitmap_width(bitmapToUse)),
         static_cast<float>(al_get_bitmap_height(bitmapToUse)),
-        static_cast<float>(x), static_cast<float>(y), static_cast<float>(size),
-        static_cast<float>(size), 0);
+        static_cast<float>(x), static_cast<float>(y), static_cast<float>(width),
+        static_cast<float>(height), 0);
 }
 
 void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,

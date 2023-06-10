@@ -30,7 +30,7 @@ bool Tile::isPowerUp() const
 void Tile::draw(const Screen& screen) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
-    screen.drawScaledBitmap(getResourceType(), getX(), getY(), tileSize);
+    screen.drawScaledSquareBitmap(getResourceType(), getX(), getY(), tileSize);
 }
 
 Point Tile::getCenter() const

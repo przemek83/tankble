@@ -61,7 +61,7 @@ bool Bullet::move()
 
 void Bullet::draw(const Screen& screen) const
 {
-    screen.drawScaledBitmap(getResourceType(), getX(), getY(), size_);
+    screen.drawScaledSquareBitmap(getResourceType(), getX(), getY(), size_);
 }
 
 ResourceType Bullet::getResourceType() const { return ResourceType::BULLET; }
