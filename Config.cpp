@@ -22,3 +22,10 @@ unsigned int Config::getRandomSeed()
     std::random_device rd;
     return rd();
 }
+
+Config::Config()
+{
+    const unsigned int initialBoardSize{tileCount_ * tileSize_};
+    screenSizeChanged(initialBoardSize + initialBoardSize / 3,
+                      initialBoardSize);
+}

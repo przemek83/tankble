@@ -28,15 +28,15 @@ public:
     inline std::chrono::seconds getFireDelay() const { return fireDelay; }
 
 private:
-    Config() = default;
+    Config();
     ~Config() = default;
 
     const unsigned int fps_{30};
     const unsigned int tileCount_{20};
     unsigned int tileSize_{30};
-    unsigned int bulletSize_{tileSize_ / 5};
-    unsigned int boardWidth_{tileCount_ * tileSize_};
-    unsigned int boardHeight_{boardWidth_};
-    unsigned int statusWidth_{boardWidth_ / 3};
+    unsigned int bulletSize_{};
+    unsigned int boardWidth_{};
+    unsigned int boardHeight_{};
+    unsigned int statusWidth_{};
     const std::chrono::seconds fireDelay{2};
 };
