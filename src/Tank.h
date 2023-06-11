@@ -52,6 +52,8 @@ private:
     void addLife();
     void respawn();
 
+    unsigned int getCalculatedSpeed() const;
+
     static const unsigned int BASIC_ATTACK{1};
     static const unsigned int BASIC_HEALTH{1};
     static const unsigned int BASIC_SPEED{2};
@@ -83,4 +85,5 @@ private:
     TimePoint lastFire_{TimePoint()};
     const unsigned int initialX_;
     const unsigned int initialY_;
+    const float speedFactor_;
 };

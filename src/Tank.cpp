@@ -7,7 +7,10 @@
 #include "TankType.h"
 
 Tank::Tank(TankType tankType, Point point)
-    : Drawable(point), initialX_(point.x), initialY_(point.y)
+    : Drawable(point),
+      initialX_(point.x),
+      initialY_(point.y),
+      speedFactor_(Config::getInstance().getSpeedFactor())
 {
     setType(tankType);
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
@@ -109,13 +112,13 @@ TankStats Tank::getStats() const { return stats_; }
 Bullet Tank::fire(TimePoint currentTime)
 {
     lastFire_ = currentTime;
-    return {getCenter(), stats_.speed + 2, isPlayerControlled(),
+    return {getCenter(), getCalculatedSpeed() + 2, isPlayerControlled(),
             stats_.attackPower, getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition()
 {
-    const int speed{static_cast<int>(stats_.speed)};
+    const int speed{static_cast<int>(getCalculatedSpeed())};
     std::pair<int, int> nextPosition{
         static_cast<int>(getX()) + getDirectionX() * speed,
         static_cast<int>(getY()) + getDirectionY() * speed};
@@ -177,4 +180,9 @@ void Tank::respawn()
     if (isPlayerControlled())
         setType(TankType::PLAYER_TIER_1);
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
+}
+
+unsigned int Tank::getCalculatedSpeed() const
+{
+    return static_cast<unsigned int>(stats_.speed * speedFactor_);
 }
