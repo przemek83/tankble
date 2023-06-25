@@ -1,5 +1,7 @@
 #include "Tank.h"
 
+#include <cmath>
+
 #include "Bullet.h"
 #include "Config.h"
 #include "Direction.h"
@@ -184,5 +186,6 @@ void Tank::respawn()
 
 unsigned int Tank::getCalculatedSpeed() const
 {
-    return static_cast<unsigned int>(stats_.speed * speedFactor_);
+    return std::max(
+        1U, static_cast<unsigned int>(std::round(stats_.speed * speedFactor_)));
 }

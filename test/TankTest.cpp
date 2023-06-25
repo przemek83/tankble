@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cmath>
 
 #include <catch2/catch_test_macros.hpp>
 #include "catch2/generators/catch_generators.hpp"
@@ -83,6 +84,7 @@ TEST_CASE("check control", "[tank]")
 TEST_CASE("location related", "[tank]")
 {
     const Point point{100, 100};
+    const float speedFactor{Config::getInstance().getSpeedFactor()};
     SECTION("get location")
     {
         const Tank tank(TankType::ENEMY_TIER_1, point);
@@ -131,7 +133,8 @@ TEST_CASE("location related", "[tank]")
     {
         Tank tank(TankType::ENEMY_TIER_1, point);
         std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition == std::pair<int, int>{100, 102});
+        REQUIRE(nextPosition ==
+                std::pair<int, int>{100, 100 + std::round(2 * speedFactor)});
     }
 
     SECTION("next position after direction change")
@@ -139,7 +142,8 @@ TEST_CASE("location related", "[tank]")
         Tank tank(TankType::ENEMY_TIER_1, point);
         tank.setDirection(Direction::LEFT);
         std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition == std::pair<int, int>{98, 100});
+        REQUIRE(nextPosition ==
+                std::pair<int, int>{100 - std::round(2 * speedFactor), 100});
     }
 
     SECTION("next position after speed change")
@@ -147,7 +151,8 @@ TEST_CASE("location related", "[tank]")
         Tank tank(TankType::ENEMY_TIER_1, point);
         tank.applyPowerUp(ResourceType::SPEED_UP);
         std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition == std::pair<int, int>{100, 103});
+        REQUIRE(nextPosition ==
+                std::pair<int, int>{100, 100 + std::round(3 * speedFactor)});
     }
 }
 

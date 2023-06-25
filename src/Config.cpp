@@ -15,8 +15,9 @@ void Config::screenSizeChanged(unsigned int newWidth, unsigned int newHeight)
     boardWidth_ = tileCount_ * tileSize_;
     boardHeight_ = boardWidth_;
     statusWidth_ = newWidth - boardWidth_;
-    speedFactor_ = 1.F + static_cast<float>(tileSize_ - defaultTileSize_) /
-                             defaultTileSize_;
+    speedFactor_ =
+        1.F * sqrt(static_cast<float>(defaultFps_) / static_cast<float>(fps_)) *
+        (static_cast<float>(tileSize_) / defaultTileSize_);
 }
 
 unsigned int Config::getRandomSeed()

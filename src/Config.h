@@ -33,6 +33,7 @@ private:
     ~Config() = default;
 
     const unsigned int fps_{30};
+    const unsigned int defaultFps_{30};
     const unsigned int tileCount_{20};
     static constexpr unsigned int defaultTileSize_{30};
     unsigned int tileSize_{defaultTileSize_};
