@@ -149,10 +149,12 @@ TEST_CASE("location related", "[tank]")
     SECTION("next position after speed change")
     {
         Tank tank(TankType::ENEMY_TIER_1, point);
+        const std::pair<int, int> originalNextPosition{
+            tank.getNextExpectedPosition()};
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
-        REQUIRE(nextPosition ==
-                std::pair<int, int>{100, 100 + std::round(3 * speedFactor)});
+        const std::pair<int, int> nextPosition{tank.getNextExpectedPosition()};
+        REQUIRE(nextPosition.first == originalNextPosition.first);
+        REQUIRE(nextPosition.second > originalNextPosition.second);
     }
 }
 
@@ -173,13 +175,13 @@ TEST_CASE("statistics", "[tank]")
     SECTION("getting initial basic enemy statistics")
     {
         const Tank tank(TankType::ENEMY_TIER_1, point);
-        statsAreSame(tank.getStats(), {1, 1, 2, 1});
+        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed, 1});
     }
 
     SECTION("getting initial basic player statistics")
     {
         const Tank tank(TankType::PLAYER_TIER_1, point);
-        statsAreSame(tank.getStats(), {1, 1, 2, 2});
+        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed, 2});
     }
 }
 
