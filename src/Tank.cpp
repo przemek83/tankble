@@ -9,12 +9,10 @@
 #include "TankType.h"
 
 Tank::Tank(TankType tankType, Point point)
-    : Drawable(point),
-      initialX_(point.x),
-      initialY_(point.y),
-      speedFactor_(Config::getInstance().getSpeedFactor())
+    : Drawable(point), initialX_(point.x), initialY_(point.y)
 {
     setType(tankType);
+    stats_.speed = getCalculatedSpeed(Config::getInstance().getSpeedFactor());
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
@@ -114,13 +112,13 @@ TankStats Tank::getStats() const { return stats_; }
 Bullet Tank::fire(TimePoint currentTime)
 {
     lastFire_ = currentTime;
-    return {getCenter(), getCalculatedSpeed() + 2, isPlayerControlled(),
+    return {getCenter(), stats_.speed + 2, isPlayerControlled(),
             stats_.attackPower, getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition()
 {
-    const int speed{static_cast<int>(getCalculatedSpeed())};
+    const int speed{static_cast<int>(stats_.speed)};
     std::pair<int, int> nextPosition{
         static_cast<int>(getX()) + getDirectionX() * speed,
         static_cast<int>(getY()) + getDirectionY() * speed};
@@ -184,8 +182,12 @@ void Tank::respawn()
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
-unsigned int Tank::getCalculatedSpeed() const
+unsigned int Tank::getCalculatedSpeed(float speedFactor) const
 {
-    return std::max(
-        1U, static_cast<unsigned int>(std::round(stats_.speed * speedFactor_)));
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    float speed{std::round(static_cast<float>(stats_.speed) * speedFactor)};
+    if (!isPlayerControlled())
+        while (speed >= 1 && tileSize % static_cast<unsigned int>(speed) != 0)
+            speed -= 1;
+    return std::max(1U, static_cast<unsigned int>(speed));
 }

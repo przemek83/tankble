@@ -15,7 +15,7 @@ public:
 
     void screenSizeChanged(unsigned int newWidth, unsigned int newHeight);
 
-    inline unsigned int getFps() const { return fps_; }
+    unsigned int getFps() const;
     inline unsigned int getTileCount() const { return tileCount_; }
     inline unsigned int getTileSize() const { return tileSize_; }
     inline unsigned int getBulletSize() const { return bulletSize_; }
@@ -32,8 +32,17 @@ private:
     Config();
     ~Config() = default;
 
-    const unsigned int fps_{30};
-    const unsigned int defaultFps_{30};
+    float calculateSpeedFactor() const;
+
+    enum class FPS
+    {
+        FPS_30,
+        FPS_60,
+        FPS_120
+    };
+
+    const FPS fps_{FPS::FPS_60};
+    const unsigned int defaultFpsCount_{30};
     const unsigned int tileCount_{20};
     static constexpr unsigned int defaultTileSize_{30};
     unsigned int tileSize_{defaultTileSize_};
