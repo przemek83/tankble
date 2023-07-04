@@ -246,6 +246,14 @@ TEST_CASE("respawn", "[tank]")
         tank.hit(3);
         REQUIRE(tank.getDirection() == Direction::UP);
     }
+
+    SECTION("check speed after respawn")
+    {
+        Tank tank(TankType::PLAYER_TIER_1, point);
+        const unsigned int speed{tank.getStats().speed};
+        tank.hit(3);
+        REQUIRE(tank.getStats().speed == speed);
+    }
 }
 
 TEST_CASE("firing", "[tank]")
@@ -298,6 +306,8 @@ TEST_CASE("firing", "[tank]")
 
 TEST_CASE("power-ups", "[tank]")
 {
+    Config::getInstance().setFPS(Config::FPS::FPS_30);
+
     const Point point{100, 100};
     SECTION("shield-up full health")
     {
