@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
+#include <iostream>
 #include <thread>
 
 #include "Bullet.h"
@@ -208,15 +209,14 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
         if (auto tankIter{hitTank(*bulletIter, tanks)};
             valid && tankIter != tanks.end())
         {
+            map.tagAreaAsChanged(
+                tankIter->getLocation(),
+                {tankIter->getX() + tileSize, tankIter->getY() + tileSize});
+
             if (tankIter->hit(bulletIter->getPower()))
             {
                 if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;
-
-                map.tagAreaAsChanged(
-                    tankIter->getLocation(),
-                    {tankIter->getX() + tileSize, tankIter->getY() + tileSize});
-
                 tanks.erase(tankIter);
             }
             valid = false;
