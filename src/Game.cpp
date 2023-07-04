@@ -19,7 +19,8 @@
 Game::Game(Screen& screen)
     : status_({Config::getInstance().getBoardWidth(), 0}),
       randomGenerator_(Config::getRandomSeed()),
-      screen_(screen)
+      screen_(screen),
+      distribution_(std::uniform_int_distribution<>(0, 7))
 {
 }
 
@@ -53,6 +54,10 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     tank.setDirection(direction);
+
+    map.tagAreaAsChanged(tank.getLocation(),
+                         {tank.getX() + tileSize, tank.getY() + tileSize});
+
     auto [newX, newY]{tank.getNextExpectedPosition()};
     if (!PointUtils::isValidPoint(newX, newY, tileSize))
         return;
@@ -67,6 +72,8 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
         if (tank.isPlayerControlled())
             map.shift(newPoint, direction);
         tank.move(newPoint);
+        map.tagAreaAsChanged(tank.getLocation(),
+                             {tank.getX() + tileSize, tank.getY() + tileSize});
     }
 }
 
@@ -105,8 +112,6 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
 
-    std::uniform_int_distribution<> distribution(0, 7);
-
     for (auto& tank : tanks)
     {
         Direction direction{Direction::UP};
@@ -119,6 +124,10 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
                 tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
 
+            const unsigned int tileSize{Config::getInstance().getTileSize()};
+            map.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
+                                                      tank.getY() + tileSize});
+
             bool shouldMove{false};
             std::tie(shouldMove, direction) = inputActionsToDirection(actions);
             if (!shouldMove)
@@ -129,7 +138,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             const auto now{std::chrono::system_clock::now()};
             if (tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
-            const int randomDirection{distribution(randomGenerator_)};
+            const int randomDirection{distribution_(randomGenerator_)};
             if (tank.getX() % Config::getInstance().getTileSize() == 0 &&
                 tank.getY() % Config::getInstance().getTileSize() == 0 &&
                 randomDirection < 4)
@@ -178,9 +187,17 @@ void Game::drawTanks(const std::list<Tank>& tanks)
 void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
                        Map& map)
 {
+    const unsigned int bulletSize{Config::getInstance().getBulletSize()};
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
     for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
     {
+        map.tagAreaAsChanged(
+            bulletIter->getLocation(),
+            {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
         bool valid{bulletIter->move()};
+        map.tagAreaAsChanged(
+            bulletIter->getLocation(),
+            {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
         if (const Point bulletCenter{bulletIter->getCenter()};
             valid && !map.canFly(bulletCenter))
         {
@@ -195,6 +212,11 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
             {
                 if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;
+
+                map.tagAreaAsChanged(
+                    tankIter->getLocation(),
+                    {tankIter->getX() + tileSize, tankIter->getY() + tileSize});
+
                 tanks.erase(tankIter);
             }
             valid = false;

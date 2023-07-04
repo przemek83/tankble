@@ -32,6 +32,8 @@ public:
 
     void shift(Point& pointToShift, Direction direction) const;
 
+    void tagAreaAsChanged(Point leftUpper, Point rightLower);
+
 private:
     inline const std::unique_ptr<Tile>& getTile(Point point) const
     {
@@ -52,6 +54,8 @@ private:
     static void shiftDown(Point& point, unsigned int tileSize);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
+
+    std::vector<std::vector<bool>> changedTiles_{};
 
     bool baseDestroyed_{false};
 

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Config.h"
+#include "PointUtils.h"
 #include "Screen.h"
 #include "Tank.h"
 #include "map/Base.h"
@@ -24,6 +25,10 @@ Map::Map(unsigned int mapDimension)
     board_.resize(mapDimension_);
     for (auto& item : board_)
         item.resize(mapDimension_);
+
+    changedTiles_.resize(mapDimension_);
+    for (auto& item : changedTiles_)
+        item.resize(mapDimension_, true);
 }
 
 // 0 - plain
@@ -131,13 +136,15 @@ bool Map::canFly(Point point) const
 
 void Map::hit(Point point, unsigned int power)
 {
-    auto& tile{getTile(screenPointToTile(point))};
+    auto [x, y]{screenPointToTile(point)};
+    auto& tile{getTile({x, y})};
     if (!canFly(point) && tile->hit(power))
     {
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
         tile = std::make_unique<Plain>(tile->getLocation());
         if (baseDestroyed)
             baseDestroyed_ = true;
+        changedTiles_[x][y] = true;
     }
 }
 
@@ -173,6 +180,26 @@ void Map::shift(Point& pointToShift, Direction direction) const
             break;
         }
     }
+}
+
+void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
+{
+    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    Point point{screenPointToTile(leftUpper)};
+    if (PointUtils::isValidPoint(leftUpper))
+        changedTiles_[point.x][point.y] = true;
+
+    point = screenPointToTile({leftUpper.x, leftUpper.y + tileSize});
+    if (PointUtils::isValidPoint({leftUpper.x, leftUpper.y + tileSize}))
+        changedTiles_[point.x][point.y] = true;
+
+    point = screenPointToTile(rightLower);
+    if (PointUtils::isValidPoint(rightLower))
+        changedTiles_[point.x][point.y] = true;
+
+    point = screenPointToTile({rightLower.x, rightLower.y - tileSize});
+    if (PointUtils::isValidPoint({rightLower.x, rightLower.y - tileSize}))
+        changedTiles_[point.x][point.y] = true;
 }
 
 Point Map::screenPointToTile(Point location)
@@ -212,9 +239,16 @@ void Map::drawBackground(const Screen& screen)
     for (unsigned int x = 0; x < mapDimension_; x++)
         for (unsigned int y = 0; y < mapDimension_; y++)
         {
+            if (!changedTiles_[x][y])
+                continue;
+
             const auto& tile{getTile({x, y})};
             if (tile->isPartOfBackground())
+            {
                 tile->draw(screen);
+                changedTiles_[x][y] = false;
+            }
+
             else
             {
                 plainTile_->setLocation(tileToScreenPoint({x, y}));
@@ -228,9 +262,15 @@ void Map::drawForeground(const Screen& screen)
     for (unsigned int x = 0; x < mapDimension_; x++)
         for (unsigned int y = 0; y < mapDimension_; y++)
         {
+            if (!changedTiles_[x][y])
+                continue;
+
             const auto& tile{getTile({x, y})};
             if (!tile->isPartOfBackground())
+            {
                 tile->draw(screen);
+                changedTiles_[x][y] = false;
+            }
         }
 }
 
