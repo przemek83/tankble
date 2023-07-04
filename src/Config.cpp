@@ -39,6 +39,12 @@ unsigned int Config::getRandomSeed()
     return rd();
 }
 
+void Config::setFPS(FPS fps)
+{
+    fps_ = fps;
+    speedFactor_ = calculateSpeedFactor();
+}
+
 Config::Config()
 {
     const unsigned int initialBoardSize{tileCount_ * tileSize_};

@@ -28,12 +28,6 @@ public:
 
     inline std::chrono::seconds getFireDelay() const { return fireDelay; }
 
-private:
-    Config();
-    ~Config() = default;
-
-    float calculateSpeedFactor() const;
-
     enum class FPS
     {
         FPS_30,
@@ -41,7 +35,15 @@ private:
         FPS_120
     };
 
-    const FPS fps_{FPS::FPS_60};
+    void setFPS(FPS fps);
+
+private:
+    Config();
+    ~Config() = default;
+
+    float calculateSpeedFactor() const;
+
+    FPS fps_{FPS::FPS_60};
     const unsigned int defaultFpsCount_{30};
     const unsigned int tileCount_{20};
     static constexpr unsigned int defaultTileSize_{30};
