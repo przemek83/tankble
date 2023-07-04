@@ -12,7 +12,6 @@ Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x), initialY_(point.y)
 {
     setType(tankType);
-    stats_.speed = getCalculatedSpeed(Config::getInstance().getSpeedFactor());
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
@@ -41,6 +40,7 @@ void Tank::setType(TankType tankType)
 {
     type_ = tankType;
     stats_ = typesStats_[tankType];
+    stats_.speed = getCalculatedSpeed(Config::getInstance().getSpeedFactor());
 }
 
 void Tank::setDirection(Direction direction) { direction_ = direction; }
