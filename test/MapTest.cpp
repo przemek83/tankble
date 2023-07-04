@@ -245,6 +245,8 @@ TEST_CASE("Power ups", "[map]")
     }
 }
 
+namespace
+{
 std::string getTestMapForShifting()
 {
     return {
@@ -252,6 +254,7 @@ std::string getTestMapForShifting()
         "010\n"
         "000\n"};
 }
+}  // namespace
 
 const unsigned int tileCountForShifting{3};
 
