@@ -27,9 +27,12 @@ void Screen::init()
         abort();
     }
 
-    if (al_create_display(Config::getInstance().getBoardWidth() +
-                              Config::getInstance().getSatusWidth(),
-                          Config::getInstance().getBoardHeight()) == nullptr)
+    const int screenWidth{
+        static_cast<int>(Config::getInstance().getBoardWidth() +
+                         Config::getInstance().getSatusWidth())};
+    const int screenHeight{
+        static_cast<int>(Config::getInstance().getBoardHeight())};
+    if (al_create_display(screenWidth, screenHeight) == nullptr)
     {
         std::cerr << "failed to create display!\n" << std::endl;
         abort();
@@ -57,11 +60,17 @@ void Screen::drawTextWithBackground(unsigned int x, unsigned int y,
 {
     const unsigned int margin{10};
     const float radius{10};
-    const int height{al_get_font_line_height(font_)};
-    const int width{al_get_text_width(font_, text.c_str())};
+    const unsigned int height{
+        static_cast<unsigned int>(al_get_font_line_height(font_))};
+    const float width{
+        static_cast<float>(al_get_text_width(font_, text.c_str()))};
+    const float halfOfWidth{width / 2.F};
     al_draw_filled_rounded_rectangle(
-        x - width / 2 - margin, y - margin, x + width / 2 + margin,
-        y + height + margin, radius, radius, al_map_rgb(0, 0, 255));
+        static_cast<float>(x) - halfOfWidth - margin,
+        static_cast<float>(y - margin),
+        static_cast<float>(x) + halfOfWidth + margin,
+        static_cast<float>(y + height + margin), radius, radius,
+        al_map_rgb(0, 0, 255));
     drawText(x, y, text);
 }
 
@@ -108,13 +117,14 @@ void Screen::drawScaledBitmapWithRotation(ResourceType resourceType,
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     const auto width = static_cast<float>(al_get_bitmap_width(bitmapToUse));
-
+    const float halfRatio{2.F};
     al_draw_scaled_rotated_bitmap(
-        bitmapToUse, width / 2.F, width / 2.F,
-        static_cast<float>(x) + static_cast<float>(size) / 2.F,
-        static_cast<float>(y) + static_cast<float>(size) / 2.F,
+        bitmapToUse, width / halfRatio, width / halfRatio,
+        static_cast<float>(x) + static_cast<float>(size) / halfRatio,
+        static_cast<float>(y) + static_cast<float>(size) / halfRatio,
         static_cast<float>(size) / width, static_cast<float>(size) / width,
-        degrees * (ALLEGRO_PI / 180), 0);
+        static_cast<float>(degrees) * (static_cast<float>(ALLEGRO_PI) / 180.F),
+        0);
 }
 
 void Screen::clearScreenWithBlack()
