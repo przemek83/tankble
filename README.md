@@ -60,6 +60,8 @@ Ideas:
 - Add sounds and some music in menu.
 - Add points received during gameplay.
 - Use more sophisticated font than basic built in one from Allegro library.
+- Divide Game class and add tests for gathered within logic.
+- Implement proper mechanism for dropping frames in cases of CPU spikes and performance lags.
 
 ## Screenshots
 ![Alt text](menu_main.png?raw=true "")
