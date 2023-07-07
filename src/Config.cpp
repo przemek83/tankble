@@ -12,7 +12,8 @@ Config& Config::getInstance()
 void Config::screenSizeChanged(unsigned int newWidth, unsigned int newHeight)
 {
     tileSize_ = newHeight / tileCount_;
-    bulletSize_ = tileSize_ / 5;
+    const unsigned int tileToBulletRatio{5};
+    bulletSize_ = tileSize_ / tileToBulletRatio;
     boardWidth_ = tileCount_ * tileSize_;
     boardHeight_ = boardWidth_;
     statusWidth_ = newWidth - boardWidth_;
@@ -59,6 +60,7 @@ float Config::calculateSpeedFactor() const
 {
     const float tileSizeFactor{static_cast<float>(tileSize_) /
                                defaultTileSize_};
-    const float fpsFactor{static_cast<float>(getFps()) / defaultFps_};
+    const float fpsFactor{static_cast<float>(getFps()) /
+                          static_cast<float>(defaultFps_)};
     return 1.F * tileSizeFactor / fpsFactor;
 }
