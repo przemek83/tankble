@@ -24,13 +24,16 @@ unsigned int Config::getFps() const
     switch (fps_)
     {
         case FPS::FPS_30:
-            return 30;
+            return static_cast<unsigned int>(FPS::FPS_30);
+
         case FPS::FPS_60:
-            return 60;
+            return static_cast<unsigned int>(FPS::FPS_60);
+
         case FPS::FPS_120:
-            return 120;
+            return static_cast<unsigned int>(FPS::FPS_120);
     }
-    return defaultFpsCount_;
+
+    return defaultFps_;
 }
 
 unsigned int Config::getRandomSeed()
@@ -56,6 +59,6 @@ float Config::calculateSpeedFactor() const
 {
     const float tileSizeFactor{static_cast<float>(tileSize_) /
                                defaultTileSize_};
-    const float fpsFactor{static_cast<float>(getFps()) / defaultFpsCount_};
+    const float fpsFactor{static_cast<float>(getFps()) / defaultFps_};
     return 1.F * tileSizeFactor / fpsFactor;
 }
