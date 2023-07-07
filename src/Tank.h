@@ -79,10 +79,10 @@ private:
         {TankType::ENEMY_TIER_4,
          {4 * BASIC_ATTACK, 4 * BASIC_HEALTH, BASIC_SPEED + 2, SINGLE_LIFE}}};
 
-    Direction direction_;
-    TankType type_;
-    TankStats stats_;
+    Direction direction_{};
+    TankType type_{};
+    TankStats stats_{};
     TimePoint lastFire_{TimePoint()};
-    const unsigned int initialX_;
-    const unsigned int initialY_;
+    const unsigned int initialX_{};
+    const unsigned int initialY_{};
 };
