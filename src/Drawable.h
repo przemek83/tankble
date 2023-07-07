@@ -9,7 +9,7 @@ class Drawable
 {
 public:
     explicit Drawable(Point point);
-    virtual ~Drawable() = default;
+    virtual ~Drawable();
 
     Drawable& operator=(const Drawable& other) = delete;
     Drawable(const Drawable& other) = delete;

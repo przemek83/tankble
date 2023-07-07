@@ -51,6 +51,4 @@ private:
         {ResourceType::ENEMY_TANK_TIER_4, "image/board/tank_tier4_enemy.tga"}};
 
     std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
-
-    static const std::unordered_map<Level, std::string> levels_;
 };

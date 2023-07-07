@@ -2,6 +2,8 @@
 
 Drawable::Drawable(Point point) : point_(point) {}
 
+Drawable::~Drawable() = default;
+
 void Drawable::setX(unsigned int x) { point_.x = x; }
 
 void Drawable::setY(unsigned int y) { point_.y = y; }
