@@ -61,8 +61,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        apt install git cmake build-essential
-        apt install libdumb1-dev \
+        sudo apt install git cmake build-essential
+        sudo apt install libdumb1-dev \
                  libflac-dev \
                  libfreetype6-dev \
                  libgl1-mesa-dev \
