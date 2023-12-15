@@ -1,4 +1,4 @@
-
+[![CodeQL](https://github.com/przemek83/tankble/actions/workflows/codeql.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/codeql.yml)
 ## Table of content
 - [Example screenshot](#example-screenshot)
 - [Description](#description)
