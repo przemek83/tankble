@@ -18,5 +18,6 @@ target_link_libraries(${PROJECT_TEST} PRIVATE Catch2::Catch2WithMain
     optimized allegro_primitives debug allegro_primitives-debug
 )
 
-add_test(NAME ${PROJECT_TEST} COMMAND ${PROJECT_TEST})
-
+include(CTest)
+include(Catch)
+catch_discover_tests(${PROJECT_NAME}-test)

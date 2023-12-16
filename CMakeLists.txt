@@ -100,6 +100,6 @@ target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib
     optimized allegro_primitives debug allegro_primitives-debug
 )
 
-Include(Tests.cmake)
 enable_testing()
+Include(Tests.cmake)
 add_subdirectory(test)
