@@ -1,4 +1,6 @@
+[![Build & test](https://github.com/przemek83/tankble/actions/workflows/cmake-single-platform.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/cmake-single-platform.yml)
 [![CodeQL](https://github.com/przemek83/tankble/actions/workflows/codeql.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/codeql.yml)
+
 ## Table of content
 - [Example screenshot](#example-screenshot)
 - [Description](#description)
