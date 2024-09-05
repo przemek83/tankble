@@ -9,7 +9,7 @@ jobs:
       platform: ubuntu-latest
       dependencies-linux: "libgl1-mesa-dev libxcursor-dev"
 
-  # windows:
-  #   uses: przemek83/common/.github/workflows/build-and-test-cpp.yml@main
-  #   with:
-  #     platform: windows-latest
+  windows:
+    uses: przemek83/common/.github/workflows/build-and-test-cpp.yml@main
+    with:
+      platform: windows-latest
