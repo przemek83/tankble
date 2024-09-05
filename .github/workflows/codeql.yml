@@ -60,7 +60,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Install Dependencies
-      run: sudo apt-get install ibgl1-mesa-dev libxcursor-dev
+      run: sudo apt-get install libgl1-mesa-dev libxcursor-dev
 
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
