@@ -24,7 +24,6 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        sudo apt install git cmake build-essential
         sudo apt install libgl1-mesa-dev \
                  libxcursor-dev
 
