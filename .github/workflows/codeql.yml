@@ -60,28 +60,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Install Dependencies
-      run: |
-        sudo apt install git cmake build-essential
-        sudo apt install libdumb1-dev \
-                 libflac-dev \
-                 libfreetype6-dev \
-                 libgl1-mesa-dev \
-                 libglu1-mesa-dev \
-                 libgtk-3-dev \
-                 libjpeg-dev \
-                 libopenal-dev \
-                 libphysfs-dev \
-                 libpng-dev \
-                 libpulse-dev \
-                 libtheora-dev \
-                 libvorbis-dev \
-                 libwebp-dev \
-                 libxext-dev \
-                 libxxf86vm-dev \
-                 libxrandr-dev \
-                 libxinerama-dev \
-                 libxpm-dev \
-                 libopusfile-dev
+      run: sudo apt-get install ibgl1-mesa-dev libxcursor-dev
 
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
