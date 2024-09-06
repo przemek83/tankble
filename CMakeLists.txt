@@ -100,7 +100,7 @@ ${ALLEGRO_BINARY_DIR}/include
 )
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib)
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 
 enable_testing()
 Include(Tests.cmake)
