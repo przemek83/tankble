@@ -11,12 +11,7 @@ set(${PROJECT_TEST}_SOURCES
     )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
-target_link_libraries(${PROJECT_TEST} PRIVATE Catch2::Catch2WithMain
-    ${PROJECT_NAME}-lib optimized allegro debug allegro-debug
-    optimized allegro_image debug allegro_image-debug
-    optimized allegro_font debug allegro_font-debug
-    optimized allegro_primitives debug allegro_primitives-debug
-)
+target_link_libraries(${PROJECT_TEST} PRIVATE Catch2::Catch2WithMain ${PROJECT_NAME}-lib)
 
 include(CTest)
 include(Catch)

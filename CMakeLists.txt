@@ -10,22 +10,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(THIRD_PARTY_LIBS allegro)
-foreach(file_i ${THIRD_PARTY_LIBS})
-    configure_file(CMakeLists.txt.${file_i} ${file_i}/CMakeLists.txt)
-    execute_process(COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} .
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${file_i})
-    execute_process(COMMAND ${CMAKE_COMMAND} --build .
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${file_i} )
+option(CODE_COVERAGE "Collect coverage" OFF)
 
-    include_directories(${CMAKE_BINARY_DIR}/${file_i}/install/include)
-    link_directories(${CMAKE_BINARY_DIR}/${file_i}/install/lib)
-endforeach(file_i)
+if(CODE_COVERAGE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 --coverage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 --coverage")
+endif()
 
-file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
-file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test")
+include(CMakeLists.txt.allegro)
+set(ALLEGRO_SOURCE_DIR "${FETCHCONTENT_BASE_DIR}/allegro-src")
+set(ALLEGRO_BINARY_DIR "${FETCHCONTENT_BASE_DIR}/allegro-build")
 
+# file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
+# file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+# file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test")
 file(COPY image DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY levels DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -92,14 +90,17 @@ set(${PROJECT_NAME}_SOURCES
     )
 
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES})
+target_link_libraries(${PROJECT_NAME}-lib allegro allegro_image allegro_font allegro_primitives)
+target_include_directories(${PROJECT_NAME}-lib PUBLIC 
+${ALLEGRO_SOURCE_DIR}/include 
+${ALLEGRO_SOURCE_DIR}/addons/font 
+${ALLEGRO_SOURCE_DIR}/addons/image
+${ALLEGRO_SOURCE_DIR}/addons/primitives
+${ALLEGRO_BINARY_DIR}/include
+)
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib
-    optimized allegro debug allegro-debug
-    optimized allegro_image debug allegro_image-debug
-    optimized allegro_font debug allegro_font-debug
-    optimized allegro_primitives debug allegro_primitives-debug
-)
+target_link_libraries(${PROJECT_NAME} stdc++fs ${PROJECT_NAME}-lib)
 
 enable_testing()
 Include(Tests.cmake)
