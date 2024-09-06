@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.14)
 
 project(tankble
     LANGUAGES CXX 
@@ -103,9 +103,9 @@ IF (WIN32)
     file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
     message("--------- LIBS: ${DLLS}")
     file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
-    file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
+    file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test/${CMAKE_BUILD_TYPE}")
     message("--------- COMMAND")
-    execute_process(COMMAND dir "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
+    execute_process(COMMAND dir "${CMAKE_BINARY_DIR}/test/${CMAKE_BUILD_TYPE}")
 ENDIF()
 
 enable_testing()
