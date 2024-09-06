@@ -16,7 +16,7 @@ target_link_libraries(${PROJECT_TEST} PRIVATE Catch2::Catch2WithMain ${PROJECT_N
 IF (WIN32)
     add_custom_command(TARGET ${PROJECT_TEST} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   "${FETCHCONTENT_BASE_DIR}/allegro-build/lib/" "$<TARGET_FILE_DIR:${PROJECT_TEST}>")
+                   "$<TARGET_FILE_DIR:allegro>" "$<TARGET_FILE_DIR:${PROJECT_TEST}>")
 ENDIF()
 
 include(CTest)
