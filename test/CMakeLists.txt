@@ -15,4 +15,5 @@ target_link_libraries(${PROJECT_TEST} PRIVATE Catch2::Catch2WithMain ${PROJECT_N
 
 include(CTest)
 include(Catch)
+set(CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
 catch_discover_tests(${PROJECT_TEST})
