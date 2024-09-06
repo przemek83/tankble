@@ -24,6 +24,10 @@ IF (WIN32)
     add_custom_command(TARGET ${PROJECT_TEST} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                    "${FETCHCONTENT_BASE_DIR}/allegro-build/lib/" "$<TARGET_FILE_DIR:${PROJECT_TEST}>/${CMAKE_BUILD_TYPE}")
+    add_custom_command(TARGET ${PROJECT_TEST} POST_BUILD
+                   COMMAND dir "${FETCHCONTENT_BASE_DIR}/allegro-build/lib/")
+    add_custom_command(TARGET ${PROJECT_TEST} POST_BUILD
+                   COMMAND dir "${CMAKE_BINARY_DIR}/test/${CMAKE_BUILD_TYPE}")
 ENDIF()
 
 include(CTest)
