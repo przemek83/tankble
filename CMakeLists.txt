@@ -21,12 +21,6 @@ include(CMakeLists.txt.allegro)
 set(ALLEGRO_SOURCE_DIR "${FETCHCONTENT_BASE_DIR}/allegro-src")
 set(ALLEGRO_BINARY_DIR "${FETCHCONTENT_BASE_DIR}/allegro-build")
 
-IF (WIN32)
-    file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
-    file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
-    file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
-ENDIF()
-
 file(COPY image DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY levels DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -104,6 +98,12 @@ ${ALLEGRO_BINARY_DIR}/include
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
+
+IF (WIN32)
+    file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
+    file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
+ENDIF()
 
 enable_testing()
 Include(Tests.cmake)
