@@ -101,8 +101,11 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 
 IF (WIN32)
     file(GLOB_RECURSE DLLS "${CMAKE_BINARY_DIR}/*.dll" )
+    message("--------- LIBS: ${DLLS}")
     file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR})
     file(COPY ${DLLS} DESTINATION "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
+    message("--------- COMMAND")
+    execute_process(COMMAND dir "${CMAKE_BINARY_DIR}/test/$CMAKE_BUILD_TYPE}")
 ENDIF()
 
 enable_testing()
