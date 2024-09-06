@@ -1,5 +1,12 @@
-[![Build & test](https://github.com/przemek83/tankble/actions/workflows/cmake-single-platform.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/cmake-single-platform.yml)
+[![Build & test](https://github.com/przemek83/tankble/actions/workflows/buld-and-test.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/buld-and-test.yml)
 [![CodeQL](https://github.com/przemek83/tankble/actions/workflows/codeql.yml/badge.svg)](https://github.com/przemek83/tankble/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/gh/przemek83/tankble/graph/badge.svg?token=86RCNSFA0U)](https://codecov.io/gh/przemek83/tankble)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=przemek83_tankble&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=przemek83_tankble)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=przemek83_tankble&metric=bugs)](https://sonarcloud.io/summary/new_code?id=przemek83_tankble)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=przemek83_tankble&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=przemek83_tankble)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_tankble&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_tankble)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_tankble&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_tankble)
 
 ## Table of content
 - [Example screenshot](#example-screenshot)
