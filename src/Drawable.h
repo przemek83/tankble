@@ -24,8 +24,8 @@ public:
     void setX(unsigned int x);
     void setY(unsigned int y);
 
-    unsigned int getX() const { return point_.x; }
-    unsigned int getY() const { return point_.y; }
+    unsigned int getX() const { return point_.x_; }
+    unsigned int getY() const { return point_.y_; }
 
     void setLocation(Point point);
     Point getLocation() const;

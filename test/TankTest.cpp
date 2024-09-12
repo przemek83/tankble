@@ -267,8 +267,8 @@ TEST_CASE("firing", "[tank]")
         const unsigned int tileSize{Config::getInstance().getTileSize()};
         Tank tank(TankType::PLAYER_TIER_1, point);
         const Bullet bullet = tank.fire(TimePoint::max());
-        const Point expectedBulletCenter{point.x + tileSize / 2,
-                                         point.y + tileSize / 2};
+        const Point expectedBulletCenter{point.x_ + tileSize / 2,
+                                         point.y_ + tileSize / 2};
         REQUIRE(bullet.getCenter() == expectedBulletCenter);
     }
 

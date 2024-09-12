@@ -37,12 +37,12 @@ public:
 private:
     const std::unique_ptr<Tile>& getTile(Point point) const
     {
-        return board_[point.y][point.x];
+        return board_[point.y_][point.x_];
     }
 
     std::unique_ptr<Tile>& getTile(Point point)
     {
-        return board_[point.y][point.x];
+        return board_[point.y_][point.x_];
     }
 
     static Point screenPointToTile(Point location);

@@ -47,28 +47,28 @@ TEST_CASE("Bullet coordinates", "[bullet]")
     SECTION("location is correct")
     {
         const Point currentPoint{bullet.getLocation()};
-        REQUIRE(currentPoint.x ==
-                point.x - Config::getInstance().getBulletSize() / 2);
-        REQUIRE(currentPoint.y ==
-                point.y - Config::getInstance().getBulletSize() / 2);
+        REQUIRE(currentPoint.x_ ==
+                point.x_ - Config::getInstance().getBulletSize() / 2);
+        REQUIRE(currentPoint.y_ ==
+                point.y_ - Config::getInstance().getBulletSize() / 2);
     }
     SECTION("center is correct")
     {
         const Point currentPoint{bullet.getCenter()};
-        REQUIRE(currentPoint.x == point.x);
-        REQUIRE(currentPoint.y == point.y);
+        REQUIRE(currentPoint.x_ == point.x_);
+        REQUIRE(currentPoint.y_ == point.y_);
     }
     SECTION("getX is working")
     {
         const Point currentPoint{bullet.getLocation()};
         const unsigned int currentX{bullet.getX()};
-        REQUIRE(currentX == currentPoint.x);
+        REQUIRE(currentX == currentPoint.x_);
     }
     SECTION("getY is working")
     {
         const Point currentPoint{bullet.getLocation()};
         const unsigned int currentY{bullet.getY()};
-        REQUIRE(currentY == currentPoint.y);
+        REQUIRE(currentY == currentPoint.y_);
     }
 
     SECTION("setX is working")
@@ -101,8 +101,8 @@ TEST_CASE("Bullet moving", "[bullet]")
         bullet.move();
 
         const Point centerAfterMove{bullet.getCenter()};
-        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
-        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+        REQUIRE(centerBeforeMove.x_ == centerAfterMove.x_);
+        REQUIRE(centerBeforeMove.y_ == centerAfterMove.y_);
     }
     SECTION("bullet moving inside valid area")
     {
@@ -120,8 +120,8 @@ TEST_CASE("Bullet moving", "[bullet]")
 
         bullet.move();
 
-        REQUIRE(bullet.getCenter().x == expectedPoint.x);
-        REQUIRE(bullet.getCenter().y == expectedPoint.y);
+        REQUIRE(bullet.getCenter().x_ == expectedPoint.x_);
+        REQUIRE(bullet.getCenter().y_ == expectedPoint.y_);
     }
     SECTION("location and center not changed after invalid move")
     {
@@ -132,11 +132,11 @@ TEST_CASE("Bullet moving", "[bullet]")
         REQUIRE(bullet.move() == false);
 
         const Point centerAfterMove{bullet.getCenter()};
-        REQUIRE(centerBeforeMove.x == centerAfterMove.x);
-        REQUIRE(centerBeforeMove.y == centerAfterMove.y);
+        REQUIRE(centerBeforeMove.x_ == centerAfterMove.x_);
+        REQUIRE(centerBeforeMove.y_ == centerAfterMove.y_);
         const Point locationAfterMove{bullet.getLocation()};
-        REQUIRE(locationBeforeMove.x == locationAfterMove.x);
-        REQUIRE(locationBeforeMove.y == locationAfterMove.y);
+        REQUIRE(locationBeforeMove.x_ == locationAfterMove.x_);
+        REQUIRE(locationBeforeMove.y_ == locationAfterMove.y_);
     }
 }
 
@@ -147,8 +147,8 @@ TEST_CASE("Bullet moving to invalid area", "[bullet]")
                                     bulletSpeed / 2};
     auto [direction, pointGenerated] =
         GENERATE_REF(TestData{Direction::UP, point},
-                     TestData{Direction::DOWN, Point{point.x, nearEndOfMap}},
-                     TestData{Direction::RIGHT, Point{nearEndOfMap, point.y}},
+                     TestData{Direction::DOWN, Point{point.x_, nearEndOfMap}},
+                     TestData{Direction::RIGHT, Point{nearEndOfMap, point.y_}},
                      TestData{Direction::LEFT, point});
 
     Bullet bullet{pointGenerated, bulletSpeed, enemyOrigin, bulletPower,

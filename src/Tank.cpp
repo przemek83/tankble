@@ -9,7 +9,7 @@
 #include "TankType.h"
 
 Tank::Tank(TankType tankType, Point point)
-    : Drawable(point), initialX_(point.x), initialY_(point.y)
+    : Drawable(point), initialX_(point.x_), initialY_(point.y_)
 {
     setType(tankType);
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
@@ -161,14 +161,14 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 bool Tank::isWithin(Point point) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
-    return point.x >= getX() && point.x < getX() + tileSize &&
-           point.y >= getY() && point.y < getY() + tileSize;
+    return point.x_ >= getX() && point.x_ < getX() + tileSize &&
+           point.y_ >= getY() && point.y_ < getY() + tileSize;
 }
 
 void Tank::move(Point point)
 {
-    setX(point.x);
-    setY(point.y);
+    setX(point.x_);
+    setY(point.y_);
 }
 
 void Tank::respawn()

@@ -19,14 +19,14 @@ void Status::update(TankStats newStats, const Screen& screen)
 void Status::draw(const Screen& screen) const
 {
     const unsigned int spacer{getHeight() / 5};
-    screen.drawTextWithBackground(getCenter().x, spacer * 1,
+    screen.drawTextWithBackground(getCenter().x_, spacer * 1,
                                   "Lives: " + std::to_string(stats_.lives));
-    screen.drawTextWithBackground(getCenter().x, spacer * 2,
+    screen.drawTextWithBackground(getCenter().x_, spacer * 2,
                                   "Shield: " + std::to_string(stats_.shield));
-    screen.drawTextWithBackground(getCenter().x, spacer * 3,
+    screen.drawTextWithBackground(getCenter().x_, spacer * 3,
                                   "Speed: " + std::to_string(stats_.speed));
     screen.drawTextWithBackground(
-        getCenter().x, spacer * 4,
+        getCenter().x_, spacer * 4,
         "Attack: " + std::to_string(stats_.attackPower));
 }
 

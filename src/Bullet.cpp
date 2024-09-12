@@ -7,8 +7,8 @@
 
 Bullet::Bullet(Point startingPoint, unsigned int speed, bool playerOrigin,
                unsigned int power, Direction direction)
-    : Drawable({startingPoint.x - Config::getInstance().getBulletSize() / 2,
-                startingPoint.y - Config::getInstance().getBulletSize() / 2}),
+    : Drawable({startingPoint.x_ - Config::getInstance().getBulletSize() / 2,
+                startingPoint.y_ - Config::getInstance().getBulletSize() / 2}),
       size_(Config::getInstance().getBulletSize()),
       playerOrigin_(playerOrigin),
       direction_(direction),

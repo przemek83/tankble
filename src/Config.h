@@ -26,7 +26,7 @@ public:
 
     static unsigned int getRandomSeed();
 
-    std::chrono::seconds getFireDelay() const { return fireDelay; }
+    std::chrono::seconds getFireDelay() const { return fireDelay_; }
 
     enum class FPS : char
     {
@@ -53,5 +53,5 @@ private:
     unsigned int boardHeight_{};
     unsigned int statusWidth_{};
     float speedFactor_{};
-    const std::chrono::seconds fireDelay{2};
+    const std::chrono::seconds fireDelay_{2};
 };

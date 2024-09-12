@@ -152,10 +152,10 @@ void Map::shift(Point& pointToShift, Direction direction) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     const Point leftUpper{pointToShift};
-    const Point leftLower{leftUpper.x, leftUpper.y + tileSize - 1};
-    const Point rightUpper{leftUpper.x + tileSize - 1, leftUpper.y};
-    const Point rightLower{leftUpper.x + tileSize - 1,
-                           leftUpper.y + tileSize - 1};
+    const Point leftLower{leftUpper.x_, leftUpper.y_ + tileSize - 1};
+    const Point rightUpper{leftUpper.x_ + tileSize - 1, leftUpper.y_};
+    const Point rightLower{leftUpper.x_ + tileSize - 1,
+                           leftUpper.y_ + tileSize - 1};
     switch (direction)
     {
         case Direction::UP:
@@ -187,51 +187,51 @@ void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     Point point{screenPointToTile(leftUpper)};
     if (PointUtils::isValidPoint(leftUpper))
-        changedTiles_[point.x][point.y] = true;
+        changedTiles_[point.x_][point.y_] = true;
 
-    point = screenPointToTile({leftUpper.x, leftUpper.y + tileSize});
-    if (PointUtils::isValidPoint({leftUpper.x, leftUpper.y + tileSize}))
-        changedTiles_[point.x][point.y] = true;
+    point = screenPointToTile({leftUpper.x_, leftUpper.y_ + tileSize});
+    if (PointUtils::isValidPoint({leftUpper.x_, leftUpper.y_ + tileSize}))
+        changedTiles_[point.x_][point.y_] = true;
 
     point = screenPointToTile(rightLower);
     if (PointUtils::isValidPoint(rightLower))
-        changedTiles_[point.x][point.y] = true;
+        changedTiles_[point.x_][point.y_] = true;
 
-    point = screenPointToTile({rightLower.x, rightLower.y - tileSize});
-    if (PointUtils::isValidPoint({rightLower.x, rightLower.y - tileSize}))
-        changedTiles_[point.x][point.y] = true;
+    point = screenPointToTile({rightLower.x_, rightLower.y_ - tileSize});
+    if (PointUtils::isValidPoint({rightLower.x_, rightLower.y_ - tileSize}))
+        changedTiles_[point.x_][point.y_] = true;
 }
 
 Point Map::screenPointToTile(Point location)
 {
-    return {location.x / Config::getInstance().getTileSize(),
-            location.y / Config::getInstance().getTileSize()};
+    return {location.x_ / Config::getInstance().getTileSize(),
+            location.y_ / Config::getInstance().getTileSize()};
 }
 
 Point Map::tileToScreenPoint(Point point)
 {
-    return {point.x * Config::getInstance().getTileSize(),
-            point.y * Config::getInstance().getTileSize()};
+    return {point.x_ * Config::getInstance().getTileSize(),
+            point.y_ * Config::getInstance().getTileSize()};
 }
 
 void Map::shiftRight(Point& point, unsigned int tileSize)
 {
-    point.x = (point.x / tileSize + 1) * tileSize;
+    point.x_ = (point.x_ / tileSize + 1) * tileSize;
 }
 
 void Map::shiftLeft(Point& point, unsigned int tileSize)
 {
-    point.x = (point.x / tileSize) * tileSize;
+    point.x_ = (point.x_ / tileSize) * tileSize;
 }
 
 void Map::shiftUp(Point& point, unsigned int tileSize)
 {
-    point.y = (point.y / tileSize) * tileSize;
+    point.y_ = (point.y_ / tileSize) * tileSize;
 }
 
 void Map::shiftDown(Point& point, unsigned int tileSize)
 {
-    point.y = (point.y / tileSize + 1) * tileSize;
+    point.y_ = (point.y_ / tileSize + 1) * tileSize;
 }
 
 void Map::drawBackground(const Screen& screen)
