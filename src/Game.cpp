@@ -79,7 +79,10 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
 bool Game::play(Level level)
 {
     Map map(Config::getInstance().getTileCount());
-    std::fstream levelContent{Resources::getLevel(level)};
+    auto [success, levelContent]{Resources::getLevel(level)};
+    if (!success)
+        return false;
+
     std::list<Tank> tanks{map.loadMap(levelContent)};
     levelContent.close();
 

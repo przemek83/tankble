@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 #include <allegro5/allegro.h>
 
@@ -22,7 +23,7 @@ ALLEGRO_BITMAP* Resources::getBitmap(ResourceType resourceType) const
     return bitmaps_.at(resourceType);
 }
 
-std::fstream Resources::getLevel(Level level)
+std::pair<bool, std::fstream> Resources::getLevel(Level level)
 {
     const std::unordered_map<Level, std::string> levels{
         {Level::LEVEL_1, "levels/level1.dat"},
@@ -32,8 +33,11 @@ std::fstream Resources::getLevel(Level level)
 
     const std::string& levelName{levels.at(level)};
     if (!std::filesystem::exists(levelName))
-        exit(1);
+    {
+        std::cerr << "Cannot open level file: " << levelName << "\n";
+        return {false, std::fstream{}};
+    }
 
     std::fstream stream(levelName, std::fstream::in);
-    return stream;
+    return {true, std::move(stream)};
 }

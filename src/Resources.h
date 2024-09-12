@@ -22,7 +22,7 @@ public:
 
     ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
-    static std::fstream getLevel(Level level);
+    static std::pair<bool, std::fstream> getLevel(Level level);
 
 private:
     std::unordered_map<ResourceType, std::string> resourcePaths_{
