@@ -23,7 +23,7 @@ unsigned int Bullet::getPower() const { return power_; }
 
 Point Bullet::getCenter() const
 {
-    return {getX() + size_ / 2, getY() + size_ / 2};
+    return {getX() + (size_ / 2), getY() + (size_ / 2)};
 }
 
 int Bullet::getDirectionX() const
@@ -47,9 +47,9 @@ int Bullet::getDirectionY() const
 bool Bullet::move()
 {
     const int px{static_cast<int>(getX()) +
-                 getDirectionX() * static_cast<int>(speed_)};
+                 (getDirectionX() * static_cast<int>(speed_))};
     const int py{static_cast<int>(getY()) +
-                 getDirectionY() * static_cast<int>(speed_)};
+                 (getDirectionY() * static_cast<int>(speed_))};
 
     if (!point_utils::isValidPoint(px, py, size_))
         return false;
