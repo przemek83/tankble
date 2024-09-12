@@ -65,7 +65,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
     Point newPoint{static_cast<unsigned int>(newX),
                    static_cast<unsigned int>(newY)};
     const std::vector<Point> pointsToCheck{
-        MapUtils::getMovePoints(newPoint, direction, tileSize)};
+        map_utils::getMovePoints(newPoint, direction, tileSize)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
                     [&map](Point point) { return map.canDrive(point); }))
     {

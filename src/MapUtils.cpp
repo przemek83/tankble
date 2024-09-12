@@ -1,6 +1,6 @@
 #include "MapUtils.h"
 
-namespace MapUtils
+namespace map_utils
 {
 std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
                                  unsigned int tileSize)
@@ -38,4 +38,4 @@ std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
 
     return {};
 }
-}  // namespace MapUtils
+}  // namespace map_utils

@@ -9,21 +9,21 @@ TEST_CASE("Move points", "[MapUtils]")
     SECTION("number of point returned")
     {
         const std::vector<Point> movePoints{
-            MapUtils::getMovePoints(leftUpperCorner, Direction::UP, tileSize)};
+            map_utils::getMovePoints(leftUpperCorner, Direction::UP, tileSize)};
         REQUIRE(movePoints.size() == 2);
     }
 
     SECTION("moving up")
     {
         const std::vector<Point> movePoints{
-            MapUtils::getMovePoints(leftUpperCorner, Direction::UP, tileSize)};
+            map_utils::getMovePoints(leftUpperCorner, Direction::UP, tileSize)};
         REQUIRE(movePoints.front() == Point{110, 100});
         REQUIRE(movePoints.back() == Point{120, 100});
     }
 
     SECTION("moving down")
     {
-        const std::vector<Point> movePoints{MapUtils::getMovePoints(
+        const std::vector<Point> movePoints{map_utils::getMovePoints(
             leftUpperCorner, Direction::DOWN, tileSize)};
         REQUIRE(movePoints.front() == Point{110, 129});
         REQUIRE(movePoints.back() == Point{120, 129});
@@ -31,7 +31,7 @@ TEST_CASE("Move points", "[MapUtils]")
 
     SECTION("moving right")
     {
-        const std::vector<Point> movePoints{MapUtils::getMovePoints(
+        const std::vector<Point> movePoints{map_utils::getMovePoints(
             leftUpperCorner, Direction::RIGHT, tileSize)};
         REQUIRE(movePoints.front() == Point{129, 110});
         REQUIRE(movePoints.back() == Point{129, 120});
@@ -39,7 +39,7 @@ TEST_CASE("Move points", "[MapUtils]")
 
     SECTION("moving left")
     {
-        const std::vector<Point> movePoints{MapUtils::getMovePoints(
+        const std::vector<Point> movePoints{map_utils::getMovePoints(
             leftUpperCorner, Direction::LEFT, tileSize)};
         REQUIRE(movePoints.front() == Point{100, 110});
         REQUIRE(movePoints.back() == Point{100, 120});

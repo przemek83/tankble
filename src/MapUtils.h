@@ -7,8 +7,8 @@
 
 class Map;
 
-namespace MapUtils
+namespace map_utils
 {
 std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
                                  unsigned int tileSize);
-}  // namespace MapUtils
+}  // namespace map_utils
