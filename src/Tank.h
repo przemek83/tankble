@@ -28,7 +28,6 @@ public:
     using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
     Bullet fire(TimePoint currentTime);
     bool canFire(TimePoint currentTime) const;
-    void resetFire();
 
     bool hit(unsigned int power);
     void move(Point point);

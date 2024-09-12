@@ -165,8 +165,6 @@ bool Tank::isWithin(Point point) const
            point.y >= getY() && point.y < getY() + tileSize;
 }
 
-void Tank::resetFire() { lastFire_ = TimePoint(); }
-
 void Tank::move(Point point)
 {
     setX(point.x);

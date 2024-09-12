@@ -8,7 +8,7 @@ struct ALLEGRO_FONT;
 struct ALLEGRO_BITMAP;
 struct ALLEGRO_COLOR;
 
-class Screen final
+class Screen
 {
 public:
     explicit Screen(Resources resources);
@@ -28,9 +28,6 @@ public:
                                 const std::string& text) const;
 
     void drawBackground(ResourceType resourceType) const;
-
-    void drawBitmap(ResourceType resourceType, unsigned int x,
-                    unsigned int y) const;
 
     void drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
                                 unsigned int y, unsigned int size) const;
@@ -53,17 +50,15 @@ public:
 
     unsigned int getBitmapHeight(ResourceType resourceType) const;
 
-    static void refresh() ;
+    static void refresh();
 
-    static void showMouse() ;
+    static void showMouse();
 
-    static void hideMouse() ;
+    static void hideMouse();
 
     void useFullScreenMode();
 
     void useWindowedMode();
-
-    const Resources& getResources() const;
 
     unsigned int getWidth() const;
 
@@ -71,8 +66,6 @@ public:
 
 private:
     void updateSize();
-
-    std::pair<unsigned int, unsigned int> getCenter() const;
 
     Resources resources_;
 

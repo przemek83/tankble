@@ -293,15 +293,6 @@ TEST_CASE("firing", "[tank]")
         tank.fire(firstFireTime);
         REQUIRE(tank.canFire(firstFireTime + delay) == true);
     }
-
-    SECTION("reset fire")
-    {
-        Tank tank(TankType::PLAYER_TIER_1, point);
-        const TimePoint firstFireTime{TimePoint() + delay};
-        tank.fire(firstFireTime);
-        tank.resetFire();
-        REQUIRE(tank.canFire(firstFireTime + delay / 2) == true);
-    }
 }
 
 TEST_CASE("power-ups", "[tank]")

@@ -37,8 +37,6 @@ private:
         std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
         unsigned int currentItem) const;
 
-    bool itemPicked(const ALLEGRO_EVENT& event) const;
-
     void redraw(unsigned int currentItem);
 
     unsigned int getLocationOfFirstItem() const;

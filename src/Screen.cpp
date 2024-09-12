@@ -84,14 +84,6 @@ void Screen::drawBackground(ResourceType resourceType) const
                           static_cast<float>(getHeight()), 0);
 }
 
-void Screen::drawBitmap(ResourceType resourceType, unsigned int x,
-                        unsigned int y) const
-{
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
-    al_draw_bitmap(bitmapToUse, static_cast<float>(x), static_cast<float>(y),
-                   0);
-}
-
 void Screen::drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
                                     unsigned int y, unsigned int size) const
 {
@@ -149,11 +141,6 @@ unsigned int Screen::getWidth() const { return width_; }
 
 unsigned int Screen::getHeight() const { return height_; }
 
-std::pair<unsigned int, unsigned int> Screen::getCenter() const
-{
-    return {width_ / 2, height_ / 2};
-}
-
 unsigned int Screen::getCenterX() const { return width_ / 2; }
 
 unsigned int Screen::getCenterY() const { return height_ / 2; }
@@ -189,5 +176,3 @@ void Screen::useWindowedMode()
                         false);
     updateSize();
 }
-
-const Resources& Screen::getResources() const { return resources_; }
