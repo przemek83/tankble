@@ -8,6 +8,7 @@ TEST_CASE("Set element sizes", "[config]")
 
     SECTION("check initial sizes")
     {
+        REQUIRE(config.getTileCount() == 20);
         REQUIRE(config.getBoardHeight() == 600);
         REQUIRE(config.getBoardWidth() == 600);
         REQUIRE(config.getSatusWidth() == 200);
@@ -18,6 +19,7 @@ TEST_CASE("Set element sizes", "[config]")
     SECTION("check updating sizes")
     {
         config.screenSizeChanged(1920, 1080);
+        REQUIRE(config.getTileCount() == 20);
         REQUIRE(config.getBoardHeight() == 1080);
         REQUIRE(config.getBoardWidth() == 1080);
         REQUIRE(config.getSatusWidth() == 840);
