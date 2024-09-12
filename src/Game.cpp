@@ -59,7 +59,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
                          {tank.getX() + tileSize, tank.getY() + tileSize});
 
     auto [newX, newY]{tank.getNextExpectedPosition()};
-    if (!PointUtils::isValidPoint(newX, newY, tileSize))
+    if (!point_utils::isValidPoint(newX, newY, tileSize))
         return;
 
     Point newPoint{static_cast<unsigned int>(newX),

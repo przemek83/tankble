@@ -2,11 +2,11 @@
 
 #include "Point.h"
 
-namespace PointUtils
+namespace point_utils
 {
 Point pointFromSigned(int x, int y);
 
 bool isValidPoint(int x, int y, unsigned int objectSize);
 
 bool isValidPoint(Point point);
-};  // namespace PointUtils
+};  // namespace point_utils

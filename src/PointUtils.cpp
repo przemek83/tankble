@@ -2,7 +2,7 @@
 
 #include "Config.h"
 
-namespace PointUtils
+namespace point_utils
 {
 Point pointFromSigned(int x, int y)
 {
@@ -22,4 +22,4 @@ bool isValidPoint(Point point)
     return point.x_ < maxCoordinate && point.y_ < maxCoordinate;
 }
 
-};  // namespace PointUtils
+};  // namespace point_utils

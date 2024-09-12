@@ -186,19 +186,19 @@ void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     Point point{screenPointToTile(leftUpper)};
-    if (PointUtils::isValidPoint(leftUpper))
+    if (point_utils::isValidPoint(leftUpper))
         changedTiles_[point.x_][point.y_] = true;
 
     point = screenPointToTile({leftUpper.x_, leftUpper.y_ + tileSize});
-    if (PointUtils::isValidPoint({leftUpper.x_, leftUpper.y_ + tileSize}))
+    if (point_utils::isValidPoint({leftUpper.x_, leftUpper.y_ + tileSize}))
         changedTiles_[point.x_][point.y_] = true;
 
     point = screenPointToTile(rightLower);
-    if (PointUtils::isValidPoint(rightLower))
+    if (point_utils::isValidPoint(rightLower))
         changedTiles_[point.x_][point.y_] = true;
 
     point = screenPointToTile({rightLower.x_, rightLower.y_ - tileSize});
-    if (PointUtils::isValidPoint({rightLower.x_, rightLower.y_ - tileSize}))
+    if (point_utils::isValidPoint({rightLower.x_, rightLower.y_ - tileSize}))
         changedTiles_[point.x_][point.y_] = true;
 }
 

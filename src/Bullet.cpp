@@ -51,10 +51,10 @@ bool Bullet::move()
     const int py{static_cast<int>(getY()) +
                  getDirectionY() * static_cast<int>(speed_)};
 
-    if (!PointUtils::isValidPoint(px, py, size_))
+    if (!point_utils::isValidPoint(px, py, size_))
         return false;
 
-    setLocation(PointUtils::pointFromSigned(px, py));
+    setLocation(point_utils::pointFromSigned(px, py));
 
     return true;
 }
