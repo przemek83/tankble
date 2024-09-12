@@ -92,7 +92,10 @@ TEST_CASE("Bullet moving", "[bullet]")
 {
     SECTION("bullet moving with 0 speed")
     {
-        Bullet bullet{point, 0, enemyOrigin, bulletPower, Direction::UP};
+        Direction direction{GENERATE_REF(Direction::UP, Direction::DOWN,
+                                         Direction::RIGHT, Direction::LEFT)};
+
+        Bullet bullet{point, 0, enemyOrigin, bulletPower, direction};
         const Point centerBeforeMove{bullet.getCenter()};
 
         bullet.move();
