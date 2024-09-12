@@ -33,9 +33,9 @@ private:
     static std::list<Tank>::iterator hitTank(const Bullet& bullet,
                                              std::list<Tank>& tanks);
 
-    void drawTanks(const std::list<Tank>& tanks);
-    void drawEndOfGame(const std::string& text);
-    void drawBullets(const std::list<Bullet>& bullets);
+    void drawTanks(const std::list<Tank>& tanks) const;
+    void drawEndOfGame(const std::string& text) const;
+    void drawBullets(const std::list<Bullet>& bullets) const;
     void draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
               Map& map);
     static void setPower(Tank& tank, Map& map);

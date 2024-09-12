@@ -149,7 +149,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
     }
 }
 
-void Game::drawEndOfGame(const std::string& text)
+void Game::drawEndOfGame(const std::string& text) const
 {
     Screen::clearScreenWithBlack();
     screen_.drawText((Config::getInstance().getBoardWidth() +
@@ -177,7 +177,7 @@ bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks)
     return false;
 }
 
-void Game::drawTanks(const std::list<Tank>& tanks)
+void Game::drawTanks(const std::list<Tank>& tanks) const
 {
     for (const auto& tank : tanks)
         tank.draw(screen_);
@@ -235,7 +235,7 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
         });
 }
 
-void Game::drawBullets(const std::list<Bullet>& bullets)
+void Game::drawBullets(const std::list<Bullet>& bullets) const
 {
     for (const auto& bullet : bullets)
         bullet.draw(screen_);

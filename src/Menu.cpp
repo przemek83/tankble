@@ -179,7 +179,8 @@ unsigned int Menu::getItemHeight() const
                     screen_.getBitmapHeight(ResourceType::MENU_ITEM));
 }
 
-std::pair<unsigned int, unsigned int> Menu::getItemPosition(unsigned int item)
+std::pair<unsigned int, unsigned int> Menu::getItemPosition(
+    unsigned int item) const
 {
     const unsigned int itemWidth{getItemWidth()};
     const unsigned int itemX{screen_.getCenterX() - itemWidth / 2};

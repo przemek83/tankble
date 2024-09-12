@@ -55,7 +55,8 @@ private:
     static std::vector<std::pair<std::string, Menu::UserChoice>>
     getOptionsMenu();
 
-    std::pair<unsigned int, unsigned int> getItemPosition(unsigned int item);
+    std::pair<unsigned int, unsigned int> getItemPosition(
+        unsigned int item) const;
 
     Screen& screen_;
 
