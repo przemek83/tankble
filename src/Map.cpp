@@ -49,8 +49,8 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
 {
     char sign{};
     std::list<Tank> tanks;
-    for (unsigned int y = 0; y < mapDimension_; y++)
-        for (unsigned int x = 0; x < mapDimension_; x++)
+    for (unsigned int y = 0; y < mapDimension_; ++y)
+        for (unsigned int x = 0; x < mapDimension_; ++x)
         {
             stream >> std::noskipws >> sign;
 
@@ -236,8 +236,8 @@ void Map::shiftDown(Point& point, unsigned int tileSize)
 
 void Map::drawBackground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < mapDimension_; x++)
-        for (unsigned int y = 0; y < mapDimension_; y++)
+    for (unsigned int x = 0; x < mapDimension_; ++x)
+        for (unsigned int y = 0; y < mapDimension_; ++y)
         {
             if (!changedTiles_[x][y])
                 continue;
@@ -259,8 +259,8 @@ void Map::drawBackground(const Screen& screen)
 
 void Map::drawForeground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < mapDimension_; x++)
-        for (unsigned int y = 0; y < mapDimension_; y++)
+    for (unsigned int x = 0; x < mapDimension_; ++x)
+        for (unsigned int y = 0; y < mapDimension_; ++y)
         {
             if (!changedTiles_[x][y])
                 continue;

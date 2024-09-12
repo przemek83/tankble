@@ -74,7 +74,7 @@ bool Tank::hit(unsigned int power)
     return false;
 }
 
-void Tank::setSpeedUp() { stats_.speed_++; }
+void Tank::setSpeedUp() { ++stats_.speed_; }
 
 Direction Tank::getDirection() const { return direction_; }
 
@@ -125,7 +125,7 @@ std::pair<int, int> Tank::getNextExpectedPosition()
     return nextPosition;
 }
 
-void Tank::addLife() { stats_.lives_++; }
+void Tank::addLife() { ++stats_.lives_; }
 
 void Tank::applyPowerUp(ResourceType powerUpType)
 {

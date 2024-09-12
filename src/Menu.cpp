@@ -109,7 +109,7 @@ Menu::UserChoice Menu::getUserChoice()
 void Menu::drawMenuItems(unsigned int currentItem)
 {
     const auto itemHeight{static_cast<float>(getItemHeight())};
-    for (unsigned int item = 0; item < items_.size(); item++)
+    for (unsigned int item = 0; item < items_.size(); ++item)
     {
         ResourceType itemResource{ResourceType::MENU_ITEM};
         if (item == currentItem)
@@ -141,7 +141,7 @@ unsigned int Menu::getCurrentItem(
         const auto [mouseX, mouseY] = mousePosition;
         const unsigned int itemWidth{getItemWidth()};
         const unsigned int itemHeight{getItemHeight()};
-        for (unsigned int i = 0; i < items_.size(); i++)
+        for (unsigned int i = 0; i < items_.size(); ++i)
         {
             if ((mouseX > screen_.getCenterX() - itemWidth / 2) &&
                 (mouseX < screen_.getCenterX() + itemWidth / 2) &&
