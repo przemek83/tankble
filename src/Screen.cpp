@@ -23,7 +23,7 @@ void Screen::init()
 {
     if (!al_init())
     {
-        std::cerr << "failed to initialize allegro!\n" << std::endl;
+        std::cerr << "failed to initialize allegro!\n";
         abort();
     }
 
@@ -34,7 +34,7 @@ void Screen::init()
         static_cast<int>(Config::getInstance().getBoardHeight())};
     if (al_create_display(screenWidth, screenHeight) == nullptr)
     {
-        std::cerr << "failed to create display!\n" << std::endl;
+        std::cerr << "failed to create display!\n";
         abort();
     }
 
