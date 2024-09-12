@@ -24,7 +24,7 @@ void Input::init()
 
 InputAction Input::getMenuAction()
 {
-    ALLEGRO_EVENT event;
+    ALLEGRO_EVENT event{};
     al_wait_for_event(events_, &event);
 
     if (const InputAction action{getCommonAction(event)};
