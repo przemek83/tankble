@@ -162,8 +162,8 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 bool Tank::isWithin(Point point) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
-    return point.x_ >= getX() && point.x_ < getX() + tileSize &&
-           point.y_ >= getY() && point.y_ < getY() + tileSize;
+    return (point.x_ >= getX()) && (point.x_ < getX() + tileSize) &&
+           (point.y_ >= getY()) && (point.y_ < getY() + tileSize);
 }
 
 void Tank::move(Point point)
@@ -186,7 +186,7 @@ unsigned int Tank::getCalculatedSpeed(float speedFactor) const
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     float speed{std::round(static_cast<float>(stats_.speed_) * speedFactor)};
     if (!isPlayerControlled())
-        while (speed >= 1 && tileSize % static_cast<unsigned int>(speed) != 0)
+        while ((speed >= 1) && tileSize % static_cast<unsigned int>(speed) != 0)
             speed -= 1;
     return std::max(1U, static_cast<unsigned int>(speed));
 }

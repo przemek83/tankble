@@ -198,7 +198,7 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
             bulletIter->getLocation(),
             {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
         if (const Point bulletCenter{bulletIter->getCenter()};
-            valid && !map.canFly(bulletCenter))
+            valid && (!map.canFly(bulletCenter)))
         {
             map.hit(bulletCenter, bulletIter->getPower());
             valid = false;
