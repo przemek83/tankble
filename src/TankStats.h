@@ -2,8 +2,8 @@
 
 struct TankStats
 {
-    unsigned int attackPower;
-    unsigned int shield;
-    unsigned int speed;
-    unsigned int lives;
+    unsigned int attackPower_;
+    unsigned int shield_;
+    unsigned int speed_;
+    unsigned int lives_;
 };

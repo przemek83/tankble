@@ -162,10 +162,10 @@ namespace
 {
 void statsAreSame(TankStats left, TankStats right)
 {
-    REQUIRE(left.attackPower == right.attackPower);
-    REQUIRE(left.shield == right.shield);
-    REQUIRE(left.lives == right.lives);
-    REQUIRE(left.speed == right.speed);
+    REQUIRE(left.attackPower_ == right.attackPower_);
+    REQUIRE(left.shield_ == right.shield_);
+    REQUIRE(left.lives_ == right.lives_);
+    REQUIRE(left.speed_ == right.speed_);
 }
 }  // namespace
 
@@ -175,13 +175,13 @@ TEST_CASE("statistics", "[tank]")
     SECTION("getting initial basic enemy statistics")
     {
         const Tank tank(TankType::ENEMY_TIER_1, point);
-        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed, 1});
+        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed_, 1});
     }
 
     SECTION("getting initial basic player statistics")
     {
         const Tank tank(TankType::PLAYER_TIER_1, point);
-        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed, 2});
+        statsAreSame(tank.getStats(), {1, 1, tank.getStats().speed_, 2});
     }
 }
 
@@ -191,33 +191,33 @@ TEST_CASE("hitting", "[tank]")
     SECTION("single hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_2, point);
-        CHECK(tank.getStats().shield == 2);
+        CHECK(tank.getStats().shield_ == 2);
         tank.hit(1);
-        REQUIRE(tank.getStats().shield == 1);
+        REQUIRE(tank.getStats().shield_ == 1);
     }
 
     SECTION("double hit, not destroying")
     {
         Tank tank(TankType::ENEMY_TIER_3, point);
-        CHECK(tank.getStats().shield == 3);
+        CHECK(tank.getStats().shield_ == 3);
         tank.hit(1);
         tank.hit(1);
-        REQUIRE(tank.getStats().shield == 1);
+        REQUIRE(tank.getStats().shield_ == 1);
     }
 
     SECTION("single hit, destroying, no more lives")
     {
         Tank tank(TankType::ENEMY_TIER_1, point);
         tank.hit(1);
-        REQUIRE(tank.getStats().shield == 0);
+        REQUIRE(tank.getStats().shield_ == 0);
     }
 
     SECTION("single hit, destroying, 1 more life")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        CHECK(tank.getStats().lives == 2);
+        CHECK(tank.getStats().lives_ == 2);
         tank.hit(1);
-        REQUIRE(tank.getStats().lives == 1);
+        REQUIRE(tank.getStats().lives_ == 1);
     }
 }
 
@@ -228,7 +228,7 @@ TEST_CASE("respawn", "[tank]")
     {
         Tank tank(TankType::PLAYER_TIER_3, point);
         tank.hit(3);
-        REQUIRE(tank.getStats().shield == 1);
+        REQUIRE(tank.getStats().shield_ == 1);
     }
 
     SECTION("check positions after respawn")
@@ -250,9 +250,9 @@ TEST_CASE("respawn", "[tank]")
     SECTION("check speed after respawn")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const unsigned int speed{tank.getStats().speed};
+        const unsigned int speed{tank.getStats().speed_};
         tank.hit(3);
-        REQUIRE(tank.getStats().speed == speed);
+        REQUIRE(tank.getStats().speed_ == speed);
     }
 }
 
@@ -320,9 +320,9 @@ TEST_CASE("power-ups", "[tank]")
     SECTION("life-up")
     {
         Tank tank(TankType::PLAYER_TIER_4, point);
-        const unsigned int initialLives{tank.getStats().lives};
+        const unsigned int initialLives{tank.getStats().lives_};
         tank.applyPowerUp(ResourceType::LIFE_UP);
-        REQUIRE(tank.getStats().lives == initialLives + 1);
+        REQUIRE(tank.getStats().lives_ == initialLives + 1);
     }
 
     SECTION("tier-up basic tank")
@@ -343,9 +343,9 @@ TEST_CASE("power-ups", "[tank]")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
         tank.applyPowerUp(ResourceType::LIFE_UP);
-        const unsigned int initialLives{tank.getStats().lives};
+        const unsigned int initialLives{tank.getStats().lives_};
         tank.applyPowerUp(ResourceType::TIER_UP);
-        REQUIRE(tank.getStats().lives == initialLives);
+        REQUIRE(tank.getStats().lives_ == initialLives);
     }
 
     SECTION("tier-up keep speed new tier slower")
@@ -353,26 +353,26 @@ TEST_CASE("power-ups", "[tank]")
         Tank tank(TankType::PLAYER_TIER_2, point);
         tank.applyPowerUp(ResourceType::SPEED_UP);
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        const unsigned int initialSpeed{tank.getStats().speed};
+        const unsigned int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::TIER_UP);
-        REQUIRE(tank.getStats().speed == initialSpeed);
+        REQUIRE(tank.getStats().speed_ == initialSpeed);
     }
 
     SECTION("tier-up keep speed new tier faster")
     {
         Tank tank(TankType::PLAYER_TIER_2, point);
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        const unsigned int initialSpeed{tank.getStats().speed};
+        const unsigned int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::TIER_UP);
         tank.applyPowerUp(ResourceType::TIER_UP);
-        REQUIRE(tank.getStats().speed > initialSpeed);
+        REQUIRE(tank.getStats().speed_ > initialSpeed);
     }
 
     SECTION("speed-up")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const unsigned int initialSpeed{tank.getStats().speed};
+        const unsigned int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        REQUIRE(tank.getStats().speed > initialSpeed);
+        REQUIRE(tank.getStats().speed_ > initialSpeed);
     }
 }

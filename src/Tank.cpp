@@ -40,7 +40,7 @@ void Tank::setType(TankType tankType)
 {
     type_ = tankType;
     stats_ = typesStats_[tankType];
-    stats_.speed = getCalculatedSpeed(Config::getInstance().getSpeedFactor());
+    stats_.speed_ = getCalculatedSpeed(Config::getInstance().getSpeedFactor());
 }
 
 void Tank::setDirection(Direction direction) { direction_ = direction; }
@@ -55,26 +55,26 @@ bool Tank::canFire(TimePoint currentTime) const
 
 bool Tank::hit(unsigned int power)
 {
-    if (power > stats_.shield)
-        stats_.shield = 0;
+    if (power > stats_.shield_)
+        stats_.shield_ = 0;
     else
-        stats_.shield -= power;
+        stats_.shield_ -= power;
 
-    if (stats_.shield == 0)
+    if (stats_.shield_ == 0)
     {
-        if (stats_.lives <= 1)
+        if (stats_.lives_ <= 1)
         {
-            stats_.lives = 0;
+            stats_.lives_ = 0;
             return true;
         }
-        const unsigned int livesLeft = stats_.lives - 1;
+        const unsigned int livesLeft = stats_.lives_ - 1;
         respawn();
-        stats_.lives = livesLeft;
+        stats_.lives_ = livesLeft;
     }
     return false;
 }
 
-void Tank::setSpeedUp() { stats_.speed++; }
+void Tank::setSpeedUp() { stats_.speed_++; }
 
 Direction Tank::getDirection() const { return direction_; }
 
@@ -112,27 +112,27 @@ TankStats Tank::getStats() const { return stats_; }
 Bullet Tank::fire(TimePoint currentTime)
 {
     lastFire_ = currentTime;
-    return {getCenter(), stats_.speed + 2, isPlayerControlled(),
-            stats_.attackPower, getDirection()};
+    return {getCenter(), stats_.speed_ + 2, isPlayerControlled(),
+            stats_.attackPower_, getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition()
 {
-    const int speed{static_cast<int>(stats_.speed)};
+    const int speed{static_cast<int>(stats_.speed_)};
     std::pair<int, int> nextPosition{
         static_cast<int>(getX()) + getDirectionX() * speed,
         static_cast<int>(getY()) + getDirectionY() * speed};
     return nextPosition;
 }
 
-void Tank::addLife() { stats_.lives++; }
+void Tank::addLife() { stats_.lives_++; }
 
 void Tank::applyPowerUp(ResourceType powerUpType)
 {
     switch (powerUpType)
     {
         case ResourceType::SHIELD_UP:
-            stats_.shield = typesStats_[type_].shield;
+            stats_.shield_ = typesStats_[type_].shield_;
             break;
 
         case ResourceType::TIER_UP:
@@ -140,8 +140,8 @@ void Tank::applyPowerUp(ResourceType powerUpType)
             {
                 const TankStats oldStats{stats_};
                 setType(static_cast<TankType>(static_cast<int>(type_) + 1));
-                stats_.lives = oldStats.lives;
-                stats_.speed = std::max(oldStats.speed, stats_.speed);
+                stats_.lives_ = oldStats.lives_;
+                stats_.speed_ = std::max(oldStats.speed_, stats_.speed_);
             }
             break;
 
@@ -183,7 +183,7 @@ void Tank::respawn()
 unsigned int Tank::getCalculatedSpeed(float speedFactor) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
-    float speed{std::round(static_cast<float>(stats_.speed) * speedFactor)};
+    float speed{std::round(static_cast<float>(stats_.speed_) * speedFactor)};
     if (!isPlayerControlled())
         while (speed >= 1 && tileSize % static_cast<unsigned int>(speed) != 0)
             speed -= 1;
