@@ -29,3 +29,26 @@ TEST_CASE("Set element sizes", "[config]")
 
     config.screenSizeChanged(800, 600);
 }
+
+TEST_CASE("Config::getFps returns correct FPS values", "[Config]")
+{
+    Config& config = Config::getInstance();
+
+    SECTION("FPS is set to 30")
+    {
+        config.setFPS(Config::FPS::FPS_30);
+        REQUIRE(config.getFps() == 30);
+    }
+
+    SECTION("FPS is set to 60")
+    {
+        config.setFPS(Config::FPS::FPS_60);
+        REQUIRE(config.getFps() == 60);
+    }
+
+    SECTION("FPS is set to 120")
+    {
+        config.setFPS(Config::FPS::FPS_120);
+        REQUIRE(config.getFps() == 120);
+    }
+}
