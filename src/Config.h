@@ -16,17 +16,17 @@ public:
     void screenSizeChanged(unsigned int newWidth, unsigned int newHeight);
 
     unsigned int getFps() const;
-    inline unsigned int getTileCount() const { return tileCount_; }
-    inline unsigned int getTileSize() const { return tileSize_; }
-    inline unsigned int getBulletSize() const { return bulletSize_; }
-    inline unsigned int getBoardWidth() const { return boardWidth_; }
-    inline unsigned int getBoardHeight() const { return boardHeight_; }
-    inline unsigned int getSatusWidth() const { return statusWidth_; }
-    inline float getSpeedFactor() const { return speedFactor_; }
+    unsigned int getTileCount() const { return tileCount_; }
+    unsigned int getTileSize() const { return tileSize_; }
+    unsigned int getBulletSize() const { return bulletSize_; }
+    unsigned int getBoardWidth() const { return boardWidth_; }
+    unsigned int getBoardHeight() const { return boardHeight_; }
+    unsigned int getSatusWidth() const { return statusWidth_; }
+    float getSpeedFactor() const { return speedFactor_; }
 
     static unsigned int getRandomSeed();
 
-    inline std::chrono::seconds getFireDelay() const { return fireDelay; }
+    std::chrono::seconds getFireDelay() const { return fireDelay; }
 
     enum class FPS : char
     {

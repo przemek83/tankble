@@ -35,12 +35,12 @@ public:
     void tagAreaAsChanged(Point leftUpper, Point rightLower);
 
 private:
-    inline const std::unique_ptr<Tile>& getTile(Point point) const
+    const std::unique_ptr<Tile>& getTile(Point point) const
     {
         return board_[point.y][point.x];
     }
 
-    inline std::unique_ptr<Tile>& getTile(Point point)
+    std::unique_ptr<Tile>& getTile(Point point)
     {
         return board_[point.y][point.x];
     }
