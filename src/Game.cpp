@@ -19,8 +19,7 @@
 Game::Game(Screen& screen)
     : status_({Config::getInstance().getBoardWidth(), 0}),
       randomGenerator_(Config::getRandomSeed()),
-      screen_(screen),
-      distribution_(std::uniform_int_distribution<>(0, 7))
+      screen_(screen)
 {
 }
 

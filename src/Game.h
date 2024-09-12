@@ -49,5 +49,6 @@ private:
     std::mt19937 randomGenerator_;
     Screen& screen_;
     bool playerDestroyed_{false};
-    std::uniform_int_distribution<> distribution_;
+    std::uniform_int_distribution<> distribution_{
+        std::uniform_int_distribution<>(0, 7)};
 };
