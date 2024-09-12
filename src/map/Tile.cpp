@@ -3,10 +3,7 @@
 #include "../Config.h"
 #include "../Screen.h"
 
-Tile::Tile(unsigned int armor, Point point)
-    : Drawable(point), armor_(armor)
-{
-}
+Tile::Tile(unsigned int armor, Point point) : Drawable(point), armor_(armor) {}
 
 bool Tile::isPartOfBackground() { return true; }
 
@@ -23,8 +20,9 @@ bool Tile::hit(unsigned int power)
 bool Tile::isPowerUp() const
 {
     const ResourceType type{getResourceType()};
-    return type == ResourceType::SHIELD_UP || type == ResourceType::TIER_UP ||
-           type == ResourceType::SPEED_UP || type == ResourceType::LIFE_UP;
+    return (type == ResourceType::SHIELD_UP) ||
+           (type == ResourceType::TIER_UP) ||
+           (type == ResourceType::SPEED_UP) || (type == ResourceType::LIFE_UP);
 }
 
 void Tile::draw(const Screen& screen) const

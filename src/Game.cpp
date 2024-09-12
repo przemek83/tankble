@@ -90,7 +90,7 @@ bool Game::play(Level level)
     while (true)
     {
         const InputAction action{input.getMenuAction()};
-        if (action == InputAction::BACK || isGameEnding(map, tanks))
+        if ((action == InputAction::BACK) || (isGameEnding(map, tanks)))
             break;
 
         if (action == InputAction::QUIT)
@@ -119,7 +119,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             setPower(tank, map);
             const auto actions{Input::getGameActions()};
             const auto now{std::chrono::system_clock::now()};
-            if (actions.find(InputAction::FIRE) != actions.end() &&
+            if ((actions.find(InputAction::FIRE) != actions.end()) &&
                 tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
 
@@ -138,8 +138,8 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             if (tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
             const int randomDirection{distribution_(randomGenerator_)};
-            if (tank.getX() % Config::getInstance().getTileSize() == 0 &&
-                tank.getY() % Config::getInstance().getTileSize() == 0 &&
+            if ((tank.getX() % Config::getInstance().getTileSize() == 0) &&
+                (tank.getY() % Config::getInstance().getTileSize() == 0) &&
                 randomDirection < 4)
                 direction = static_cast<Direction>(randomDirection);
             else
@@ -205,7 +205,7 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
         }
 
         if (auto tankIter{hitTank(*bulletIter, tanks)};
-            valid && tankIter != tanks.end())
+            valid && (tankIter != tanks.end()))
         {
             map.tagAreaAsChanged(
                 tankIter->getLocation(),
@@ -226,13 +226,13 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
 std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
                                         std::list<Tank>& tanks)
 {
-    return std::find_if(tanks.begin(), tanks.end(),
-                        [&bullet](const auto& tank)
-                        {
-                            return tank.isWithin(bullet.getCenter()) &&
-                                   bullet.isPlayerOrigin() !=
-                                       tank.isPlayerControlled();
-                        });
+    return std::find_if(
+        tanks.begin(), tanks.end(),
+        [&bullet](const auto& tank)
+        {
+            return tank.isWithin(bullet.getCenter()) &&
+                   (bullet.isPlayerOrigin() != tank.isPlayerControlled());
+        });
 }
 
 void Game::drawBullets(const std::list<Bullet>& bullets)

@@ -7,9 +7,10 @@ Status::Status(Point point) : Drawable(point) {}
 
 void Status::update(TankStats newStats, const Screen& screen)
 {
-    if (stats_.attackPower_ != newStats.attackPower_ ||
-        stats_.shield_ != newStats.shield_ ||
-        stats_.lives_ != newStats.lives_ || stats_.speed_ != newStats.speed_)
+    if ((stats_.attackPower_ != newStats.attackPower_) ||
+        (stats_.shield_ != newStats.shield_) ||
+        (stats_.lives_ != newStats.lives_) ||
+        (stats_.speed_ != newStats.speed_))
     {
         stats_ = newStats;
         draw(screen);

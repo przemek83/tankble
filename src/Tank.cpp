@@ -102,9 +102,10 @@ int Tank::getDirectionY() const
 
 bool Tank::isPlayerControlled() const
 {
-    return type_ == TankType::PLAYER_TIER_1 ||
-           type_ == TankType::PLAYER_TIER_2 ||
-           type_ == TankType::PLAYER_TIER_3 || type_ == TankType::PLAYER_TIER_4;
+    return (type_ == TankType::PLAYER_TIER_1) ||
+           (type_ == TankType::PLAYER_TIER_2) ||
+           (type_ == TankType::PLAYER_TIER_3) ||
+           (type_ == TankType::PLAYER_TIER_4);
 }
 
 TankStats Tank::getStats() const { return stats_; }

@@ -128,11 +128,11 @@ unsigned int Menu::getCurrentItem(
     std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
     unsigned int currentItem) const
 {
-    if (action == InputAction::UP && currentItem > 0)
+    if ((action == InputAction::UP) && (currentItem > 0))
         return currentItem - 1;
 
-    if (action == InputAction::DOWN &&
-        currentItem < static_cast<unsigned int>(items_.size()) - 1)
+    if ((action == InputAction::DOWN) &&
+        (currentItem < static_cast<unsigned int>(items_.size()) - 1))
         return currentItem + 1;
 
     if (action == InputAction::MOUSE_MOVE)

@@ -54,8 +54,9 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
         {
             stream >> std::noskipws >> sign;
 
-            while ((sign < '0' || sign >= '7') && sign != 'T' && sign != 'E' &&
-                   sign != 'M' && sign != 'S' && sign != 'L' && sign != 'A')
+            while (((sign < '0') || (sign >= '7')) && (sign != 'T') &&
+                   (sign != 'E') && (sign != 'M') && (sign != 'S') &&
+                   (sign != 'L') && (sign != 'A'))
             {
                 stream >> std::noskipws >> sign;
                 if (sign == EOF)
@@ -138,7 +139,7 @@ void Map::hit(Point point, unsigned int power)
 {
     auto [x, y]{screenPointToTile(point)};
     auto& tile{getTile({x, y})};
-    if (!canFly(point) && tile->hit(power))
+    if ((!canFly(point)) && tile->hit(power))
     {
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
         tile = std::make_unique<Plain>(tile->getLocation());
@@ -161,10 +162,10 @@ void Map::shift(Point& pointToShift, Direction direction) const
         case Direction::UP:
         case Direction::DOWN:
         {
-            if (!canDrive(leftUpper) || !canDrive(leftLower))
+            if ((!canDrive(leftUpper)) || (!canDrive(leftLower)))
                 shiftRight(pointToShift, tileSize);
 
-            if (!canDrive(rightUpper) || !canDrive(rightLower))
+            if ((!canDrive(rightUpper)) || (!canDrive(rightLower)))
                 shiftLeft(pointToShift, tileSize);
             break;
         }
@@ -172,10 +173,10 @@ void Map::shift(Point& pointToShift, Direction direction) const
         case Direction::LEFT:
         case Direction::RIGHT:
         {
-            if (!canDrive(leftUpper) || !canDrive(rightUpper))
+            if ((!canDrive(leftUpper)) || (!canDrive(rightUpper)))
                 shiftDown(pointToShift, tileSize);
 
-            if (!canDrive(leftLower) || !canDrive(rightLower))
+            if ((!canDrive(leftLower)) || (!canDrive(rightLower)))
                 shiftUp(pointToShift, tileSize);
             break;
         }

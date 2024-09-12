@@ -113,20 +113,20 @@ bool Input::userWantToExit(const ALLEGRO_EVENT& event)
 
 bool Input::keyEscapeUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_KEY_CHAR &&
-           event.keyboard.keycode == ALLEGRO_KEY_ESCAPE;
+    return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
+           (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE);
 }
 
 bool Input::keyUpUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_KEY_CHAR &&
-           event.keyboard.keycode == ALLEGRO_KEY_UP;
+    return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
+           (event.keyboard.keycode == ALLEGRO_KEY_UP);
 }
 
 bool Input::keyDownUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_KEY_CHAR &&
-           event.keyboard.keycode == ALLEGRO_KEY_DOWN;
+    return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
+           (event.keyboard.keycode == ALLEGRO_KEY_DOWN);
 }
 
 bool Input::keyUpPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
@@ -151,18 +151,18 @@ bool Input::keyRightPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 
 bool Input::keyEnterUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_ENTER;
+    return (event.type == ALLEGRO_EVENT_KEY_UP) &&
+           (event.keyboard.keycode == ALLEGRO_KEY_ENTER);
 }
 
 bool Input::keySpaceUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_KEY_UP &&
-           event.keyboard.keycode == ALLEGRO_KEY_SPACE;
+    return (event.type == ALLEGRO_EVENT_KEY_UP) &&
+           (event.keyboard.keycode == ALLEGRO_KEY_SPACE);
 }
 
 bool Input::mouseClickUsed(const ALLEGRO_EVENT& event)
 {
-    return event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP &&
-           event.mouse.button == 1;
+    return (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) &&
+           (event.mouse.button == 1);
 }
