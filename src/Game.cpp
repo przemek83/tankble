@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
-#include <iostream>
 #include <thread>
 
 #include "Bullet.h"
@@ -45,9 +44,9 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
 
 const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 {
-    const auto& playerTankIter = std::find_if(
-        tanks.begin(), tanks.end(),
-        [](const auto& tank) { return tank.isPlayerControlled(); });
+    const auto& playerTankIter =
+        std::find_if(tanks.begin(), tanks.end(), [](const auto& tank)
+                     { return tank.isPlayerControlled(); });
     return *playerTankIter;
 }
 

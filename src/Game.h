@@ -4,7 +4,6 @@
 #include <random>
 #include <set>
 #include <string>
-#include <vector>
 
 #include "Direction.h"
 #include "Status.h"

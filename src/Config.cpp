@@ -1,6 +1,5 @@
 #include "Config.h"
 
-#include <iostream>
 #include <random>
 
 Config& Config::getInstance()
