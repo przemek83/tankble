@@ -8,7 +8,7 @@
 
 struct ALLEGRO_BITMAP;
 
-class Resources final
+class Resources
 {
 public:
     Resources();
