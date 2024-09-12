@@ -26,9 +26,9 @@ private:
 
     static bool itemPicked(const ALLEGRO_EVENT& event);
 
-    static bool fired(const ALLEGRO_KEYBOARD_STATE& key_state);
+    static bool fired(const ALLEGRO_KEYBOARD_STATE& keyState);
 
-    static bool userWantToExit(const ALLEGRO_EVENT& event) ;
+    static bool userWantToExit(const ALLEGRO_EVENT& event);
 
     static bool keyEscapeUsed(const ALLEGRO_EVENT& event);
 
@@ -36,13 +36,13 @@ private:
 
     static bool keyDownUsed(const ALLEGRO_EVENT& event);
 
-    static bool keyUpPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+    static bool keyUpPressed(const ALLEGRO_KEYBOARD_STATE& keyState);
 
-    static bool keyDownPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+    static bool keyDownPressed(const ALLEGRO_KEYBOARD_STATE& keyState);
 
-    static bool keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+    static bool keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& keyState);
 
-    static bool keyRightPressed(const ALLEGRO_KEYBOARD_STATE& key_state);
+    static bool keyRightPressed(const ALLEGRO_KEYBOARD_STATE& keyState);
 
     static bool keyEnterUsed(const ALLEGRO_EVENT& event);
 
