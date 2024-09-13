@@ -24,7 +24,7 @@ void Screen::init()
     if (!al_init())
     {
         std::cerr << "failed to initialize allegro!\n";
-        abort();
+        ::abort();
     }
 
     const int screenWidth{
@@ -35,24 +35,24 @@ void Screen::init()
     if (::al_create_display(screenWidth, screenHeight) == nullptr)
     {
         std::cerr << "failed to create display!\n";
-        abort();
+        ::abort();
     }
 
-    ::al_clear_to_color(al_map_rgb(0, 0, 0));
+    ::al_clear_to_color(::al_map_rgb(0, 0, 0));
     ::al_flip_display();
 
     ::al_init_image_addon();
     ::al_init_font_addon();
     ::al_init_primitives_addon();
 
-    ::al_set_window_title(al_get_current_display(), "TankBle");
+    ::al_set_window_title(::al_get_current_display(), "TankBle");
 }
 
 void Screen::drawText(unsigned int x, unsigned y, const std::string& text) const
 {
-    const ALLEGRO_COLOR white{al_map_rgb(255, 255, 255)};
-    al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),
-                 ALLEGRO_ALIGN_CENTER, text.c_str());
+    const ALLEGRO_COLOR white{::al_map_rgb(255, 255, 255)};
+    ::al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),
+                   ALLEGRO_ALIGN_CENTER, text.c_str());
 }
 
 void Screen::drawTextWithBackground(unsigned int x, unsigned int y,
@@ -131,9 +131,9 @@ void Screen::clearScreenWithBlack()
 void Screen::updateSize()
 {
     width_ = static_cast<unsigned int>(
-        ::al_get_display_width(al_get_current_display()));
+        ::al_get_display_width(::al_get_current_display()));
     height_ = static_cast<unsigned int>(
-        ::al_get_display_height(al_get_current_display()));
+        ::al_get_display_height(::al_get_current_display()));
 
     Config::getInstance().screenSizeChanged(getWidth(), getHeight());
 }
@@ -160,13 +160,13 @@ unsigned int Screen::getBitmapHeight(ResourceType resourceType) const
 
 void Screen::refresh() { ::al_flip_display(); }
 
-void Screen::showMouse() { ::al_show_mouse_cursor(al_get_current_display()); }
+void Screen::showMouse() { ::al_show_mouse_cursor(::al_get_current_display()); }
 
-void Screen::hideMouse() { ::al_hide_mouse_cursor(al_get_current_display()); }
+void Screen::hideMouse() { ::al_hide_mouse_cursor(::al_get_current_display()); }
 
 void Screen::useFullScreenMode()
 {
-    ::al_set_display_flag(al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
+    ::al_set_display_flag(::al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
                           true);
     updateSize();
 }
