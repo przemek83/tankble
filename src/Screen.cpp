@@ -48,7 +48,7 @@ void Screen::init()
     ::al_set_window_title(::al_get_current_display(), "TankBle");
 }
 
-void Screen::drawText(unsigned int x, unsigned y, const std::string& text) const
+void Screen::drawText(int x, int y, const std::string& text) const
 {
     const ALLEGRO_COLOR white{::al_map_rgb(255, 255, 255)};
     ::al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),
@@ -82,15 +82,14 @@ void Screen::drawBackground(ResourceType resourceType) const
         static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
 }
 
-void Screen::drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
-                                    unsigned int y, unsigned int size) const
+void Screen::drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
+                                    int size) const
 {
     drawScaledBitmap(resourceType, x, y, size, size);
 }
 
-void Screen::drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                              unsigned int y, unsigned int width,
-                              unsigned int height) const
+void Screen::drawScaledBitmap(ResourceType resourceType, int x, int y,
+                              int width, int height) const
 {
     ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
     ::al_draw_scaled_bitmap(

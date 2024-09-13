@@ -55,7 +55,7 @@ bool Bullet::move()
     if (!point_utils::isValidPoint(px, py, size_))
         return false;
 
-    setLocation(point_utils::pointFromSigned(px, py));
+    setLocation({px, py});
 
     return true;
 }

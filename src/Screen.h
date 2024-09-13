@@ -22,18 +22,17 @@ public:
 
     static void init();
 
-    void drawText(unsigned int x, unsigned y, const std::string& text) const;
+    void drawText(int x, int y, const std::string& text) const;
 
     void drawTextWithBackground(int x, int y, const std::string& text) const;
 
     void drawBackground(ResourceType resourceType) const;
 
-    void drawScaledSquareBitmap(ResourceType resourceType, unsigned int x,
-                                unsigned int y, unsigned int size) const;
+    void drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
+                                int size) const;
 
-    void drawScaledBitmap(ResourceType resourceType, unsigned int x,
-                          unsigned int y, unsigned int width,
-                          unsigned int height) const;
+    void drawScaledBitmap(ResourceType resourceType, int x, int y, int width,
+                          int height) const;
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
                                       int size, int degrees) const;
