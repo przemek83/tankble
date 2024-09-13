@@ -36,10 +36,10 @@ int Config::getFps() const
     return defaultFps_;
 }
 
-int Config::getRandomSeed()
+unsigned long Config::getRandomSeed()
 {
     std::random_device rd;
-    return static_cast<int>(rd());
+    return rd();
 }
 
 void Config::setFPS(FPS fps)

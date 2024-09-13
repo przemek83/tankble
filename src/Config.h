@@ -24,7 +24,7 @@ public:
     int getSatusWidth() const { return statusWidth_; }
     float getSpeedFactor() const { return speedFactor_; }
 
-    static int getRandomSeed();
+    static unsigned long getRandomSeed();
 
     std::chrono::seconds getFireDelay() const { return fireDelay_; }
 
