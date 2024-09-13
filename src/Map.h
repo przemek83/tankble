@@ -41,12 +41,6 @@ private:
         std::size_t y_;
     };
 
-    const std::unique_ptr<Tile>& getTile(Point point) const
-    {
-        return board_[static_cast<std::size_t>(point.y_)]
-                     [static_cast<std::size_t>(point.x_)];
-    }
-
     std::unique_ptr<Tile>& getTile(Point point)
     {
         return board_[static_cast<std::size_t>(point.y_)]
