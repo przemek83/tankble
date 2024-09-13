@@ -5,7 +5,7 @@
 TEST_CASE("Move points", "[MapUtils]")
 {
     const Point leftUpperCorner{100, 100};
-    const unsigned int tileSize{30};
+    const int tileSize{30};
     SECTION("number of point returned")
     {
         const std::vector<Point> movePoints{

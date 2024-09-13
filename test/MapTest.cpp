@@ -24,7 +24,7 @@
 
 namespace
 {
-const unsigned int tileCount{5};
+const int tileCount{5};
 
 std::string getTestMap()
 {
@@ -36,13 +36,13 @@ std::string getTestMap()
         "50401\n"};
 }
 
-Point tileToPoint(unsigned int tileX, unsigned int tileY)
+Point tileToPoint(int tileX, int tileY)
 {
-    static const unsigned int tileSize{Config::getInstance().getTileSize()};
+    static const int tileSize{Config::getInstance().getTileSize()};
     return {tileX * tileSize, tileY * tileSize};
 }
 
-const unsigned int testHitStrength{10};
+const int testHitStrength{10};
 }  // namespace
 
 TEST_CASE("Map loading", "[map]")
@@ -59,7 +59,7 @@ TEST_CASE("Map loading", "[map]")
     SECTION("check tanks location")
     {
         const auto tanks{map.loadMap(stream)};
-        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        const int tileSize{Config::getInstance().getTileSize()};
         auto tankIter{tanks.begin()};
         REQUIRE(tankIter->getLocation() == Point{0, 0});
         REQUIRE((++tankIter)->getLocation() == Point{0, 2 * tileSize});
@@ -256,13 +256,13 @@ std::string getTestMapForShifting()
 }
 }  // namespace
 
-const unsigned int tileCountForShifting{3};
+const int tileCountForShifting{3};
 
 TEST_CASE("shift", "[map]")
 {
     std::stringstream stream(getTestMapForShifting());
-    static const unsigned int tileSize{Config::getInstance().getTileSize()};
-    static const unsigned int twoTiles{tileSize * 2};
+    static const int tileSize{Config::getInstance().getTileSize()};
+    static const int twoTiles{tileSize * 2};
 
     Map map(tileCountForShifting);
     map.loadMap(stream);

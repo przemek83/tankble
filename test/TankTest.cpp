@@ -93,7 +93,7 @@ TEST_CASE("location related", "[tank]")
 
     SECTION("get center")
     {
-        const unsigned int halfOfTile{Config::getInstance().getTileSize() / 2};
+        const int halfOfTile{Config::getInstance().getTileSize() / 2};
         const Tank tank(TankType::ENEMY_TIER_1, point);
         REQUIRE(tank.getCenter() == Point{
                                         100 + halfOfTile,
@@ -103,7 +103,7 @@ TEST_CASE("location related", "[tank]")
 
     SECTION("is within")
     {
-        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        const int tileSize{Config::getInstance().getTileSize()};
         using TestData = std::pair<Point, bool>;
         const auto [pointToTest, expectedIsWithin] = GENERATE_REF(
             TestData{Point{99, 99}, false}, TestData{Point{99, 100}, false},
@@ -250,7 +250,7 @@ TEST_CASE("respawn", "[tank]")
     SECTION("check speed after respawn")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const unsigned int speed{tank.getStats().speed_};
+        const int speed{tank.getStats().speed_};
         tank.hit(3);
         REQUIRE(tank.getStats().speed_ == speed);
     }
@@ -264,7 +264,7 @@ TEST_CASE("firing", "[tank]")
     const Point point{100, 100};
     SECTION("center of created bullet")
     {
-        const unsigned int tileSize{Config::getInstance().getTileSize()};
+        const int tileSize{Config::getInstance().getTileSize()};
         Tank tank(TankType::PLAYER_TIER_1, point);
         const Bullet bullet = tank.fire(TimePoint::max());
         const Point expectedBulletCenter{point.x_ + tileSize / 2,
@@ -320,7 +320,7 @@ TEST_CASE("power-ups", "[tank]")
     SECTION("life-up")
     {
         Tank tank(TankType::PLAYER_TIER_4, point);
-        const unsigned int initialLives{tank.getStats().lives_};
+        const int initialLives{tank.getStats().lives_};
         tank.applyPowerUp(ResourceType::LIFE_UP);
         REQUIRE(tank.getStats().lives_ == initialLives + 1);
     }
@@ -343,7 +343,7 @@ TEST_CASE("power-ups", "[tank]")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
         tank.applyPowerUp(ResourceType::LIFE_UP);
-        const unsigned int initialLives{tank.getStats().lives_};
+        const int initialLives{tank.getStats().lives_};
         tank.applyPowerUp(ResourceType::TIER_UP);
         REQUIRE(tank.getStats().lives_ == initialLives);
     }
@@ -353,7 +353,7 @@ TEST_CASE("power-ups", "[tank]")
         Tank tank(TankType::PLAYER_TIER_2, point);
         tank.applyPowerUp(ResourceType::SPEED_UP);
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        const unsigned int initialSpeed{tank.getStats().speed_};
+        const int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::TIER_UP);
         REQUIRE(tank.getStats().speed_ == initialSpeed);
     }
@@ -362,7 +362,7 @@ TEST_CASE("power-ups", "[tank]")
     {
         Tank tank(TankType::PLAYER_TIER_2, point);
         tank.applyPowerUp(ResourceType::SPEED_UP);
-        const unsigned int initialSpeed{tank.getStats().speed_};
+        const int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::TIER_UP);
         tank.applyPowerUp(ResourceType::TIER_UP);
         REQUIRE(tank.getStats().speed_ > initialSpeed);
@@ -371,7 +371,7 @@ TEST_CASE("power-ups", "[tank]")
     SECTION("speed-up")
     {
         Tank tank(TankType::PLAYER_TIER_1, point);
-        const unsigned int initialSpeed{tank.getStats().speed_};
+        const int initialSpeed{tank.getStats().speed_};
         tank.applyPowerUp(ResourceType::SPEED_UP);
         REQUIRE(tank.getStats().speed_ > initialSpeed);
     }

@@ -5,8 +5,8 @@
 #include <src/Config.h>
 #include <src/Direction.h>
 
-const unsigned int bulletPower{4};
-const unsigned int bulletSpeed{10};
+const int bulletPower{4};
+const int bulletSpeed{10};
 const Point point{5, 5};
 const bool enemyOrigin = false;
 const bool playerOrigin = true;
@@ -61,29 +61,29 @@ TEST_CASE("Bullet coordinates", "[bullet]")
     SECTION("getX is working")
     {
         const Point currentPoint{bullet.getLocation()};
-        const unsigned int currentX{bullet.getX()};
+        const int currentX{bullet.getX()};
         REQUIRE(currentX == currentPoint.x_);
     }
     SECTION("getY is working")
     {
         const Point currentPoint{bullet.getLocation()};
-        const unsigned int currentY{bullet.getY()};
+        const int currentY{bullet.getY()};
         REQUIRE(currentY == currentPoint.y_);
     }
 
     SECTION("setX is working")
     {
-        const unsigned int newX{15};
+        const int newX{15};
         bullet.setX(newX);
-        const unsigned int currentX{bullet.getX()};
+        const int currentX{bullet.getX()};
         REQUIRE(currentX == newX);
     }
 
     SECTION("setY is working")
     {
-        const unsigned int newY{27};
+        const int newY{27};
         bullet.setY(newY);
-        const unsigned int currentY{bullet.getY()};
+        const int currentY{bullet.getY()};
         REQUIRE(currentY == newY);
     }
 }
@@ -107,7 +107,7 @@ TEST_CASE("Bullet moving", "[bullet]")
     SECTION("bullet moving inside valid area")
     {
         using TestData = std::pair<Direction, Point>;
-        const unsigned int middle{Config::getInstance().getBoardWidth() / 2};
+        const int middle{Config::getInstance().getBoardWidth() / 2};
         auto [direction, expectedPoint] = GENERATE_REF(
             TestData{Direction::UP, Point{middle, middle - bulletSpeed}},
             TestData{Direction::DOWN, Point{middle, middle + bulletSpeed}},
@@ -143,8 +143,8 @@ TEST_CASE("Bullet moving", "[bullet]")
 TEST_CASE("Bullet moving to invalid area", "[bullet]")
 {
     using TestData = std::pair<Direction, Point>;
-    const unsigned int nearEndOfMap{Config::getInstance().getBoardWidth() -
-                                    bulletSpeed / 2};
+    const int nearEndOfMap{Config::getInstance().getBoardWidth() -
+                           bulletSpeed / 2};
     auto [direction, pointGenerated] =
         GENERATE_REF(TestData{Direction::UP, point},
                      TestData{Direction::DOWN, Point{point.x_, nearEndOfMap}},
