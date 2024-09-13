@@ -4,7 +4,6 @@
 #include <vector>
 
 class Screen;
-union ALLEGRO_EVENT;
 enum class InputAction : unsigned char;
 enum class Level : unsigned char;
 
