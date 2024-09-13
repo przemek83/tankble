@@ -169,13 +169,13 @@ int Menu::getLocationOfFirstItem() const
 int Menu::getItemWidth() const
 {
     return std::max(screen_.getWidth() / 3,
-                    screen_.getBitmapWidth(ResourceType::MENU_ITEM));
+                    screen_.getResourceWidth(ResourceType::MENU_ITEM));
 }
 
 int Menu::getItemHeight() const
 {
     return std::max(screen_.getHeight() / 10,
-                    screen_.getBitmapHeight(ResourceType::MENU_ITEM));
+                    screen_.getResourceHeight(ResourceType::MENU_ITEM));
 }
 
 std::pair<int, int> Menu::getItemPosition(int item) const

@@ -43,9 +43,9 @@ public:
 
     int getCenterY() const;
 
-    int getBitmapWidth(ResourceType resourceType) const;
+    int getResourceWidth(ResourceType resourceType) const;
 
-    int getBitmapHeight(ResourceType resourceType) const;
+    int getResourceHeight(ResourceType resourceType) const;
 
     static void refresh();
 
@@ -63,6 +63,9 @@ public:
 
 private:
     void updateSize();
+
+    float getBitmapWidth(ALLEGRO_BITMAP* bitmap) const;
+    float getBitmapHeight(ALLEGRO_BITMAP* bitmap) const;
 
     Resources resources_;
 

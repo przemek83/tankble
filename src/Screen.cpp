@@ -27,11 +27,9 @@ void Screen::init()
         ::abort();
     }
 
-    const int screenWidth{
-        static_cast<int>(Config::getInstance().getBoardWidth() +
-                         Config::getInstance().getSatusWidth())};
-    const int screenHeight{
-        static_cast<int>(Config::getInstance().getBoardHeight())};
+    const int screenWidth{Config::getInstance().getBoardWidth() +
+                          Config::getInstance().getSatusWidth()};
+    const int screenHeight{Config::getInstance().getBoardHeight()};
     if (::al_create_display(screenWidth, screenHeight) == nullptr)
     {
         std::cerr << "failed to create display!\n";
@@ -74,11 +72,9 @@ void Screen::drawTextWithBackground(int x, int y, const std::string& text) const
 
 void Screen::drawBackground(ResourceType resourceType) const
 {
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
+    ALLEGRO_BITMAP* bitmap{resources_.getBitmap(resourceType)};
     ::al_draw_scaled_bitmap(
-        bitmapToUse, 0., 0.,
-        static_cast<float>(::al_get_bitmap_width(bitmapToUse)),
-        static_cast<float>(::al_get_bitmap_height(bitmapToUse)), 0., 0.,
+        bitmap, 0., 0., getBitmapWidth(bitmap), getBitmapHeight(bitmap), 0., 0.,
         static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
 }
 
@@ -91,27 +87,27 @@ void Screen::drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
 void Screen::drawScaledBitmap(ResourceType resourceType, int x, int y,
                               int width, int height) const
 {
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
-    ::al_draw_scaled_bitmap(
-        bitmapToUse, 0, 0,
-        static_cast<float>(::al_get_bitmap_width(bitmapToUse)),
-        static_cast<float>(::al_get_bitmap_height(bitmapToUse)),
-        static_cast<float>(x), static_cast<float>(y), static_cast<float>(width),
-        static_cast<float>(height), 0);
+    ALLEGRO_BITMAP* bitmap{resources_.getBitmap(resourceType)};
+    ::al_draw_scaled_bitmap(bitmap, 0, 0, getBitmapWidth(bitmap),
+                            getBitmapHeight(bitmap), static_cast<float>(x),
+                            static_cast<float>(y), static_cast<float>(width),
+                            static_cast<float>(height), 0);
 }
 
 void Screen::drawScaledBitmapWithRotation(ResourceType resourceType, int x,
                                           int y, int size, int degrees) const
 {
-    ALLEGRO_BITMAP* bitmapToUse{resources_.getBitmap(resourceType)};
-    const auto width = static_cast<float>(::al_get_bitmap_width(bitmapToUse));
+    ALLEGRO_BITMAP* bitmap{resources_.getBitmap(resourceType)};
+    const float width{getBitmapWidth(bitmap)};
     const float halfRatio{2.F};
+    const float sizeAsFloat{static_cast<float>(size)};
     ::al_draw_scaled_rotated_bitmap(
-        bitmapToUse, width / halfRatio, width / halfRatio,
-        static_cast<float>(x) + static_cast<float>(size) / halfRatio,
-        static_cast<float>(y) + static_cast<float>(size) / halfRatio,
-        static_cast<float>(size) / width, static_cast<float>(size) / width,
-        static_cast<float>(degrees) * (static_cast<float>(ALLEGRO_PI) / 180.F),
+        bitmap, width / halfRatio, width / halfRatio,
+        static_cast<float>(x) + (sizeAsFloat / halfRatio),
+        static_cast<float>(y) + (sizeAsFloat / halfRatio), sizeAsFloat / width,
+        sizeAsFloat / width,
+        (static_cast<float>(degrees) * (static_cast<float>(ALLEGRO_PI)) /
+         180.F),
         0);
 }
 
@@ -139,12 +135,12 @@ int Screen::getCenterX() const { return width_ / 2; }
 
 int Screen::getCenterY() const { return height_ / 2; }
 
-int Screen::getBitmapWidth(ResourceType resourceType) const
+int Screen::getResourceWidth(ResourceType resourceType) const
 {
     return ::al_get_bitmap_width(resources_.getBitmap(resourceType));
 }
 
-int Screen::getBitmapHeight(ResourceType resourceType) const
+int Screen::getResourceHeight(ResourceType resourceType) const
 {
     return ::al_get_bitmap_height(resources_.getBitmap(resourceType));
 }
@@ -167,4 +163,13 @@ void Screen::useWindowedMode()
     ::al_set_display_flag(::al_get_current_display(), ALLEGRO_FULLSCREEN_WINDOW,
                           false);
     updateSize();
+}
+
+float Screen::getBitmapWidth(ALLEGRO_BITMAP* bitmap) const
+{
+    return static_cast<float>(::al_get_bitmap_width(bitmap));
+}
+float Screen::getBitmapHeight(ALLEGRO_BITMAP* bitmap) const
+{
+    return static_cast<float>(::al_get_bitmap_height(bitmap));
 }
