@@ -5,35 +5,32 @@ namespace map_utils
 std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
                                  int tileSize)
 {
-    const int oneThirdOfTank{tileSize / 3};
+    const int tankThird{tileSize / 3};
+    const int x{leftUpperCorner.x_};
+    const int y{leftUpperCorner.y_};
     switch (direction)
     {
         case Direction::UP:
         {
-            return {
-                {leftUpperCorner.x_ + oneThirdOfTank, leftUpperCorner.y_},
-                {leftUpperCorner.x_ + 2 * oneThirdOfTank, leftUpperCorner.y_}};
+            return {{x + tankThird, y}, {x + 2 * tankThird, y}};
         }
         case Direction::DOWN:
         {
-            return {{leftUpperCorner.x_ + oneThirdOfTank,
-                     leftUpperCorner.y_ + tileSize - 1},
-                    {leftUpperCorner.x_ + 2 * oneThirdOfTank,
-                     leftUpperCorner.y_ + tileSize - 1}};
+            return {{x + tankThird, y + tileSize - 1},
+                    {x + 2 * tankThird, y + tileSize - 1}};
         }
         case Direction::LEFT:
         {
-            return {
-                {leftUpperCorner.x_, leftUpperCorner.y_ + oneThirdOfTank},
-                {leftUpperCorner.x_, leftUpperCorner.y_ + 2 * oneThirdOfTank}};
+            return {{x, y + tankThird}, {x, y + 2 * tankThird}};
         }
         case Direction::RIGHT:
         {
-            return {{leftUpperCorner.x_ + tileSize - 1,
-                     leftUpperCorner.y_ + oneThirdOfTank},
-                    {leftUpperCorner.x_ + tileSize - 1,
-                     leftUpperCorner.y_ + 2 * oneThirdOfTank}};
+            return {{x + tileSize - 1, y + tankThird},
+                    {x + tileSize - 1, y + 2 * tankThird}};
         }
+
+        default:
+            break;
     }
 
     return {};
