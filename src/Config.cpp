@@ -8,10 +8,10 @@ Config& Config::getInstance()
     return instance;
 }
 
-void Config::screenSizeChanged(unsigned int newWidth, unsigned int newHeight)
+void Config::screenSizeChanged(int newWidth, int newHeight)
 {
     tileSize_ = newHeight / tileCount_;
-    const unsigned int tileToBulletRatio{5};
+    const int tileToBulletRatio{5};
     bulletSize_ = tileSize_ / tileToBulletRatio;
     boardWidth_ = tileCount_ * tileSize_;
     boardHeight_ = boardWidth_;
@@ -19,27 +19,27 @@ void Config::screenSizeChanged(unsigned int newWidth, unsigned int newHeight)
     speedFactor_ = calculateSpeedFactor();
 }
 
-unsigned int Config::getFps() const
+int Config::getFps() const
 {
     switch (fps_)
     {
         case FPS::FPS_30:
-            return static_cast<unsigned int>(FPS::FPS_30);
+            return static_cast<int>(FPS::FPS_30);
 
         case FPS::FPS_60:
-            return static_cast<unsigned int>(FPS::FPS_60);
+            return static_cast<int>(FPS::FPS_60);
 
         case FPS::FPS_120:
-            return static_cast<unsigned int>(FPS::FPS_120);
+            return static_cast<int>(FPS::FPS_120);
     }
 
     return defaultFps_;
 }
 
-unsigned int Config::getRandomSeed()
+int Config::getRandomSeed()
 {
     std::random_device rd;
-    return rd();
+    return static_cast<int>(rd());
 }
 
 void Config::setFPS(FPS fps)
@@ -50,7 +50,7 @@ void Config::setFPS(FPS fps)
 
 Config::Config()
 {
-    const unsigned int initialBoardSize{tileCount_ * tileSize_};
+    const int initialBoardSize{tileCount_ * tileSize_};
     screenSizeChanged(initialBoardSize + (initialBoardSize / 3),
                       initialBoardSize);
 }

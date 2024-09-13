@@ -35,15 +35,14 @@ public:
                           unsigned int y, unsigned int width,
                           unsigned int height) const;
 
-    void drawScaledBitmapWithRotation(ResourceType resourceType, unsigned int x,
-                                      unsigned int y, unsigned int size,
-                                      unsigned int degrees) const;
+    void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
+                                      int size, int degrees) const;
 
     static void clearScreenWithBlack();
 
-    unsigned int getCenterX() const;
+    int getCenterX() const;
 
-    unsigned int getCenterY() const;
+    int getCenterY() const;
 
     int getBitmapWidth(ResourceType resourceType) const;
 

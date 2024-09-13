@@ -17,10 +17,10 @@ Tank::Tank(TankType tankType, Point point)
 
 void Tank::draw(const Screen& screen) const
 {
-    const unsigned int rightAngle{90};
+    const int rightAngle{90};
     screen.drawScaledBitmapWithRotation(
         getResourceType(), getX(), getY(), Config::getInstance().getTileSize(),
-        rightAngle * static_cast<unsigned int>(getDirection()));
+        rightAngle * static_cast<int>(getDirection()));
 }
 
 ResourceType Tank::getResourceType() const
@@ -32,7 +32,7 @@ ResourceType Tank::getResourceType() const
 
 Point Tank::getCenter() const
 {
-    const unsigned int middle{Config::getInstance().getTileSize() / 2};
+    const int middle{Config::getInstance().getTileSize() / 2};
     return {getX() + middle, getY() + middle};
 }
 
@@ -67,7 +67,7 @@ bool Tank::hit(int power)
             stats_.lives_ = 0;
             return true;
         }
-        const unsigned int livesLeft = stats_.lives_ - 1;
+        const int livesLeft = stats_.lives_ - 1;
         respawn();
         stats_.lives_ = livesLeft;
     }
@@ -161,9 +161,9 @@ void Tank::applyPowerUp(ResourceType powerUpType)
 
 bool Tank::isWithin(Point point) const
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
-    return (point.x_ >= getX()) && (point.x_ < getX() + tileSize) &&
-           (point.y_ >= getY()) && (point.y_ < getY() + tileSize);
+    const int tileSize{Config::getInstance().getTileSize()};
+    return (point.x_ >= getX()) && (point.x_ < (getX() + tileSize)) &&
+           (point.y_ >= getY()) && (point.y_ < (getY() + tileSize));
 }
 
 void Tank::move(Point point)

@@ -13,18 +13,18 @@ public:
 
     static Config& getInstance();
 
-    void screenSizeChanged(unsigned int newWidth, unsigned int newHeight);
+    void screenSizeChanged(int newWidth, int newHeight);
 
-    unsigned int getFps() const;
-    unsigned int getTileCount() const { return tileCount_; }
+    int getFps() const;
+    int getTileCount() const { return tileCount_; }
     int getTileSize() const { return tileSize_; }
-    unsigned int getBulletSize() const { return bulletSize_; }
+    int getBulletSize() const { return bulletSize_; }
     int getBoardWidth() const { return boardWidth_; }
     int getBoardHeight() const { return boardHeight_; }
     int getSatusWidth() const { return statusWidth_; }
     float getSpeedFactor() const { return speedFactor_; }
 
-    static unsigned int getRandomSeed();
+    static int getRandomSeed();
 
     std::chrono::seconds getFireDelay() const { return fireDelay_; }
 
@@ -44,11 +44,11 @@ private:
     float calculateSpeedFactor() const;
 
     FPS fps_{FPS::FPS_60};
-    const unsigned int defaultFps_{static_cast<unsigned int>(FPS::FPS_30)};
-    const unsigned int tileCount_{20};
-    static constexpr unsigned int defaultTileSize_{30};
+    const int defaultFps_{static_cast<int>(FPS::FPS_30)};
+    const int tileCount_{20};
+    static constexpr int defaultTileSize_{30};
     int tileSize_{defaultTileSize_};
-    unsigned int bulletSize_{};
+    int bulletSize_{};
     int boardWidth_{};
     int boardHeight_{};
     int statusWidth_{};
