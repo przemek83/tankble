@@ -19,7 +19,7 @@ void Status::update(TankStats newStats, const Screen& screen)
 
 void Status::draw(const Screen& screen) const
 {
-    const unsigned int spacer{getHeight() / 5};
+    const int spacer{getHeight() / 5};
     screen.drawTextWithBackground(getCenter().x_, spacer * 1,
                                   "Lives: " + std::to_string(stats_.lives_));
     screen.drawTextWithBackground(getCenter().x_, spacer * 2,
@@ -41,12 +41,6 @@ ResourceType Status::getResourceType() const
     return ResourceType::BACKGROUND;
 }
 
-unsigned int Status::getHeight()
-{
-    return Config::getInstance().getBoardHeight();
-}
+int Status::getHeight() { return Config::getInstance().getBoardHeight(); }
 
-unsigned int Status::getWeidth()
-{
-    return Config::getInstance().getSatusWidth();
-}
+int Status::getWeidth() { return Config::getInstance().getSatusWidth(); }

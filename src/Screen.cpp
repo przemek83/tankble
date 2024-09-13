@@ -55,13 +55,11 @@ void Screen::drawText(unsigned int x, unsigned y, const std::string& text) const
                    ALLEGRO_ALIGN_CENTER, text.c_str());
 }
 
-void Screen::drawTextWithBackground(unsigned int x, unsigned int y,
-                                    const std::string& text) const
+void Screen::drawTextWithBackground(int x, int y, const std::string& text) const
 {
-    const unsigned int margin{10};
+    const int margin{10};
     const float radius{10};
-    const unsigned int height{
-        static_cast<unsigned int>(::al_get_font_line_height(font_))};
+    const int height{::al_get_font_line_height(font_)};
     const float width{
         static_cast<float>(::al_get_text_width(font_, text.c_str()))};
     const float halfOfWidth{width / 2.F};

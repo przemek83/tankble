@@ -29,7 +29,7 @@ public:
     Bullet fire(TimePoint currentTime);
     bool canFire(TimePoint currentTime) const;
 
-    bool hit(unsigned int power);
+    bool hit(int power);
     void move(Point point);
     bool isPlayerControlled() const;
 
@@ -51,12 +51,12 @@ private:
     void addLife();
     void respawn();
 
-    unsigned int getCalculatedSpeed(float speedFactor) const;
+    int getCalculatedSpeed(float speedFactor) const;
 
-    static const unsigned int BASIC_ATTACK{1};
-    static const unsigned int BASIC_HEALTH{1};
-    static const unsigned int BASIC_SPEED{2};
-    static const unsigned int SINGLE_LIFE{1};
+    static const int BASIC_ATTACK{1};
+    static const int BASIC_HEALTH{1};
+    static const int BASIC_SPEED{2};
+    static const int SINGLE_LIFE{1};
 
     std::map<TankType, TankStats> typesStats_{
         {TankType::PLAYER_TIER_1,
@@ -82,6 +82,6 @@ private:
     TankType type_{};
     TankStats stats_{};
     TimePoint lastFire_{TimePoint()};
-    const unsigned int initialX_{};
-    const unsigned int initialY_{};
+    const int initialX_{};
+    const int initialY_{};
 };

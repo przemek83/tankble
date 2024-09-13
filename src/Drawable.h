@@ -21,11 +21,11 @@ public:
     virtual ResourceType getResourceType() const = 0;
     virtual Point getCenter() const = 0;
 
-    void setX(unsigned int x);
-    void setY(unsigned int y);
+    void setX(int x);
+    void setY(int y);
 
-    unsigned int getX() const { return point_.x_; }
-    unsigned int getY() const { return point_.y_; }
+    int getX() const { return point_.x_; }
+    int getY() const { return point_.y_; }
 
     void setLocation(Point point);
     Point getLocation() const;

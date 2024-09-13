@@ -53,7 +53,7 @@ bool Tank::canFire(TimePoint currentTime) const
            Config::getInstance().getFireDelay();
 }
 
-bool Tank::hit(unsigned int power)
+bool Tank::hit(int power)
 {
     if (power > stats_.shield_)
         stats_.shield_ = 0;
@@ -181,12 +181,12 @@ void Tank::respawn()
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
-unsigned int Tank::getCalculatedSpeed(float speedFactor) const
+int Tank::getCalculatedSpeed(float speedFactor) const
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     float speed{std::round(static_cast<float>(stats_.speed_) * speedFactor)};
     if (!isPlayerControlled())
-        while ((speed >= 1) && tileSize % static_cast<unsigned int>(speed) != 0)
+        while ((speed >= 1) && ((tileSize % static_cast<int>(speed)) != 0))
             speed -= 1;
-    return std::max(1U, static_cast<unsigned int>(speed));
+    return std::max(1, static_cast<int>(speed));
 }

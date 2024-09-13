@@ -15,8 +15,8 @@ public:
     ResourceType getResourceType() const override;
 
 private:
-    static unsigned int getHeight();
-    static unsigned int getWeidth();
+    static int getHeight();
+    static int getWeidth();
 
     TankStats stats_{};
 };

@@ -2,8 +2,8 @@
 
 struct Point
 {
-    unsigned int x_;
-    unsigned int y_;
+    int x_;
+    int y_;
 };
 
 inline bool operator==(const Point& lhs, const Point& rhs)

@@ -17,11 +17,11 @@ public:
 
     unsigned int getFps() const;
     unsigned int getTileCount() const { return tileCount_; }
-    unsigned int getTileSize() const { return tileSize_; }
+    int getTileSize() const { return tileSize_; }
     unsigned int getBulletSize() const { return bulletSize_; }
-    unsigned int getBoardWidth() const { return boardWidth_; }
-    unsigned int getBoardHeight() const { return boardHeight_; }
-    unsigned int getSatusWidth() const { return statusWidth_; }
+    int getBoardWidth() const { return boardWidth_; }
+    int getBoardHeight() const { return boardHeight_; }
+    int getSatusWidth() const { return statusWidth_; }
     float getSpeedFactor() const { return speedFactor_; }
 
     static unsigned int getRandomSeed();
@@ -47,11 +47,11 @@ private:
     const unsigned int defaultFps_{static_cast<unsigned int>(FPS::FPS_30)};
     const unsigned int tileCount_{20};
     static constexpr unsigned int defaultTileSize_{30};
-    unsigned int tileSize_{defaultTileSize_};
+    int tileSize_{defaultTileSize_};
     unsigned int bulletSize_{};
-    unsigned int boardWidth_{};
-    unsigned int boardHeight_{};
-    unsigned int statusWidth_{};
+    int boardWidth_{};
+    int boardHeight_{};
+    int statusWidth_{};
     float speedFactor_{};
     const std::chrono::seconds fireDelay_{2};
 };
