@@ -27,7 +27,7 @@ public:
 private:
     static void movement(Tank& tank, Map& map, Direction direction);
     void control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets);
-    bool isGameEnding(const Map& map, const std::list<Tank>& tanks);
+    bool isGameEnding(const Map& map, const std::list<Tank>& tanks) const;
     void moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
                      Map& map);
     static std::list<Tank>::iterator hitTank(const Bullet& bullet,

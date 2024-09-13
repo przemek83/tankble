@@ -163,7 +163,7 @@ void Game::drawEndOfGame(const std::string& text) const
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
-bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks)
+bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks) const
 {
     if (map.isBaseDestroyed() || playerDestroyed_)
     {

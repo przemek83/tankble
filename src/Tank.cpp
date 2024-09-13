@@ -117,7 +117,7 @@ Bullet Tank::fire(TimePoint currentTime)
             stats_.attackPower_, getDirection()};
 }
 
-std::pair<int, int> Tank::getNextExpectedPosition()
+std::pair<int, int> Tank::getNextExpectedPosition() const
 {
     const int speed{static_cast<int>(stats_.speed_)};
     std::pair<int, int> nextPosition{

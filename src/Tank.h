@@ -35,7 +35,7 @@ public:
 
     TankStats getStats() const;
 
-    std::pair<int, int> getNextExpectedPosition();
+    std::pair<int, int> getNextExpectedPosition() const;
 
     void applyPowerUp(ResourceType powerUpType);
 
