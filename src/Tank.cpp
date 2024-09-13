@@ -119,15 +119,21 @@ Bullet Tank::fire(TimePoint currentTime)
 
 std::pair<int, int> Tank::getNextExpectedPosition() const
 {
-    const int speed{static_cast<int>(stats_.speed_)};
-    std::pair<int, int> nextPosition{
-        static_cast<int>(getX()) + getDirectionX() * speed,
-        static_cast<int>(getY()) + getDirectionY() * speed};
+    const int speed{stats_.speed_};
+    const std::pair<int, int> nextPosition{getX() + getDirectionX() * speed,
+                                           getY() + getDirectionY() * speed};
     return nextPosition;
 }
 
 void Tank::addLife() { ++stats_.lives_; }
 
+void Tank::tierUp()
+{
+    const TankStats oldStats{stats_};
+    setType(static_cast<TankType>(static_cast<int>(type_) + 1));
+    stats_.lives_ = oldStats.lives_;
+    stats_.speed_ = std::max(oldStats.speed_, stats_.speed_);
+}
 void Tank::applyPowerUp(ResourceType powerUpType)
 {
     switch (powerUpType)
@@ -137,13 +143,8 @@ void Tank::applyPowerUp(ResourceType powerUpType)
             break;
 
         case ResourceType::TIER_UP:
-            if (static_cast<int>(type_) < 3)
-            {
-                const TankStats oldStats{stats_};
-                setType(static_cast<TankType>(static_cast<int>(type_) + 1));
-                stats_.lives_ = oldStats.lives_;
-                stats_.speed_ = std::max(oldStats.speed_, stats_.speed_);
-            }
+            if (type_ != TankType::PLAYER_TIER_4)
+                tierUp();
             break;
 
         case ResourceType::SPEED_UP:

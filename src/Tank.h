@@ -51,6 +51,8 @@ private:
     void addLife();
     void respawn();
 
+    void tierUp();
+
     int getCalculatedSpeed(float speedFactor) const;
 
     static const int BASIC_ATTACK{1};
