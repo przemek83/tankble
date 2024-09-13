@@ -35,18 +35,37 @@ public:
     void tagAreaAsChanged(Point leftUpper, Point rightLower);
 
 private:
+    struct TilePosition
+    {
+        std::size_t x_;
+        std::size_t y_;
+    };
+
     const std::unique_ptr<Tile>& getTile(Point point) const
     {
-        return board_[point.y_][point.x_];
+        return board_[static_cast<std::size_t>(point.y_)]
+                     [static_cast<std::size_t>(point.x_)];
     }
 
     std::unique_ptr<Tile>& getTile(Point point)
     {
-        return board_[point.y_][point.x_];
+        return board_[static_cast<std::size_t>(point.y_)]
+                     [static_cast<std::size_t>(point.x_)];
     }
 
-    static Point screenPointToTile(Point location);
-    static Point tileToScreenPoint(Point point);
+    const std::unique_ptr<Tile>& getTileUsingPosition(
+        TilePosition position) const
+    {
+        return board_[position.y_][position.x_];
+    }
+
+    std::unique_ptr<Tile>& getTileUsingPosition(TilePosition position)
+    {
+        return board_[position.y_][position.x_];
+    }
+
+    static TilePosition screenPointToTilePosition(Point point);
+    static Point tilePositionToScreenPoint(TilePosition position);
 
     static void shiftRight(Point& point, int tileSize);
     static void shiftLeft(Point& point, int tileSize);

@@ -63,10 +63,11 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
                     break;
             }
 
-            const Point point{x * Config::getInstance().getTileSize(),
-                              y * Config::getInstance().getTileSize()};
+            const Point point{
+                static_cast<int>(x) * Config::getInstance().getTileSize(),
+                static_cast<int>(y) * Config::getInstance().getTileSize()};
 
-            auto& tile{getTile({x, y})};
+            auto& tile{getTileUsingPosition({x, y})};
             switch (sign)
             {
                 case '1':
@@ -117,12 +118,12 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
 
 bool Map::canDrive(Point point) const
 {
-    return getTile(screenPointToTile(point))->canDrive();
+    return getTileUsingPosition(screenPointToTilePosition(point))->canDrive();
 }
 
 std::pair<bool, ResourceType> Map::takePowerUp(Point point)
 {
-    auto& tile{getTile(screenPointToTile(point))};
+    auto& tile{getTileUsingPosition(screenPointToTilePosition(point))};
     if (!tile->isPowerUp())
         return {false, ResourceType::PLAIN};
     const ResourceType type{tile->getResourceType()};
@@ -132,13 +133,13 @@ std::pair<bool, ResourceType> Map::takePowerUp(Point point)
 
 bool Map::canFly(Point point) const
 {
-    return getTile(screenPointToTile(point))->canFly();
+    return getTileUsingPosition(screenPointToTilePosition(point))->canFly();
 }
 
 void Map::hit(Point point, int power)
 {
-    auto [x, y]{screenPointToTile(point)};
-    auto& tile{getTile({x, y})};
+    auto [x, y]{screenPointToTilePosition(point)};
+    auto& tile{getTileUsingPosition({x, y})};
     if ((!canFly(point)) && tile->hit(power))
     {
         const bool baseDestroyed{tile->getResourceType() == ResourceType::BASE};
@@ -186,33 +187,38 @@ void Map::shift(Point& pointToShift, Direction direction) const
 void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
 {
     const int tileSize{Config::getInstance().getTileSize()};
-    Point point{screenPointToTile(leftUpper)};
+    TilePosition position{screenPointToTilePosition(leftUpper)};
     if (point_utils::isValidPoint(leftUpper))
-        changedTiles_[point.x_][point.y_] = true;
+        changedTiles_[position.x_][position.y_] = true;
 
-    point = screenPointToTile({leftUpper.x_, leftUpper.y_ + tileSize});
+    position =
+        screenPointToTilePosition({leftUpper.x_, leftUpper.y_ + tileSize});
     if (point_utils::isValidPoint({leftUpper.x_, leftUpper.y_ + tileSize}))
-        changedTiles_[point.x_][point.y_] = true;
+        changedTiles_[position.x_][position.y_] = true;
 
-    point = screenPointToTile(rightLower);
+    position = screenPointToTilePosition(rightLower);
     if (point_utils::isValidPoint(rightLower))
-        changedTiles_[point.x_][point.y_] = true;
+        changedTiles_[position.x_][position.y_] = true;
 
-    point = screenPointToTile({rightLower.x_, rightLower.y_ - tileSize});
+    position = screenPointToTilePosition(
+        Point{rightLower.x_, rightLower.y_ - tileSize});
     if (point_utils::isValidPoint({rightLower.x_, rightLower.y_ - tileSize}))
-        changedTiles_[point.x_][point.y_] = true;
+        changedTiles_[position.x_][position.y_] = true;
 }
 
-Point Map::screenPointToTile(Point location)
+Map::TilePosition Map::screenPointToTilePosition(Point point)
 {
-    return {location.x_ / Config::getInstance().getTileSize(),
-            location.y_ / Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
+    std::size_t x{static_cast<std::size_t>(point.x_ / tileSize)};
+    std::size_t y{static_cast<std::size_t>(point.y_ / tileSize)};
+    return {x, y};
 }
 
-Point Map::tileToScreenPoint(Point point)
+Point Map::tilePositionToScreenPoint(TilePosition position)
 {
-    return {point.x_ * Config::getInstance().getTileSize(),
-            point.y_ * Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
+    return {static_cast<int>(position.x_) * tileSize,
+            static_cast<int>(position.y_) * tileSize};
 }
 
 void Map::shiftRight(Point& point, int tileSize)
@@ -243,7 +249,7 @@ void Map::drawBackground(const Screen& screen)
             if (!changedTiles_[x][y])
                 continue;
 
-            const auto& tile{getTile({x, y})};
+            const auto& tile{getTileUsingPosition({x, y})};
             if (tile->isPartOfBackground())
             {
                 tile->draw(screen);
@@ -252,7 +258,7 @@ void Map::drawBackground(const Screen& screen)
 
             else
             {
-                plainTile_->setLocation(tileToScreenPoint({x, y}));
+                plainTile_->setLocation(tilePositionToScreenPoint({x, y}));
                 plainTile_->draw(screen);
             }
         }
@@ -266,7 +272,7 @@ void Map::drawForeground(const Screen& screen)
             if (!changedTiles_[x][y])
                 continue;
 
-            const auto& tile{getTile({x, y})};
+            const auto& tile{getTileUsingPosition({x, y})};
             if (!tile->isPartOfBackground())
             {
                 tile->draw(screen);
