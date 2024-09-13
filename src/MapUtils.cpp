@@ -3,9 +3,9 @@
 namespace map_utils
 {
 std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
-                                 unsigned int tileSize)
+                                 int tileSize)
 {
-    const unsigned int oneThirdOfTank{tileSize / 3};
+    const int oneThirdOfTank{tileSize / 3};
     switch (direction)
     {
         case Direction::UP:

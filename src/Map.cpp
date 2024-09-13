@@ -18,9 +18,9 @@
 #include "map/TierUp.h"
 #include "map/Water.h"
 
-Map::Map(unsigned int mapDimension)
+Map::Map(int mapDimension)
     : plainTile_{std::make_unique<Plain>(Point{0, 0})},
-      mapDimension_(mapDimension)
+      mapDimension_{static_cast<std::size_t>(mapDimension)}
 {
     board_.resize(mapDimension_);
     for (auto& item : board_)
@@ -49,8 +49,8 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
 {
     char sign{};
     std::list<Tank> tanks;
-    for (unsigned int y = 0; y < mapDimension_; ++y)
-        for (unsigned int x = 0; x < mapDimension_; ++x)
+    for (std::size_t y = 0; y < mapDimension_; ++y)
+        for (std::size_t x = 0; x < mapDimension_; ++x)
         {
             stream >> std::noskipws >> sign;
 
@@ -135,7 +135,7 @@ bool Map::canFly(Point point) const
     return getTile(screenPointToTile(point))->canFly();
 }
 
-void Map::hit(Point point, unsigned int power)
+void Map::hit(Point point, int power)
 {
     auto [x, y]{screenPointToTile(point)};
     auto& tile{getTile({x, y})};
@@ -151,7 +151,7 @@ void Map::hit(Point point, unsigned int power)
 
 void Map::shift(Point& pointToShift, Direction direction) const
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     const Point leftUpper{pointToShift};
     const Point leftLower{leftUpper.x_, (leftUpper.y_ + tileSize) - 1};
     const Point rightUpper{(leftUpper.x_ + tileSize) - 1, leftUpper.y_};
@@ -185,7 +185,7 @@ void Map::shift(Point& pointToShift, Direction direction) const
 
 void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     Point point{screenPointToTile(leftUpper)};
     if (point_utils::isValidPoint(leftUpper))
         changedTiles_[point.x_][point.y_] = true;
@@ -215,30 +215,30 @@ Point Map::tileToScreenPoint(Point point)
             point.y_ * Config::getInstance().getTileSize()};
 }
 
-void Map::shiftRight(Point& point, unsigned int tileSize)
+void Map::shiftRight(Point& point, int tileSize)
 {
     point.x_ = ((point.x_ / tileSize) + 1) * tileSize;
 }
 
-void Map::shiftLeft(Point& point, unsigned int tileSize)
+void Map::shiftLeft(Point& point, int tileSize)
 {
     point.x_ = (point.x_ / tileSize) * tileSize;
 }
 
-void Map::shiftUp(Point& point, unsigned int tileSize)
+void Map::shiftUp(Point& point, int tileSize)
 {
     point.y_ = (point.y_ / tileSize) * tileSize;
 }
 
-void Map::shiftDown(Point& point, unsigned int tileSize)
+void Map::shiftDown(Point& point, int tileSize)
 {
     point.y_ = (point.y_ / tileSize + 1) * tileSize;
 }
 
 void Map::drawBackground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < mapDimension_; ++x)
-        for (unsigned int y = 0; y < mapDimension_; ++y)
+    for (std::size_t x = 0; x < mapDimension_; ++x)
+        for (std::size_t y = 0; y < mapDimension_; ++y)
         {
             if (!changedTiles_[x][y])
                 continue;
@@ -260,8 +260,8 @@ void Map::drawBackground(const Screen& screen)
 
 void Map::drawForeground(const Screen& screen)
 {
-    for (unsigned int x = 0; x < mapDimension_; ++x)
-        for (unsigned int y = 0; y < mapDimension_; ++y)
+    for (std::size_t x = 0; x < mapDimension_; ++x)
+        for (std::size_t y = 0; y < mapDimension_; ++y)
         {
             if (!changedTiles_[x][y])
                 continue;

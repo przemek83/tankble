@@ -10,5 +10,5 @@ class Map;
 namespace map_utils
 {
 std::vector<Point> getMovePoints(Point leftUpperCorner, Direction direction,
-                                 unsigned int tileSize);
+                                 int tileSize);
 }  // namespace map_utils

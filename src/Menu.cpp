@@ -85,7 +85,7 @@ std::pair<bool, Level> Menu::playGame()
 Menu::UserChoice Menu::getUserChoice()
 {
     Input input;
-    for (unsigned int currentItem{0};;)
+    for (int currentItem{0};;)
     {
         const InputAction action{input.getMenuAction()};
 
@@ -106,10 +106,10 @@ Menu::UserChoice Menu::getUserChoice()
     }
 }
 
-void Menu::drawMenuItems(unsigned int currentItem)
+void Menu::drawMenuItems(int currentItem)
 {
     const auto itemHeight{static_cast<float>(getItemHeight())};
-    for (unsigned int item = 0; item < items_.size(); ++item)
+    for (int item = 0; item < items_.size(); ++item)
     {
         ResourceType itemResource{ResourceType::MENU_ITEM};
         if (item == currentItem)
@@ -118,35 +118,32 @@ void Menu::drawMenuItems(unsigned int currentItem)
         const auto [itemX, itemY]{getItemPosition(item)};
         screen_.drawScaledBitmap(itemResource, itemX, itemY, getItemWidth(),
                                  getItemHeight());
-        const auto itemMiddleY{itemY +
-                               static_cast<unsigned int>(itemHeight / 2.F)};
+        const auto itemMiddleY{itemY + static_cast<int>(itemHeight / 2.F)};
         screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
     }
 }
 
-unsigned int Menu::getCurrentItem(
-    std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
-    unsigned int currentItem) const
+int Menu::getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
+                         int currentItem) const
 {
     if ((action == InputAction::UP) && (currentItem > 0))
         return currentItem - 1;
 
-    if ((action == InputAction::DOWN) &&
-        (currentItem < static_cast<unsigned int>(items_.size()) - 1))
+    if ((action == InputAction::DOWN) && (currentItem < (items_.size() - 1)))
         return currentItem + 1;
 
     if (action == InputAction::MOUSE_MOVE)
     {
-        const unsigned int firstItem{getLocationOfFirstItem()};
+        const int firstItem{getLocationOfFirstItem()};
         const auto [mouseX, mouseY] = mousePosition;
-        const unsigned int itemWidth{getItemWidth()};
-        const unsigned int itemHeight{getItemHeight()};
-        for (unsigned int i = 0; i < items_.size(); ++i)
+        const int itemWidth{getItemWidth()};
+        const int itemHeight{getItemHeight()};
+        for (int i = 0; i < items_.size(); ++i)
         {
-            if ((mouseX > screen_.getCenterX() - itemWidth / 2) &&
-                (mouseX < screen_.getCenterX() + itemWidth / 2) &&
-                (mouseY > firstItem + itemHeight * i) &&
-                (mouseY < firstItem + itemHeight + itemHeight * i))
+            if ((mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
+                (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
+                (mouseY > (firstItem + (itemHeight * i))) &&
+                (mouseY < (firstItem + itemHeight + (itemHeight * i))))
                 return i;
         }
     }
@@ -154,17 +151,16 @@ unsigned int Menu::getCurrentItem(
     return currentItem;
 }
 
-void Menu::redraw(unsigned int currentItem)
+void Menu::redraw(int currentItem)
 {
     screen_.drawBackground(ResourceType::BACKGROUND);
     drawMenuItems(currentItem);
     Screen::refresh();
 }
 
-unsigned int Menu::getLocationOfFirstItem() const
+int Menu::getLocationOfFirstItem() const
 {
-    return screen_.getCenterY() -
-           static_cast<unsigned int>(items_.size()) * getItemHeight() / 2;
+    return screen_.getCenterY() - (items_.size() * getItemHeight() / 2);
 }
 
 int Menu::getItemWidth() const
@@ -179,12 +175,10 @@ int Menu::getItemHeight() const
                     screen_.getBitmapHeight(ResourceType::MENU_ITEM));
 }
 
-std::pair<unsigned int, unsigned int> Menu::getItemPosition(
-    unsigned int item) const
+std::pair<int, int> Menu::getItemPosition(int item) const
 {
-    const unsigned int itemWidth{getItemWidth()};
-    const unsigned int itemX{screen_.getCenterX() - itemWidth / 2};
-    const unsigned int itemY{getLocationOfFirstItem() +
-                             (getItemHeight() * item)};
+    const int itemWidth{getItemWidth()};
+    const int itemX{screen_.getCenterX() - itemWidth / 2};
+    const int itemY{getLocationOfFirstItem() + (getItemHeight() * item)};
     return {itemX, itemY};
 }

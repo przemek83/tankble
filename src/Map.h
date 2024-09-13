@@ -14,7 +14,7 @@ class Screen;
 class Map
 {
 public:
-    explicit Map(unsigned int mapDimension);
+    explicit Map(int mapDimension);
 
     std::list<Tank> loadMap(std::iostream& stream);
 
@@ -28,7 +28,7 @@ public:
 
     bool isBaseDestroyed() const;
 
-    void hit(Point point, unsigned int power);
+    void hit(Point point, int power);
 
     void shift(Point& pointToShift, Direction direction) const;
 
@@ -48,10 +48,10 @@ private:
     static Point screenPointToTile(Point location);
     static Point tileToScreenPoint(Point point);
 
-    static void shiftRight(Point& point, unsigned int tileSize);
-    static void shiftLeft(Point& point, unsigned int tileSize);
-    static void shiftUp(Point& point, unsigned int tileSize);
-    static void shiftDown(Point& point, unsigned int tileSize);
+    static void shiftRight(Point& point, int tileSize);
+    static void shiftLeft(Point& point, int tileSize);
+    static void shiftUp(Point& point, int tileSize);
+    static void shiftDown(Point& point, int tileSize);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
@@ -60,5 +60,5 @@ private:
     bool baseDestroyed_{false};
 
     std::unique_ptr<Tile> plainTile_;
-    const unsigned int mapDimension_;
+    const std::size_t mapDimension_;
 };

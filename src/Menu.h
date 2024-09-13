@@ -30,15 +30,14 @@ private:
         EXIT
     };
 
-    void drawMenuItems(unsigned int currentItem);
+    void drawMenuItems(int currentItem);
 
-    unsigned int getCurrentItem(
-        std::pair<unsigned int, unsigned int> mousePosition, InputAction action,
-        unsigned int currentItem) const;
+    int getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
+                       int currentItem) const;
 
-    void redraw(unsigned int currentItem);
+    void redraw(int currentItem);
 
-    unsigned int getLocationOfFirstItem() const;
+    int getLocationOfFirstItem() const;
 
     int getItemWidth() const;
 
@@ -54,8 +53,7 @@ private:
     static std::vector<std::pair<std::string, Menu::UserChoice>>
     getOptionsMenu();
 
-    std::pair<unsigned int, unsigned int> getItemPosition(
-        unsigned int item) const;
+    std::pair<int, int> getItemPosition(int item) const;
 
     Screen& screen_;
 

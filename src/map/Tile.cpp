@@ -3,11 +3,11 @@
 #include "../Config.h"
 #include "../Screen.h"
 
-Tile::Tile(unsigned int armor, Point point) : Drawable(point), armor_(armor) {}
+Tile::Tile(int armor, Point point) : Drawable(point), armor_(armor) {}
 
 bool Tile::isPartOfBackground() { return true; }
 
-bool Tile::hit(unsigned int power)
+bool Tile::hit(int power)
 {
     if (power > armor_)
         armor_ = 0;
@@ -27,12 +27,12 @@ bool Tile::isPowerUp() const
 
 void Tile::draw(const Screen& screen) const
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     screen.drawScaledSquareBitmap(getResourceType(), getX(), getY(), tileSize);
 }
 
 Point Tile::getCenter() const
 {
-    const unsigned int middle{Config::getInstance().getTileSize()};
+    const int middle{Config::getInstance().getTileSize()};
     return {getX() + middle, getY() + middle};
 }
