@@ -138,7 +138,7 @@ bool Map::canFly(Point point) const
 
 void Map::hit(Point point, int power)
 {
-    auto [x, y]{screenPointToTilePosition(point)};
+    const auto [x, y]{screenPointToTilePosition(point)};
     auto& tile{getTileUsingPosition({x, y})};
     if ((!canFly(point)) && tile->hit(power))
     {
@@ -212,8 +212,8 @@ void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
 Map::TilePosition Map::screenPointToTilePosition(Point point)
 {
     const int tileSize{Config::getInstance().getTileSize()};
-    std::size_t x{static_cast<std::size_t>(point.x_ / tileSize)};
-    std::size_t y{static_cast<std::size_t>(point.y_ / tileSize)};
+    const std::size_t x{static_cast<std::size_t>(point.x_ / tileSize)};
+    const std::size_t y{static_cast<std::size_t>(point.y_ / tileSize)};
     return {x, y};
 }
 
