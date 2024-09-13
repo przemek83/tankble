@@ -181,6 +181,9 @@ void Map::shift(Point& pointToShift, Direction direction) const
                 shiftUp(pointToShift, tileSize);
             break;
         }
+
+        default:
+            break;
     }
 }
 

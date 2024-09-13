@@ -31,6 +31,9 @@ int Config::getFps() const
 
         case FPS::FPS_120:
             return static_cast<int>(FPS::FPS_120);
+
+        default:
+            break;
     }
 
     return defaultFps_;
