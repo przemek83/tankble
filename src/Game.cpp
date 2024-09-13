@@ -141,9 +141,9 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             if (tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
             const int randomDirection{distribution_(randomGenerator_)};
-            if ((tank.getX() % Config::getInstance().getTileSize() == 0) &&
-                (tank.getY() % Config::getInstance().getTileSize() == 0) &&
-                randomDirection < 4)
+            if (((tank.getX() % Config::getInstance().getTileSize()) == 0) &&
+                ((tank.getY() % Config::getInstance().getTileSize()) == 0) &&
+                (randomDirection < 4))
                 direction = static_cast<Direction>(randomDirection);
             else
                 direction = tank.getDirection();

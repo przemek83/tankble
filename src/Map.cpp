@@ -153,10 +153,10 @@ void Map::shift(Point& pointToShift, Direction direction) const
 {
     const unsigned int tileSize{Config::getInstance().getTileSize()};
     const Point leftUpper{pointToShift};
-    const Point leftLower{leftUpper.x_, leftUpper.y_ + tileSize - 1};
-    const Point rightUpper{leftUpper.x_ + tileSize - 1, leftUpper.y_};
-    const Point rightLower{leftUpper.x_ + tileSize - 1,
-                           leftUpper.y_ + tileSize - 1};
+    const Point leftLower{leftUpper.x_, (leftUpper.y_ + tileSize) - 1};
+    const Point rightUpper{(leftUpper.x_ + tileSize) - 1, leftUpper.y_};
+    const Point rightLower{(leftUpper.x_ + tileSize) - 1,
+                           (leftUpper.y_ + tileSize) - 1};
     switch (direction)
     {
         case Direction::UP:
@@ -217,7 +217,7 @@ Point Map::tileToScreenPoint(Point point)
 
 void Map::shiftRight(Point& point, unsigned int tileSize)
 {
-    point.x_ = (point.x_ / tileSize + 1) * tileSize;
+    point.x_ = ((point.x_ / tileSize) + 1) * tileSize;
 }
 
 void Map::shiftLeft(Point& point, unsigned int tileSize)

@@ -51,7 +51,7 @@ void Config::setFPS(FPS fps)
 Config::Config()
 {
     const unsigned int initialBoardSize{tileCount_ * tileSize_};
-    screenSizeChanged(initialBoardSize + initialBoardSize / 3,
+    screenSizeChanged(initialBoardSize + (initialBoardSize / 3),
                       initialBoardSize);
 }
 
@@ -61,5 +61,5 @@ float Config::calculateSpeedFactor() const
                                defaultTileSize_};
     const float fpsFactor{static_cast<float>(getFps()) /
                           static_cast<float>(defaultFps_)};
-    return 1.F * tileSizeFactor / fpsFactor;
+    return tileSizeFactor / fpsFactor;
 }
