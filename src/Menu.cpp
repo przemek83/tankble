@@ -167,13 +167,13 @@ unsigned int Menu::getLocationOfFirstItem() const
            static_cast<unsigned int>(items_.size()) * getItemHeight() / 2;
 }
 
-unsigned int Menu::getItemWidth() const
+int Menu::getItemWidth() const
 {
     return std::max(screen_.getWidth() / 3,
                     screen_.getBitmapWidth(ResourceType::MENU_ITEM));
 }
 
-unsigned int Menu::getItemHeight() const
+int Menu::getItemHeight() const
 {
     return std::max(screen_.getHeight() / 10,
                     screen_.getBitmapHeight(ResourceType::MENU_ITEM));

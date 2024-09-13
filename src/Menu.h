@@ -41,9 +41,9 @@ private:
 
     unsigned int getLocationOfFirstItem() const;
 
-    unsigned int getItemWidth() const;
+    int getItemWidth() const;
 
-    unsigned int getItemHeight() const;
+    int getItemHeight() const;
 
     UserChoice getUserChoice();
 

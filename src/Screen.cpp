@@ -130,32 +130,28 @@ void Screen::clearScreenWithBlack()
 
 void Screen::updateSize()
 {
-    width_ = static_cast<unsigned int>(
-        ::al_get_display_width(::al_get_current_display()));
-    height_ = static_cast<unsigned int>(
-        ::al_get_display_height(::al_get_current_display()));
+    width_ = ::al_get_display_width(::al_get_current_display());
+    height_ = ::al_get_display_height(::al_get_current_display());
 
     Config::getInstance().screenSizeChanged(getWidth(), getHeight());
 }
 
-unsigned int Screen::getWidth() const { return width_; }
+int Screen::getWidth() const { return width_; }
 
-unsigned int Screen::getHeight() const { return height_; }
+int Screen::getHeight() const { return height_; }
 
 unsigned int Screen::getCenterX() const { return width_ / 2; }
 
 unsigned int Screen::getCenterY() const { return height_ / 2; }
 
-unsigned int Screen::getBitmapWidth(ResourceType resourceType) const
+int Screen::getBitmapWidth(ResourceType resourceType) const
 {
-    return static_cast<unsigned int>(
-        ::al_get_bitmap_width(resources_.getBitmap(resourceType)));
+    return ::al_get_bitmap_width(resources_.getBitmap(resourceType));
 }
 
-unsigned int Screen::getBitmapHeight(ResourceType resourceType) const
+int Screen::getBitmapHeight(ResourceType resourceType) const
 {
-    return static_cast<unsigned int>(
-        ::al_get_bitmap_height(resources_.getBitmap(resourceType)));
+    return ::al_get_bitmap_height(resources_.getBitmap(resourceType));
 }
 
 void Screen::refresh() { ::al_flip_display(); }

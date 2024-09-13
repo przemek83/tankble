@@ -46,9 +46,9 @@ public:
 
     unsigned int getCenterY() const;
 
-    unsigned int getBitmapWidth(ResourceType resourceType) const;
+    int getBitmapWidth(ResourceType resourceType) const;
 
-    unsigned int getBitmapHeight(ResourceType resourceType) const;
+    int getBitmapHeight(ResourceType resourceType) const;
 
     static void refresh();
 
@@ -60,16 +60,16 @@ public:
 
     void useWindowedMode();
 
-    unsigned int getWidth() const;
+    int getWidth() const;
 
-    unsigned int getHeight() const;
+    int getHeight() const;
 
 private:
     void updateSize();
 
     Resources resources_;
 
-    unsigned int width_;
-    unsigned int height_;
+    int width_;
+    int height_;
     ALLEGRO_FONT* font_;
 };
