@@ -51,7 +51,7 @@ const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 
 void Game::movement(Tank& tank, Map& map, Direction direction)
 {
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     tank.setDirection(direction);
 
     map.tagAreaAsChanged(tank.getLocation(),
@@ -61,8 +61,7 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
     if (!point_utils::isValidPoint(newX, newY, tileSize))
         return;
 
-    Point newPoint{static_cast<unsigned int>(newX),
-                   static_cast<unsigned int>(newY)};
+    Point newPoint{newX, newY};
     const std::vector<Point> pointsToCheck{
         map_utils::getMovePoints(newPoint, direction, tileSize)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
@@ -126,7 +125,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
                 tank.canFire(now))
                 bullets.emplace_back(tank.fire(now));
 
-            const unsigned int tileSize{Config::getInstance().getTileSize()};
+            const int tileSize{Config::getInstance().getTileSize()};
             map.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
                                                       tank.getY() + tileSize});
 
@@ -189,8 +188,8 @@ void Game::drawTanks(const std::list<Tank>& tanks) const
 void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
                        Map& map)
 {
-    const unsigned int bulletSize{Config::getInstance().getBulletSize()};
-    const unsigned int tileSize{Config::getInstance().getTileSize()};
+    const int bulletSize{Config::getInstance().getBulletSize()};
+    const int tileSize{Config::getInstance().getTileSize()};
     for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
     {
         map.tagAreaAsChanged(

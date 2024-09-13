@@ -5,8 +5,8 @@
 #include "PointUtils.h"
 #include "Screen.h"
 
-Bullet::Bullet(Point startingPoint, unsigned int speed, bool playerOrigin,
-               unsigned int power, Direction direction)
+Bullet::Bullet(Point startingPoint, int speed, bool playerOrigin, int power,
+               Direction direction)
     : Drawable(
           {startingPoint.x_ - (Config::getInstance().getBulletSize() / 2),
            startingPoint.y_ - (Config::getInstance().getBulletSize() / 2)}),
@@ -20,7 +20,7 @@ Bullet::Bullet(Point startingPoint, unsigned int speed, bool playerOrigin,
 
 bool Bullet::isPlayerOrigin() const { return playerOrigin_; }
 
-unsigned int Bullet::getPower() const { return power_; }
+int Bullet::getPower() const { return power_; }
 
 Point Bullet::getCenter() const
 {
@@ -47,10 +47,8 @@ int Bullet::getDirectionY() const
 
 bool Bullet::move()
 {
-    const int px{static_cast<int>(getX()) +
-                 (getDirectionX() * static_cast<int>(speed_))};
-    const int py{static_cast<int>(getY()) +
-                 (getDirectionY() * static_cast<int>(speed_))};
+    const int px{getX() + (getDirectionX() * speed_)};
+    const int py{getY() + (getDirectionY() * speed_)};
 
     if (!point_utils::isValidPoint(px, py, size_))
         return false;

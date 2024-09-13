@@ -19,7 +19,7 @@ public:
 
     static std::set<InputAction> getGameActions();
 
-    std::pair<unsigned int, unsigned int> getMousePosition() const;
+    std::pair<int, int> getMousePosition() const;
 
 private:
     static InputAction getCommonAction(const ALLEGRO_EVENT& event);
@@ -52,7 +52,7 @@ private:
 
     ALLEGRO_EVENT_QUEUE* events_;
 
-    unsigned int mouseX_{0};
+    int mouseX_{0};
 
-    unsigned int mouseY_{0};
+    int mouseY_{0};
 };

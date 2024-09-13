@@ -46,13 +46,13 @@ InputAction Input::getMenuAction()
 
     if (event.mouse.x > 0)
 
-        mouseX_ = static_cast<unsigned int>(event.mouse.x);
+        mouseX_ = event.mouse.x;
     else
         mouseX_ = 0;
 
     if (event.mouse.y > 0)
 
-        mouseY_ = static_cast<unsigned int>(event.mouse.y);
+        mouseY_ = event.mouse.y;
     else
         mouseX_ = 0;
 
@@ -83,7 +83,7 @@ std::set<InputAction> Input::getGameActions()
     return ongoingActions;
 }
 
-std::pair<unsigned int, unsigned int> Input::getMousePosition() const
+std::pair<int, int> Input::getMousePosition() const
 {
     return {mouseX_, mouseY_};
 }

@@ -10,11 +10,11 @@ class Tank;
 class Bullet : public Drawable
 {
 public:
-    Bullet(Point startingPoint, unsigned int speed, bool playerOrigin,
-           unsigned int power, Direction direction);
+    Bullet(Point startingPoint, int speed, bool playerOrigin, int power,
+           Direction direction);
 
     bool isPlayerOrigin() const;
-    unsigned int getPower() const;
+    int getPower() const;
 
     bool move();
 
@@ -26,9 +26,9 @@ private:
     int getDirectionX() const;
     int getDirectionY() const;
 
-    const unsigned int size_;
+    const int size_;
     const bool playerOrigin_;
     const Direction direction_;
-    const unsigned int speed_;
-    const unsigned int power_;
+    const int speed_;
+    const int power_;
 };
