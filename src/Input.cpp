@@ -5,27 +5,28 @@
 #include "Config.h"
 #include "InputAction.h"
 
-Input::Input() : events_(al_create_event_queue())
+Input::Input() : events_(::al_create_event_queue())
 {
-    ALLEGRO_TIMER* timer{al_create_timer(1.0 / Config::getInstance().getFps())};
-    al_register_event_source(events_, al_get_keyboard_event_source());
-    al_register_event_source(events_, al_get_mouse_event_source());
-    al_register_event_source(
-        events_, al_get_display_event_source(al_get_current_display()));
-    al_register_event_source(events_, al_get_timer_event_source(timer));
-    al_start_timer(timer);
+    ALLEGRO_TIMER* timer{
+        ::al_create_timer(1.0 / Config::getInstance().getFps())};
+    ::al_register_event_source(events_, ::al_get_keyboard_event_source());
+    ::al_register_event_source(events_, ::al_get_mouse_event_source());
+    ::al_register_event_source(
+        events_, ::al_get_display_event_source(::al_get_current_display()));
+    ::al_register_event_source(events_, ::al_get_timer_event_source(timer));
+    ::al_start_timer(timer);
 }
 
 void Input::init()
 {
-    al_install_keyboard();
-    al_install_mouse();
+    ::al_install_keyboard();
+    ::al_install_mouse();
 }
 
 InputAction Input::getMenuAction()
 {
     ALLEGRO_EVENT event{};
-    al_wait_for_event(events_, &event);
+    ::al_wait_for_event(events_, &event);
 
     if (const InputAction action{getCommonAction(event)};
         action != InputAction::EMPTY)
@@ -55,7 +56,7 @@ InputAction Input::getMenuAction()
 std::set<InputAction> Input::getGameActions()
 {
     ALLEGRO_KEYBOARD_STATE keyState;
-    al_get_keyboard_state(&keyState);
+    ::al_get_keyboard_state(&keyState);
 
     std::set<InputAction> ongoingActions{};
     if (fired(keyState))
@@ -102,8 +103,8 @@ bool Input::itemPicked(const ALLEGRO_EVENT& event)
 
 bool Input::fired(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
-    return al_key_down(&keyState, ALLEGRO_KEY_SPACE) ||
-           al_key_down(&keyState, ALLEGRO_KEY_ENTER);
+    return ::al_key_down(&keyState, ALLEGRO_KEY_SPACE) ||
+           ::al_key_down(&keyState, ALLEGRO_KEY_ENTER);
 }
 
 bool Input::userWantToExit(const ALLEGRO_EVENT& event)
@@ -131,22 +132,22 @@ bool Input::keyDownUsed(const ALLEGRO_EVENT& event)
 
 bool Input::keyUpPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
-    return al_key_down(&keyState, ALLEGRO_KEY_UP);
+    return ::al_key_down(&keyState, ALLEGRO_KEY_UP);
 }
 
 bool Input::keyDownPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
-    return al_key_down(&keyState, ALLEGRO_KEY_DOWN);
+    return ::al_key_down(&keyState, ALLEGRO_KEY_DOWN);
 }
 
 bool Input::keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
-    return al_key_down(&keyState, ALLEGRO_KEY_LEFT);
+    return ::al_key_down(&keyState, ALLEGRO_KEY_LEFT);
 }
 
 bool Input::keyRightPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
-    return al_key_down(&keyState, ALLEGRO_KEY_RIGHT);
+    return ::al_key_down(&keyState, ALLEGRO_KEY_RIGHT);
 }
 
 bool Input::keyEnterUsed(const ALLEGRO_EVENT& event)
