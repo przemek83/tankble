@@ -14,12 +14,6 @@ public:
     explicit Screen(Resources resources);
     ~Screen();
 
-    Screen& operator=(const Screen& other) = delete;
-    Screen(const Screen& other) = delete;
-
-    Screen& operator=(Screen&& other) = delete;
-    Screen(Screen&& other) = delete;
-
     static void init();
 
     void drawText(int x, int y, const std::string& text) const;
