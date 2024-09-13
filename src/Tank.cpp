@@ -53,6 +53,21 @@ bool Tank::canFire(TimePoint currentTime) const
            Config::getInstance().getFireDelay();
 }
 
+bool Tank::destroy()
+{
+    if (stats_.lives_ <= 1)
+    {
+        stats_.lives_ = 0;
+        return true;
+    }
+
+    const int livesLeft = stats_.lives_ - 1;
+    respawn();
+    stats_.lives_ = livesLeft;
+
+    return false;
+}
+
 bool Tank::hit(int power)
 {
     if (power > stats_.shield_)
@@ -60,18 +75,10 @@ bool Tank::hit(int power)
     else
         stats_.shield_ -= power;
 
-    if (stats_.shield_ == 0)
-    {
-        if (stats_.lives_ <= 1)
-        {
-            stats_.lives_ = 0;
-            return true;
-        }
-        const int livesLeft = stats_.lives_ - 1;
-        respawn();
-        stats_.lives_ = livesLeft;
-    }
-    return false;
+    if (stats_.shield_ != 0)
+        return false;
+
+    return destroy();
 }
 
 void Tank::setSpeedUp() { ++stats_.speed_; }
@@ -182,12 +189,17 @@ void Tank::respawn()
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
-int Tank::getCalculatedSpeed(float speedFactor) const
+void Tank::adjustEnemySpeed(float& speed) const
 {
     const int tileSize{Config::getInstance().getTileSize()};
+    while ((speed >= 1) && ((tileSize % static_cast<int>(speed)) != 0))
+        speed -= 1;
+}
+
+int Tank::getCalculatedSpeed(float speedFactor) const
+{
     float speed{std::round(static_cast<float>(stats_.speed_) * speedFactor)};
     if (!isPlayerControlled())
-        while ((speed >= 1) && ((tileSize % static_cast<int>(speed)) != 0))
-            speed -= 1;
+        adjustEnemySpeed(speed);
     return std::max(1, static_cast<int>(speed));
 }

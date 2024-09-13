@@ -53,7 +53,10 @@ private:
 
     void tierUp();
 
+    void adjustEnemySpeed(float& speed) const;
     int getCalculatedSpeed(float speedFactor) const;
+
+    bool destroy();
 
     static const int BASIC_ATTACK{1};
     static const int BASIC_HEALTH{1};
