@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "ResourceType.h"
+
 class Screen;
 enum class InputAction : char;
 enum class Level : char;
@@ -29,6 +31,8 @@ private:
         BACK,
         EXIT
     };
+
+    void drawMenuItem(int item, ResourceType resource);
 
     void drawMenuItems(int currentItem);
 

@@ -28,7 +28,7 @@ private:
     std::unordered_map<ResourceType, std::string> resourcePaths_{
         {ResourceType::BACKGROUND, "image/menu/background.bmp"},
         {ResourceType::MENU_ITEM, "image/menu/item.tga"},
-        {ResourceType::MENU_ITME_SELECTED, "image/menu/item_select.tga"},
+        {ResourceType::MENU_ITEM_SELECTED, "image/menu/item_select.tga"},
         {ResourceType::PLAIN, "image/board/plain.tga"},
         {ResourceType::BRICK, "image/board/brick.tga"},
         {ResourceType::WATER, "image/board/water.tga"},

@@ -78,6 +78,9 @@ std::pair<bool, Level> Menu::playGame()
             case UserChoice::LEVEL_4:
                 Screen::hideMouse();
                 return {true, Level::LEVEL_4};
+
+            default:
+                break;
         }
     }
 }
@@ -93,7 +96,7 @@ Menu::UserChoice Menu::getUserChoice()
             return UserChoice::EXIT;
 
         if (action == InputAction::ACCEPT)
-            return items_[currentItem].second;
+            return items_[static_cast<std::size_t>(currentItem)].second;
 
         if (action == InputAction::BACK)
             return items_[items_.size() - 1].second;
@@ -106,21 +109,26 @@ Menu::UserChoice Menu::getUserChoice()
     }
 }
 
-void Menu::drawMenuItems(int currentItem)
+void Menu::drawMenuItem(int item, ResourceType resource)
 {
     const auto itemHeight{static_cast<float>(getItemHeight())};
+    const auto [itemX, itemY]{getItemPosition(item)};
+    screen_.drawScaledBitmap(resource, itemX, itemY, getItemWidth(),
+                             getItemHeight());
+    const auto itemMiddleY{itemY + static_cast<int>(itemHeight / 2.F)};
+    screen_.drawText(screen_.getCenterX(), itemMiddleY,
+                     items_[static_cast<std::size_t>(item)].first);
+}
+
+void Menu::drawMenuItems(int currentItem)
+{
     for (int item = 0; item < static_cast<int>(items_.size()); ++item)
     {
-        ResourceType itemResource{ResourceType::MENU_ITEM};
+        ResourceType resource{ResourceType::MENU_ITEM};
         if (item == currentItem)
-            itemResource = ResourceType::MENU_ITME_SELECTED;
+            resource = ResourceType::MENU_ITEM_SELECTED;
 
-        const auto [itemX, itemY]{getItemPosition(item)};
-        screen_.drawScaledBitmap(itemResource, itemX, itemY, getItemWidth(),
-                                 getItemHeight());
-        const auto itemMiddleY{itemY + static_cast<int>(itemHeight / 2.F)};
-        screen_.drawText(screen_.getCenterX(), itemMiddleY,
-                         items_[static_cast<std::size_t>(item)].first);
+        drawMenuItem(item, resource);
     }
 }
 

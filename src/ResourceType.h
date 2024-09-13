@@ -4,7 +4,7 @@ enum class ResourceType : char
 {
     BACKGROUND = 0,
     MENU_ITEM,
-    MENU_ITME_SELECTED,
+    MENU_ITEM_SELECTED,
     PLAIN,
     BRICK,
     WATER,
