@@ -11,12 +11,6 @@ public:
     explicit Drawable(Point point);
     virtual ~Drawable();
 
-    Drawable& operator=(const Drawable& other) = delete;
-    Drawable(const Drawable& other) = delete;
-
-    Drawable& operator=(Drawable&& other) = default;
-    Drawable(Drawable&& other) = default;
-
     virtual void draw(const Screen& screen) const = 0;
     virtual ResourceType getResourceType() const = 0;
     virtual Point getCenter() const = 0;
