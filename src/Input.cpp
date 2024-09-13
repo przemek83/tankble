@@ -41,16 +41,22 @@ InputAction Input::getMenuAction()
     if (keyDownUsed(event))
         return InputAction::DOWN;
 
-    if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
-    {
-        mouseX_ =
-            (event.mouse.x > 0 ? static_cast<unsigned int>(event.mouse.x) : 0);
-        mouseY_ =
-            (event.mouse.y > 0 ? static_cast<unsigned int>(event.mouse.y) : 0);
-        return InputAction::MOUSE_MOVE;
-    }
+    if (event.type != ALLEGRO_EVENT_MOUSE_AXES)
+        return InputAction::EMPTY;
 
-    return InputAction::EMPTY;
+    if (event.mouse.x > 0)
+
+        mouseX_ = static_cast<unsigned int>(event.mouse.x);
+    else
+        mouseX_ = 0;
+
+    if (event.mouse.y > 0)
+
+        mouseY_ = static_cast<unsigned int>(event.mouse.y);
+    else
+        mouseX_ = 0;
+
+    return InputAction::MOUSE_MOVE;
 }
 
 std::set<InputAction> Input::getGameActions()
