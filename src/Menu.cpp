@@ -142,21 +142,12 @@ int Menu::getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
         (currentItem < static_cast<int>(items_.size() - 1)))
         return currentItem + 1;
 
-    if (action == InputAction::MOUSE_MOVE)
-    {
-        const int firstItem{getLocationOfFirstItem()};
-        const auto [mouseX, mouseY] = mousePosition;
-        const int itemWidth{getItemWidth()};
-        const int itemHeight{getItemHeight()};
-        for (int i = 0; i < static_cast<int>(items_.size()); ++i)
-        {
-            if ((mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
-                (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
-                (mouseY > (firstItem + (itemHeight * i))) &&
-                (mouseY < (firstItem + itemHeight + (itemHeight * i))))
-                return i;
-        }
-    }
+    if (action != InputAction::MOUSE_MOVE)
+        return currentItem;
+
+    const auto [found, item]{getPointedItem(mousePosition)};
+    if (found)
+        return item;
 
     return currentItem;
 }
@@ -192,4 +183,22 @@ std::pair<int, int> Menu::getItemPosition(int item) const
     const int itemX{screen_.getCenterX() - itemWidth / 2};
     const int itemY{getLocationOfFirstItem() + (getItemHeight() * item)};
     return {itemX, itemY};
+}
+
+std::pair<bool, int> Menu::getPointedItem(
+    std::pair<int, int> mousePosition) const
+{
+    const int firstItem{getLocationOfFirstItem()};
+    const auto [mouseX, mouseY] = mousePosition;
+    const int itemWidth{getItemWidth()};
+    const int itemHeight{getItemHeight()};
+    for (int i = 0; i < static_cast<int>(items_.size()); ++i)
+    {
+        if ((mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
+            (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
+            (mouseY > (firstItem + (itemHeight * i))) &&
+            (mouseY < (firstItem + itemHeight + (itemHeight * i))))
+            return {true, i};
+    }
+    return {false, 0};
 }

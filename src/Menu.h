@@ -59,6 +59,9 @@ private:
 
     std::pair<int, int> getItemPosition(int item) const;
 
+    std::pair<bool, int> getPointedItem(
+        std::pair<int, int> mousePosition) const;
+
     Screen& screen_;
 
     std::vector<std::pair<std::string, UserChoice>> items_{};
