@@ -26,8 +26,8 @@ void Tank::draw(const Screen& screen) const
 ResourceType Tank::getResourceType() const
 {
     return static_cast<ResourceType>(
-        static_cast<unsigned char>(ResourceType::PLAYER_TANK_TIER_1) +
-        static_cast<unsigned char>(type_));
+        static_cast<char>(ResourceType::PLAYER_TANK_TIER_1) +
+        static_cast<char>(type_));
 }
 
 Point Tank::getCenter() const

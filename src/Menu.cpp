@@ -109,7 +109,7 @@ Menu::UserChoice Menu::getUserChoice()
 void Menu::drawMenuItems(int currentItem)
 {
     const auto itemHeight{static_cast<float>(getItemHeight())};
-    for (int item = 0; item < items_.size(); ++item)
+    for (int item = 0; item < static_cast<int>(items_.size()); ++item)
     {
         ResourceType itemResource{ResourceType::MENU_ITEM};
         if (item == currentItem)
@@ -119,7 +119,8 @@ void Menu::drawMenuItems(int currentItem)
         screen_.drawScaledBitmap(itemResource, itemX, itemY, getItemWidth(),
                                  getItemHeight());
         const auto itemMiddleY{itemY + static_cast<int>(itemHeight / 2.F)};
-        screen_.drawText(screen_.getCenterX(), itemMiddleY, items_[item].first);
+        screen_.drawText(screen_.getCenterX(), itemMiddleY,
+                         items_[static_cast<std::size_t>(item)].first);
     }
 }
 
@@ -129,7 +130,8 @@ int Menu::getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
     if ((action == InputAction::UP) && (currentItem > 0))
         return currentItem - 1;
 
-    if ((action == InputAction::DOWN) && (currentItem < (items_.size() - 1)))
+    if ((action == InputAction::DOWN) &&
+        (currentItem < static_cast<int>(items_.size() - 1)))
         return currentItem + 1;
 
     if (action == InputAction::MOUSE_MOVE)
@@ -138,7 +140,7 @@ int Menu::getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
         const auto [mouseX, mouseY] = mousePosition;
         const int itemWidth{getItemWidth()};
         const int itemHeight{getItemHeight()};
-        for (int i = 0; i < items_.size(); ++i)
+        for (int i = 0; i < static_cast<int>(items_.size()); ++i)
         {
             if ((mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
                 (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
@@ -160,7 +162,8 @@ void Menu::redraw(int currentItem)
 
 int Menu::getLocationOfFirstItem() const
 {
-    return screen_.getCenterY() - (items_.size() * getItemHeight() / 2);
+    return screen_.getCenterY() -
+           (static_cast<int>(items_.size()) * getItemHeight() / 2);
 }
 
 int Menu::getItemWidth() const

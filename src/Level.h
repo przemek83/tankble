@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Level : unsigned char
+enum class Level : char
 {
     LEVEL_1 = 0,
     LEVEL_2,

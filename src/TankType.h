@@ -1,6 +1,6 @@
 #pragma once
 
-enum class TankType : unsigned char
+enum class TankType : char
 {
     PLAYER_TIER_1 = 0,
     PLAYER_TIER_2,

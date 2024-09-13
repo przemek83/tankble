@@ -4,8 +4,8 @@
 #include <vector>
 
 class Screen;
-enum class InputAction : unsigned char;
-enum class Level : unsigned char;
+enum class InputAction : char;
+enum class Level : char;
 
 class Menu final
 {
@@ -15,7 +15,7 @@ public:
     std::pair<bool, Level> playGame();
 
 private:
-    enum class UserChoice : unsigned char
+    enum class UserChoice : char
     {
         MAIN_MENU = 0,
         LEVEL_MENU,

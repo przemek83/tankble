@@ -1,6 +1,6 @@
 #pragma once
 
-enum class ResourceType : unsigned char
+enum class ResourceType : char
 {
     BACKGROUND = 0,
     MENU_ITEM,

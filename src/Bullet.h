@@ -2,9 +2,9 @@
 
 #include "Drawable.h"
 
-enum class ResourceType : unsigned char;
-enum class Direction : unsigned char;
-enum class TankType : unsigned char;
+enum class ResourceType : char;
+enum class Direction : char;
+enum class TankType : char;
 class Tank;
 
 class Bullet : public Drawable

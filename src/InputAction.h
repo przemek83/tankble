@@ -1,6 +1,6 @@
 #pragma once
 
-enum class InputAction : unsigned char
+enum class InputAction : char
 {
     EMPTY = 0,
     TIMER,

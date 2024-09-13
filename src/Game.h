@@ -13,9 +13,9 @@ class Tank;
 class Map;
 class Screen;
 class Input;
-enum class InputAction : unsigned char;
+enum class InputAction : char;
 class Bullet;
-enum class Level : unsigned char;
+enum class Level : char;
 
 class Game
 {

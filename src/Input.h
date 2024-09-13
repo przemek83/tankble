@@ -6,7 +6,7 @@
 struct ALLEGRO_EVENT_QUEUE;
 union ALLEGRO_EVENT;
 struct ALLEGRO_KEYBOARD_STATE;
-enum class InputAction : unsigned char;
+enum class InputAction : char;
 
 class Input final
 {
