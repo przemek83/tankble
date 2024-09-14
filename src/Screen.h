@@ -34,9 +34,9 @@ public:
 
     static void clearScreenWithBlack();
 
-    int getResourceWidth(ResourceType resourceType) const;
+    int getResourceWidth(ResourceType resourceType) const override;
 
-    int getResourceHeight(ResourceType resourceType) const;
+    int getResourceHeight(ResourceType resourceType) const override;
 
     static void refresh();
 

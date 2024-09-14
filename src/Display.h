@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ResourceType.h"
+
 class Display
 {
 public:
@@ -14,6 +16,9 @@ public:
     void setWidth(int width);
     int getHeight() const;
     void setHeight(int height);
+
+    virtual int getResourceWidth(ResourceType resourceType) const = 0;
+    virtual int getResourceHeight(ResourceType resourceType) const = 0;
 
 private:
     int width_;

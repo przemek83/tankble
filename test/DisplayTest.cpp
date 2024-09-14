@@ -1,10 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <src/Display.h>
+#include "FakeDisplay.h"
 
 TEST_CASE("Display initialization and properties", "[Display]")
 {
-    Display display;
+    FakeDisplay display;
 
     SECTION("Initialization")
     {
