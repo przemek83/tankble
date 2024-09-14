@@ -61,4 +61,20 @@ TEST_CASE("MenuItem initialization and properties", "[MenuItem]")
         REQUIRE(menuItem.getHeight() == resourceHeight);
         REQUIRE(menuItem.getCenter() == Point{170, 35});
     }
+
+    SECTION("initialization of small item")
+    {
+        const int itemsCount{3};
+
+        FakeDisplay display;
+        display.setResourceHeight(display.getHeight() / 20);
+        display.setResourceWidth(display.getWidth() / 20);
+
+        menuItem.init(display, 0, itemsCount);
+        REQUIRE(menuItem.getX() == 267);
+        REQUIRE(menuItem.getY() == 210);
+        REQUIRE(menuItem.getWidth() == 266);
+        REQUIRE(menuItem.getHeight() == 60);
+        REQUIRE(menuItem.getCenter() == Point{133, 30});
+    }
 }
