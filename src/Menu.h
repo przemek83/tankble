@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "MenuItem.h"
-#include "Point.h"
 #include "UserChoice.h"
 
 class Screen;
@@ -26,11 +25,6 @@ private:
 
     void redraw(int currentItem);
 
-    int getLocationOfFirstItem(int count) const;
-
-    int getItemWidth() const;
-    int getItemHeight() const;
-
     void initMenu(std::vector<UserChoice> userChoices);
 
     void initMainMenu();
@@ -39,7 +33,7 @@ private:
 
     void initOptionsMenu();
 
-    Point getItemPosition(int item, int count) const;
+    bool mouseIsHoveringItem(std::pair<int, int> mousePosition, int item) const;
 
     std::pair<bool, int> getPointedItem(
         std::pair<int, int> mousePosition) const;

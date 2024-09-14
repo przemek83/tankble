@@ -103,33 +103,14 @@ void Menu::redraw(int currentItem)
     Screen::refresh();
 }
 
-int Menu::getLocationOfFirstItem(int count) const
-{
-    return screen_.getCenterY() - (count * getItemHeight() / 2);
-}
-
-int Menu::getItemWidth() const
-{
-    return std::max(screen_.getWidth() / 3,
-                    screen_.getResourceWidth(ResourceType::MENU_ITEM));
-}
-
-int Menu::getItemHeight() const
-{
-    return std::max(screen_.getHeight() / 10,
-                    screen_.getResourceHeight(ResourceType::MENU_ITEM));
-}
-
 void Menu::initMenu(std::vector<UserChoice> userChoices)
 {
     items_.clear();
     const std::size_t count{userChoices.size()};
     for (std::size_t i{0}; i < count; ++i)
     {
-        MenuItem item{
-            getItemPosition(static_cast<int>(i), static_cast<int>(count)),
-            userChoices.at(i)};
-        item.initDimensions(screen_);
+        MenuItem item{userChoices.at(i)};
+        item.init(screen_, static_cast<int>(i), static_cast<int>(count));
         items_.emplace_back(std::move(item));
     }
 }
@@ -151,29 +132,26 @@ void Menu::initOptionsMenu()
     initMenu({UserChoice::FULLSCREEN, UserChoice::WINDOWED, UserChoice::BACK});
 }
 
-Point Menu::getItemPosition(int item, int count) const
+bool Menu::mouseIsHoveringItem(std::pair<int, int> mousePosition,
+                               int item) const
 {
-    const int itemWidth{getItemWidth()};
-    const int itemX{screen_.getCenterX() - itemWidth / 2};
-    const int itemY{getLocationOfFirstItem(count) + (getItemHeight() * item)};
-    return {itemX, itemY};
+    const int firstItemY{items_.front().getY()};
+    const auto [mouseX, mouseY] = mousePosition;
+    const int itemWidth{items_.front().getWidth()};
+    const int itemHeight{items_.front().getHeight()};
+    return (mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
+           (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
+           (mouseY > (firstItemY + (itemHeight * item))) &&
+           (mouseY < (firstItemY + itemHeight + (itemHeight * item)));
 }
 
 std::pair<bool, int> Menu::getPointedItem(
     std::pair<int, int> mousePosition) const
 {
-    const int firstItem{
-        getLocationOfFirstItem(static_cast<int>(items_.size()))};
-    const auto [mouseX, mouseY] = mousePosition;
-    const int itemWidth{getItemWidth()};
-    const int itemHeight{getItemHeight()};
-    for (int i = 0; i < static_cast<int>(items_.size()); ++i)
+    for (int item{0}; item < static_cast<int>(items_.size()); ++item)
     {
-        if ((mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
-            (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
-            (mouseY > (firstItem + (itemHeight * i))) &&
-            (mouseY < (firstItem + itemHeight + (itemHeight * i))))
-            return {true, i};
+        if (mouseIsHoveringItem(mousePosition, item))
+            return {true, item};
     }
     return {false, 0};
 }

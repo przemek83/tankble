@@ -5,8 +5,8 @@
 #include "ResourceType.h"
 #include "Screen.h"
 
-MenuItem::MenuItem(Point point, UserChoice userChoice)
-    : Drawable(point), userChoice_{userChoice}
+MenuItem::MenuItem(UserChoice userChoice)
+    : Drawable({}), userChoice_{userChoice}
 {
 }
 
@@ -29,12 +29,20 @@ void MenuItem::setSelected(bool selected)
         resourceType_ = ResourceType::MENU_ITEM;
 }
 
-void MenuItem::initDimensions(const Screen& screen)
+void MenuItem::init(const Screen& screen, int position, int count)
 {
     width_ = std::max(screen.getWidth() / 3,
                       screen.getResourceWidth(ResourceType::MENU_ITEM));
     height_ = std::max(screen.getHeight() / 10,
                        screen.getResourceHeight(ResourceType::MENU_ITEM));
+
+    setX(screen.getCenterX() - width_ / 2);
+
+    const int locationOfFirstItem{screen.getCenterY() - (count * height_ / 2)};
+    setY(locationOfFirstItem + (height_ * position));
 }
 
 UserChoice MenuItem::getUserChoice() const { return userChoice_; }
+
+int MenuItem::getWidth() const { return width_; }
+int MenuItem::getHeight() const { return height_; }

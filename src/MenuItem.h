@@ -9,9 +9,9 @@
 class MenuItem : public Drawable
 {
 public:
-    MenuItem(Point point, UserChoice userChoice);
+    explicit MenuItem(UserChoice userChoice);
 
-    void initDimensions(const Screen& screen);
+    void init(const Screen& screen, int position, int count);
 
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;
@@ -20,6 +20,9 @@ public:
     void setSelected(bool selected);
 
     UserChoice getUserChoice() const;
+
+    int getWidth() const;
+    int getHeight() const;
 
 private:
     std::map<UserChoice, std::string> labels_{
