@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "Display.h"
 #include "ResourceType.h"
 #include "Screen.h"
 
@@ -29,16 +30,16 @@ void MenuItem::setSelected(bool selected)
         resourceType_ = ResourceType::MENU_ITEM;
 }
 
-void MenuItem::init(const Screen& screen, int position, int count)
+void MenuItem::init(const Display& display, int position, int count)
 {
-    width_ = std::max(screen.getWidth() / 3,
-                      screen.getResourceWidth(ResourceType::MENU_ITEM));
-    height_ = std::max(screen.getHeight() / 10,
-                       screen.getResourceHeight(ResourceType::MENU_ITEM));
+    width_ = std::max(display.getWidth() / 3,
+                      display.getResourceWidth(ResourceType::MENU_ITEM));
+    height_ = std::max(display.getHeight() / 10,
+                       display.getResourceHeight(ResourceType::MENU_ITEM));
 
-    setX(screen.getCenterX() - width_ / 2);
+    setX(display.getCenterX() - width_ / 2);
 
-    const int locationOfFirstItem{screen.getCenterY() - (count * height_ / 2)};
+    const int locationOfFirstItem{display.getCenterY() - (count * height_ / 2)};
     setY(locationOfFirstItem + (height_ * position));
 }
 

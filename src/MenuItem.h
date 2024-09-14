@@ -6,12 +6,14 @@
 #include "Drawable.h"
 #include "UserChoice.h"
 
+class Display;
+
 class MenuItem : public Drawable
 {
 public:
     explicit MenuItem(UserChoice userChoice);
 
-    void init(const Screen& screen, int position, int count);
+    void init(const Display& display, int position, int count);
 
     void draw(const Screen& screen) const override;
     ResourceType getResourceType() const override;

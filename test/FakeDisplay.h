@@ -8,11 +8,20 @@ public:
     int getResourceWidth(
         [[maybe_unused]] ResourceType resourceType) const override
     {
-        return 0;
+        return resourceWidth_;
     }
     int getResourceHeight(
         [[maybe_unused]] ResourceType resourceType) const override
     {
-        return 0;
+        return resourceHeight_;
     }
+
+    void setResourceWidth(int width) { resourceWidth_ = width; }
+
+    void setResourceHeight(int height) { resourceHeight_ = height; }
+
+private:
+    int resourceWidth_;
+    int resourceHeight_;
 };
+;
