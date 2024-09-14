@@ -6,6 +6,11 @@
 #include "ResourceType.h"
 #include "Screen.h"
 
+namespace
+{
+int getMidpoint(int value) { return value / 2; }
+}  // namespace
+
 MenuItem::MenuItem(UserChoice userChoice)
     : Drawable({}), userChoice_{userChoice}
 {
@@ -20,7 +25,10 @@ void MenuItem::draw(const Screen& screen) const
 
 ResourceType MenuItem::getResourceType() const { return resourceType_; }
 
-Point MenuItem::getCenter() const { return {width_ / 2, height_ / 2}; }
+Point MenuItem::getCenter() const
+{
+    return {getMidpoint(width_), getMidpoint(height_)};
+}
 
 void MenuItem::setSelected(bool selected)
 {
@@ -37,9 +45,10 @@ void MenuItem::init(const Display& display, int position, int count)
     height_ = std::max(display.getHeight() / 10,
                        display.getResourceHeight(ResourceType::MENU_ITEM));
 
-    setX(display.getCenterX() - width_ / 2);
+    setX(display.getCenterX() - getMidpoint(width_));
 
-    const int locationOfFirstItem{display.getCenterY() - (count * height_ / 2)};
+    const int locationOfFirstItem{display.getCenterY() -
+                                  getMidpoint(count * height_)};
     setY(locationOfFirstItem + (height_ * position));
 }
 
