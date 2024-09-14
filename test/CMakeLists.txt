@@ -9,6 +9,7 @@ set(${PROJECT_TEST}_SOURCES
     MapUtilsTest.cpp
     ConfigTest.cpp
     MenuItemTest.cpp
+    DisplayTest.cpp
 )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
