@@ -1,13 +1,15 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
-#include "ResourceType.h"
+#include "MenuItem.h"
+#include "Point.h"
+#include "UserChoice.h"
 
 class Screen;
 enum class InputAction : char;
 enum class Level : char;
+class MenuItem;
 
 class Menu final
 {
@@ -17,23 +19,6 @@ public:
     std::pair<bool, Level> playGame();
 
 private:
-    enum class UserChoice : char
-    {
-        MAIN_MENU = 0,
-        LEVEL_MENU,
-        LEVEL_1,
-        LEVEL_2,
-        LEVEL_3,
-        LEVEL_4,
-        OPTIONS_MENU,
-        WINDOWED,
-        FULLSCREEN,
-        BACK,
-        EXIT
-    };
-
-    void drawMenuItem(int item, ResourceType resource);
-
     void drawMenuItems(int currentItem);
 
     int getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
@@ -41,28 +26,27 @@ private:
 
     void redraw(int currentItem);
 
-    int getLocationOfFirstItem() const;
+    int getLocationOfFirstItem(int count) const;
 
     int getItemWidth() const;
-
     int getItemHeight() const;
 
-    UserChoice getUserChoice();
+    void initMenu(std::vector<UserChoice> userChoices);
 
-    static std::vector<std::pair<std::string, Menu::UserChoice>> getMainMenu();
+    void initMainMenu();
 
-    static std::vector<std::pair<std::string, Menu::UserChoice>>
-    getNewGameMenu();
+    void initNewGameMenu();
 
-    static std::vector<std::pair<std::string, Menu::UserChoice>>
-    getOptionsMenu();
+    void initOptionsMenu();
 
-    std::pair<int, int> getItemPosition(int item) const;
+    Point getItemPosition(int item, int count) const;
 
     std::pair<bool, int> getPointedItem(
         std::pair<int, int> mousePosition) const;
 
+    UserChoice getUserChoice();
+
     Screen& screen_;
 
-    std::vector<std::pair<std::string, UserChoice>> items_{};
+    std::vector<MenuItem> items_;
 };

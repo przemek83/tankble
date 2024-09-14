@@ -58,6 +58,9 @@ set(${PROJECT_NAME}_SOURCES
     src/MapUtils.h
     src/MapUtils.cpp
     src/Level.h
+    src/MenuItem.h
+    src/MenuItem.cpp
+    src/UserChoice.h
     src/map/Water.cpp
     src/map/Water.h
     src/map/Steel.cpp

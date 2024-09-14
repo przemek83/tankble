@@ -1,34 +1,14 @@
 #include "Menu.h"
 
+#include <vector>
+
 #include "Input.h"
 #include "InputAction.h"
 #include "Level.h"
+#include "MenuItem.h"
 #include "Screen.h"
 
-Menu::Menu(Screen& screen) : screen_(screen), items_(getMainMenu()) {}
-
-std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getMainMenu()
-{
-    return {{"NEW GAME", UserChoice::LEVEL_MENU},
-            {"OPTIONS", UserChoice::OPTIONS_MENU},
-            {"EXIT", UserChoice::EXIT}};
-}
-
-std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getNewGameMenu()
-{
-    return {{"LEVEL 1", UserChoice::LEVEL_1},
-            {"LEVEL 2", UserChoice::LEVEL_2},
-            {"LEVEL 3", UserChoice::LEVEL_3},
-            {"LEVEL 4", UserChoice::LEVEL_4},
-            {"BACK", UserChoice::BACK}};
-}
-
-std::vector<std::pair<std::string, Menu::UserChoice>> Menu::getOptionsMenu()
-{
-    return {{"FULL SCREEN", UserChoice::FULLSCREEN},
-            {"WINDOWED", UserChoice::WINDOWED},
-            {"BACK", UserChoice::BACK}};
-}
+Menu::Menu(Screen& screen) : screen_(screen) { initMainMenu(); }
 
 std::pair<bool, Level> Menu::playGame()
 {
@@ -40,23 +20,25 @@ std::pair<bool, Level> Menu::playGame()
         {
             case UserChoice::MAIN_MENU:
             case UserChoice::BACK:
-                items_ = getMainMenu();
+                initMainMenu();
                 break;
 
             case UserChoice::LEVEL_MENU:
-                items_ = getNewGameMenu();
+                initNewGameMenu();
                 break;
 
             case UserChoice::OPTIONS_MENU:
-                items_ = getOptionsMenu();
+                initOptionsMenu();
                 break;
 
             case UserChoice::WINDOWED:
                 screen_.useWindowedMode();
+                initOptionsMenu();
                 break;
 
             case UserChoice::FULLSCREEN:
                 screen_.useFullScreenMode();
+                initOptionsMenu();
                 break;
 
             case UserChoice::EXIT:
@@ -85,50 +67,12 @@ std::pair<bool, Level> Menu::playGame()
     }
 }
 
-Menu::UserChoice Menu::getUserChoice()
-{
-    Input input;
-    for (int currentItem{0};;)
-    {
-        const InputAction action{input.getMenuAction()};
-
-        if (action == InputAction::QUIT)
-            return UserChoice::EXIT;
-
-        if (action == InputAction::ACCEPT)
-            return items_[static_cast<std::size_t>(currentItem)].second;
-
-        if (action == InputAction::BACK)
-            return items_[items_.size() - 1].second;
-
-        currentItem =
-            getCurrentItem(input.getMousePosition(), action, currentItem);
-
-        if (action == InputAction::TIMER)
-            redraw(currentItem);
-    }
-}
-
-void Menu::drawMenuItem(int item, ResourceType resource)
-{
-    const auto itemHeight{static_cast<float>(getItemHeight())};
-    const auto [itemX, itemY]{getItemPosition(item)};
-    screen_.drawScaledBitmap(resource, itemX, itemY, getItemWidth(),
-                             getItemHeight());
-    const auto itemMiddleY{itemY + static_cast<int>(itemHeight / 2.F)};
-    screen_.drawText(screen_.getCenterX(), itemMiddleY,
-                     items_[static_cast<std::size_t>(item)].first);
-}
-
 void Menu::drawMenuItems(int currentItem)
 {
-    for (int item = 0; item < static_cast<int>(items_.size()); ++item)
+    for (std::size_t item{0}; item < items_.size(); ++item)
     {
-        ResourceType resource{ResourceType::MENU_ITEM};
-        if (item == currentItem)
-            resource = ResourceType::MENU_ITEM_SELECTED;
-
-        drawMenuItem(item, resource);
+        items_[item].setSelected(static_cast<int>(item) == currentItem);
+        items_[item].draw(screen_);
     }
 }
 
@@ -159,10 +103,9 @@ void Menu::redraw(int currentItem)
     Screen::refresh();
 }
 
-int Menu::getLocationOfFirstItem() const
+int Menu::getLocationOfFirstItem(int count) const
 {
-    return screen_.getCenterY() -
-           (static_cast<int>(items_.size()) * getItemHeight() / 2);
+    return screen_.getCenterY() - (count * getItemHeight() / 2);
 }
 
 int Menu::getItemWidth() const
@@ -177,18 +120,50 @@ int Menu::getItemHeight() const
                     screen_.getResourceHeight(ResourceType::MENU_ITEM));
 }
 
-std::pair<int, int> Menu::getItemPosition(int item) const
+void Menu::initMenu(std::vector<UserChoice> userChoices)
+{
+    items_.clear();
+    const std::size_t count{userChoices.size()};
+    for (std::size_t i{0}; i < count; ++i)
+    {
+        MenuItem item{
+            getItemPosition(static_cast<int>(i), static_cast<int>(count)),
+            userChoices.at(i)};
+        item.initDimensions(screen_);
+        items_.emplace_back(std::move(item));
+    }
+}
+
+void Menu::initMainMenu()
+{
+    initMenu(
+        {UserChoice::LEVEL_MENU, UserChoice::OPTIONS_MENU, UserChoice::EXIT});
+}
+
+void Menu::initNewGameMenu()
+{
+    initMenu({UserChoice::LEVEL_1, UserChoice::LEVEL_2, UserChoice::LEVEL_3,
+              UserChoice::LEVEL_4, UserChoice::BACK});
+}
+
+void Menu::initOptionsMenu()
+{
+    initMenu({UserChoice::FULLSCREEN, UserChoice::WINDOWED, UserChoice::BACK});
+}
+
+Point Menu::getItemPosition(int item, int count) const
 {
     const int itemWidth{getItemWidth()};
     const int itemX{screen_.getCenterX() - itemWidth / 2};
-    const int itemY{getLocationOfFirstItem() + (getItemHeight() * item)};
+    const int itemY{getLocationOfFirstItem(count) + (getItemHeight() * item)};
     return {itemX, itemY};
 }
 
 std::pair<bool, int> Menu::getPointedItem(
     std::pair<int, int> mousePosition) const
 {
-    const int firstItem{getLocationOfFirstItem()};
+    const int firstItem{
+        getLocationOfFirstItem(static_cast<int>(items_.size()))};
     const auto [mouseX, mouseY] = mousePosition;
     const int itemWidth{getItemWidth()};
     const int itemHeight{getItemHeight()};
@@ -201,4 +176,29 @@ std::pair<bool, int> Menu::getPointedItem(
             return {true, i};
     }
     return {false, 0};
+}
+
+UserChoice Menu::getUserChoice()
+{
+    Input input;
+    for (int currentItem{0};;)
+    {
+        const InputAction action{input.getMenuAction()};
+
+        if (action == InputAction::QUIT)
+            return UserChoice::EXIT;
+
+        if (action == InputAction::ACCEPT)
+            return items_[static_cast<std::size_t>(currentItem)]
+                .getUserChoice();
+
+        if (action == InputAction::BACK)
+            return items_.back().getUserChoice();
+
+        currentItem =
+            getCurrentItem(input.getMousePosition(), action, currentItem);
+
+        if (action == InputAction::TIMER)
+            redraw(currentItem);
+    }
 }
