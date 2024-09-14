@@ -9,11 +9,7 @@
 #include "Config.h"
 
 Screen::Screen(Resources resources)
-    : resources_(std::move(resources)),
-      width_(Config::getInstance().getBoardWidth() +
-             Config::getInstance().getSatusWidth()),
-      height_(Config::getInstance().getBoardHeight()),
-      font_{::al_create_builtin_font()}
+    : resources_(std::move(resources)), font_{::al_create_builtin_font()}
 {
 }
 
@@ -121,19 +117,11 @@ void Screen::clearScreenWithBlack()
 
 void Screen::updateSize()
 {
-    width_ = ::al_get_display_width(::al_get_current_display());
-    height_ = ::al_get_display_height(::al_get_current_display());
+    setWidth(::al_get_display_width(::al_get_current_display()));
+    setHeight(::al_get_display_height(::al_get_current_display()));
 
     Config::getInstance().screenSizeChanged(getWidth(), getHeight());
 }
-
-int Screen::getWidth() const { return width_; }
-
-int Screen::getHeight() const { return height_; }
-
-int Screen::getCenterX() const { return width_ / 2; }
-
-int Screen::getCenterY() const { return height_ / 2; }
 
 int Screen::getResourceWidth(ResourceType resourceType) const
 {

@@ -2,17 +2,18 @@
 
 #include <string>
 
+#include "Display.h"
 #include "Resources.h"
 
 struct ALLEGRO_FONT;
 struct ALLEGRO_BITMAP;
 struct ALLEGRO_COLOR;
 
-class Screen
+class Screen : public Display
 {
 public:
     explicit Screen(Resources resources);
-    ~Screen();
+    ~Screen() override;
 
     static void init();
 
@@ -33,10 +34,6 @@ public:
 
     static void clearScreenWithBlack();
 
-    int getCenterX() const;
-
-    int getCenterY() const;
-
     int getResourceWidth(ResourceType resourceType) const;
 
     int getResourceHeight(ResourceType resourceType) const;
@@ -51,10 +48,6 @@ public:
 
     void useWindowedMode();
 
-    int getWidth() const;
-
-    int getHeight() const;
-
 private:
     void updateSize();
 
@@ -62,8 +55,5 @@ private:
     float getBitmapHeight(ALLEGRO_BITMAP* bitmap) const;
 
     Resources resources_;
-
-    int width_;
-    int height_;
     ALLEGRO_FONT* font_;
 };
