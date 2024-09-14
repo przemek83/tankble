@@ -3,12 +3,11 @@
 #include <vector>
 
 #include "MenuItem.h"
-#include "UserChoice.h"
 
 class Screen;
 enum class InputAction : char;
 enum class Level : char;
-class MenuItem;
+enum class UserChoice : char;
 
 class Menu final
 {

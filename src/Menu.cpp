@@ -7,6 +7,7 @@
 #include "Level.h"
 #include "MenuItem.h"
 #include "Screen.h"
+#include "UserChoice.h"
 
 Menu::Menu(Screen& screen) : screen_(screen) { initMainMenu(); }
 
