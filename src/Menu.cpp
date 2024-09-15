@@ -15,7 +15,7 @@ std::pair<bool, Level> Menu::playGame()
 {
     Screen::showMouse();
 
-    for (;;)
+    while (true)
     {
         switch (getUserChoice())
         {
@@ -70,7 +70,8 @@ std::pair<bool, Level> Menu::playGame()
 
 void Menu::drawMenuItems(int currentItem)
 {
-    for (std::size_t item{0}; item < items_.size(); ++item)
+    const std::size_t count{items_.size()};
+    for (std::size_t item{0}; item < count; ++item)
     {
         items_[item].setSelected(static_cast<int>(item) == currentItem);
         items_[item].draw(screen_);
@@ -149,7 +150,8 @@ bool Menu::mouseIsHoveringItem(std::pair<int, int> mousePosition,
 std::pair<bool, int> Menu::getPointedItem(
     std::pair<int, int> mousePosition) const
 {
-    for (int item{0}; item < static_cast<int>(items_.size()); ++item)
+    const int count{static_cast<int>(items_.size())};
+    for (int item{0}; item < count; ++item)
     {
         if (mouseIsHoveringItem(mousePosition, item))
             return {true, item};
@@ -160,7 +162,8 @@ std::pair<bool, int> Menu::getPointedItem(
 UserChoice Menu::getUserChoice()
 {
     Input input;
-    for (int currentItem{0};;)
+    int currentItem{0};
+    while (true)
     {
         const InputAction action{input.getMenuAction()};
 
