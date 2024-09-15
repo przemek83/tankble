@@ -63,6 +63,8 @@ set(${PROJECT_NAME}_SOURCES
     src/UserChoice.h
     src/Display.h
     src/Display.cpp
+    src/Utils.h
+    src/Utils.cpp
     src/map/Water.cpp
     src/map/Water.h
     src/map/Steel.cpp

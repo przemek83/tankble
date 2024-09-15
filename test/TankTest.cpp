@@ -7,6 +7,7 @@
 #include <src/Bullet.h>
 #include <src/Config.h>
 #include <src/Tank.h>
+#include <src/Utils.h>
 
 TEST_CASE("Tank creation", "[tank]")
 {
@@ -93,7 +94,8 @@ TEST_CASE("location related", "[tank]")
 
     SECTION("get center")
     {
-        const int halfOfTile{Config::getInstance().getTileSize() / 2};
+        const int halfOfTile{
+            utils::getMidpoint(Config::getInstance().getTileSize())};
         const Tank tank(TankType::ENEMY_TIER_1, point);
         REQUIRE(tank.getCenter() == Point{
                                         100 + halfOfTile,
@@ -267,8 +269,9 @@ TEST_CASE("firing", "[tank]")
         const int tileSize{Config::getInstance().getTileSize()};
         Tank tank(TankType::PLAYER_TIER_1, point);
         const Bullet bullet = tank.fire(TimePoint::max());
-        const Point expectedBulletCenter{point.x_ + tileSize / 2,
-                                         point.y_ + tileSize / 2};
+        const Point expectedBulletCenter{
+            point.x_ + utils::getMidpoint(tileSize),
+            point.y_ + utils::getMidpoint(tileSize)};
         REQUIRE(bullet.getCenter() == expectedBulletCenter);
     }
 

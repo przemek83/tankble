@@ -1,6 +1,7 @@
 #include "Display.h"
 
 #include "Config.h"
+#include "Utils.h"
 
 Display::Display()
     : width_(Config::getInstance().getBoardWidth() +
@@ -9,8 +10,8 @@ Display::Display()
 {
 }
 
-int Display::getCenterX() const { return width_ / 2; }
-int Display::getCenterY() const { return height_ / 2; }
+int Display::getCenterX() const { return utils::getMidpoint(width_); }
+int Display::getCenterY() const { return utils::getMidpoint(height_); }
 
 int Display::getWidth() const { return width_; }
 void Display::setWidth(int width) { width_ = width; }

@@ -7,6 +7,7 @@
 #include <src/Map.h>
 #include <src/Point.h>
 #include <src/Tank.h>
+#include <src/Utils.h>
 
 // 0 - plain
 // 1 - brick
@@ -184,9 +185,9 @@ TEST_CASE("Check hitting", "[map]")
         const Point point{tileToPoint(1, 2)};
         map.loadMap(stream);
         REQUIRE(map.isBaseDestroyed() == false);
-        map.hit(point, testHitStrength / 2);
+        map.hit(point, utils::getMidpoint(testHitStrength));
         REQUIRE(map.isBaseDestroyed() == false);
-        map.hit(point, testHitStrength / 2);
+        map.hit(point, utils::getMidpoint(testHitStrength));
         REQUIRE(map.isBaseDestroyed() == true);
     }
 }

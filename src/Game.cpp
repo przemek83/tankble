@@ -15,6 +15,7 @@
 #include "PointUtils.h"
 #include "Screen.h"
 #include "Tank.h"
+#include "Utils.h"
 
 Game::Game(Screen& screen)
     : status_({Config::getInstance().getBoardWidth(), 0}),
@@ -154,10 +155,10 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 void Game::drawEndOfGame(const std::string& text) const
 {
     Screen::clearScreenWithBlack();
-    screen_.drawText((Config::getInstance().getBoardWidth() +
-                      Config::getInstance().getSatusWidth()) /
-                         2,
-                     Config::getInstance().getBoardHeight() / 2, text);
+    screen_.drawText(utils::getMidpoint(Config::getInstance().getBoardWidth() +
+                                        Config::getInstance().getSatusWidth()),
+                     utils::getMidpoint(Config::getInstance().getBoardHeight()),
+                     text);
     Screen::refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }

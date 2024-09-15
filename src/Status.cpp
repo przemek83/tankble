@@ -2,6 +2,7 @@
 
 #include "Config.h"
 #include "Screen.h"
+#include "Utils.h"
 
 Status::Status(Point point) : Drawable(point) {}
 
@@ -33,7 +34,8 @@ void Status::draw(const Screen& screen) const
 
 Point Status::getCenter() const
 {
-    return {getX() + getWeidth() / 2, getHeight() / 2};
+    return {getX() + utils::getMidpoint(getWeidth()),
+            utils::getMidpoint(getHeight())};
 }
 
 ResourceType Status::getResourceType() const

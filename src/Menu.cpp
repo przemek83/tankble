@@ -8,6 +8,7 @@
 #include "MenuItem.h"
 #include "Screen.h"
 #include "UserChoice.h"
+#include "Utils.h"
 
 Menu::Menu(Screen& screen) : screen_(screen) { initMainMenu(); }
 
@@ -141,8 +142,8 @@ bool Menu::mouseIsHoveringItem(std::pair<int, int> mousePosition,
     const auto [mouseX, mouseY] = mousePosition;
     const int itemWidth{items_.front().getWidth()};
     const int itemHeight{items_.front().getHeight()};
-    return (mouseX > (screen_.getCenterX() - (itemWidth / 2))) &&
-           (mouseX < (screen_.getCenterX() + (itemWidth / 2))) &&
+    return (mouseX > (screen_.getCenterX() - utils::getMidpoint(itemWidth))) &&
+           (mouseX < (screen_.getCenterX() + utils::getMidpoint(itemWidth))) &&
            (mouseY > (firstItemY + (itemHeight * item))) &&
            (mouseY < (firstItemY + itemHeight + (itemHeight * item)));
 }

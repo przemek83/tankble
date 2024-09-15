@@ -4,12 +4,14 @@
 #include "Direction.h"
 #include "PointUtils.h"
 #include "Screen.h"
+#include "Utils.h"
 
 Bullet::Bullet(Point startingPoint, int speed, bool playerOrigin, int power,
                Direction direction)
-    : Drawable(
-          {startingPoint.x_ - (Config::getInstance().getBulletSize() / 2),
-           startingPoint.y_ - (Config::getInstance().getBulletSize() / 2)}),
+    : Drawable({startingPoint.x_ -
+                    (utils::getMidpoint(Config::getInstance().getBulletSize())),
+                startingPoint.y_ -
+                    utils::getMidpoint(Config::getInstance().getBulletSize())}),
       size_(Config::getInstance().getBulletSize()),
       playerOrigin_(playerOrigin),
       direction_(direction),
@@ -24,7 +26,8 @@ int Bullet::getPower() const { return power_; }
 
 Point Bullet::getCenter() const
 {
-    return {getX() + (size_ / 2), getY() + (size_ / 2)};
+    return {getX() + utils::getMidpoint(size_),
+            getY() + utils::getMidpoint(size_)};
 }
 
 int Bullet::getDirectionX() const

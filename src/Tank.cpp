@@ -7,6 +7,7 @@
 #include "Direction.h"
 #include "Screen.h"
 #include "TankType.h"
+#include "Utils.h"
 
 Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x_), initialY_(point.y_)
@@ -32,7 +33,7 @@ ResourceType Tank::getResourceType() const
 
 Point Tank::getCenter() const
 {
-    const int middle{Config::getInstance().getTileSize() / 2};
+    const int middle{utils::getMidpoint(Config::getInstance().getTileSize())};
     return {getX() + middle, getY() + middle};
 }
 

@@ -4,17 +4,21 @@
 #include <src/Bullet.h>
 #include <src/Config.h>
 #include <src/Direction.h>
+#include <src/Utils.h>
 
+namespace
+{
 const int bulletPower{4};
 const int bulletSpeed{10};
 const Point point{5, 5};
-const bool enemyOrigin = false;
-const bool playerOrigin = true;
+const bool enemyOrigin{false};
+const bool playerOrigin{true};
 
-static Bullet getExampleBullet()
+Bullet getExampleBullet()
 {
     return {point, bulletSpeed, enemyOrigin, bulletPower, Direction::UP};
 }
+};  // namespace
 
 TEST_CASE("Bullet getters", "[bullet]")
 {
@@ -48,9 +52,11 @@ TEST_CASE("Bullet coordinates", "[bullet]")
     {
         const Point currentPoint{bullet.getLocation()};
         REQUIRE(currentPoint.x_ ==
-                point.x_ - Config::getInstance().getBulletSize() / 2);
+                point.x_ -
+                    utils::getMidpoint(Config::getInstance().getBulletSize()));
         REQUIRE(currentPoint.y_ ==
-                point.y_ - Config::getInstance().getBulletSize() / 2);
+                point.y_ -
+                    utils::getMidpoint(Config::getInstance().getBulletSize()));
     }
     SECTION("center is correct")
     {
@@ -107,7 +113,8 @@ TEST_CASE("Bullet moving", "[bullet]")
     SECTION("bullet moving inside valid area")
     {
         using TestData = std::pair<Direction, Point>;
-        const int middle{Config::getInstance().getBoardWidth() / 2};
+        const int middle{
+            utils::getMidpoint(Config::getInstance().getBoardWidth())};
         auto [direction, expectedPoint] = GENERATE_REF(
             TestData{Direction::UP, Point{middle, middle - bulletSpeed}},
             TestData{Direction::DOWN, Point{middle, middle + bulletSpeed}},
@@ -144,7 +151,7 @@ TEST_CASE("Bullet moving to invalid area", "[bullet]")
 {
     using TestData = std::pair<Direction, Point>;
     const int nearEndOfMap{Config::getInstance().getBoardWidth() -
-                           bulletSpeed / 2};
+                           utils::getMidpoint(bulletSpeed)};
     auto [direction, pointGenerated] =
         GENERATE_REF(TestData{Direction::UP, point},
                      TestData{Direction::DOWN, Point{point.x_, nearEndOfMap}},
