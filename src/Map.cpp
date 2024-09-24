@@ -45,6 +45,56 @@ Map::Map(int mapDimension)
 // A - shield up
 // T - life up
 
+void Map::createTile(char sign, std::list<Tank>& tanks, TilePosition position)
+{
+    const Point point{tilePositionToScreenPoint(position)};
+
+    auto& tile{getTileUsingPosition(position)};
+    switch (sign)
+    {
+        case '1':
+            tile = std::make_unique<Brick>(point);
+            break;
+        case '2':
+            tile = std::make_unique<Water>(point);
+            break;
+        case '3':
+            tile = std::make_unique<Plant>(point);
+            break;
+        case '4':
+            tile = std::make_unique<Ice>(point);
+            break;
+        case '5':
+            tile = std::make_unique<Steel>(point);
+            break;
+        case '6':
+            tile = std::make_unique<Base>(point);
+            break;
+        case 'M':
+            tile = std::make_unique<Plain>(point);
+            tanks.emplace_back(TankType::PLAYER_TIER_1, point);
+            break;
+        case 'E':
+            tile = std::make_unique<Plain>(point);
+            tanks.emplace_back(TankType::ENEMY_TIER_1, point);
+            break;
+        case 'A':
+            tile = std::make_unique<ShieldUp>(point);
+            break;
+        case 'S':
+            tile = std::make_unique<SpeedUp>(point);
+            break;
+        case 'L':
+            tile = std::make_unique<TierUp>(point);
+            break;
+        case 'T':
+            tile = std::make_unique<LifeUp>(point);
+            break;
+        default:
+            tile = std::make_unique<Plain>(point);
+    }
+}
+
 std::list<Tank> Map::loadMap(std::iostream& stream)
 {
     char sign{};
@@ -54,63 +104,14 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
         {
             stream >> std::noskipws >> sign;
 
-            while (((sign < '0') || (sign >= '7')) && (sign != 'T') &&
-                   (sign != 'E') && (sign != 'M') && (sign != 'S') &&
-                   (sign != 'L') && (sign != 'A'))
+            while (!isTileSign(sign))
             {
                 stream >> std::noskipws >> sign;
                 if (sign == EOF)
                     break;
             }
 
-            const Point point{
-                static_cast<int>(x) * Config::getInstance().getTileSize(),
-                static_cast<int>(y) * Config::getInstance().getTileSize()};
-
-            auto& tile{getTileUsingPosition({x, y})};
-            switch (sign)
-            {
-                case '1':
-                    tile = std::make_unique<Brick>(point);
-                    break;
-                case '2':
-                    tile = std::make_unique<Water>(point);
-                    break;
-                case '3':
-                    tile = std::make_unique<Plant>(point);
-                    break;
-                case '4':
-                    tile = std::make_unique<Ice>(point);
-                    break;
-                case '5':
-                    tile = std::make_unique<Steel>(point);
-                    break;
-                case '6':
-                    tile = std::make_unique<Base>(point);
-                    break;
-                case 'M':
-                    tile = std::make_unique<Plain>(point);
-                    tanks.emplace_back(TankType::PLAYER_TIER_1, point);
-                    break;
-                case 'E':
-                    tile = std::make_unique<Plain>(point);
-                    tanks.emplace_back(TankType::ENEMY_TIER_1, point);
-                    break;
-                case 'A':
-                    tile = std::make_unique<ShieldUp>(point);
-                    break;
-                case 'S':
-                    tile = std::make_unique<SpeedUp>(point);
-                    break;
-                case 'L':
-                    tile = std::make_unique<TierUp>(point);
-                    break;
-                case 'T':
-                    tile = std::make_unique<LifeUp>(point);
-                    break;
-                default:
-                    tile = std::make_unique<Plain>(point);
-            }
+            createTile(sign, tanks, {x, y});
         }
 
     return tanks;
@@ -285,3 +286,9 @@ void Map::drawForeground(const Screen& screen)
 }
 
 bool Map::isBaseDestroyed() const { return baseDestroyed_; }
+
+bool Map::isTileSign(char sign) const
+{
+    return ((sign >= '0') && (sign < '7')) || (sign == 'T') || (sign == 'E') ||
+           (sign == 'M') || (sign == 'S') || (sign == 'L') || (sign == 'A');
+}

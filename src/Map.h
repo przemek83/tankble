@@ -61,10 +61,14 @@ private:
     static TilePosition screenPointToTilePosition(Point point);
     static Point tilePositionToScreenPoint(TilePosition position);
 
+    void createTile(char sign, std::list<Tank>& tanks, TilePosition position);
+
     static void shiftRight(Point& point, int tileSize);
     static void shiftLeft(Point& point, int tileSize);
     static void shiftUp(Point& point, int tileSize);
     static void shiftDown(Point& point, int tileSize);
+
+    bool isTileSign(char sign) const;
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
