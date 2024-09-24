@@ -257,14 +257,13 @@ std::string getTestMapForShifting()
 }
 }  // namespace
 
-const int tileCountForShifting{3};
-
 TEST_CASE("shift", "[map]")
 {
     std::stringstream stream(getTestMapForShifting());
     static const int tileSize{Config::getInstance().getTileSize()};
     static const int twoTiles{tileSize * 2};
 
+    const int tileCountForShifting{3};
     Map map(tileCountForShifting);
     map.loadMap(stream);
 
