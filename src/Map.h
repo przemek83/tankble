@@ -41,12 +41,6 @@ private:
         std::size_t y_;
     };
 
-    std::unique_ptr<Tile>& getTile(Point point)
-    {
-        return board_[static_cast<std::size_t>(point.y_)]
-                     [static_cast<std::size_t>(point.x_)];
-    }
-
     const std::unique_ptr<Tile>& getTileUsingPosition(
         TilePosition position) const
     {
