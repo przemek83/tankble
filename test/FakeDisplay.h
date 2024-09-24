@@ -24,4 +24,3 @@ private:
     int resourceWidth_;
     int resourceHeight_;
 };
-;
