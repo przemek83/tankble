@@ -103,13 +103,8 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
         for (std::size_t x = 0; x < mapDimension_; ++x)
         {
             stream >> std::noskipws >> sign;
-
-            while (!isTileSign(sign))
-            {
+            while ((sign != EOF) && (!isTileSign(sign)))
                 stream >> std::noskipws >> sign;
-                if (sign == EOF)
-                    break;
-            }
 
             createTile(sign, tanks, {x, y});
         }
