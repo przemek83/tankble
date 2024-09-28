@@ -17,10 +17,10 @@
 #include "Tank.h"
 #include "Utils.h"
 
-Game::Game(Screen& screen)
+Game::Game(Display& display)
     : status_({Config::getInstance().getBoardWidth(), 0}),
       randomGenerator_(Config::getRandomSeed()),
-      screen_(screen)
+      display_(display)
 {
 }
 
@@ -155,10 +155,10 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 void Game::drawEndOfGame(const std::string& text) const
 {
     Screen::clearScreenWithBlack();
-    screen_.drawText(utils::getMidpoint(Config::getInstance().getBoardWidth() +
-                                        Config::getInstance().getSatusWidth()),
-                     utils::getMidpoint(Config::getInstance().getBoardHeight()),
-                     text);
+    display_.drawText(
+        utils::getMidpoint(Config::getInstance().getBoardWidth() +
+                           Config::getInstance().getSatusWidth()),
+        utils::getMidpoint(Config::getInstance().getBoardHeight()), text);
     Screen::refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
@@ -183,7 +183,7 @@ bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks) const
 void Game::drawTanks(const std::list<Tank>& tanks) const
 {
     for (const auto& tank : tanks)
-        tank.draw(screen_);
+        tank.draw(display_);
 }
 
 void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
@@ -241,17 +241,17 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
 void Game::drawBullets(const std::list<Bullet>& bullets) const
 {
     for (const auto& bullet : bullets)
-        bullet.draw(screen_);
+        bullet.draw(display_);
 }
 
 void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
                 Map& map)
 {
-    map.drawBackground(screen_);
+    map.drawBackground(display_);
     drawTanks(tanks);
     drawBullets(bullets);
-    map.drawForeground(screen_);
-    status_.update(getPlayerTank(tanks).getStats(), screen_);
+    map.drawForeground(display_);
+    status_.update(getPlayerTank(tanks).getStats(), display_);
 }
 
 void Game::setPower(Tank& tank, Map& map)

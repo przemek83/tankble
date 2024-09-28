@@ -11,7 +11,7 @@
 struct Point;
 class Tank;
 class Map;
-class Screen;
+class Display;
 class Input;
 enum class InputAction : char;
 class Bullet;
@@ -20,7 +20,7 @@ enum class Level : char;
 class Game
 {
 public:
-    explicit Game(Screen& screen);
+    explicit Game(Display& display);
 
     bool play(Level level);
 
@@ -47,7 +47,7 @@ private:
 
     Status status_;
     std::mt19937 randomGenerator_;
-    Screen& screen_;
+    Display& display_;
     bool playerDestroyed_{false};
     std::uniform_int_distribution<> distribution_{
         std::uniform_int_distribution<>(0, 7)};
