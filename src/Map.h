@@ -64,7 +64,8 @@ private:
 
     bool isValidSign(char sign) const;
 
-    void drawTile(const Screen& screen, TilePosition position);
+    void drawBackgroundTile(const Screen& screen, TilePosition position);
+    void drawForegroundTile(const Screen& screen, TilePosition position);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
