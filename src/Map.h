@@ -69,7 +69,10 @@ private:
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
-    std::vector<std::vector<bool>> changedTiles_{};
+    const unsigned char tileNotChanged_{0};
+    const unsigned char tileChanged_{1};
+
+    std::vector<std::vector<unsigned char>> changedTiles_{};
 
     bool baseDestroyed_{false};
 

@@ -28,7 +28,7 @@ Map::Map(int mapDimension)
 
     changedTiles_.resize(mapDimension_);
     for (auto& item : changedTiles_)
-        item.resize(mapDimension_, true);
+        item.resize(mapDimension_, tileChanged_);
 }
 
 // 0 - plain
@@ -142,7 +142,7 @@ void Map::hit(Point point, int power)
         tile = std::make_unique<Plain>(tile->getLocation());
         if (baseDestroyed)
             baseDestroyed_ = true;
-        changedTiles_[x][y] = true;
+        changedTiles_[x][y] = tileChanged_;
     }
 }
 
@@ -188,21 +188,21 @@ void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
     const int tileSize{Config::getInstance().getTileSize()};
     TilePosition position{screenPointToTilePosition(leftUpper)};
     if (point_utils::isValidPoint(leftUpper))
-        changedTiles_[position.x_][position.y_] = true;
+        changedTiles_[position.x_][position.y_] = tileChanged_;
 
     position =
         screenPointToTilePosition({leftUpper.x_, leftUpper.y_ + tileSize});
     if (point_utils::isValidPoint({leftUpper.x_, leftUpper.y_ + tileSize}))
-        changedTiles_[position.x_][position.y_] = true;
+        changedTiles_[position.x_][position.y_] = tileChanged_;
 
     position = screenPointToTilePosition(rightLower);
     if (point_utils::isValidPoint(rightLower))
-        changedTiles_[position.x_][position.y_] = true;
+        changedTiles_[position.x_][position.y_] = tileChanged_;
 
     position = screenPointToTilePosition(
         Point{rightLower.x_, rightLower.y_ - tileSize});
     if (point_utils::isValidPoint({rightLower.x_, rightLower.y_ - tileSize}))
-        changedTiles_[position.x_][position.y_] = true;
+        changedTiles_[position.x_][position.y_] = tileChanged_;
 }
 
 Map::TilePosition Map::screenPointToTilePosition(Point point)
@@ -246,7 +246,7 @@ void Map::drawBackgroundTile(const Screen& screen, TilePosition position)
     if (tile->isPartOfBackground())
     {
         tile->draw(screen);
-        changedTiles_[position.x_][position.y_] = false;
+        changedTiles_[position.x_][position.y_] = tileNotChanged_;
     }
     else
     {
@@ -258,7 +258,7 @@ void Map::drawBackground(const Screen& screen)
 {
     for (std::size_t x = 0; x < mapDimension_; ++x)
         for (std::size_t y = 0; y < mapDimension_; ++y)
-            if (changedTiles_[x][y])
+            if (changedTiles_[x][y] == tileChanged_)
                 drawBackgroundTile(screen, {x, y});
 }
 
@@ -268,14 +268,14 @@ void Map::drawForegroundTile(const Screen& screen, TilePosition position)
     if (!tile->isPartOfBackground())
     {
         tile->draw(screen);
-        changedTiles_[position.x_][position.y_] = false;
+        changedTiles_[position.x_][position.y_] = tileNotChanged_;
     }
 }
 void Map::drawForeground(const Screen& screen)
 {
     for (std::size_t x = 0; x < mapDimension_; ++x)
         for (std::size_t y = 0; y < mapDimension_; ++y)
-            if (changedTiles_[x][y])
+            if (changedTiles_[x][y] == tileChanged_)
                 drawForegroundTile(screen, {x, y});
 }
 
