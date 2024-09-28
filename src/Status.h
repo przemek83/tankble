@@ -8,9 +8,9 @@ class Status : public Drawable
 public:
     explicit Status(Point point);
 
-    void update(TankStats newStats, const Screen& screen);
+    void update(TankStats newStats, const Display& display);
 
-    void draw(const Screen& screen) const override;
+    void draw(const Display& display) const override;
     Point getCenter() const override;
     ResourceType getResourceType() const override;
 

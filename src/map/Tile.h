@@ -16,7 +16,7 @@ public:
 
     bool isPowerUp() const;
 
-    void draw(const Screen& screen) const override;
+    void draw(const Display& display) const override;
     Point getCenter() const override;
 
 protected:

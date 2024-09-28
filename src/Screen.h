@@ -17,20 +17,18 @@ public:
 
     static void init();
 
-    void drawText(int x, int y, const std::string& text) const;
+    void drawText(int x, int y, const std::string& text) const override;
 
-    void drawTextWithBackground(int x, int y, const std::string& text) const;
+    void drawTextWithBackground(int x, int y,
+                                const std::string& text) const override;
 
-    void drawBackground(ResourceType resourceType) const;
-
-    void drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
-                                int size) const;
+    void drawBackground(ResourceType resourceType) const override;
 
     void drawScaledBitmap(ResourceType resourceType, int x, int y, int width,
-                          int height) const;
+                          int height) const override;
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
-                                      int size, int degrees) const;
+                                      int size, int degrees) const override;
 
     static void clearScreenWithBlack();
 

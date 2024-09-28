@@ -18,7 +18,7 @@ public:
 
     bool move();
 
-    void draw(const Screen& screen) const override;
+    void draw(const Display& display) const override;
     ResourceType getResourceType() const override;
     Point getCenter() const override;
 

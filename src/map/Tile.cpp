@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 #include "../Config.h"
-#include "../Screen.h"
+#include "../Display.h"
 
 Tile::Tile(int armor, Point point) : Drawable(point), armor_(armor) {}
 
@@ -25,10 +25,10 @@ bool Tile::isPowerUp() const
            (type == ResourceType::SPEED_UP) || (type == ResourceType::LIFE_UP);
 }
 
-void Tile::draw(const Screen& screen) const
+void Tile::draw(const Display& display) const
 {
     const int tileSize{Config::getInstance().getTileSize()};
-    screen.drawScaledSquareBitmap(getResourceType(), getX(), getY(), tileSize);
+    display.drawScaledSquareBitmap(getResourceType(), getX(), getY(), tileSize);
 }
 
 Point Tile::getCenter() const

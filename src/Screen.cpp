@@ -74,12 +74,6 @@ void Screen::drawBackground(ResourceType resourceType) const
         static_cast<float>(getWidth()), static_cast<float>(getHeight()), 0);
 }
 
-void Screen::drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
-                                    int size) const
-{
-    drawScaledBitmap(resourceType, x, y, size, size);
-}
-
 void Screen::drawScaledBitmap(ResourceType resourceType, int x, int y,
                               int width, int height) const
 {

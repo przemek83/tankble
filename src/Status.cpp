@@ -6,7 +6,7 @@
 
 Status::Status(Point point) : Drawable(point) {}
 
-void Status::update(TankStats newStats, const Screen& screen)
+void Status::update(TankStats newStats, const Display& display)
 {
     if ((stats_.attackPower_ != newStats.attackPower_) ||
         (stats_.shield_ != newStats.shield_) ||
@@ -14,20 +14,20 @@ void Status::update(TankStats newStats, const Screen& screen)
         (stats_.speed_ != newStats.speed_))
     {
         stats_ = newStats;
-        draw(screen);
+        draw(display);
     }
 }
 
-void Status::draw(const Screen& screen) const
+void Status::draw(const Display& display) const
 {
     const int spacer{getHeight() / 5};
-    screen.drawTextWithBackground(getCenter().x_, spacer * 1,
-                                  "Lives: " + std::to_string(stats_.lives_));
-    screen.drawTextWithBackground(getCenter().x_, spacer * 2,
-                                  "Shield: " + std::to_string(stats_.shield_));
-    screen.drawTextWithBackground(getCenter().x_, spacer * 3,
-                                  "Speed: " + std::to_string(stats_.speed_));
-    screen.drawTextWithBackground(
+    display.drawTextWithBackground(getCenter().x_, spacer * 1,
+                                   "Lives: " + std::to_string(stats_.lives_));
+    display.drawTextWithBackground(getCenter().x_, spacer * 2,
+                                   "Shield: " + std::to_string(stats_.shield_));
+    display.drawTextWithBackground(getCenter().x_, spacer * 3,
+                                   "Speed: " + std::to_string(stats_.speed_));
+    display.drawTextWithBackground(
         getCenter().x_, spacer * 4,
         "Attack: " + std::to_string(stats_.attackPower_));
 }

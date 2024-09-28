@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "ResourceType.h"
 
 class Display
@@ -16,6 +18,23 @@ public:
     void setWidth(int width);
     int getHeight() const;
     void setHeight(int height);
+
+    virtual void drawText(int x, int y, const std::string& text) const = 0;
+
+    virtual void drawTextWithBackground(int x, int y,
+                                        const std::string& text) const = 0;
+
+    virtual void drawBackground(ResourceType resourceType) const = 0;
+
+    void drawScaledSquareBitmap(ResourceType resourceType, int x, int y,
+                                int size) const;
+
+    virtual void drawScaledBitmap(ResourceType resourceType, int x, int y,
+                                  int width, int height) const = 0;
+
+    virtual void drawScaledBitmapWithRotation(ResourceType resourceType, int x,
+                                              int y, int size,
+                                              int degrees) const = 0;
 
     virtual int getResourceWidth(ResourceType resourceType) const = 0;
     virtual int getResourceHeight(ResourceType resourceType) const = 0;

@@ -3,7 +3,7 @@
 #include "Point.h"
 #include "ResourceType.h"
 
-class Screen;
+class Display;
 
 class Drawable
 {
@@ -11,7 +11,7 @@ public:
     explicit Drawable(Point point);
     virtual ~Drawable();
 
-    virtual void draw(const Screen& screen) const = 0;
+    virtual void draw(const Display& display) const = 0;
     virtual ResourceType getResourceType() const = 0;
     virtual Point getCenter() const = 0;
 

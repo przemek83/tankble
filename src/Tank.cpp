@@ -5,7 +5,7 @@
 #include "Bullet.h"
 #include "Config.h"
 #include "Direction.h"
-#include "Screen.h"
+#include "Display.h"
 #include "TankType.h"
 #include "Utils.h"
 
@@ -16,10 +16,10 @@ Tank::Tank(TankType tankType, Point point)
     direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
 }
 
-void Tank::draw(const Screen& screen) const
+void Tank::draw(const Display& display) const
 {
     const int rightAngle{90};
-    screen.drawScaledBitmapWithRotation(
+    display.drawScaledBitmapWithRotation(
         getResourceType(), getX(), getY(), Config::getInstance().getTileSize(),
         rightAngle * static_cast<int>(getDirection()));
 }

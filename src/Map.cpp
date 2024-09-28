@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "Config.h"
+#include "Display.h"
 #include "PointUtils.h"
-#include "Screen.h"
 #include "Tank.h"
 #include "map/Base.h"
 #include "map/Brick.h"
@@ -240,43 +240,43 @@ void Map::shiftDown(Point& point, int tileSize)
     point.y_ = ((point.y_ / tileSize) + 1) * tileSize;
 }
 
-void Map::drawBackgroundTile(const Screen& screen, TilePosition position)
+void Map::drawBackgroundTile(const Display& display, TilePosition position)
 {
     const auto& tile{getTileUsingPosition(position)};
     if (tile->isPartOfBackground())
     {
-        tile->draw(screen);
+        tile->draw(display);
         changedTiles_[position.x_][position.y_] = tileNotChanged_;
     }
     else
     {
         plainTile_->setLocation(tilePositionToScreenPoint(position));
-        plainTile_->draw(screen);
+        plainTile_->draw(display);
     }
 }
-void Map::drawBackground(const Screen& screen)
+void Map::drawBackground(const Display& display)
 {
     for (std::size_t x = 0; x < mapDimension_; ++x)
         for (std::size_t y = 0; y < mapDimension_; ++y)
             if (changedTiles_[x][y] == tileChanged_)
-                drawBackgroundTile(screen, {x, y});
+                drawBackgroundTile(display, {x, y});
 }
 
-void Map::drawForegroundTile(const Screen& screen, TilePosition position)
+void Map::drawForegroundTile(const Display& display, TilePosition position)
 {
     const auto& tile{getTileUsingPosition(position)};
     if (!tile->isPartOfBackground())
     {
-        tile->draw(screen);
+        tile->draw(display);
         changedTiles_[position.x_][position.y_] = tileNotChanged_;
     }
 }
-void Map::drawForeground(const Screen& screen)
+void Map::drawForeground(const Display& display)
 {
     for (std::size_t x = 0; x < mapDimension_; ++x)
         for (std::size_t y = 0; y < mapDimension_; ++y)
             if (changedTiles_[x][y] == tileChanged_)
-                drawForegroundTile(screen, {x, y});
+                drawForegroundTile(display, {x, y});
 }
 
 bool Map::isBaseDestroyed() const { return baseDestroyed_; }

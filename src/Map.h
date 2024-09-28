@@ -9,7 +9,7 @@
 #include "map/Tile.h"
 
 class Tank;
-class Screen;
+class Display;
 
 class Map
 {
@@ -23,8 +23,8 @@ public:
 
     std::pair<bool, ResourceType> takePowerUp(Point point);
 
-    void drawBackground(const Screen& screen);
-    void drawForeground(const Screen& screen);
+    void drawBackground(const Display& display);
+    void drawForeground(const Display& display);
 
     bool isBaseDestroyed() const;
 
@@ -64,8 +64,8 @@ private:
 
     bool isValidSign(char sign) const;
 
-    void drawBackgroundTile(const Screen& screen, TilePosition position);
-    void drawForegroundTile(const Screen& screen, TilePosition position);
+    void drawBackgroundTile(const Display& display, TilePosition position);
+    void drawForegroundTile(const Display& display, TilePosition position);
 
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 

@@ -12,11 +12,11 @@ MenuItem::MenuItem(UserChoice userChoice)
 {
 }
 
-void MenuItem::draw(const Screen& screen) const
+void MenuItem::draw(const Display& display) const
 {
-    screen.drawScaledBitmap(resourceType_, getX(), getY(), width_, height_);
-    screen.drawText(screen.getCenterX(), getY() + getCenter().y_,
-                    labels_.at(userChoice_));
+    display.drawScaledBitmap(resourceType_, getX(), getY(), width_, height_);
+    display.drawText(display.getCenterX(), getY() + getCenter().y_,
+                     labels_.at(userChoice_));
 }
 
 ResourceType MenuItem::getResourceType() const { return resourceType_; }

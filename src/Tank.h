@@ -18,7 +18,7 @@ class Tank : public Drawable
 public:
     Tank(TankType tankType, Point point);
 
-    void draw(const Screen& screen) const override;
+    void draw(const Display& display) const override;
     ResourceType getResourceType() const override;
     Point getCenter() const override;
 
