@@ -263,21 +263,21 @@ void Map::drawBackground(const Screen& screen)
         }
 }
 
+void Map::drawTile(const Screen& screen, TilePosition position)
+{
+    const auto& tile{getTileUsingPosition(position)};
+    if (!tile->isPartOfBackground())
+    {
+        tile->draw(screen);
+        changedTiles_[position.x_][position.y_] = false;
+    }
+}
 void Map::drawForeground(const Screen& screen)
 {
     for (std::size_t x = 0; x < mapDimension_; ++x)
         for (std::size_t y = 0; y < mapDimension_; ++y)
-        {
-            if (!changedTiles_[x][y])
-                continue;
-
-            const auto& tile{getTileUsingPosition({x, y})};
-            if (!tile->isPartOfBackground())
-            {
-                tile->draw(screen);
-                changedTiles_[x][y] = false;
-            }
-        }
+            if (changedTiles_[x][y])
+                drawTile(screen, {x, y});
 }
 
 bool Map::isBaseDestroyed() const { return baseDestroyed_; }

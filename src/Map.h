@@ -64,6 +64,8 @@ private:
 
     bool isTileSign(char sign) const;
 
+    void drawTile(const Screen& screen, TilePosition position);
+
     std::vector<std::vector<std::unique_ptr<Tile>>> board_{};
 
     std::vector<std::vector<bool>> changedTiles_{};
