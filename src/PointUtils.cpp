@@ -14,7 +14,8 @@ bool isValidPoint(int x, int y, int objectSize)
 bool isValidPoint(Point point)
 {
     const int maxCoordinate{Config::getInstance().getBoardWidth()};
-    return (point.x_ < maxCoordinate) && (point.y_ < maxCoordinate);
+    return (point.x_ < maxCoordinate) && (point.x_ >= 0) &&
+           (point.y_ < maxCoordinate) && (point.y_ >= 0);
 }
 
 };  // namespace point_utils
