@@ -237,7 +237,7 @@ void Map::shiftUp(Point& point, int tileSize)
 
 void Map::shiftDown(Point& point, int tileSize)
 {
-    point.y_ = (point.y_ / tileSize + 1) * tileSize;
+    point.y_ = ((point.y_ / tileSize) + 1) * tileSize;
 }
 
 void Map::drawBackgroundTile(const Screen& screen, TilePosition position)
