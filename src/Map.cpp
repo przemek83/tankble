@@ -103,7 +103,7 @@ std::list<Tank> Map::loadMap(std::iostream& stream)
         for (std::size_t x = 0; x < mapDimension_; ++x)
         {
             stream >> std::noskipws >> sign;
-            while ((sign != EOF) && (!isTileSign(sign)))
+            while ((sign != EOF) && (!isValidSign(sign)))
                 stream >> std::noskipws >> sign;
 
             createTile(sign, tanks, {x, y});
@@ -282,8 +282,12 @@ void Map::drawForeground(const Screen& screen)
 
 bool Map::isBaseDestroyed() const { return baseDestroyed_; }
 
-bool Map::isTileSign(char sign) const
+bool Map::isValidSign(char sign) const
 {
-    return ((sign >= '0') && (sign < '7')) || (sign == 'T') || (sign == 'E') ||
-           (sign == 'M') || (sign == 'S') || (sign == 'L') || (sign == 'A');
+    const bool isPowerUp{(sign == 'S') || (sign == 'L') || (sign == 'A') ||
+                         (sign == 'T')};
+    const bool isTile{(sign >= '0') && (sign < '7')};
+    const bool isTank{(sign == 'E') || (sign == 'M')};
+
+    return isTile || isPowerUp || isTank;
 }

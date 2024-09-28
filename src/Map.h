@@ -62,7 +62,7 @@ private:
     static void shiftUp(Point& point, int tileSize);
     static void shiftDown(Point& point, int tileSize);
 
-    bool isTileSign(char sign) const;
+    bool isValidSign(char sign) const;
 
     void drawTile(const Screen& screen, TilePosition position);
 
