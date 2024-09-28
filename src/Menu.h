@@ -4,7 +4,7 @@
 
 #include "MenuItem.h"
 
-class Screen;
+class display;
 enum class InputAction : char;
 enum class Level : char;
 enum class UserChoice : char;
@@ -12,7 +12,7 @@ enum class UserChoice : char;
 class Menu final
 {
 public:
-    explicit Menu(Screen& screen);
+    explicit Menu(Display& display);
 
     std::pair<bool, Level> playGame();
 
@@ -39,7 +39,7 @@ private:
 
     UserChoice getUserChoice();
 
-    Screen& screen_;
+    Display& display_;
 
     std::vector<MenuItem> items_;
 };

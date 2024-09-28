@@ -10,7 +10,7 @@
 #include "UserChoice.h"
 #include "Utils.h"
 
-Menu::Menu(Screen& screen) : screen_(screen) { initMainMenu(); }
+Menu::Menu(Display& display) : display_(display) { initMainMenu(); }
 
 std::pair<bool, Level> Menu::playGame()
 {
@@ -34,12 +34,12 @@ std::pair<bool, Level> Menu::playGame()
                 break;
 
             case UserChoice::WINDOWED:
-                screen_.useWindowedMode();
+                display_.useWindowedMode();
                 initOptionsMenu();
                 break;
 
             case UserChoice::FULLSCREEN:
-                screen_.useFullScreenMode();
+                display_.useFullScreenMode();
                 initOptionsMenu();
                 break;
 
@@ -75,7 +75,7 @@ void Menu::drawMenuItems(int currentItem)
     for (std::size_t item{0}; item < count; ++item)
     {
         items_[item].setSelected(static_cast<int>(item) == currentItem);
-        items_[item].draw(screen_);
+        items_[item].draw(display_);
     }
 }
 
@@ -101,7 +101,7 @@ int Menu::getCurrentItem(std::pair<int, int> mousePosition, InputAction action,
 
 void Menu::redraw(int currentItem)
 {
-    screen_.drawBackground(ResourceType::BACKGROUND);
+    display_.drawBackground(ResourceType::BACKGROUND);
     drawMenuItems(currentItem);
     Screen::refresh();
 }
@@ -113,7 +113,7 @@ void Menu::initMenu(std::vector<UserChoice> userChoices)
     for (std::size_t i{0}; i < count; ++i)
     {
         MenuItem item{userChoices.at(i)};
-        item.init(screen_, static_cast<int>(i), static_cast<int>(count));
+        item.init(display_, static_cast<int>(i), static_cast<int>(count));
         items_.emplace_back(std::move(item));
     }
 }
@@ -142,8 +142,8 @@ bool Menu::mouseIsHoveringItem(std::pair<int, int> mousePosition,
     const auto [mouseX, mouseY] = mousePosition;
     const int itemWidth{items_.front().getWidth()};
     const int itemHeight{items_.front().getHeight()};
-    return (mouseX > (screen_.getCenterX() - utils::getMidpoint(itemWidth))) &&
-           (mouseX < (screen_.getCenterX() + utils::getMidpoint(itemWidth))) &&
+    return (mouseX > (display_.getCenterX() - utils::getMidpoint(itemWidth))) &&
+           (mouseX < (display_.getCenterX() + utils::getMidpoint(itemWidth))) &&
            (mouseY > (firstItemY + (itemHeight * item))) &&
            (mouseY < (firstItemY + itemHeight + (itemHeight * item)));
 }

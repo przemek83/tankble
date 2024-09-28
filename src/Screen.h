@@ -42,9 +42,9 @@ public:
 
     static void hideMouse();
 
-    void useFullScreenMode();
+    void useFullScreenMode() override;
 
-    void useWindowedMode();
+    void useWindowedMode() override;
 
 private:
     void updateSize();

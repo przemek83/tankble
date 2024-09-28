@@ -39,6 +39,10 @@ public:
     virtual int getResourceWidth(ResourceType resourceType) const = 0;
     virtual int getResourceHeight(ResourceType resourceType) const = 0;
 
+    virtual void useFullScreenMode() = 0;
+
+    virtual void useWindowedMode() = 0;
+
 private:
     int width_;
     int height_;

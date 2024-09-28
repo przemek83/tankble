@@ -1,7 +1,9 @@
 #include "Status.h"
 
+#include <string>
+
 #include "Config.h"
-#include "Screen.h"
+#include "Display.h"
 #include "Utils.h"
 
 Status::Status(Point point) : Drawable(point) {}
