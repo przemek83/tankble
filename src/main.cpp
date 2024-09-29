@@ -5,13 +5,13 @@
 
 int main()
 {
-    Screen::init();
+    Screen screen;
+    screen.init();
     Input::init();
 
-    Screen screen({});
     Menu menu(screen);
 
-    for (;;)
+    while (true)
     {
         auto [play, level] = menu.playGame();
         if (!play)

@@ -12,10 +12,9 @@ struct ALLEGRO_COLOR;
 class Screen : public Display
 {
 public:
-    explicit Screen(Resources resources);
     ~Screen() override;
 
-    static void init();
+    void init() override;
 
     void drawText(int x, int y, const std::string& text) const override;
 
@@ -30,17 +29,17 @@ public:
     void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
                                       int size, int degrees) const override;
 
-    static void clearScreenWithBlack();
+    void clearScreenWithBlack() override;
 
     int getResourceWidth(ResourceType resourceType) const override;
 
     int getResourceHeight(ResourceType resourceType) const override;
 
-    static void refresh();
+    void refresh() override;
 
-    static void showMouse();
+    void showMouse() override;
 
-    static void hideMouse();
+    void hideMouse() override;
 
     void useFullScreenMode() override;
 
@@ -53,5 +52,5 @@ private:
     float getBitmapHeight(ALLEGRO_BITMAP* bitmap) const;
 
     Resources resources_;
-    ALLEGRO_FONT* font_;
+    ALLEGRO_FONT* font_{nullptr};
 };

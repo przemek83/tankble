@@ -5,6 +5,8 @@
 class FakeDisplay : public Display
 {
 public:
+    void init() override {};
+
     void drawText(int x, int y, const std::string& text) const override {};
 
     void drawTextWithBackground(int x, int y,
@@ -17,6 +19,8 @@ public:
 
     void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
                                       int size, int degrees) const override {};
+
+    void clearScreenWithBlack() override {};
 
     int getResourceWidth(
         [[maybe_unused]] ResourceType resourceType) const override
@@ -32,6 +36,12 @@ public:
     void setResourceWidth(int width) { resourceWidth_ = width; }
 
     void setResourceHeight(int height) { resourceHeight_ = height; }
+
+    void refresh() override {};
+
+    void showMouse() override {};
+
+    void hideMouse() override {};
 
     void useFullScreenMode() override {};
 

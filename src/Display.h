@@ -19,6 +19,8 @@ public:
     int getHeight() const;
     void setHeight(int height);
 
+    virtual void init() = 0;
+
     virtual void drawText(int x, int y, const std::string& text) const = 0;
 
     virtual void drawTextWithBackground(int x, int y,
@@ -36,8 +38,16 @@ public:
                                               int y, int size,
                                               int degrees) const = 0;
 
+    virtual void clearScreenWithBlack() = 0;
+
     virtual int getResourceWidth(ResourceType resourceType) const = 0;
     virtual int getResourceHeight(ResourceType resourceType) const = 0;
+
+    virtual void refresh() = 0;
+
+    virtual void showMouse() = 0;
+
+    virtual void hideMouse() = 0;
 
     virtual void useFullScreenMode() = 0;
 

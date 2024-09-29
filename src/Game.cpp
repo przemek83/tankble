@@ -7,13 +7,14 @@
 
 #include "Bullet.h"
 #include "Config.h"
+#include "Display.h"
 #include "Input.h"
 #include "InputAction.h"
 #include "Level.h"
 #include "Map.h"
 #include "MapUtils.h"
 #include "PointUtils.h"
-#include "Screen.h"
+#include "Resources.h"
 #include "Tank.h"
 #include "Utils.h"
 
@@ -87,7 +88,7 @@ bool Game::play(Level level)
     levelContent.close();
 
     Input input;
-    Screen::clearScreenWithBlack();
+    display_.clearScreenWithBlack();
     std::list<Bullet> bullets;
 
     while (true)
@@ -103,7 +104,7 @@ bool Game::play(Level level)
         {
             draw(bullets, tanks, map);
             control(map, tanks, bullets);
-            Screen::refresh();
+            display_.refresh();
         }
     }
 
@@ -154,12 +155,12 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 
 void Game::drawEndOfGame(const std::string& text) const
 {
-    Screen::clearScreenWithBlack();
+    display_.clearScreenWithBlack();
     display_.drawText(
         utils::getMidpoint(Config::getInstance().getBoardWidth() +
                            Config::getInstance().getSatusWidth()),
         utils::getMidpoint(Config::getInstance().getBoardHeight()), text);
-    Screen::refresh();
+    display_.refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 

@@ -8,11 +8,6 @@
 
 #include "Config.h"
 
-Screen::Screen(Resources resources)
-    : resources_(std::move(resources)), font_{::al_create_builtin_font()}
-{
-}
-
 Screen::~Screen() { ::al_destroy_font(font_); }
 
 void Screen::init()
@@ -40,6 +35,9 @@ void Screen::init()
     ::al_init_primitives_addon();
 
     ::al_set_window_title(::al_get_current_display(), "TankBle");
+
+    resources_ = {};
+    font_ = ::al_create_builtin_font();
 }
 
 void Screen::drawText(int x, int y, const std::string& text) const

@@ -2,11 +2,11 @@
 
 #include <vector>
 
+#include "Display.h"
 #include "Input.h"
 #include "InputAction.h"
 #include "Level.h"
 #include "MenuItem.h"
-#include "Screen.h"
 #include "UserChoice.h"
 #include "Utils.h"
 
@@ -14,7 +14,7 @@ Menu::Menu(Display& display) : display_(display) { initMainMenu(); }
 
 std::pair<bool, Level> Menu::playGame()
 {
-    Screen::showMouse();
+    display_.showMouse();
 
     while (true)
     {
@@ -44,23 +44,23 @@ std::pair<bool, Level> Menu::playGame()
                 break;
 
             case UserChoice::EXIT:
-                Screen::hideMouse();
+                display_.hideMouse();
                 return {false, Level::LEVEL_1};
 
             case UserChoice::LEVEL_1:
-                Screen::hideMouse();
+                display_.hideMouse();
                 return {true, Level::LEVEL_1};
 
             case UserChoice::LEVEL_2:
-                Screen::hideMouse();
+                display_.hideMouse();
                 return {true, Level::LEVEL_2};
 
             case UserChoice::LEVEL_3:
-                Screen::hideMouse();
+                display_.hideMouse();
                 return {true, Level::LEVEL_3};
 
             case UserChoice::LEVEL_4:
-                Screen::hideMouse();
+                display_.hideMouse();
                 return {true, Level::LEVEL_4};
 
             default:
@@ -103,7 +103,7 @@ void Menu::redraw(int currentItem)
 {
     display_.drawBackground(ResourceType::BACKGROUND);
     drawMenuItems(currentItem);
-    Screen::refresh();
+    display_.refresh();
 }
 
 void Menu::initMenu(std::vector<UserChoice> userChoices)
