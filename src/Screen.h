@@ -14,7 +14,7 @@ class Screen : public Display
 public:
     ~Screen() override;
 
-    void init() override;
+    bool init() override;
 
     void drawText(int x, int y, const std::string& text) const override;
 

@@ -5,20 +5,27 @@
 class FakeDisplay : public Display
 {
 public:
-    void init() override {};
+    bool init() override { return true; };
 
-    void drawText(int x, int y, const std::string& text) const override {};
+    void drawText([[maybe_unused]] int x, [[maybe_unused]] int y,
+                  [[maybe_unused]] const std::string& text) const override {};
 
-    void drawTextWithBackground(int x, int y,
-                                const std::string& text) const override {};
+    void drawTextWithBackground(
+        [[maybe_unused]] int x, [[maybe_unused]] int y,
+        [[maybe_unused]] const std::string& text) const override {};
 
-    void drawBackground(ResourceType resourceType) const override {};
+    void drawBackground(
+        [[maybe_unused]] ResourceType resourceType) const override {};
 
-    void drawScaledBitmap(ResourceType resourceType, int x, int y, int width,
-                          int height) const override {};
+    void drawScaledBitmap([[maybe_unused]] ResourceType resourceType,
+                          [[maybe_unused]] int x, [[maybe_unused]] int y,
+                          [[maybe_unused]] int width,
+                          [[maybe_unused]] int height) const override {};
 
-    void drawScaledBitmapWithRotation(ResourceType resourceType, int x, int y,
-                                      int size, int degrees) const override {};
+    void drawScaledBitmapWithRotation(
+        [[maybe_unused]] ResourceType resourceType, [[maybe_unused]] int x,
+        [[maybe_unused]] int y, [[maybe_unused]] int size,
+        [[maybe_unused]] int degrees) const override {};
 
     void clearScreenWithBlack() override {};
 

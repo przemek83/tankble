@@ -10,21 +10,22 @@
 
 Screen::~Screen() { ::al_destroy_font(font_); }
 
-void Screen::init()
+bool Screen::init()
 {
     if (!al_init())
     {
         std::cerr << "failed to initialize allegro!\n";
-        ::abort();
+        return false;
     }
 
     const int screenWidth{Config::getInstance().getBoardWidth() +
                           Config::getInstance().getSatusWidth()};
     const int screenHeight{Config::getInstance().getBoardHeight()};
-    if (::al_create_display(screenWidth, screenHeight) == nullptr)
+    if (const auto* display{::al_create_display(screenWidth, screenHeight)};
+        display == nullptr)
     {
         std::cerr << "failed to create display!\n";
-        ::abort();
+        return false;
     }
 
     ::al_clear_to_color(::al_map_rgb(0, 0, 0));
@@ -38,6 +39,8 @@ void Screen::init()
 
     resources_ = {};
     font_ = ::al_create_builtin_font();
+
+    return true;
 }
 
 void Screen::drawText(int x, int y, const std::string& text) const

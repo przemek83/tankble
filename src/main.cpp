@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "Game.h"
 #include "Input.h"
 #include "Menu.h"
@@ -6,7 +8,9 @@
 int main()
 {
     Screen screen;
-    screen.init();
+    if (!screen.init())
+        return EXIT_FAILURE;
+
     Input::init();
 
     Menu menu(screen);

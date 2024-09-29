@@ -19,7 +19,7 @@ public:
     int getHeight() const;
     void setHeight(int height);
 
-    virtual void init() = 0;
+    virtual bool init() = 0;
 
     virtual void drawText(int x, int y, const std::string& text) const = 0;
 
