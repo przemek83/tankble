@@ -42,15 +42,9 @@ private:
     };
 
     const std::unique_ptr<Tile>& getTileUsingPosition(
-        TilePosition position) const
-    {
-        return board_[position.y_][position.x_];
-    }
+        TilePosition position) const;
 
-    std::unique_ptr<Tile>& getTileUsingPosition(TilePosition position)
-    {
-        return board_[position.y_][position.x_];
-    }
+    std::unique_ptr<Tile>& getTileUsingPosition(TilePosition position);
 
     static TilePosition screenPointToTilePosition(Point point);
     static Point tilePositionToScreenPoint(TilePosition position);

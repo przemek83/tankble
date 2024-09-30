@@ -212,6 +212,17 @@ void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
     }
 }
 
+const std::unique_ptr<Tile>& Map::getTileUsingPosition(
+    TilePosition position) const
+{
+    return board_[position.y_][position.x_];
+}
+
+std::unique_ptr<Tile>& Map::getTileUsingPosition(TilePosition position)
+{
+    return board_[position.y_][position.x_];
+}
+
 Map::TilePosition Map::screenPointToTilePosition(Point point)
 {
     const int tileSize{Config::getInstance().getTileSize()};
