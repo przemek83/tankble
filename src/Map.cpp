@@ -185,23 +185,31 @@ void Map::shift(Point& pointToShift, Direction direction) const
 
 void Map::tagAreaAsChanged(Point leftUpper, Point rightLower)
 {
-    TilePosition position{screenPointToTilePosition(leftUpper)};
     if (point_utils::isValidPoint(leftUpper))
+    {
+        TilePosition position{screenPointToTilePosition(leftUpper)};
         changedTiles_[position.x_][position.y_] = tileChanged_;
+    }
 
     Point point{leftUpper.x_, rightLower.y_};
-    position = screenPointToTilePosition(point);
     if (point_utils::isValidPoint(point))
+    {
+        TilePosition position{screenPointToTilePosition(point)};
         changedTiles_[position.x_][position.y_] = tileChanged_;
+    }
 
-    position = screenPointToTilePosition(rightLower);
     if (point_utils::isValidPoint(rightLower))
+    {
+        TilePosition position{screenPointToTilePosition(rightLower)};
         changedTiles_[position.x_][position.y_] = tileChanged_;
+    }
 
     point = {rightLower.x_, leftUpper.y_};
-    position = screenPointToTilePosition(point);
     if (point_utils::isValidPoint(point))
+    {
+        TilePosition position{screenPointToTilePosition(point)};
         changedTiles_[position.x_][position.y_] = tileChanged_;
+    }
 }
 
 Map::TilePosition Map::screenPointToTilePosition(Point point)

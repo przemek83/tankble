@@ -388,4 +388,18 @@ TEST_CASE("changed area", "[map]")
         map.drawForeground(display);
         REQUIRE(display.getChangedAreas().size() == 1);
     }
+
+    SECTION("tag invalid areas outside map")
+    {
+        map.tagAreaAsChanged({-1, -1}, {-1, -1});
+        map.drawBackground(display);
+        REQUIRE(display.getChangedAreas().size() == 0);
+    }
+
+    SECTION("tag invalid areas partly outside map")
+    {
+        map.tagAreaAsChanged({-1, -1}, {1, 1});
+        map.drawBackground(display);
+        REQUIRE(display.getChangedAreas().size() == 1);
+    }
 }
