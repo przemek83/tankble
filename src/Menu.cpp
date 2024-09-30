@@ -63,11 +63,8 @@ Level Menu::choiceToLevel(UserChoice choice) const
         case UserChoice::LEVEL_3:
             return Level::LEVEL_3;
 
-        case UserChoice::LEVEL_4:
-            return Level::LEVEL_4;
-
         default:
-            return Level::LEVEL_1;
+            return Level::LEVEL_4;
     }
 }
 
