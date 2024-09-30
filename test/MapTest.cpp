@@ -9,6 +9,8 @@
 #include <src/Tank.h>
 #include <src/Utils.h>
 
+#include "FakeDisplay.h"
+
 // 0 - plain
 // 1 - brick
 // 2 - water
@@ -304,5 +306,86 @@ TEST_CASE("shift", "[map]")
                      Direction::LEFT});
         map.shift(pointToShift, direction);
         REQUIRE(pointToShift == expectedShiftedPoint);
+    }
+}
+
+TEST_CASE("changed area", "[map]")
+{
+    const int tileSize{Config::getInstance().getTileSize()};
+
+    Map map(tileCount);
+    std::stringstream stream(getTestMap());
+    map.loadMap(stream);
+
+    FakeDisplay display;
+    map.drawBackground(display);
+    map.drawForeground(display);
+
+    SECTION("First draw on display")
+    {
+        REQUIRE(display.getChangedAreas().size() == (25 + 1));
+    }
+
+    display.resetChangedAreas();
+
+    SECTION("change one tile and draw background")
+    {
+        map.tagAreaAsChanged({0, 0}, {0, 0});
+        map.drawBackground(display);
+        auto changed{display.getChangedAreas()};
+        REQUIRE(display.getChangedAreas().size() == 1);
+    }
+
+    SECTION("change 2 tiles in line and draw background")
+    {
+        map.tagAreaAsChanged({0, 0}, {tileSize, 0});
+        map.drawBackground(display);
+        REQUIRE(display.getChangedAreas().size() == 2);
+    }
+
+    SECTION("change 2 tiles in column and draw background")
+    {
+        map.tagAreaAsChanged({0, 0}, {0, tileSize});
+        map.drawBackground(display);
+        REQUIRE(display.getChangedAreas().size() == 2);
+    }
+
+    SECTION("change 4 tiles and draw background")
+    {
+        map.tagAreaAsChanged({0, 0}, {tileSize, tileSize});
+        map.drawBackground(display);
+        REQUIRE(display.getChangedAreas().size() == 4);
+    }
+
+    SECTION("change one tile and draw foreground")
+    {
+        map.tagAreaAsChanged({3 * tileSize, 3 * tileSize},
+                             {3 * tileSize, 3 * tileSize});
+        map.drawForeground(display);
+        REQUIRE(display.getChangedAreas().size() == 1);
+    }
+
+    SECTION("change 2 tiles in line and draw foreground")
+    {
+        map.tagAreaAsChanged({3 * tileSize, 3 * tileSize},
+                             {4 * tileSize, 3 * tileSize});
+        map.drawForeground(display);
+        REQUIRE(display.getChangedAreas().size() == 1);
+    }
+
+    SECTION("change 2 tiles in column and draw foreground")
+    {
+        map.tagAreaAsChanged({3 * tileSize, 3 * tileSize},
+                             {3 * tileSize, 4 * tileSize});
+        map.drawForeground(display);
+        REQUIRE(display.getChangedAreas().size() == 1);
+    }
+
+    SECTION("change 4 tiles and draw foreground")
+    {
+        map.tagAreaAsChanged({3 * tileSize, 3 * tileSize},
+                             {4 * tileSize, 4 * tileSize});
+        map.drawForeground(display);
+        REQUIRE(display.getChangedAreas().size() == 1);
     }
 }
