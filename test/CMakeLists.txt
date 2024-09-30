@@ -10,6 +10,7 @@ set(${PROJECT_TEST}_SOURCES
     ConfigTest.cpp
     MenuItemTest.cpp
     DisplayTest.cpp
+    MenuTest.cpp
 )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
