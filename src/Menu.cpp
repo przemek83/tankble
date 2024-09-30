@@ -10,62 +10,64 @@
 #include "UserChoice.h"
 #include "Utils.h"
 
-Menu::Menu(Display& display) : display_(display) { initMainMenu(); }
+Menu::Menu(Display& display) : display_(display) {}
 
-std::pair<bool, Level> Menu::playGame()
+void Menu::refresh(UserChoice choice)
 {
-    display_.showMouse();
-
-    while (true)
+    switch (choice)
     {
-        switch (getUserChoice())
-        {
-            case UserChoice::MAIN_MENU:
-            case UserChoice::BACK:
-                initMainMenu();
-                break;
+        case UserChoice::MAIN_MENU:
+        case UserChoice::BACK:
+            initMainMenu();
+            break;
 
-            case UserChoice::LEVEL_MENU:
-                initNewGameMenu();
-                break;
+        case UserChoice::LEVEL_MENU:
+            initNewGameMenu();
+            break;
 
-            case UserChoice::OPTIONS_MENU:
-                initOptionsMenu();
-                break;
+        case UserChoice::OPTIONS_MENU:
+            initOptionsMenu();
+            break;
 
-            case UserChoice::WINDOWED:
-                display_.useWindowedMode();
-                initOptionsMenu();
-                break;
+        case UserChoice::WINDOWED:
+            display_.useWindowedMode();
+            initOptionsMenu();
+            break;
 
-            case UserChoice::FULLSCREEN:
-                display_.useFullScreenMode();
-                initOptionsMenu();
-                break;
+        case UserChoice::FULLSCREEN:
+            display_.useFullScreenMode();
+            initOptionsMenu();
+            break;
 
-            case UserChoice::EXIT:
-                display_.hideMouse();
-                return {false, Level::LEVEL_1};
+        default:
+            break;
+    }
+}
 
-            case UserChoice::LEVEL_1:
-                display_.hideMouse();
-                return {true, Level::LEVEL_1};
+bool Menu::isLevelPicked(UserChoice choice) const
+{
+    return (choice == UserChoice::LEVEL_1) || (choice == UserChoice::LEVEL_2) ||
+           (choice == UserChoice::LEVEL_3) || (choice == UserChoice::LEVEL_4);
+}
 
-            case UserChoice::LEVEL_2:
-                display_.hideMouse();
-                return {true, Level::LEVEL_2};
+Level Menu::choiceToLevel(UserChoice choice) const
+{
+    switch (choice)
+    {
+        case UserChoice::LEVEL_1:
+            return Level::LEVEL_1;
 
-            case UserChoice::LEVEL_3:
-                display_.hideMouse();
-                return {true, Level::LEVEL_3};
+        case UserChoice::LEVEL_2:
+            return Level::LEVEL_2;
 
-            case UserChoice::LEVEL_4:
-                display_.hideMouse();
-                return {true, Level::LEVEL_4};
+        case UserChoice::LEVEL_3:
+            return Level::LEVEL_3;
 
-            default:
-                break;
-        }
+        case UserChoice::LEVEL_4:
+            return Level::LEVEL_4;
+
+        default:
+            return Level::LEVEL_1;
     }
 }
 

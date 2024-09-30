@@ -14,7 +14,13 @@ class Menu final
 public:
     explicit Menu(Display& display);
 
-    std::pair<bool, Level> playGame();
+    UserChoice getUserChoice();
+
+    void refresh(UserChoice choice);
+
+    bool isLevelPicked(UserChoice choice) const;
+
+    Level choiceToLevel(UserChoice choice) const;
 
 private:
     void drawMenuItems(int currentItem);
@@ -36,8 +42,6 @@ private:
 
     std::pair<bool, int> getPointedItem(
         std::pair<int, int> mousePosition) const;
-
-    UserChoice getUserChoice();
 
     Display& display_;
 

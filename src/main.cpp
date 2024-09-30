@@ -4,6 +4,21 @@
 #include "Input.h"
 #include "Menu.h"
 #include "Screen.h"
+#include "UserChoice.h"
+
+namespace
+{
+UserChoice getUserChoice(Menu& menu)
+{
+    UserChoice choice{UserChoice::MAIN_MENU};
+    while ((choice != UserChoice::EXIT) && (!menu.isLevelPicked(choice)))
+    {
+        menu.refresh(choice);
+        choice = menu.getUserChoice();
+    }
+    return choice;
+}
+};  // namespace
 
 int main()
 {
@@ -17,14 +32,15 @@ int main()
 
     while (true)
     {
-        auto [play, level] = menu.playGame();
-        if (!play)
-            break;
+        screen.showMouse();
+        const UserChoice choice{getUserChoice(menu)};
+        screen.hideMouse();
+
+        if (choice == UserChoice::EXIT)
+            return EXIT_SUCCESS;
 
         Game game(screen);
-        if (!game.play(level))
-            break;
+        if (!game.play(menu.choiceToLevel(choice)))
+            return EXIT_SUCCESS;
     }
-
-    return EXIT_SUCCESS;
 }
