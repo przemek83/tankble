@@ -4,6 +4,9 @@
 #include <src/Menu.h>
 
 #include "FakeDisplay.h"
+#include "src/InputAction.h"
+#include "src/UserChoice.h"
+#include "test/FakeInput.h"
 
 TEST_CASE("Menu usage", "[Menu]")
 {
@@ -28,5 +31,44 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(menu.choiceToLevel(UserChoice::LEVEL_4) == Level::LEVEL_4);
         REQUIRE(menu.choiceToLevel(UserChoice::LEVEL_MENU) == Level::LEVEL_4);
         REQUIRE(menu.choiceToLevel(UserChoice::EXIT) == Level::LEVEL_4);
+    }
+
+    SECTION("getUserChoice EXIT")
+    {
+        FakeInput input{InputAction::QUIT, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::EXIT);
+    }
+
+    SECTION("getUserChoice accept in main menu")
+    {
+        menu.refresh(UserChoice::MAIN_MENU);
+        FakeInput input{InputAction::ACCEPT, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_MENU);
+    }
+
+    SECTION("getUserChoice back in main menu")
+    {
+        menu.refresh(UserChoice::MAIN_MENU);
+        FakeInput input{InputAction::BACK, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::EXIT);
+    }
+
+    SECTION("getUserChoice back in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{InputAction::BACK, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::BACK);
+    }
+
+    SECTION("getUserChoice accept in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{InputAction::ACCEPT, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_1);
     }
 }
