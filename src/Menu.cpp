@@ -12,6 +12,31 @@
 
 Menu::Menu(Display& display) : display_(display) {}
 
+UserChoice Menu::getUserChoice(Input& input)
+{
+    int currentItem{0};
+    while (true)
+    {
+        const InputAction action{input.getMenuAction()};
+
+        if (action == InputAction::QUIT)
+            return UserChoice::EXIT;
+
+        if (action == InputAction::ACCEPT)
+            return items_[static_cast<std::size_t>(currentItem)]
+                .getUserChoice();
+
+        if (action == InputAction::BACK)
+            return items_.back().getUserChoice();
+
+        currentItem =
+            getCurrentItem(input.getMousePosition(), action, currentItem);
+
+        if (action == InputAction::TIMER)
+            redraw(currentItem);
+    }
+}
+
 void Menu::refresh(UserChoice choice)
 {
     switch (choice)
@@ -157,29 +182,4 @@ std::pair<bool, int> Menu::getPointedItem(
             return {true, item};
     }
     return {false, 0};
-}
-
-UserChoice Menu::getUserChoice(Input& input)
-{
-    int currentItem{0};
-    while (true)
-    {
-        const InputAction action{input.getMenuAction()};
-
-        if (action == InputAction::QUIT)
-            return UserChoice::EXIT;
-
-        if (action == InputAction::ACCEPT)
-            return items_[static_cast<std::size_t>(currentItem)]
-                .getUserChoice();
-
-        if (action == InputAction::BACK)
-            return items_.back().getUserChoice();
-
-        currentItem =
-            getCurrentItem(input.getMousePosition(), action, currentItem);
-
-        if (action == InputAction::TIMER)
-            redraw(currentItem);
-    }
 }
