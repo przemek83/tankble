@@ -8,13 +8,14 @@ class display;
 enum class InputAction : char;
 enum class Level : char;
 enum class UserChoice : char;
+class Input;
 
 class Menu final
 {
 public:
     explicit Menu(Display& display);
 
-    UserChoice getUserChoice();
+    UserChoice getUserChoice(Input& input);
 
     void refresh(UserChoice choice);
 

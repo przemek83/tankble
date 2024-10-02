@@ -159,9 +159,8 @@ std::pair<bool, int> Menu::getPointedItem(
     return {false, 0};
 }
 
-UserChoice Menu::getUserChoice()
+UserChoice Menu::getUserChoice(Input& input)
 {
-    Input input;
     int currentItem{0};
     while (true)
     {

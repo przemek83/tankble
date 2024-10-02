@@ -11,10 +11,11 @@ namespace
 UserChoice getUserChoice(Menu& menu)
 {
     UserChoice choice{UserChoice::MAIN_MENU};
+    Input input;
     while ((choice != UserChoice::EXIT) && (!menu.isLevelPicked(choice)))
     {
         menu.refresh(choice);
-        choice = menu.getUserChoice();
+        choice = menu.getUserChoice(input);
     }
     return choice;
 }
