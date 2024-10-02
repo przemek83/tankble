@@ -2,8 +2,8 @@
 
 #include "Config.h"
 #include "Direction.h"
+#include "Display.h"
 #include "PointUtils.h"
-#include "Screen.h"
 #include "Utils.h"
 
 Bullet::Bullet(Point startingPoint, int speed, bool playerOrigin, int power,
