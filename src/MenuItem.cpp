@@ -4,7 +4,6 @@
 
 #include "Display.h"
 #include "ResourceType.h"
-#include "Screen.h"
 #include "Utils.h"
 
 MenuItem::MenuItem(UserChoice userChoice)
