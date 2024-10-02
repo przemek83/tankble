@@ -1,9 +1,9 @@
 #include <cstdlib>
 
 #include "Game.h"
-#include "Input.h"
 #include "Menu.h"
 #include "Screen.h"
+#include "StandardInput.h"
 #include "UserChoice.h"
 
 namespace
@@ -11,7 +11,7 @@ namespace
 UserChoice getUserChoice(Menu& menu)
 {
     UserChoice choice{UserChoice::MAIN_MENU};
-    Input input;
+    StandardInput input;
     while ((choice != UserChoice::EXIT) && (!menu.isLevelPicked(choice)))
     {
         menu.refresh(choice);
@@ -27,7 +27,7 @@ int main()
     if (!screen.init())
         return EXIT_FAILURE;
 
-    Input::init();
+    StandardInput::init();
 
     Menu menu(screen);
 

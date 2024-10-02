@@ -1,11 +1,11 @@
-#include "Input.h"
+#include "StandardInput.h"
 
 #include <allegro5/allegro.h>
 
 #include "Config.h"
 #include "InputAction.h"
 
-Input::Input() : events_(::al_create_event_queue())
+StandardInput::StandardInput() : events_(::al_create_event_queue())
 {
     ALLEGRO_TIMER* timer{
         ::al_create_timer(1.0 / Config::getInstance().getFps())};
@@ -17,13 +17,13 @@ Input::Input() : events_(::al_create_event_queue())
     ::al_start_timer(timer);
 }
 
-void Input::init()
+void StandardInput::init()
 {
     ::al_install_keyboard();
     ::al_install_mouse();
 }
 
-InputAction Input::getMenuAction()
+InputAction StandardInput::getMenuAction()
 {
     ALLEGRO_EVENT event{};
     ::al_wait_for_event(events_, &event);
@@ -59,7 +59,7 @@ InputAction Input::getMenuAction()
     return InputAction::MOUSE_MOVE;
 }
 
-std::set<InputAction> Input::getGameActions()
+std::set<InputAction> StandardInput::getGameActions()
 {
     ALLEGRO_KEYBOARD_STATE keyState;
     ::al_get_keyboard_state(&keyState);
@@ -83,12 +83,12 @@ std::set<InputAction> Input::getGameActions()
     return ongoingActions;
 }
 
-std::pair<int, int> Input::getMousePosition() const
+std::pair<int, int> StandardInput::getMousePosition() const
 {
     return {mouseX_, mouseY_};
 }
 
-InputAction Input::getCommonAction(const ALLEGRO_EVENT& event)
+InputAction StandardInput::getCommonAction(const ALLEGRO_EVENT& event)
 {
     if (userWantToExit(event))
         return InputAction::QUIT;
@@ -102,73 +102,73 @@ InputAction Input::getCommonAction(const ALLEGRO_EVENT& event)
     return InputAction::EMPTY;
 }
 
-bool Input::itemPicked(const ALLEGRO_EVENT& event)
+bool StandardInput::itemPicked(const ALLEGRO_EVENT& event)
 {
     return keyEnterUsed(event) || keySpaceUsed(event) || mouseClickUsed(event);
 }
 
-bool Input::fired(const ALLEGRO_KEYBOARD_STATE& keyState)
+bool StandardInput::fired(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
     return ::al_key_down(&keyState, ALLEGRO_KEY_SPACE) ||
            ::al_key_down(&keyState, ALLEGRO_KEY_ENTER);
 }
 
-bool Input::userWantToExit(const ALLEGRO_EVENT& event)
+bool StandardInput::userWantToExit(const ALLEGRO_EVENT& event)
 {
     return event.type == ALLEGRO_EVENT_DISPLAY_CLOSE;
 }
 
-bool Input::keyEscapeUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::keyEscapeUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
            (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE);
 }
 
-bool Input::keyUpUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::keyUpUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
            (event.keyboard.keycode == ALLEGRO_KEY_UP);
 }
 
-bool Input::keyDownUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::keyDownUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_KEY_CHAR) &&
            (event.keyboard.keycode == ALLEGRO_KEY_DOWN);
 }
 
-bool Input::keyUpPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
+bool StandardInput::keyUpPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
     return ::al_key_down(&keyState, ALLEGRO_KEY_UP);
 }
 
-bool Input::keyDownPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
+bool StandardInput::keyDownPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
     return ::al_key_down(&keyState, ALLEGRO_KEY_DOWN);
 }
 
-bool Input::keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
+bool StandardInput::keyLeftPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
     return ::al_key_down(&keyState, ALLEGRO_KEY_LEFT);
 }
 
-bool Input::keyRightPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
+bool StandardInput::keyRightPressed(const ALLEGRO_KEYBOARD_STATE& keyState)
 {
     return ::al_key_down(&keyState, ALLEGRO_KEY_RIGHT);
 }
 
-bool Input::keyEnterUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::keyEnterUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_KEY_UP) &&
            (event.keyboard.keycode == ALLEGRO_KEY_ENTER);
 }
 
-bool Input::keySpaceUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::keySpaceUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_KEY_UP) &&
            (event.keyboard.keycode == ALLEGRO_KEY_SPACE);
 }
 
-bool Input::mouseClickUsed(const ALLEGRO_EVENT& event)
+bool StandardInput::mouseClickUsed(const ALLEGRO_EVENT& event)
 {
     return (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) &&
            (event.mouse.button == 1);

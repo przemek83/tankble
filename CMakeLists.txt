@@ -41,7 +41,6 @@ set(${PROJECT_NAME}_SOURCES
     src/Resources.cpp
     src/ResourceType.h
     src/Input.h
-    src/Input.cpp
     src/InputAction.h
     src/TankType.h
     src/Bullet.cpp
@@ -65,6 +64,8 @@ set(${PROJECT_NAME}_SOURCES
     src/Display.cpp
     src/Utils.h
     src/Utils.cpp
+    src/StandardInput.h
+    src/StandardInput.cpp
     src/map/Water.cpp
     src/map/Water.h
     src/map/Steel.cpp

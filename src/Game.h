@@ -12,7 +12,6 @@ struct Point;
 class Tank;
 class Map;
 class Display;
-class Input;
 enum class InputAction : char;
 class Bullet;
 enum class Level : char;

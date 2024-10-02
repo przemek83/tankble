@@ -8,13 +8,13 @@
 #include "Bullet.h"
 #include "Config.h"
 #include "Display.h"
-#include "Input.h"
 #include "InputAction.h"
 #include "Level.h"
 #include "Map.h"
 #include "MapUtils.h"
 #include "PointUtils.h"
 #include "Resources.h"
+#include "StandardInput.h"
 #include "Tank.h"
 #include "Utils.h"
 
@@ -87,7 +87,7 @@ bool Game::play(Level level)
     std::list<Tank> tanks{map.loadMap(levelContent)};
     levelContent.close();
 
-    Input input;
+    StandardInput input;
     display_.clearScreenWithBlack();
     std::list<Bullet> bullets;
 
@@ -115,13 +115,14 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
 {
     moveBullets(bullets, tanks, map);
 
+    StandardInput input;
     for (auto& tank : tanks)
     {
         Direction direction{Direction::UP};
         if (tank.isPlayerControlled())
         {
             setPower(tank, map);
-            const auto actions{Input::getGameActions()};
+            const auto actions{input.getGameActions()};
             const auto now{std::chrono::system_clock::now()};
             if ((actions.find(InputAction::FIRE) != actions.end()) &&
                 tank.canFire(now))
