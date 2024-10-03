@@ -48,10 +48,10 @@ private:
     const int tileCount_{20};
     static constexpr int defaultTileSize_{30};
     int tileSize_{defaultTileSize_};
-    int bulletSize_{};
-    int boardWidth_{};
-    int boardHeight_{};
-    int statusWidth_{};
-    float speedFactor_{};
+    int bulletSize_{0};
+    int boardWidth_{0};
+    int boardHeight_{0};
+    int statusWidth_{0};
+    float speedFactor_{0};
     const std::chrono::seconds fireDelay_{2};
 };
