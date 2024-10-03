@@ -71,8 +71,8 @@ public:
     void resetChangedAreas() { changedAreas_.clear(); }
 
 private:
-    int resourceWidth_;
-    int resourceHeight_;
+    int resourceWidth_ {0};
+    int resourceHeight_ {0};
 
     mutable std::vector<ChangedArea> changedAreas_;
 };
