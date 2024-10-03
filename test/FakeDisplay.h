@@ -14,6 +14,13 @@ public:
         int y_;
     };
 
+    struct DrawnText
+    {
+        int x_;
+        int y_;
+        std::string text_;
+    };
+
     bool init() override { return true; };
 
     void drawText([[maybe_unused]] int x, [[maybe_unused]] int y,
@@ -21,7 +28,10 @@ public:
 
     void drawTextWithBackground(
         [[maybe_unused]] int x, [[maybe_unused]] int y,
-        [[maybe_unused]] const std::string& text) const override {};
+        [[maybe_unused]] const std::string& text) const override
+    {
+        drawnTexts_.push_back({x, y, text});
+    };
 
     void drawBackground(
         [[maybe_unused]] ResourceType resourceType) const override {};
@@ -70,9 +80,15 @@ public:
 
     void resetChangedAreas() { changedAreas_.clear(); }
 
+    std::vector<DrawnText> getDrawnTexts() const { return drawnTexts_; }
+
+    void resetDrawnTexts() { drawnTexts_.clear(); }
+
 private:
-    int resourceWidth_ {0};
-    int resourceHeight_ {0};
+    int resourceWidth_{0};
+    int resourceHeight_{0};
 
     mutable std::vector<ChangedArea> changedAreas_;
+
+    mutable std::vector<DrawnText> drawnTexts_;
 };
