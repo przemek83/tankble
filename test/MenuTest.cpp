@@ -6,6 +6,7 @@
 
 #include "FakeDisplay.h"
 #include "src/InputAction.h"
+#include "src/ResourceType.h"
 #include "src/UserChoice.h"
 #include "test/FakeInput.h"
 
@@ -152,5 +153,34 @@ TEST_CASE("Menu usage", "[Menu]")
                         {0, 0}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::LEVEL_2);
+    }
+
+    SECTION("getUserChoice timer event with redrawing in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::TIMER, InputAction::ACCEPT}, {}, {}};
+        display.resetChangedAreas();
+        menu.getUserChoice(input);
+        std::vector<FakeDisplay::ChangedArea> changed{
+            display.getChangedAreas()};
+        REQUIRE(changed.size() == 5);
+        REQUIRE(changed[0].type_ == ResourceType::MENU_ITEM_SELECTED);
+        REQUIRE(changed[4].type_ == ResourceType::MENU_ITEM);
+    }
+
+    SECTION("getUserChoice hovering on last item with redrawing in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{
+            {InputAction::MOUSE_MOVE, InputAction::TIMER, InputAction::ACCEPT},
+            {},
+            {Config::getInstance().getBoardWidth() / 2, 400}};
+        display.resetChangedAreas();
+        menu.getUserChoice(input);
+        std::vector<FakeDisplay::ChangedArea> changed{
+            display.getChangedAreas()};
+        REQUIRE(changed.size() == 5);
+        REQUIRE(changed[0].type_ == ResourceType::MENU_ITEM);
+        REQUIRE(changed[4].type_ == ResourceType::MENU_ITEM_SELECTED);
     }
 }
