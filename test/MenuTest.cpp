@@ -97,7 +97,15 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(choice == UserChoice::LEVEL_2);
     }
 
-    SECTION("getUserChoice down, aup and accept in level menu")
+    SECTION("getUserChoice up being on first item in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::UP, InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_1);
+    }
+
+    SECTION("getUserChoice down, up and accept in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
         FakeInput input{
@@ -114,7 +122,7 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(choice == UserChoice::LEVEL_1);
     }
 
-    SECTION("getUserChoice use mouse to pick item in level menu")
+    SECTION("getUserChoice use mouse to pick last item in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
         FakeInput input{{InputAction::MOUSE_MOVE, InputAction::ACCEPT},
@@ -122,5 +130,27 @@ TEST_CASE("Menu usage", "[Menu]")
                         {Config::getInstance().getBoardWidth() / 2, 400}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::BACK);
+    }
+
+    SECTION("getUserChoice down being on last item in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{
+            {InputAction::MOUSE_MOVE, InputAction::DOWN, InputAction::ACCEPT},
+            {},
+            {Config::getInstance().getBoardWidth() / 2, 400}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::BACK);
+    }
+
+    SECTION("getUserChoice click outside items in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::DOWN, InputAction::MOUSE_MOVE,
+                         InputAction::CLICK, InputAction::ACCEPT},
+                        {},
+                        {0, 0}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_2);
     }
 }
