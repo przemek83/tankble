@@ -68,4 +68,28 @@ TEST_CASE("Status usage", "[Status]")
             display.getDrawnTexts()};
         REQUIRE(drawnTexts.empty());
     }
+
+    SECTION("Update attackPower")
+    {
+        status.update({1, 0, 0, 0}, display);
+        REQUIRE(!display.getDrawnTexts().empty());
+    }
+
+    SECTION("Update shield")
+    {
+        status.update({0, 1, 0, 0}, display);
+        REQUIRE(!display.getDrawnTexts().empty());
+    }
+
+    SECTION("Update speed")
+    {
+        status.update({0, 0, 1, 0}, display);
+        REQUIRE(!display.getDrawnTexts().empty());
+    }
+
+    SECTION("Update lives")
+    {
+        status.update({0, 0, 0, 1}, display);
+        REQUIRE(!display.getDrawnTexts().empty());
+    }
 }
