@@ -90,6 +90,22 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(choice == UserChoice::FULLSCREEN);
     }
 
+    SECTION("getUserChoice fullscreen")
+    {
+        menu.refresh(UserChoice::FULLSCREEN);
+        FakeInput input{{InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::FULLSCREEN);
+    }
+
+    SECTION("getUserChoice windowed")
+    {
+        menu.refresh(UserChoice::WINDOWED);
+        FakeInput input{{InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::FULLSCREEN);
+    }
+
     SECTION("getUserChoice down and accept in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
