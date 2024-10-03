@@ -1,21 +1,28 @@
 #pragma once
 
+#include <vector>
+
 #include <src/Input.h>
-#include "src/InputAction.h"
+#include <src/InputAction.h>
 
 class FakeInput : public Input
 {
 public:
-    FakeInput(InputAction imenuInputAction,
+    FakeInput(std::vector<InputAction> menuInputActions,
               std::set<InputAction> gameInputActions,
               std::pair<int, int> mousePosition)
-        : menuInputAction_{imenuInputAction},
+        : menuInputActions_{menuInputActions},
           gameInputActions_{std::move(gameInputActions)},
           mousePosition_{mousePosition}
     {
     }
 
-    InputAction getMenuAction() override { return menuInputAction_; }
+    InputAction getMenuAction() override
+    {
+        InputAction action{menuInputActions_.front()};
+        menuInputActions_.erase(menuInputActions_.begin());
+        return action;
+    }
 
     std::set<InputAction> getGameActions() override
     {
@@ -28,7 +35,7 @@ public:
     }
 
 private:
-    InputAction menuInputAction_;
+    std::vector<InputAction> menuInputActions_;
 
     std::set<InputAction> gameInputActions_;
 

@@ -35,7 +35,7 @@ TEST_CASE("Menu usage", "[Menu]")
 
     SECTION("getUserChoice EXIT")
     {
-        FakeInput input{InputAction::QUIT, {}, {}};
+        FakeInput input{{InputAction::QUIT}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::EXIT);
     }
@@ -43,7 +43,7 @@ TEST_CASE("Menu usage", "[Menu]")
     SECTION("getUserChoice accept in main menu")
     {
         menu.refresh(UserChoice::MAIN_MENU);
-        FakeInput input{InputAction::ACCEPT, {}, {}};
+        FakeInput input{{InputAction::ACCEPT}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::LEVEL_MENU);
     }
@@ -51,7 +51,7 @@ TEST_CASE("Menu usage", "[Menu]")
     SECTION("getUserChoice back in main menu")
     {
         menu.refresh(UserChoice::MAIN_MENU);
-        FakeInput input{InputAction::BACK, {}, {}};
+        FakeInput input{{InputAction::BACK}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::EXIT);
     }
@@ -59,7 +59,7 @@ TEST_CASE("Menu usage", "[Menu]")
     SECTION("getUserChoice back in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
-        FakeInput input{InputAction::BACK, {}, {}};
+        FakeInput input{{InputAction::BACK}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::BACK);
     }
@@ -67,7 +67,24 @@ TEST_CASE("Menu usage", "[Menu]")
     SECTION("getUserChoice accept in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
-        FakeInput input{InputAction::ACCEPT, {}, {}};
+        FakeInput input{{InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_1);
+    }
+
+    SECTION("getUserChoice down and accept in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::DOWN, InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_2);
+    }
+
+    SECTION("getUserChoice down and accept in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{
+            {InputAction::DOWN, InputAction::UP, InputAction::ACCEPT}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::LEVEL_1);
     }
