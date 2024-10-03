@@ -73,6 +73,22 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(choice == UserChoice::LEVEL_1);
     }
 
+    SECTION("getUserChoice back in options menu")
+    {
+        menu.refresh(UserChoice::OPTIONS_MENU);
+        FakeInput input{{InputAction::BACK}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::BACK);
+    }
+
+    SECTION("getUserChoice accept in options menu")
+    {
+        menu.refresh(UserChoice::OPTIONS_MENU);
+        FakeInput input{{InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::FULLSCREEN);
+    }
+
     SECTION("getUserChoice down and accept in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
