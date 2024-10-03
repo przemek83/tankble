@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <src/Config.h>
 #include <src/Level.h>
 #include <src/Menu.h>
 
@@ -80,12 +81,30 @@ TEST_CASE("Menu usage", "[Menu]")
         REQUIRE(choice == UserChoice::LEVEL_2);
     }
 
-    SECTION("getUserChoice down and accept in level menu")
+    SECTION("getUserChoice down, aup and accept in level menu")
     {
         menu.refresh(UserChoice::LEVEL_MENU);
         FakeInput input{
             {InputAction::DOWN, InputAction::UP, InputAction::ACCEPT}, {}, {}};
         UserChoice choice{menu.getUserChoice(input)};
         REQUIRE(choice == UserChoice::LEVEL_1);
+    }
+
+    SECTION("getUserChoice unsuported key in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::LEFT, InputAction::ACCEPT}, {}, {}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::LEVEL_1);
+    }
+
+    SECTION("getUserChoice use mouse to pick item in level menu")
+    {
+        menu.refresh(UserChoice::LEVEL_MENU);
+        FakeInput input{{InputAction::MOUSE_MOVE, InputAction::ACCEPT},
+                        {},
+                        {Config::getInstance().getBoardWidth() / 2, 400}};
+        UserChoice choice{menu.getUserChoice(input)};
+        REQUIRE(choice == UserChoice::BACK);
     }
 }
