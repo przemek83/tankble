@@ -53,9 +53,9 @@ const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
 
 void Game::movement(Tank& tank, Map& map, Direction direction)
 {
-    const int tileSize{Config::getInstance().getTileSize()};
     tank.setDirection(direction);
 
+    const int tileSize{Config::getInstance().getTileSize()};
     map.tagAreaAsChanged(tank.getLocation(),
                          {tank.getX() + tileSize, tank.getY() + tileSize});
 
