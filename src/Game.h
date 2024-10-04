@@ -6,43 +6,43 @@
 #include <string>
 
 #include "Direction.h"
+#include "Map.h"
 #include "Status.h"
+#include "Tank.h"
 
 struct Point;
-class Tank;
-class Map;
 class Display;
 enum class InputAction : char;
 class Bullet;
 enum class Level : char;
+class Input;
 
 class Game
 {
 public:
     explicit Game(Display& display);
 
-    bool play(Level level);
+    bool init(Level level);
+
+    bool play(Input& input);
 
 private:
-    static void movement(Tank& tank, Map& map, Direction direction);
-    void control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets);
-    bool isGameEnding(const Map& map, const std::list<Tank>& tanks) const;
-    void moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
-                     Map& map);
-    static std::list<Tank>::iterator hitTank(const Bullet& bullet,
-                                             std::list<Tank>& tanks);
+    void movement(Tank& tank, Direction direction);
+    void control(std::list<Bullet>& bullets);
+    bool isGameEnding() const;
+    void moveBullets(std::list<Bullet>& bullets);
+    std::list<Tank>::iterator hitTank(const Bullet& bullet);
 
-    void drawTanks(const std::list<Tank>& tanks) const;
+    void drawTanks() const;
     void drawEndOfGame(const std::string& text) const;
     void drawBullets(const std::list<Bullet>& bullets) const;
-    void draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
-              Map& map);
-    static void setPower(Tank& tank, Map& map);
+    void draw(const std::list<Bullet>& bullets);
+    void setPower(Tank& tank);
 
     static std::pair<bool, Direction> inputActionsToDirection(
         const std::set<InputAction>& actions);
 
-    static const Tank& getPlayerTank(const std::list<Tank>& tanks);
+    const Tank& getPlayerTank();
 
     Status status_;
     std::mt19937 randomGenerator_;
@@ -50,4 +50,7 @@ private:
     bool playerDestroyed_{false};
     std::uniform_int_distribution<> distribution_{
         std::uniform_int_distribution<>(0, 7)};
+
+    std::list<Tank> tanks_;
+    Map map_;
 };

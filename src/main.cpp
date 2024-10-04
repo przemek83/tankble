@@ -8,10 +8,9 @@
 
 namespace
 {
-UserChoice getUserChoice(Menu& menu)
+UserChoice getUserChoice(Menu& menu, Input& input)
 {
     UserChoice choice{UserChoice::MAIN_MENU};
-    StandardInput input;
     while ((choice != UserChoice::EXIT) && (!menu.isLevelPicked(choice)))
     {
         menu.refresh(choice);
@@ -28,20 +27,24 @@ int main()
         return EXIT_FAILURE;
 
     StandardInput::init();
+    StandardInput input;
 
     Menu menu(screen);
 
     while (true)
     {
         screen.showMouse();
-        const UserChoice choice{getUserChoice(menu)};
+        const UserChoice choice{getUserChoice(menu, input)};
         screen.hideMouse();
 
         if (choice == UserChoice::EXIT)
             return EXIT_SUCCESS;
 
         Game game(screen);
-        if (!game.play(menu.choiceToLevel(choice)))
+        if (!game.init(menu.choiceToLevel(choice)))
+            return EXIT_FAILURE;
+
+        if (!game.play(input))
             return EXIT_SUCCESS;
     }
 }

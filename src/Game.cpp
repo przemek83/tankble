@@ -19,10 +19,48 @@
 #include "Utils.h"
 
 Game::Game(Display& display)
-    : status_({Config::getInstance().getBoardWidth(), 0}),
-      randomGenerator_(Config::getRandomSeed()),
-      display_(display)
+    : status_{{Config::getInstance().getBoardWidth(), 0}},
+      randomGenerator_{Config::getRandomSeed()},
+      display_{display},
+      map_{Config::getInstance().getTileCount()}
 {
+}
+
+bool Game::init(Level level)
+{
+    auto [success, levelContent]{Resources::getLevel(level)};
+    if (!success)
+        return false;
+
+    tanks_ = map_.loadMap(levelContent);
+    levelContent.close();
+
+    display_.clearScreenWithBlack();
+
+    return true;
+}
+
+bool Game::play(Input& input)
+{
+    std::list<Bullet> bullets;
+    while (true)
+    {
+        const InputAction action{input.getMenuAction()};
+        if ((action == InputAction::BACK) || (isGameEnding()))
+            break;
+
+        if (action == InputAction::QUIT)
+            return false;
+
+        if (action == InputAction::TIMER)
+        {
+            draw(bullets);
+            control(bullets);
+            display_.refresh();
+        }
+    }
+
+    return true;
 }
 
 std::pair<bool, Direction> Game::inputActionsToDirection(
@@ -43,21 +81,21 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     return {false, Direction::UP};
 }
 
-const Tank& Game::getPlayerTank(const std::list<Tank>& tanks)
+const Tank& Game::getPlayerTank()
 {
     const auto& playerTankIter =
-        std::find_if(tanks.begin(), tanks.end(), [](const auto& tank)
+        std::find_if(tanks_.cbegin(), tanks_.cend(), [](const auto& tank)
                      { return tank.isPlayerControlled(); });
     return *playerTankIter;
 }
 
-void Game::movement(Tank& tank, Map& map, Direction direction)
+void Game::movement(Tank& tank, Direction direction)
 {
     tank.setDirection(direction);
 
     const int tileSize{Config::getInstance().getTileSize()};
-    map.tagAreaAsChanged(tank.getLocation(),
-                         {tank.getX() + tileSize, tank.getY() + tileSize});
+    map_.tagAreaAsChanged(tank.getLocation(),
+                          {tank.getX() + tileSize, tank.getY() + tileSize});
 
     auto [newX, newY]{tank.getNextExpectedPosition()};
     if (!point_utils::isValidPoint(newX, newY, tileSize))
@@ -67,61 +105,27 @@ void Game::movement(Tank& tank, Map& map, Direction direction)
     const std::vector<Point> pointsToCheck{
         map_utils::getMovePoints(newPoint, direction, tileSize)};
     if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
-                    [&map](Point point) { return map.canDrive(point); }))
+                    [&map = map_](Point point) { return map.canDrive(point); }))
     {
         if (tank.isPlayerControlled())
-            map.shift(newPoint, direction);
+            map_.shift(newPoint, direction);
         tank.move(newPoint);
-        map.tagAreaAsChanged(tank.getLocation(),
-                             {tank.getX() + tileSize, tank.getY() + tileSize});
+        map_.tagAreaAsChanged(tank.getLocation(),
+                              {tank.getX() + tileSize, tank.getY() + tileSize});
     }
 }
 
-bool Game::play(Level level)
+void Game::control(std::list<Bullet>& bullets)
 {
-    auto [success, levelContent]{Resources::getLevel(level)};
-    if (!success)
-        return false;
-
-    Map map(Config::getInstance().getTileCount());
-    std::list<Tank> tanks{map.loadMap(levelContent)};
-    levelContent.close();
+    moveBullets(bullets);
 
     StandardInput input;
-    display_.clearScreenWithBlack();
-    std::list<Bullet> bullets;
-
-    while (true)
-    {
-        const InputAction action{input.getMenuAction()};
-        if ((action == InputAction::BACK) || (isGameEnding(map, tanks)))
-            break;
-
-        if (action == InputAction::QUIT)
-            return false;
-
-        if (action == InputAction::TIMER)
-        {
-            draw(bullets, tanks, map);
-            control(map, tanks, bullets);
-            display_.refresh();
-        }
-    }
-
-    return true;
-}
-
-void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
-{
-    moveBullets(bullets, tanks, map);
-
-    StandardInput input;
-    for (auto& tank : tanks)
+    for (auto& tank : tanks_)
     {
         Direction direction{Direction::UP};
         if (tank.isPlayerControlled())
         {
-            setPower(tank, map);
+            setPower(tank);
             const auto actions{input.getGameActions()};
             const auto now{std::chrono::system_clock::now()};
             if ((actions.find(InputAction::FIRE) != actions.end()) &&
@@ -129,8 +133,8 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
                 bullets.emplace_back(tank.fire(now));
 
             const int tileSize{Config::getInstance().getTileSize()};
-            map.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
-                                                      tank.getY() + tileSize});
+            map_.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
+                                                       tank.getY() + tileSize});
 
             bool shouldMove{false};
             std::tie(shouldMove, direction) = inputActionsToDirection(actions);
@@ -150,7 +154,7 @@ void Game::control(Map& map, std::list<Tank>& tanks, std::list<Bullet>& bullets)
             else
                 direction = tank.getDirection();
         }
-        movement(tank, map, direction);
+        movement(tank, direction);
     }
 }
 
@@ -165,15 +169,15 @@ void Game::drawEndOfGame(const std::string& text) const
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
-bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks) const
+bool Game::isGameEnding() const
 {
-    if (map.isBaseDestroyed() || playerDestroyed_)
+    if (map_.isBaseDestroyed() || playerDestroyed_)
     {
         drawEndOfGame("You loose");
         return true;
     }
 
-    if (tanks.size() == 1)
+    if (tanks_.size() == 1)
     {
         drawEndOfGame("You Win");
         return true;
@@ -182,37 +186,36 @@ bool Game::isGameEnding(const Map& map, const std::list<Tank>& tanks) const
     return false;
 }
 
-void Game::drawTanks(const std::list<Tank>& tanks) const
+void Game::drawTanks() const
 {
-    for (const auto& tank : tanks)
+    for (const auto& tank : tanks_)
         tank.draw(display_);
 }
 
-void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
-                       Map& map)
+void Game::moveBullets(std::list<Bullet>& bullets)
 {
     const int bulletSize{Config::getInstance().getBulletSize()};
     const int tileSize{Config::getInstance().getTileSize()};
     for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
     {
-        map.tagAreaAsChanged(
+        map_.tagAreaAsChanged(
             bulletIter->getLocation(),
             {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
         bool valid{bulletIter->move()};
-        map.tagAreaAsChanged(
+        map_.tagAreaAsChanged(
             bulletIter->getLocation(),
             {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
         if (const Point bulletCenter{bulletIter->getCenter()};
-            valid && (!map.canFly(bulletCenter)))
+            valid && (!map_.canFly(bulletCenter)))
         {
-            map.hit(bulletCenter, bulletIter->getPower());
+            map_.hit(bulletCenter, bulletIter->getPower());
             valid = false;
         }
 
-        if (auto tankIter{hitTank(*bulletIter, tanks)};
-            valid && (tankIter != tanks.end()))
+        if (auto tankIter{hitTank(*bulletIter)};
+            valid && (tankIter != tanks_.end()))
         {
-            map.tagAreaAsChanged(
+            map_.tagAreaAsChanged(
                 tankIter->getLocation(),
                 {tankIter->getX() + tileSize, tankIter->getY() + tileSize});
 
@@ -220,7 +223,7 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
             {
                 if (tankIter->isPlayerControlled())
                     playerDestroyed_ = true;
-                tanks.erase(tankIter);
+                tanks_.erase(tankIter);
             }
             valid = false;
         }
@@ -228,11 +231,10 @@ void Game::moveBullets(std::list<Bullet>& bullets, std::list<Tank>& tanks,
     }
 }
 
-std::list<Tank>::iterator Game::hitTank(const Bullet& bullet,
-                                        std::list<Tank>& tanks)
+std::list<Tank>::iterator Game::hitTank(const Bullet& bullet)
 {
     return std::find_if(
-        tanks.begin(), tanks.end(),
+        tanks_.begin(), tanks_.end(),
         [&bullet](const auto& tank)
         {
             return tank.isWithin(bullet.getCenter()) &&
@@ -246,19 +248,18 @@ void Game::drawBullets(const std::list<Bullet>& bullets) const
         bullet.draw(display_);
 }
 
-void Game::draw(const std::list<Bullet>& bullets, const std::list<Tank>& tanks,
-                Map& map)
+void Game::draw(const std::list<Bullet>& bullets)
 {
-    map.drawBackground(display_);
-    drawTanks(tanks);
+    map_.drawBackground(display_);
+    drawTanks();
     drawBullets(bullets);
-    map.drawForeground(display_);
-    status_.update(getPlayerTank(tanks).getStats(), display_);
+    map_.drawForeground(display_);
+    status_.update(getPlayerTank().getStats(), display_);
 }
 
-void Game::setPower(Tank& tank, Map& map)
+void Game::setPower(Tank& tank)
 {
-    if (auto [takenPowerUp, powerUp]{map.takePowerUp(tank.getCenter())};
+    if (auto [takenPowerUp, powerUp]{map_.takePowerUp(tank.getCenter())};
         takenPowerUp)
         tank.applyPowerUp(powerUp);
 }
