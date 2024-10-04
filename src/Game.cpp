@@ -2,18 +2,16 @@
 
 #include <algorithm>
 #include <chrono>
-#include <fstream>
+#include <iostream>
 #include <thread>
 
 #include "Bullet.h"
 #include "Config.h"
 #include "Display.h"
 #include "InputAction.h"
-#include "Level.h"
 #include "Map.h"
 #include "MapUtils.h"
 #include "PointUtils.h"
-#include "Resources.h"
 #include "StandardInput.h"
 #include "Tank.h"
 #include "Utils.h"
@@ -26,18 +24,10 @@ Game::Game(Display& display)
 {
 }
 
-bool Game::init(Level level)
+void Game::init(std::iostream& level)
 {
-    auto [success, levelContent]{Resources::getLevel(level)};
-    if (!success)
-        return false;
-
-    tanks_ = map_.loadMap(levelContent);
-    levelContent.close();
-
+    tanks_ = map_.loadMap(level);
     display_.clearScreenWithBlack();
-
-    return true;
 }
 
 bool Game::play(Input& input)

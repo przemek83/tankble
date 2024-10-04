@@ -22,7 +22,7 @@ class Game
 public:
     explicit Game(Display& display);
 
-    bool init(Level level);
+    void init(std::iostream& level);
 
     bool play(Input& input);
 

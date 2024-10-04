@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <fstream>
 
 #include "Game.h"
 #include "Menu.h"
@@ -41,7 +42,10 @@ int main()
             return EXIT_SUCCESS;
 
         Game game(screen);
-        if (!game.init(menu.choiceToLevel(choice)))
+        const Level level{menu.choiceToLevel(choice)};
+        if (auto [ok, levelContent]{Resources::getLevel(level)}; ok)
+            game.init(levelContent);
+        else
             return EXIT_FAILURE;
 
         if (!game.play(input))
