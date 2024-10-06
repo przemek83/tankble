@@ -63,7 +63,8 @@ int main()
             if (action == InputAction::TIMER)
             {
                 game.draw(screen);
-                game.control();
+                const std::set<InputAction> actions{input.getGameActions()};
+                game.control(actions);
                 screen.refresh();
             }
         }

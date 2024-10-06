@@ -12,7 +12,6 @@
 #include "Map.h"
 #include "MapUtils.h"
 #include "PointUtils.h"
-#include "StandardInput.h"
 #include "Tank.h"
 #include "Utils.h"
 
@@ -77,18 +76,16 @@ void Game::movement(Tank& tank, Direction direction)
     }
 }
 
-void Game::control()
+void Game::control(const std::set<InputAction>& actions)
 {
     moveBullets();
 
-    StandardInput input;
     for (auto& tank : tanks_)
     {
         Direction direction{Direction::UP};
         if (tank.isPlayerControlled())
         {
             setPower(tank);
-            const auto actions{input.getGameActions()};
             const auto now{std::chrono::system_clock::now()};
             if ((actions.find(InputAction::FIRE) != actions.end()) &&
                 tank.canFire(now))

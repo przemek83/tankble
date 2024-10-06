@@ -15,7 +15,6 @@ struct Point;
 class Display;
 enum class InputAction : char;
 enum class Level : char;
-class Input;
 
 class Game
 {
@@ -24,7 +23,7 @@ public:
 
     void init(std::iostream& level);
 
-    void control();
+    void control(const std::set<InputAction>& actions);
 
     bool isGameEnding(Display& display) const;
 
