@@ -32,7 +32,6 @@ void Game::init(std::iostream& level)
 
 bool Game::play(Input& input)
 {
-    std::list<Bullet> bullets;
     while (true)
     {
         const InputAction action{input.getMenuAction()};
@@ -44,8 +43,8 @@ bool Game::play(Input& input)
 
         if (action == InputAction::TIMER)
         {
-            draw(bullets);
-            control(bullets);
+            draw();
+            control();
             display_.refresh();
         }
     }
@@ -105,9 +104,9 @@ void Game::movement(Tank& tank, Direction direction)
     }
 }
 
-void Game::control(std::list<Bullet>& bullets)
+void Game::control()
 {
-    moveBullets(bullets);
+    moveBullets();
 
     StandardInput input;
     for (auto& tank : tanks_)
@@ -120,7 +119,7 @@ void Game::control(std::list<Bullet>& bullets)
             const auto now{std::chrono::system_clock::now()};
             if ((actions.find(InputAction::FIRE) != actions.end()) &&
                 tank.canFire(now))
-                bullets.emplace_back(tank.fire(now));
+                bullets_.emplace_back(tank.fire(now));
 
             const int tileSize{Config::getInstance().getTileSize()};
             map_.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
@@ -135,7 +134,7 @@ void Game::control(std::list<Bullet>& bullets)
         {
             const auto now{std::chrono::system_clock::now()};
             if (tank.canFire(now))
-                bullets.emplace_back(tank.fire(now));
+                bullets_.emplace_back(tank.fire(now));
             const int randomDirection{distribution_(randomGenerator_)};
             if (((tank.getX() % Config::getInstance().getTileSize()) == 0) &&
                 ((tank.getY() % Config::getInstance().getTileSize()) == 0) &&
@@ -182,11 +181,11 @@ void Game::drawTanks() const
         tank.draw(display_);
 }
 
-void Game::moveBullets(std::list<Bullet>& bullets)
+void Game::moveBullets()
 {
     const int bulletSize{Config::getInstance().getBulletSize()};
     const int tileSize{Config::getInstance().getTileSize()};
-    for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
+    for (auto bulletIter = bullets_.begin(); bulletIter != bullets_.end();)
     {
         map_.tagAreaAsChanged(
             bulletIter->getLocation(),
@@ -217,7 +216,7 @@ void Game::moveBullets(std::list<Bullet>& bullets)
             }
             valid = false;
         }
-        bulletIter = (valid ? ++bulletIter : bullets.erase(bulletIter));
+        bulletIter = (valid ? ++bulletIter : bullets_.erase(bulletIter));
     }
 }
 
@@ -232,17 +231,17 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet)
         });
 }
 
-void Game::drawBullets(const std::list<Bullet>& bullets) const
+void Game::drawBullets() const
 {
-    for (const auto& bullet : bullets)
+    for (const auto& bullet : bullets_)
         bullet.draw(display_);
 }
 
-void Game::draw(const std::list<Bullet>& bullets)
+void Game::draw()
 {
     map_.drawBackground(display_);
     drawTanks();
-    drawBullets(bullets);
+    drawBullets();
     map_.drawForeground(display_);
     status_.update(getPlayerTank().getStats(), display_);
 }

@@ -5,6 +5,7 @@
 #include <set>
 #include <string>
 
+#include "Bullet.h"
 #include "Direction.h"
 #include "Map.h"
 #include "Status.h"
@@ -13,7 +14,6 @@
 struct Point;
 class Display;
 enum class InputAction : char;
-class Bullet;
 enum class Level : char;
 class Input;
 
@@ -28,15 +28,15 @@ public:
 
 private:
     void movement(Tank& tank, Direction direction);
-    void control(std::list<Bullet>& bullets);
+    void control();
     bool isGameEnding() const;
-    void moveBullets(std::list<Bullet>& bullets);
+    void moveBullets();
     std::list<Tank>::iterator hitTank(const Bullet& bullet);
 
     void drawTanks() const;
     void drawEndOfGame(const std::string& text) const;
-    void drawBullets(const std::list<Bullet>& bullets) const;
-    void draw(const std::list<Bullet>& bullets);
+    void drawBullets() const;
+    void draw();
     void setPower(Tank& tank);
 
     static std::pair<bool, Direction> inputActionsToDirection(
@@ -53,4 +53,5 @@ private:
 
     std::list<Tank> tanks_;
     Map map_;
+    std::list<Bullet> bullets_;
 };
