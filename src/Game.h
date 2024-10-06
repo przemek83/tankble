@@ -20,23 +20,24 @@ class Input;
 class Game
 {
 public:
-    explicit Game(Display& display);
+    Game();
 
     void init(std::iostream& level);
 
-    bool play(Input& input);
+    void control();
+
+    bool isGameEnding(Display& display) const;
+
+    void draw(Display& display);
 
 private:
     void movement(Tank& tank, Direction direction);
-    void control();
-    bool isGameEnding() const;
     void moveBullets();
     std::list<Tank>::iterator hitTank(const Bullet& bullet);
 
-    void drawTanks() const;
-    void drawEndOfGame(const std::string& text) const;
-    void drawBullets() const;
-    void draw();
+    void drawTanks(Display& display) const;
+    void drawEndOfGame(Display& display, const std::string& text) const;
+    void drawBullets(Display& display) const;
     void setPower(Tank& tank);
 
     static std::pair<bool, Direction> inputActionsToDirection(
@@ -46,7 +47,6 @@ private:
 
     Status status_;
     std::mt19937 randomGenerator_;
-    Display& display_;
     bool playerDestroyed_{false};
     std::uniform_int_distribution<> distribution_{
         std::uniform_int_distribution<>(0, 7)};

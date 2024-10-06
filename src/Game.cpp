@@ -16,41 +16,14 @@
 #include "Tank.h"
 #include "Utils.h"
 
-Game::Game(Display& display)
+Game::Game()
     : status_{{Config::getInstance().getBoardWidth(), 0}},
       randomGenerator_{Config::getRandomSeed()},
-      display_{display},
       map_{Config::getInstance().getTileCount()}
 {
 }
 
-void Game::init(std::iostream& level)
-{
-    tanks_ = map_.loadMap(level);
-    display_.clearScreenWithBlack();
-}
-
-bool Game::play(Input& input)
-{
-    while (true)
-    {
-        const InputAction action{input.getMenuAction()};
-        if ((action == InputAction::BACK) || (isGameEnding()))
-            break;
-
-        if (action == InputAction::QUIT)
-            return false;
-
-        if (action == InputAction::TIMER)
-        {
-            draw();
-            control();
-            display_.refresh();
-        }
-    }
-
-    return true;
-}
+void Game::init(std::iostream& level) { tanks_ = map_.loadMap(level); }
 
 std::pair<bool, Direction> Game::inputActionsToDirection(
     const std::set<InputAction>& actions)
@@ -147,38 +120,38 @@ void Game::control()
     }
 }
 
-void Game::drawEndOfGame(const std::string& text) const
+void Game::drawEndOfGame(Display& display, const std::string& text) const
 {
-    display_.clearScreenWithBlack();
-    display_.drawText(
-        utils::getMidpoint(Config::getInstance().getBoardWidth() +
-                           Config::getInstance().getSatusWidth()),
-        utils::getMidpoint(Config::getInstance().getBoardHeight()), text);
-    display_.refresh();
+    display.clearScreenWithBlack();
+    display.drawText(utils::getMidpoint(Config::getInstance().getBoardWidth() +
+                                        Config::getInstance().getSatusWidth()),
+                     utils::getMidpoint(Config::getInstance().getBoardHeight()),
+                     text);
+    display.refresh();
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
-bool Game::isGameEnding() const
+bool Game::isGameEnding(Display& display) const
 {
     if (map_.isBaseDestroyed() || playerDestroyed_)
     {
-        drawEndOfGame("You loose");
+        drawEndOfGame(display, "You loose");
         return true;
     }
 
     if (tanks_.size() == 1)
     {
-        drawEndOfGame("You Win");
+        drawEndOfGame(display, "You Win");
         return true;
     }
 
     return false;
 }
 
-void Game::drawTanks() const
+void Game::drawTanks(Display& display) const
 {
     for (const auto& tank : tanks_)
-        tank.draw(display_);
+        tank.draw(display);
 }
 
 void Game::moveBullets()
@@ -231,19 +204,19 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet)
         });
 }
 
-void Game::drawBullets() const
+void Game::drawBullets(Display& display) const
 {
     for (const auto& bullet : bullets_)
-        bullet.draw(display_);
+        bullet.draw(display);
 }
 
-void Game::draw()
+void Game::draw(Display& display)
 {
-    map_.drawBackground(display_);
-    drawTanks();
-    drawBullets();
-    map_.drawForeground(display_);
-    status_.update(getPlayerTank().getStats(), display_);
+    map_.drawBackground(display);
+    drawTanks(display);
+    drawBullets(display);
+    map_.drawForeground(display);
+    status_.update(getPlayerTank().getStats(), display);
 }
 
 void Game::setPower(Tank& tank)

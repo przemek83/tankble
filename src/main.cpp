@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "Game.h"
+#include "InputAction.h"
 #include "Menu.h"
 #include "Screen.h"
 #include "StandardInput.h"
@@ -41,14 +42,30 @@ int main()
         if (choice == UserChoice::EXIT)
             return EXIT_SUCCESS;
 
-        Game game(screen);
+        Game game;
         const Level level{menu.choiceToLevel(choice)};
         if (auto [ok, levelContent]{Resources::getLevel(level)}; ok)
             game.init(levelContent);
         else
             return EXIT_FAILURE;
 
-        if (!game.play(input))
-            return EXIT_SUCCESS;
+        screen.clearScreenWithBlack();
+
+        while (true)
+        {
+            const InputAction action{input.getMenuAction()};
+            if ((action == InputAction::BACK) || (game.isGameEnding(screen)))
+                break;
+
+            if (action == InputAction::QUIT)
+                return EXIT_SUCCESS;
+
+            if (action == InputAction::TIMER)
+            {
+                game.draw(screen);
+                game.control();
+                screen.refresh();
+            }
+        }
     }
 }
