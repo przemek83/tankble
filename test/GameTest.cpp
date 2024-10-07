@@ -12,13 +12,22 @@ TEST_CASE("Check winning conditions", "[Game]")
     FakeDisplay display;
     Config::getInstance().setDefaultSleepTimeInSeconds(0);
 
+    std::list<Tank> tanks;
+    Point point{0, 0};
+    Map map{3};
+
     SECTION("Check no more enemies")
     {
-        std::list<Tank> tanks;
-        Point point{0, 0};
         tanks.emplace_back(TankType::PLAYER_TIER_1, point);
-        Map map{3};
         Game game(tanks, map);
         REQUIRE(game.isGameEnding(display));
+    }
+
+    SECTION("Check game continues")
+    {
+        tanks.emplace_back(TankType::PLAYER_TIER_1, point);
+        tanks.emplace_back(TankType::ENEMY_TIER_1, point);
+        Game game(tanks, map);
+        REQUIRE(!game.isGameEnding(display));
     }
 }
