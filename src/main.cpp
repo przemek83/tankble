@@ -20,6 +20,32 @@ UserChoice getUserChoice(Menu& menu, Input& input)
     }
     return choice;
 }
+
+bool play(Game game, Display& display, Input& input)
+{
+    display.clearScreenWithBlack();
+
+    while (true)
+    {
+        const InputAction action{input.getMenuAction()};
+        if ((action == InputAction::BACK) || (game.isGameEnding(display)))
+            break;
+
+        if (action == InputAction::QUIT)
+            return true;
+
+        if (action == InputAction::TIMER)
+        {
+            game.draw(display);
+            game.moveBullets();
+            game.movePlayerTank(input.getGameActions());
+            game.moveEnemyTanks();
+            display.refresh();
+        }
+    }
+
+    return false;
+}
 };  // namespace
 
 int main()
@@ -33,7 +59,8 @@ int main()
 
     Menu menu(screen);
 
-    while (true)
+    bool exit{false};
+    while (!exit)
     {
         screen.showMouse();
         const UserChoice choice{getUserChoice(menu, input)};
@@ -49,26 +76,6 @@ int main()
         else
             return EXIT_FAILURE;
 
-        screen.clearScreenWithBlack();
-
-        while (true)
-        {
-            const InputAction action{input.getMenuAction()};
-            if ((action == InputAction::BACK) || (game.isGameEnding(screen)))
-                break;
-
-            if (action == InputAction::QUIT)
-                return EXIT_SUCCESS;
-
-            if (action == InputAction::TIMER)
-            {
-                game.draw(screen);
-                const std::set<InputAction> actions{input.getGameActions()};
-                game.moveBullets();
-                game.movePlayerTank(actions);
-                game.moveEnemyTanks();
-                screen.refresh();
-            }
-        }
+        exit = play(std::move(game), screen, input);
     }
 }
