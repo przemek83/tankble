@@ -100,11 +100,12 @@ void Game::moveEnemyTanks()
     {
         if (!tank.isPlayerControlled())
         {
-            Direction direction{Direction::UP};
-            const auto now{std::chrono::system_clock::now()};
-            if (tank.canFire(now))
+            if (const auto now{std::chrono::system_clock::now()};
+                tank.canFire(now))
                 bullets_.emplace_back(tank.fire(now));
             const int randomDirection{distribution_(randomGenerator_)};
+
+            Direction direction{Direction::UP};
             if (((tank.getX() % Config::getInstance().getTileSize()) == 0) &&
                 ((tank.getY() % Config::getInstance().getTileSize()) == 0) &&
                 (randomDirection < 4))
