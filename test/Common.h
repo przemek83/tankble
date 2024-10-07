@@ -15,7 +15,7 @@ inline std::string getTestMap()
         "E01TA\n"
         "01SL1\n"
         "E6010\n"
-        "0213M\n"
+        "02M31\n"
         "50401\n"};
 }
 

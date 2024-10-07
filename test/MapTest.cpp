@@ -45,7 +45,7 @@ TEST_CASE("Map loading", "[map]")
         REQUIRE(tankIter->getLocation() == Point{0, 0});
         REQUIRE((++tankIter)->getLocation() == Point{0, 2 * tileSize});
         REQUIRE((++tankIter)->getLocation() ==
-                Point{4 * tileSize, 3 * tileSize});
+                Point{2 * tileSize, 3 * tileSize});
     }
 }
 
@@ -75,9 +75,9 @@ TEST_CASE("Check driving and flying", "[map]")
                      TestData{common::tileToPoint(4, 2), true},    // plain
                      TestData{common::tileToPoint(0, 3), true},    // plain
                      TestData{common::tileToPoint(1, 3), false},   // water
-                     TestData{common::tileToPoint(2, 3), false},   // brick
+                     TestData{common::tileToPoint(2, 3), true},    // plain
                      TestData{common::tileToPoint(3, 3), true},    // plant
-                     TestData{common::tileToPoint(4, 3), true},    // playe
+                     TestData{common::tileToPoint(4, 3), false},   // brick
                      TestData{common::tileToPoint(0, 4), false},   // steel
                      TestData{common::tileToPoint(1, 4), true},    // plain
                      TestData{common::tileToPoint(2, 4), true},    // ice
@@ -109,9 +109,9 @@ TEST_CASE("Check driving and flying", "[map]")
                      TestData{common::tileToPoint(4, 2), true},    // plain
                      TestData{common::tileToPoint(0, 3), true},    // plain
                      TestData{common::tileToPoint(1, 3), true},    // water
-                     TestData{common::tileToPoint(2, 3), false},   // brick
+                     TestData{common::tileToPoint(2, 3), true},    // plain
                      TestData{common::tileToPoint(3, 3), true},    // plant
-                     TestData{common::tileToPoint(4, 3), true},    // player
+                     TestData{common::tileToPoint(4, 3), false},   // brick
                      TestData{common::tileToPoint(0, 4), false},   // steel
                      TestData{common::tileToPoint(1, 4), true},    // plain
                      TestData{common::tileToPoint(2, 4), true},    // ice

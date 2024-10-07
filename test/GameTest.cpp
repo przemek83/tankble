@@ -41,4 +41,28 @@ TEST_CASE("Check winning conditions", "[Game]")
         map.hit(common::tileToPoint(1, 2), common::testHitStrength);
         REQUIRE(game.isGameEnding(display));
     }
+
+    SECTION("Check player destroyed")
+    {
+        auto playerTankIt{std::find_if(tanks.begin(), tanks.end(),
+                                       [](const Tank& tank)
+                                       { return tank.isPlayerControlled(); })};
+
+        // Decrease lives to one.
+        playerTankIt->hit(playerTankIt->getStats().shield_);
+
+        // Place enemy tank above player tank.
+        point = common::tileToPoint(2, 2);
+        tanks.emplace_back(TankType::ENEMY_TIER_4, point);
+        Game game(tanks, map);
+
+        // Let enenymy tank fire.
+        game.moveEnemyTanks();
+
+        // Let bullet destroy player tank.
+        for (int i{0}; i < 5; ++i)
+            game.moveBullets();
+
+        REQUIRE(game.isGameEnding(display));
+    }
 }
