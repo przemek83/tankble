@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <fstream>
 
+#include "Config.h"
 #include "Game.h"
 #include "InputAction.h"
 #include "Menu.h"
@@ -69,13 +70,16 @@ int main()
         if (choice == UserChoice::EXIT)
             return EXIT_SUCCESS;
 
-        Game game;
-        const Level level{menu.choiceToLevel(choice)};
-        if (auto [ok, levelContent]{Resources::getLevel(level)}; ok)
-            game.init(levelContent);
-        else
+        auto [ok, level]{Resources::getLevel(menu.choiceToLevel(choice))};
+        if (!ok)
             return EXIT_FAILURE;
 
+        Map map{Config::getInstance().getTileCount()};
+        std::list<Tank> tanks{map.loadMap(level)};
+
+        Game game{tanks, map};
         exit = play(std::move(game), screen, input);
     }
+
+    return EXIT_SUCCESS;
 }

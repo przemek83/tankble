@@ -15,14 +15,13 @@
 #include "Tank.h"
 #include "Utils.h"
 
-Game::Game()
+Game::Game(std::list<Tank>& tanks, Map& map)
     : status_{{Config::getInstance().getBoardWidth(), 0}},
       randomGenerator_{Config::getRandomSeed()},
-      map_{Config::getInstance().getTileCount()}
+      tanks_{tanks},
+      map_{map}
 {
 }
-
-void Game::init(std::iostream& level) { tanks_ = map_.loadMap(level); }
 
 std::pair<bool, Direction> Game::inputActionsToDirection(
     const std::set<InputAction>& actions)

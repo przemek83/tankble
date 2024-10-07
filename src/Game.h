@@ -19,9 +19,7 @@ enum class Level : char;
 class Game
 {
 public:
-    Game();
-
-    void init(std::iostream& level);
+    Game(std::list<Tank>& tanks, Map& map);
 
     void moveBullets();
 
@@ -53,7 +51,7 @@ private:
     std::uniform_int_distribution<> distribution_{
         std::uniform_int_distribution<>(0, 7)};
 
-    std::list<Tank> tanks_;
-    Map map_;
+    std::list<Tank>& tanks_;
+    Map& map_;
     std::list<Bullet> bullets_;
 };
