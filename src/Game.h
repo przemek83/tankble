@@ -23,7 +23,11 @@ public:
 
     void init(std::iostream& level);
 
-    void control(const std::set<InputAction>& actions);
+    void moveBullets();
+
+    void movePlayerTank(const std::set<InputAction>& actions);
+
+    void moveEnemyTanks();
 
     bool isGameEnding(Display& display) const;
 
@@ -31,7 +35,6 @@ public:
 
 private:
     void movement(Tank& tank, Direction direction);
-    void moveBullets();
     std::list<Tank>::iterator hitTank(const Bullet& bullet);
 
     void drawTanks(Display& display) const;
@@ -42,7 +45,7 @@ private:
     static std::pair<bool, Direction> inputActionsToDirection(
         const std::set<InputAction>& actions);
 
-    const Tank& getPlayerTank();
+    Tank& getPlayerTank();
 
     Status status_;
     std::mt19937 randomGenerator_;

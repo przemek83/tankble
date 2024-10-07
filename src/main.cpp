@@ -64,7 +64,9 @@ int main()
             {
                 game.draw(screen);
                 const std::set<InputAction> actions{input.getGameActions()};
-                game.control(actions);
+                game.moveBullets();
+                game.movePlayerTank(actions);
+                game.moveEnemyTanks();
                 screen.refresh();
             }
         }

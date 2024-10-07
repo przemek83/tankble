@@ -42,10 +42,10 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     return {false, Direction::UP};
 }
 
-const Tank& Game::getPlayerTank()
+Tank& Game::getPlayerTank()
 {
-    const auto& playerTankIter =
-        std::find_if(tanks_.cbegin(), tanks_.cend(), [](const auto& tank)
+    auto playerTankIter =
+        std::find_if(tanks_.begin(), tanks_.end(), [](const auto& tank)
                      { return tank.isPlayerControlled(); });
     return *playerTankIter;
 }
@@ -76,32 +76,33 @@ void Game::movement(Tank& tank, Direction direction)
     }
 }
 
-void Game::control(const std::set<InputAction>& actions)
+void Game::movePlayerTank(const std::set<InputAction>& actions)
 {
-    moveBullets();
+    Tank& tank{getPlayerTank()};
 
+    Direction direction{Direction::UP};
+    setPower(tank);
+    const auto now{std::chrono::system_clock::now()};
+    if ((actions.find(InputAction::FIRE) != actions.end()) && tank.canFire(now))
+        bullets_.emplace_back(tank.fire(now));
+
+    const int tileSize{Config::getInstance().getTileSize()};
+    map_.tagAreaAsChanged(tank.getLocation(),
+                          {tank.getX() + tileSize, tank.getY() + tileSize});
+
+    bool shouldMove{false};
+    std::tie(shouldMove, direction) = inputActionsToDirection(actions);
+    if (shouldMove)
+        movement(tank, direction);
+}
+
+void Game::moveEnemyTanks()
+{
     for (auto& tank : tanks_)
     {
-        Direction direction{Direction::UP};
-        if (tank.isPlayerControlled())
+        if (!tank.isPlayerControlled())
         {
-            setPower(tank);
-            const auto now{std::chrono::system_clock::now()};
-            if ((actions.find(InputAction::FIRE) != actions.end()) &&
-                tank.canFire(now))
-                bullets_.emplace_back(tank.fire(now));
-
-            const int tileSize{Config::getInstance().getTileSize()};
-            map_.tagAreaAsChanged(tank.getLocation(), {tank.getX() + tileSize,
-                                                       tank.getY() + tileSize});
-
-            bool shouldMove{false};
-            std::tie(shouldMove, direction) = inputActionsToDirection(actions);
-            if (!shouldMove)
-                continue;
-        }
-        else
-        {
+            Direction direction{Direction::UP};
             const auto now{std::chrono::system_clock::now()};
             if (tank.canFire(now))
                 bullets_.emplace_back(tank.fire(now));
@@ -112,8 +113,8 @@ void Game::control(const std::set<InputAction>& actions)
                 direction = static_cast<Direction>(randomDirection);
             else
                 direction = tank.getDirection();
+            movement(tank, direction);
         }
-        movement(tank, direction);
     }
 }
 
