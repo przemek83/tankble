@@ -125,7 +125,8 @@ void Game::drawEndOfGame(Display& display, const std::string& text) const
                      utils::getMidpoint(Config::getInstance().getBoardHeight()),
                      text);
     display.refresh();
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(
+        Config::getInstance().getDefaultSleepTimeInSeconds()));
 }
 
 bool Game::isGameEnding(Display& display) const

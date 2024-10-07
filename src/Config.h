@@ -37,6 +37,15 @@ public:
 
     void setFPS(FPS fps);
 
+    int getDefaultSleepTimeInSeconds() const
+    {
+        return defaultSleepTimeInSeconds_;
+    }
+    void setDefaultSleepTimeInSeconds(int seconds)
+    {
+        defaultSleepTimeInSeconds_ = seconds;
+    }
+
 private:
     Config();
     ~Config() = default;
@@ -54,4 +63,6 @@ private:
     int statusWidth_{0};
     float speedFactor_{0};
     const std::chrono::seconds fireDelay_{2};
+
+    int defaultSleepTimeInSeconds_{2};
 };
