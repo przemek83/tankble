@@ -1,6 +1,6 @@
 #include "Base.h"
 
-Base::Base(Point point) : Tile(MEDIUM_ARMOR, point) {}
+Base::Base(Point point) : Tile(LOW_ARMOR, point) {}
 
 bool Base::canFly() { return false; }
 

@@ -188,8 +188,6 @@ TEST_CASE("Check hitting", "[map]")
         map.loadMap(stream);
         REQUIRE(map.isBaseDestroyed() == false);
         map.hit(point, utils::getMidpoint(testHitStrength));
-        REQUIRE(map.isBaseDestroyed() == false);
-        map.hit(point, utils::getMidpoint(testHitStrength));
         REQUIRE(map.isBaseDestroyed() == true);
     }
 }
