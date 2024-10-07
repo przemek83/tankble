@@ -56,7 +56,7 @@ TEST_CASE("Check winning conditions", "[Game]")
         tanks.emplace_back(TankType::ENEMY_TIER_4, point);
         Game game(tanks, map);
 
-        // Let enenymy tank fire.
+        // Let enemy tank fire.
         game.moveEnemyTanks();
 
         // Let bullet destroy player tank.
