@@ -13,6 +13,7 @@ set(${PROJECT_TEST}_SOURCES
     MenuTest.cpp
     StatusTest.cpp
     GameTest.cpp
+    Common.h
 )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
