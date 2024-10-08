@@ -11,6 +11,18 @@
 #include "Common.h"
 #include "FakeDisplay.h"
 
+namespace
+{
+Tank& getPlayerTank(std::list<Tank>& tanks)
+{
+    auto playerTankIt{std::find_if(tanks.begin(), tanks.end(),
+                                   [](const Tank& tank)
+                                   { return tank.isPlayerControlled(); })};
+
+    return *playerTankIt;
+}
+};  // namespace
+
 TEST_CASE("Check winning conditions", "[Game]")
 {
     FakeDisplay display;
@@ -44,12 +56,10 @@ TEST_CASE("Check winning conditions", "[Game]")
 
     SECTION("Check player destroyed")
     {
-        auto playerTankIt{std::find_if(tanks.begin(), tanks.end(),
-                                       [](const Tank& tank)
-                                       { return tank.isPlayerControlled(); })};
+        Tank& playerTank{getPlayerTank(tanks)};
 
         // Decrease lives to one.
-        playerTankIt->hit(playerTankIt->getStats().shield_);
+        playerTank.hit(playerTank.getStats().shield_);
 
         // Place enemy tank above player tank.
         point = common::tileToPoint(2, 2);
@@ -64,5 +74,25 @@ TEST_CASE("Check winning conditions", "[Game]")
             game.moveBullets();
 
         REQUIRE(game.isGameEnding(display));
+    }
+}
+
+TEST_CASE("Moving player", "[Game]")
+{
+    Map map(common::tileCount);
+    std::stringstream stream(common::getTestMap());
+    std::list<Tank> tanks{map.loadMap(stream)};
+
+    SECTION("Check keeping position when not moved")
+    {
+        const Tank& playerTank{getPlayerTank(tanks)};
+        Game game(tanks, map);
+        Point center{playerTank.getCenter()};
+        REQUIRE(center.x_ == 75);
+        REQUIRE(center.y_ == 105);
+        game.movePlayerTank({});
+        center = playerTank.getCenter();
+        REQUIRE(center.x_ == 75);
+        REQUIRE(center.y_ == 105);
     }
 }
