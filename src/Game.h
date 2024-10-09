@@ -29,7 +29,7 @@ public:
 
     bool isGameEnding(Display& display) const;
 
-    void draw(Display& display);
+    void draw(const Display& display);
 
 private:
     void movement(Tank& tank, Direction direction);

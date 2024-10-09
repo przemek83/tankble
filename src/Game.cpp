@@ -221,7 +221,7 @@ void Game::drawBullets(const Display& display) const
         bullet.draw(display);
 }
 
-void Game::draw(Display& display)
+void Game::draw(const Display& display)
 {
     map_.drawBackground(display);
     drawTanks(display);
