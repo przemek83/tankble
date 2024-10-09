@@ -6,12 +6,6 @@
 
 #include <allegro5/allegro.h>
 
-Resources::Resources()
-{
-    for (const auto& [resourceType, path] : resourcePaths_)
-        bitmaps_[resourceType] = ::al_load_bitmap(path.c_str());
-}
-
 Resources::~Resources()
 {
     for (const auto& [_, bitmap] : bitmaps_)
@@ -20,6 +14,9 @@ Resources::~Resources()
 
 ALLEGRO_BITMAP* Resources::getBitmap(ResourceType resourceType) const
 {
+    if (bitmaps_.empty())
+        for (const auto& [resType, path] : resourcePaths_)
+            bitmaps_[resType] = ::al_load_bitmap(path.c_str());
     return bitmaps_.at(resourceType);
 }
 

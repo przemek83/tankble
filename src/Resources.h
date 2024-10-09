@@ -11,14 +11,14 @@ struct ALLEGRO_BITMAP;
 class Resources
 {
 public:
-    Resources();
+    Resources() = default;
     ~Resources();
 
     Resources& operator=(const Resources& other) = delete;
     Resources(const Resources& other) = delete;
 
-    Resources& operator=(Resources&& other) = default;
-    Resources(Resources&& other) = default;
+    Resources& operator=(Resources&& other) = delete;
+    Resources(Resources&& other) = delete;
 
     ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
 
@@ -50,5 +50,5 @@ private:
         {ResourceType::ENEMY_TANK_TIER_3, "image/board/tank_tier3_enemy.tga"},
         {ResourceType::ENEMY_TANK_TIER_4, "image/board/tank_tier4_enemy.tga"}};
 
-    std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
+    mutable std::unordered_map<ResourceType, ALLEGRO_BITMAP*> bitmaps_;
 };

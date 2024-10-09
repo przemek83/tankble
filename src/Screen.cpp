@@ -37,7 +37,6 @@ bool Screen::init()
 
     ::al_set_window_title(::al_get_current_display(), "TankBle");
 
-    resources_ = {};
     font_ = ::al_create_builtin_font();
 
     return true;
