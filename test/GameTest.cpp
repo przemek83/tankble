@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <sstream>
 
 #include <catch2/catch_test_macros.hpp>
@@ -21,6 +22,12 @@ Tank& getPlayerTank(std::list<Tank>& tanks)
                                    { return tank.isPlayerControlled(); })};
 
     return *playerTankIt;
+}
+
+void moveBulletsByOneTile(Game& game)
+{
+    for (int i{0}; i < 6; ++i)
+        game.moveBullets();
 }
 };  // namespace
 
@@ -70,15 +77,13 @@ TEST_CASE("Check winning conditions", "[Game]")
         // Let enemy tank fire.
         game.moveEnemyTanks();
 
-        // Let bullet destroy player tank.
-        for (int i{0}; i < 5; ++i)
-            game.moveBullets();
+        moveBulletsByOneTile(game);
 
         REQUIRE(game.isGameEnding(display));
     }
 }
 
-TEST_CASE("Moving player", "[Game]")
+TEST_CASE("Player actions", "[Game]")
 {
     Map map(common::tileCount);
     std::stringstream stream(common::getTestMap());
@@ -130,5 +135,16 @@ TEST_CASE("Moving player", "[Game]")
         game.movePlayerTank({InputAction::LEFT});
         Point center{playerTank.getCenter()};
         REQUIRE(center == initialPosition);
+    }
+
+    SECTION("Firing towards enemy")
+    {
+        const std::size_t initialTanksCount{tanks.size()};
+        Tank& playerTank{getPlayerTank(tanks)};
+        playerTank.setLocation(common::tileToPoint(0, 1));
+        Game game(tanks, map);
+        game.movePlayerTank({InputAction::FIRE});
+        moveBulletsByOneTile(game);
+        REQUIRE(tanks.size() == initialTanksCount - 1);
     }
 }
