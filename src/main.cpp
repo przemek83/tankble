@@ -30,7 +30,7 @@ bool play(Game game, Display& display, Input& input)
     {
         const InputAction action{input.getMenuAction()};
         if ((action == InputAction::BACK) || (game.isGameEnding(display)))
-            break;
+            return false;
 
         if (action == InputAction::QUIT)
             return true;
@@ -44,8 +44,6 @@ bool play(Game game, Display& display, Input& input)
             display.refresh();
         }
     }
-
-    return false;
 }
 };  // namespace
 
