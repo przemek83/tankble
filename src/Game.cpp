@@ -25,19 +25,34 @@ Game::Game(std::list<Tank>& tanks, Map& map)
 std::pair<bool, Direction> Game::inputActionsToDirection(
     const std::set<InputAction>& actions)
 {
+    bool found{false};
+    Direction direction{Direction::UP};
+
     if (actions.find(InputAction::UP) != actions.end())
-        return {true, Direction::UP};
+    {
+        found = true;
+        direction = Direction::UP;
+    }
 
-    if (actions.find(InputAction::DOWN) != actions.end())
-        return {true, Direction::DOWN};
+    if ((!found) && (actions.find(InputAction::DOWN) != actions.end()))
+    {
+        found = true;
+        direction = Direction::DOWN;
+    }
 
-    if (actions.find(InputAction::LEFT) != actions.end())
-        return {true, Direction::LEFT};
+    if ((!found) && (actions.find(InputAction::LEFT) != actions.end()))
+    {
+        found = true;
+        direction = Direction::LEFT;
+    }
 
-    if (actions.find(InputAction::RIGHT) != actions.end())
-        return {true, Direction::RIGHT};
+    if ((!found) && (actions.find(InputAction::RIGHT) != actions.end()))
+    {
+        found = true;
+        direction = Direction::RIGHT;
+    }
 
-    return {false, Direction::UP};
+    return {found, direction};
 }
 
 Tank& Game::getPlayerTank()
@@ -146,7 +161,7 @@ bool Game::isGameEnding(Display& display) const
     return false;
 }
 
-void Game::drawTanks(Display& display) const
+void Game::drawTanks(const Display& display) const
 {
     for (const auto& tank : tanks_)
         tank.draw(display);
@@ -202,7 +217,7 @@ std::list<Tank>::iterator Game::hitTank(const Bullet& bullet)
         });
 }
 
-void Game::drawBullets(Display& display) const
+void Game::drawBullets(const Display& display) const
 {
     for (const auto& bullet : bullets_)
         bullet.draw(display);

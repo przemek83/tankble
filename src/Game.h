@@ -35,9 +35,9 @@ private:
     void movement(Tank& tank, Direction direction);
     std::list<Tank>::iterator hitTank(const Bullet& bullet);
 
-    void drawTanks(Display& display) const;
+    void drawTanks(const Display& display) const;
     void drawEndOfGame(Display& display, const std::string& text) const;
-    void drawBullets(Display& display) const;
+    void drawBullets(const Display& display) const;
     void setPower(Tank& tank);
 
     static std::pair<bool, Direction> inputActionsToDirection(
