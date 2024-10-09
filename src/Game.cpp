@@ -28,25 +28,25 @@ std::pair<bool, Direction> Game::inputActionsToDirection(
     bool found{false};
     Direction direction{Direction::UP};
 
-    if (actions.find(InputAction::UP) != actions.end())
+    if (containsAction(actions, InputAction::UP))
     {
         found = true;
         direction = Direction::UP;
     }
 
-    if ((!found) && (actions.find(InputAction::DOWN) != actions.end()))
+    if ((!found) && containsAction(actions, InputAction::DOWN))
     {
         found = true;
         direction = Direction::DOWN;
     }
 
-    if ((!found) && (actions.find(InputAction::LEFT) != actions.end()))
+    if ((!found) && containsAction(actions, InputAction::LEFT))
     {
         found = true;
         direction = Direction::LEFT;
     }
 
-    if ((!found) && (actions.find(InputAction::RIGHT) != actions.end()))
+    if ((!found) && containsAction(actions, InputAction::RIGHT))
     {
         found = true;
         direction = Direction::RIGHT;
@@ -95,7 +95,7 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
 
     setPower(tank);
     const auto now{std::chrono::system_clock::now()};
-    if ((actions.find(InputAction::FIRE) != actions.end()) && tank.canFire(now))
+    if (containsAction(actions, InputAction::FIRE) && tank.canFire(now))
         bullets_.emplace_back(tank.fire(now));
 
     const int tileSize{Config::getInstance().getTileSize()};
@@ -235,4 +235,10 @@ void Game::setPower(Tank& tank)
     if (auto [takenPowerUp, powerUp]{map_.takePowerUp(tank.getCenter())};
         takenPowerUp)
         tank.applyPowerUp(powerUp);
+}
+
+bool Game::containsAction(const std::set<InputAction>& actions,
+                          InputAction action)
+{
+    return actions.find(action) != actions.end();
 }
