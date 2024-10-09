@@ -28,7 +28,7 @@ public:
 
     std::chrono::seconds getFireDelay() const { return fireDelay_; }
 
-    enum class FPS : char
+    enum class FPS : int
     {
         FPS_30 = 30,
         FPS_60 = 60,
