@@ -68,8 +68,7 @@ void Game::movement(Tank& tank, Direction direction)
     tank.setDirection(direction);
 
     const int tileSize{Config::getInstance().getTileSize()};
-    map_.tagAreaAsChanged(tank.getLocation(),
-                          {tank.getX() + tileSize, tank.getY() + tileSize});
+    tagAreaAsChanged(tank, tileSize);
 
     auto [newX, newY]{tank.getNextExpectedPosition()};
     if (!point_utils::isValidPoint(newX, newY, tileSize))
@@ -84,8 +83,7 @@ void Game::movement(Tank& tank, Direction direction)
         if (tank.isPlayerControlled())
             map_.shift(newPoint, direction);
         tank.move(newPoint);
-        map_.tagAreaAsChanged(tank.getLocation(),
-                              {tank.getX() + tileSize, tank.getY() + tileSize});
+        tagAreaAsChanged(tank, tileSize);
     }
 }
 
@@ -98,9 +96,7 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
         containsAction(actions, InputAction::FIRE) && tank.canFire(now))
         bullets_.emplace_back(tank.fire(now));
 
-    const int tileSize{Config::getInstance().getTileSize()};
-    map_.tagAreaAsChanged(tank.getLocation(),
-                          {tank.getX() + tileSize, tank.getY() + tileSize});
+    tagAreaAsChanged(tank, Config::getInstance().getTileSize());
 
     const auto [shouldMove, direction]{inputActionsToDirection(actions)};
     if (shouldMove)
@@ -171,13 +167,9 @@ void Game::moveBullets()
     const int tileSize{Config::getInstance().getTileSize()};
     for (auto bulletIter = bullets_.begin(); bulletIter != bullets_.end();)
     {
-        map_.tagAreaAsChanged(
-            bulletIter->getLocation(),
-            {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
+        tagAreaAsChanged(*bulletIter, bulletSize);
         bool valid{bulletIter->move()};
-        map_.tagAreaAsChanged(
-            bulletIter->getLocation(),
-            {bulletIter->getX() + bulletSize, bulletIter->getY() + bulletSize});
+        tagAreaAsChanged(*bulletIter, bulletSize);
         if (const Point bulletCenter{bulletIter->getCenter()};
             valid && (!map_.canFly(bulletCenter)))
         {
@@ -188,10 +180,7 @@ void Game::moveBullets()
         if (auto tankIter{hitTank(*bulletIter)};
             valid && (tankIter != tanks_.end()))
         {
-            map_.tagAreaAsChanged(
-                tankIter->getLocation(),
-                {tankIter->getX() + tileSize, tankIter->getY() + tileSize});
-
+            tagAreaAsChanged(*tankIter, tileSize);
             if (tankIter->hit(bulletIter->getPower()))
             {
                 if (tankIter->isPlayerControlled())
@@ -241,4 +230,10 @@ bool Game::containsAction(const std::set<InputAction>& actions,
                           InputAction action)
 {
     return actions.find(action) != actions.end();
+}
+
+void Game::tagAreaAsChanged(Drawable& object, int size)
+{
+    map_.tagAreaAsChanged(object.getLocation(),
+                          {object.getX() + size, object.getY() + size});
 }

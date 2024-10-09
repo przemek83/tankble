@@ -48,6 +48,8 @@ private:
     static bool containsAction(const std::set<InputAction>& actions,
                                InputAction action);
 
+    void tagAreaAsChanged(Drawable& object, int size);
+
     Status status_;
     std::mt19937 randomGenerator_;
     bool playerDestroyed_{false};
