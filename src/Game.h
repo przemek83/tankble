@@ -38,7 +38,6 @@ private:
     void drawTanks(const Display& display) const;
     void drawEndOfGame(Display& display, const std::string& text) const;
     void drawBullets(const Display& display) const;
-    void setPower(Tank& tank);
 
     static std::pair<bool, Direction> inputActionsToDirection(
         const std::set<InputAction>& actions);

@@ -87,7 +87,10 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
 {
     Tank& tank{getPlayerTank()};
 
-    setPower(tank);
+    if (auto [takenPowerUp, powerUpType]{map_.takePowerUp(tank.getCenter())};
+        takenPowerUp)
+        tank.applyPowerUp(powerUpType);
+
     if (const auto now{std::chrono::system_clock::now()};
         containsAction(actions, InputAction::FIRE) && tank.canFire(now))
         bullets_.emplace_back(tank.fire(now));
@@ -213,13 +216,6 @@ void Game::draw(const Display& display)
     drawBullets(display);
     map_.drawForeground(display);
     status_.update(getPlayerTank().getStats(), display);
-}
-
-void Game::setPower(Tank& tank)
-{
-    if (auto [takenPowerUp, powerUp]{map_.takePowerUp(tank.getCenter())};
-        takenPowerUp)
-        tank.applyPowerUp(powerUp);
 }
 
 bool Game::containsAction(const std::set<InputAction>& actions,
