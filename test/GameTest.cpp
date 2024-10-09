@@ -148,3 +148,22 @@ TEST_CASE("Player actions", "[Game]")
         REQUIRE(tanks.size() == initialTanksCount - 1);
     }
 }
+
+TEST_CASE("Drawing", "[Game]")
+{
+    Map map(common::tileCount);
+    std::stringstream stream(common::getTestMap());
+    std::list<Tank> tanks{map.loadMap(stream)};
+
+    FakeDisplay display;
+
+    SECTION("Check keeping position when not moved")
+    {
+        Game game(tanks, map);
+        game.draw(display);
+        // background 5x5 + foreground (plant) x1 + tank x3
+        const std::size_t expectedCount{
+            (common::tileCount * common::tileCount) + 1 + tanks.size()};
+        REQUIRE(display.getChangedAreas().size() == expectedCount);
+    }
+}
