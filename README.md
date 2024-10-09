@@ -48,7 +48,7 @@ Use directly CMake or any IDE supporting CMake project. CMake **should**:
 
 This is of course a happy path...
 
-**TIPS**: on Linux, you might need to install `libxcursor-dev` to be able to use Allegro library.  
+**TIPS**: on Linux, you might need to install `libgl1-mesa-dev` and `libxcursor-dev` to be able to use Allegro library.  
 
 ## Licensing
 Tankble is published under MIT license. 
