@@ -47,7 +47,10 @@ public:
     void drawScaledBitmapWithRotation(
         [[maybe_unused]] ResourceType resourceType, [[maybe_unused]] int x,
         [[maybe_unused]] int y, [[maybe_unused]] int size,
-        [[maybe_unused]] int degrees) const override {};
+        [[maybe_unused]] int degrees) const override
+    {
+        changedAreas_.push_back({resourceType, x, y});
+    };
 
     void clearScreenWithBlack() override {};
 
