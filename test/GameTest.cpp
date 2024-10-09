@@ -10,6 +10,7 @@
 
 #include "Common.h"
 #include "FakeDisplay.h"
+#include "src/InputAction.h"
 
 namespace
 {
@@ -83,16 +84,51 @@ TEST_CASE("Moving player", "[Game]")
     std::stringstream stream(common::getTestMap());
     std::list<Tank> tanks{map.loadMap(stream)};
 
+    Point initialPosition{75, 105};
     SECTION("Check keeping position when not moved")
     {
         const Tank& playerTank{getPlayerTank(tanks)};
         Game game(tanks, map);
         Point center{playerTank.getCenter()};
-        REQUIRE(center.x_ == 75);
-        REQUIRE(center.y_ == 105);
+        REQUIRE(center == initialPosition);
         game.movePlayerTank({});
         center = playerTank.getCenter();
-        REQUIRE(center.x_ == 75);
-        REQUIRE(center.y_ == 105);
+        REQUIRE(center == initialPosition);
+    }
+
+    SECTION("Moving up through plain")
+    {
+        const Tank& playerTank{getPlayerTank(tanks)};
+        Game game(tanks, map);
+        game.movePlayerTank({InputAction::UP});
+        Point center{playerTank.getCenter()};
+        REQUIRE(center == Point{initialPosition.x_, initialPosition.y_ - 1});
+    }
+
+    SECTION("Moving down through plain")
+    {
+        const Tank& playerTank{getPlayerTank(tanks)};
+        Game game(tanks, map);
+        game.movePlayerTank({InputAction::DOWN});
+        Point center{playerTank.getCenter()};
+        REQUIRE(center == Point{initialPosition.x_, initialPosition.y_ + 1});
+    }
+
+    SECTION("Moving right through plant")
+    {
+        const Tank& playerTank{getPlayerTank(tanks)};
+        Game game(tanks, map);
+        game.movePlayerTank({InputAction::RIGHT});
+        Point center{playerTank.getCenter()};
+        REQUIRE(center == Point{initialPosition.x_ + 1, initialPosition.y_});
+    }
+
+    SECTION("Trying to move left through water")
+    {
+        const Tank& playerTank{getPlayerTank(tanks)};
+        Game game(tanks, map);
+        game.movePlayerTank({InputAction::LEFT});
+        Point center{playerTank.getCenter()};
+        REQUIRE(center == initialPosition);
     }
 }
