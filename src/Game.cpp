@@ -93,7 +93,6 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
 {
     Tank& tank{getPlayerTank()};
 
-    Direction direction{Direction::UP};
     setPower(tank);
     const auto now{std::chrono::system_clock::now()};
     if ((actions.find(InputAction::FIRE) != actions.end()) && tank.canFire(now))
@@ -103,8 +102,7 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
     map_.tagAreaAsChanged(tank.getLocation(),
                           {tank.getX() + tileSize, tank.getY() + tileSize});
 
-    bool shouldMove{false};
-    std::tie(shouldMove, direction) = inputActionsToDirection(actions);
+    const auto [shouldMove, direction]{inputActionsToDirection(actions)};
     if (shouldMove)
         movement(tank, direction);
 }
