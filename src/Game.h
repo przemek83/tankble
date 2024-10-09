@@ -50,6 +50,8 @@ private:
 
     void tagAreaAsChanged(Drawable& object, int size);
 
+    bool canDrive(Point point, Direction direction) const;
+
     Status status_;
     std::mt19937 randomGenerator_;
     bool playerDestroyed_{false};

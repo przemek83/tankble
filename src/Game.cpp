@@ -6,6 +6,7 @@
 
 #include "Bullet.h"
 #include "Config.h"
+#include "Direction.h"
 #include "Display.h"
 #include "InputAction.h"
 #include "Map.h"
@@ -65,20 +66,16 @@ Tank& Game::getPlayerTank()
 
 void Game::movement(Tank& tank, Direction direction)
 {
-    tank.setDirection(direction);
-
     const int tileSize{Config::getInstance().getTileSize()};
     tagAreaAsChanged(tank, tileSize);
 
+    tank.setDirection(direction);
     auto [newX, newY]{tank.getNextExpectedPosition()};
     if (!point_utils::isValidPoint(newX, newY, tileSize))
         return;
 
     Point newPoint{newX, newY};
-    const std::vector<Point> pointsToCheck{
-        map_utils::getMovePoints(newPoint, direction, tileSize)};
-    if (std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
-                    [&map = map_](Point point) { return map.canDrive(point); }))
+    if (canDrive(newPoint, direction))
     {
         if (tank.isPlayerControlled())
             map_.shift(newPoint, direction);
@@ -236,4 +233,14 @@ void Game::tagAreaAsChanged(Drawable& object, int size)
 {
     map_.tagAreaAsChanged(object.getLocation(),
                           {object.getX() + size, object.getY() + size});
+}
+
+bool Game::canDrive(Point point, Direction direction) const
+{
+    const int tileSize{Config::getInstance().getTileSize()};
+    const std::vector<Point> pointsToCheck{
+        map_utils::getMovePoints(point, direction, tileSize)};
+    return std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
+                       [&map = map_](Point corner)
+                       { return map.canDrive(corner); });
 }
