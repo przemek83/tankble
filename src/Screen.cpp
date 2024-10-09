@@ -97,7 +97,7 @@ void Screen::drawScaledBitmapWithRotation(ResourceType resourceType, int x,
         static_cast<float>(x) + (sizeAsFloat / halfRatio),
         static_cast<float>(y) + (sizeAsFloat / halfRatio), sizeAsFloat / width,
         sizeAsFloat / width,
-        (static_cast<float>(degrees) * (static_cast<float>(ALLEGRO_PI)) /
+        ((static_cast<float>(degrees) * static_cast<float>(ALLEGRO_PI)) /
          180.F),
         0);
 }

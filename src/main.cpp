@@ -60,8 +60,8 @@ int main()
 
     Menu menu(screen);
 
-    bool exit{false};
-    while (!exit)
+    bool quit{false};
+    while (!quit)
     {
         screen.showMouse();
         const UserChoice choice{getUserChoice(menu, input)};
@@ -78,7 +78,7 @@ int main()
         std::list<Tank> tanks{map.loadMap(level)};
 
         Game game{tanks, map};
-        exit = play(std::move(game), screen, input);
+        quit = play(std::move(game), screen, input);
     }
 
     return EXIT_SUCCESS;

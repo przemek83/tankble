@@ -128,8 +128,8 @@ Bullet Tank::fire(TimePoint currentTime)
 std::pair<int, int> Tank::getNextExpectedPosition() const
 {
     const int speed{stats_.speed_};
-    const std::pair<int, int> nextPosition{getX() + getDirectionX() * speed,
-                                           getY() + getDirectionY() * speed};
+    const std::pair<int, int> nextPosition{getX() + (getDirectionX() * speed),
+                                           getY() + (getDirectionY() * speed)};
     return nextPosition;
 }
 
