@@ -49,7 +49,7 @@ private:
 
     static bool mouseClickUsed(const ALLEGRO_EVENT& event);
 
-    ALLEGRO_EVENT_QUEUE* events_;
+    ALLEGRO_EVENT_QUEUE* events_{nullptr};
 
     int mouseX_{0};
 
