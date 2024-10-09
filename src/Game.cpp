@@ -77,8 +77,7 @@ void Game::movement(Tank& tank, Direction direction)
     Point newPoint{newX, newY};
     if (canDrive(newPoint, direction))
     {
-        if (tank.isPlayerControlled())
-            map_.shift(newPoint, direction);
+        map_.shift(newPoint, direction);
         tank.move(newPoint);
         tagAreaAsChanged(tank, tileSize);
     }
