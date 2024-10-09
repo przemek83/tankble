@@ -94,8 +94,8 @@ void Game::movePlayerTank(const std::set<InputAction>& actions)
     Tank& tank{getPlayerTank()};
 
     setPower(tank);
-    const auto now{std::chrono::system_clock::now()};
-    if (containsAction(actions, InputAction::FIRE) && tank.canFire(now))
+    if (const auto now{std::chrono::system_clock::now()};
+        containsAction(actions, InputAction::FIRE) && tank.canFire(now))
         bullets_.emplace_back(tank.fire(now));
 
     const int tileSize{Config::getInstance().getTileSize()};
