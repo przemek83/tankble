@@ -13,7 +13,7 @@ Tank::Tank(TankType tankType, Point point)
     : Drawable(point), initialX_(point.x_), initialY_(point.y_)
 {
     setType(tankType);
-    direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
+    resetDirection();
 }
 
 void Tank::draw(const Display& display) const
@@ -188,7 +188,7 @@ void Tank::respawn()
     setY(initialY_);
     if (isPlayerControlled())
         setType(TankType::PLAYER_TIER_1);
-    direction_ = (isPlayerControlled() ? Direction::UP : Direction::DOWN);
+    resetDirection();
 }
 
 void Tank::adjustEnemySpeed(float& speed) const
@@ -204,4 +204,12 @@ int Tank::getCalculatedSpeed(float speedFactor) const
     if (!isPlayerControlled())
         adjustEnemySpeed(speed);
     return std::max(1, static_cast<int>(speed));
+}
+
+void Tank::resetDirection()
+{
+    if (isPlayerControlled())
+        direction_ = Direction::UP;
+    else
+        direction_ = Direction::DOWN;
 }

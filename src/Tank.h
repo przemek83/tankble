@@ -58,6 +58,8 @@ private:
 
     bool destroy();
 
+    void resetDirection();
+
     static const int BASIC_ATTACK{1};
     static const int BASIC_HEALTH{1};
     static const int BASIC_SPEED{2};
