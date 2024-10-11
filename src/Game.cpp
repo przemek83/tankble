@@ -157,7 +157,8 @@ void Game::moveBullets()
 {
     const int bulletSize{Config::getInstance().getBulletSize()};
     const int tileSize{Config::getInstance().getTileSize()};
-    for (auto bulletIter = bullets_.begin(); bulletIter != bullets_.end();)
+    auto bulletIter{bullets_.begin()};
+    while (bulletIter != bullets_.end())
     {
         tagAreaAsChanged(*bulletIter, bulletSize);
         bool valid{bulletIter->move()};
