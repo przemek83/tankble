@@ -33,7 +33,7 @@ public:
 
 private:
     void movement(Tank& tank, Direction direction);
-    std::list<Tank>::iterator hitTank(const Bullet& bullet);
+    std::list<Tank>::iterator getImpactedTank(const Bullet& bullet);
 
     void drawTanks(const Display& display) const;
     void drawEndOfGame(Display& display, const std::string& text) const;
@@ -52,6 +52,8 @@ private:
     bool canDrive(Point point, Direction direction) const;
 
     Direction getEnemyTankDirection(Tank& tank);
+
+    void hitTank(std::list<Tank>::iterator& tankIter, int power);
 
     Status status_;
     std::mt19937 randomGenerator_;

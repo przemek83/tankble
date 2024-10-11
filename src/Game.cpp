@@ -156,13 +156,13 @@ void Game::drawTanks(const Display& display) const
 void Game::moveBullets()
 {
     const int bulletSize{Config::getInstance().getBulletSize()};
-    const int tileSize{Config::getInstance().getTileSize()};
     auto bulletIter{bullets_.begin()};
     while (bulletIter != bullets_.end())
     {
         tagAreaAsChanged(*bulletIter, bulletSize);
         bool valid{bulletIter->move()};
         tagAreaAsChanged(*bulletIter, bulletSize);
+
         if (const Point bulletCenter{bulletIter->getCenter()};
             valid && (!map_.canFly(bulletCenter)))
         {
@@ -170,23 +170,17 @@ void Game::moveBullets()
             valid = false;
         }
 
-        if (auto tankIter{hitTank(*bulletIter)};
+        if (auto tankIter{getImpactedTank(*bulletIter)};
             valid && (tankIter != tanks_.end()))
         {
-            tagAreaAsChanged(*tankIter, tileSize);
-            if (tankIter->hit(bulletIter->getPower()))
-            {
-                if (tankIter->isPlayerControlled())
-                    playerDestroyed_ = true;
-                tanks_.erase(tankIter);
-            }
+            hitTank(tankIter, bulletIter->getPower());
             valid = false;
         }
         bulletIter = (valid ? ++bulletIter : bullets_.erase(bulletIter));
     }
 }
 
-std::list<Tank>::iterator Game::hitTank(const Bullet& bullet)
+std::list<Tank>::iterator Game::getImpactedTank(const Bullet& bullet)
 {
     return std::find_if(
         tanks_.begin(), tanks_.end(),
@@ -246,4 +240,16 @@ Direction Game::getEnemyTankDirection(Tank& tank)
         direction = tank.getDirection();
 
     return direction;
+}
+
+void Game::hitTank(std::list<Tank>::iterator& tankIter, int power)
+{
+    const int tileSize{Config::getInstance().getTileSize()};
+    tagAreaAsChanged(*tankIter, tileSize);
+    if (tankIter->hit(power))
+    {
+        if (tankIter->isPlayerControlled())
+            playerDestroyed_ = true;
+        tanks_.erase(tankIter);
+    }
 }
