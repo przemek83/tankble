@@ -44,7 +44,7 @@ bool Screen::init()
 
 void Screen::drawText(int x, int y, const std::string& text) const
 {
-    const ALLEGRO_COLOR white{::al_map_rgb(255, 255, 255)};
+    const ALLEGRO_COLOR white{::al_map_rgb(UCHAR_MAX, UCHAR_MAX, UCHAR_MAX)};
     ::al_draw_text(font_, white, static_cast<float>(x), static_cast<float>(y),
                    ALLEGRO_ALIGN_CENTER, text.c_str());
 }
@@ -62,7 +62,7 @@ void Screen::drawTextWithBackground(int x, int y, const std::string& text) const
         static_cast<float>(y - margin),
         static_cast<float>(x) + halfOfWidth + margin,
         static_cast<float>(y + height + margin), radius, radius,
-        ::al_map_rgb(0, 0, 255));
+        ::al_map_rgb(0, 0, UCHAR_MAX));
     drawText(x, y, text);
 }
 
