@@ -111,15 +111,8 @@ void Game::moveEnemyTanks()
             if (const auto now{std::chrono::system_clock::now()};
                 tank.canFire(now))
                 bullets_.emplace_back(tank.fire(now));
-            const int randomDirection{distribution_(randomGenerator_)};
 
-            Direction direction{Direction::UP};
-            if (((tank.getX() % Config::getInstance().getTileSize()) == 0) &&
-                ((tank.getY() % Config::getInstance().getTileSize()) == 0) &&
-                (randomDirection < 4))
-                direction = static_cast<Direction>(randomDirection);
-            else
-                direction = tank.getDirection();
+            Direction direction{getEnemyTankDirection(tank)};
             movement(tank, direction);
         }
     }
@@ -238,4 +231,18 @@ bool Game::canDrive(Point point, Direction direction) const
     return std::all_of(pointsToCheck.cbegin(), pointsToCheck.cend(),
                        [&map = map_](Point corner)
                        { return map.canDrive(corner); });
+}
+
+Direction Game::getEnemyTankDirection(Tank& tank)
+{
+    const int randomDirection{distribution_(randomGenerator_)};
+    Direction direction{Direction::UP};
+    if (((tank.getX() % Config::getInstance().getTileSize()) == 0) &&
+        ((tank.getY() % Config::getInstance().getTileSize()) == 0) &&
+        (randomDirection < 4))
+        direction = static_cast<Direction>(randomDirection);
+    else
+        direction = tank.getDirection();
+
+    return direction;
 }

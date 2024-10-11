@@ -51,6 +51,8 @@ private:
 
     bool canDrive(Point point, Direction direction) const;
 
+    Direction getEnemyTankDirection(Tank& tank);
+
     Status status_;
     std::mt19937 randomGenerator_;
     bool playerDestroyed_{false};
