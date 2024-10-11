@@ -176,7 +176,11 @@ void Game::moveBullets()
             hitTank(tankIter, bulletIter->getPower());
             valid = false;
         }
-        bulletIter = (valid ? ++bulletIter : bullets_.erase(bulletIter));
+
+        if (valid)
+            ++bulletIter;
+        else
+            bulletIter = bullets_.erase(bulletIter);
     }
 }
 
