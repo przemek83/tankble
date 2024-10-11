@@ -121,8 +121,9 @@ TankStats Tank::getStats() const { return stats_; }
 Bullet Tank::fire(TimePoint currentTime)
 {
     lastFire_ = currentTime;
-    return {getCenter(), stats_.speed_ + 2, isPlayerControlled(),
-            stats_.attackPower_, getDirection()};
+    const int bulletSpeedIncrease{2};
+    return {getCenter(), stats_.speed_ + bulletSpeedIncrease,
+            isPlayerControlled(), stats_.attackPower_, getDirection()};
 }
 
 std::pair<int, int> Tank::getNextExpectedPosition() const
