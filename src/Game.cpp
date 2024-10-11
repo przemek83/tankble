@@ -216,7 +216,7 @@ bool Game::containsAction(const std::set<InputAction>& actions,
     return actions.find(action) != actions.end();
 }
 
-void Game::tagAreaAsChanged(Drawable& object, int size)
+void Game::tagAreaAsChanged(const Drawable& object, int size)
 {
     map_.tagAreaAsChanged(object.getLocation(),
                           {object.getX() + size, object.getY() + size});
@@ -232,7 +232,7 @@ bool Game::canDrive(Point point, Direction direction) const
                        { return map.canDrive(corner); });
 }
 
-Direction Game::getEnemyTankDirection(Tank& tank)
+Direction Game::getEnemyTankDirection(const Tank& tank)
 {
     const int randomDirection{distribution_(randomGenerator_)};
     Direction direction{Direction::UP};
@@ -246,7 +246,7 @@ Direction Game::getEnemyTankDirection(Tank& tank)
     return direction;
 }
 
-void Game::hitTank(std::list<Tank>::iterator& tankIter, int power)
+void Game::hitTank(const std::list<Tank>::iterator& tankIter, int power)
 {
     const int tileSize{Config::getInstance().getTileSize()};
     tagAreaAsChanged(*tankIter, tileSize);

@@ -47,13 +47,13 @@ private:
     static bool containsAction(const std::set<InputAction>& actions,
                                InputAction action);
 
-    void tagAreaAsChanged(Drawable& object, int size);
+    void tagAreaAsChanged(const Drawable& object, int size);
 
     bool canDrive(Point point, Direction direction) const;
 
-    Direction getEnemyTankDirection(Tank& tank);
+    Direction getEnemyTankDirection(const Tank& tank);
 
-    void hitTank(std::list<Tank>::iterator& tankIter, int power);
+    void hitTank(const std::list<Tank>::iterator& tankIter, int power);
 
     Status status_;
     std::mt19937 randomGenerator_;
