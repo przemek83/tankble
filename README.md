@@ -60,11 +60,79 @@ The project uses the following open-source software:
 | Catch2 | BSL-1.0 | https://github.com/catchorg/Catch2 | testing framework for C++ |
 
 ## Testing
-1) Compile project.
-2) Run target named `tankble-test`.
-3) Check output. All tests should have status `passed`.    
+For testing of code logic, there is a responsible `Catch2` framework. As it is well integrated with `CMake` it should be straightforward to use. As the first step, build the project. Make sure that the `tankble-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build\test` directory, where the⁣ binary `tankble-tests` should be available after building. Calling it directly should produce the following output on Linux:
 
-Tests are done using Catch2 test framework.
+    $ ./tankble-test 
+    Randomness seeded to: 3114824452
+    ===============================================================================
+    All tests passed (350 assertions in 29 test cases)
+
+As an alternative, CTest can be used to run tests:
+
+    $ ctest
+    Test project <path>/tankble/build/test
+        Start  1: Bullet getters
+    1/29 Test  #1: Bullet getters ..............................   Passed    0.00 sec
+        Start  2: Bullet coordinates
+    2/29 Test  #2: Bullet coordinates ..........................   Passed    0.00 sec
+        Start  3: Bullet moving
+    3/29 Test  #3: Bullet moving ...............................   Passed    0.00 sec
+        Start  4: Bullet moving to invalid area
+    4/29 Test  #4: Bullet moving to invalid area ...............   Passed    0.00 sec
+        Start  5: Map loading
+    5/29 Test  #5: Map loading .................................   Passed    0.00 sec
+        Start  6: Check driving and flying
+    6/29 Test  #6: Check driving and flying ....................   Passed    0.00 sec
+        Start  7: Check hitting
+    7/29 Test  #7: Check hitting ...............................   Passed    0.00 sec
+        Start  8: Power ups
+    8/29 Test  #8: Power ups ...................................   Passed    0.00 sec
+        Start  9: shift
+    9/29 Test  #9: shift .......................................   Passed    0.00 sec
+        Start 10: changed area
+    10/29 Test #10: changed area ................................   Passed    0.00 sec
+        Start 11: Tank creation
+    11/29 Test #11: Tank creation ...............................   Passed    0.00 sec
+        Start 12: Tank direction
+    12/29 Test #12: Tank direction ..............................   Passed    0.00 sec
+        Start 13: check control
+    13/29 Test #13: check control ...............................   Passed    0.00 sec
+        Start 14: location related
+    14/29 Test #14: location related ............................   Passed    0.00 sec
+        Start 15: statistics
+    15/29 Test #15: statistics ..................................   Passed    0.00 sec
+        Start 16: hitting
+    16/29 Test #16: hitting .....................................   Passed    0.00 sec
+        Start 17: respawn
+    17/29 Test #17: respawn .....................................   Passed    0.00 sec
+        Start 18: firing
+    18/29 Test #18: firing ......................................   Passed    0.00 sec
+        Start 19: power-ups
+    19/29 Test #19: power-ups ...................................   Passed    0.00 sec
+        Start 20: Move points
+    20/29 Test #20: Move points .................................   Passed    0.00 sec
+        Start 21: Set element sizes
+    21/29 Test #21: Set element sizes ...........................   Passed    0.00 sec
+        Start 22: Config::getFps returns correct FPS values
+    22/29 Test #22: Config::getFps returns correct FPS values ...   Passed    0.00 sec
+        Start 23: MenuItem initialization and properties
+    23/29 Test #23: MenuItem initialization and properties ......   Passed    0.00 sec
+        Start 24: Display initialization and properties
+    24/29 Test #24: Display initialization and properties .......   Passed    0.00 sec
+        Start 25: Menu usage
+    25/29 Test #25: Menu usage ..................................   Passed    0.00 sec
+        Start 26: Status usage
+    26/29 Test #26: Status usage ................................   Passed    0.00 sec
+        Start 27: Check winning conditions
+    27/29 Test #27: Check winning conditions ....................   Passed    0.00 sec
+        Start 28: Player actions
+    28/29 Test #28: Player actions ..............................   Passed    0.00 sec
+        Start 29: Drawing
+    29/29 Test #29: Drawing .....................................   Passed    0.00 sec
+
+    100% tests passed, 0 tests failed out of 29
+
+    Total Test time (real) =   0.06 sec
 
 ## Potential further improvements
 Ideas:
