@@ -28,16 +28,16 @@ Clone of old arcade game named Battle City / Tank 1990 based on very old group p
 **Remark**: For creation of bitmaps I've used all my graphics designing skills which are somewhat close to none ;)
 
 ## Used tools and libs
-| Tool |  Windows | Lubuntu |
+
+| Tool |  Windows | Ubuntu |
 | --- | --- | --- |
-| OS version | 10 22H2 | 22.04 |
-| GCC | 8.1.0 | 9.5.0 |
-| CMake | 3.25.0 | 3.25.0 |
-| Git | 2.38.1 | 2.34.1 |
-| Qt Creator | 9.0.0 | 9.0.0 |
-| Allegro | 5.2.6.0 | 5.2.6.0 |
-| Catch2 | 3.3.0 | 3.3.0 |
-| VS Code | 1.73.1 | -|
+| OS version | 10 22H2 | 24.04 |
+| GCC | 13.1.0 | 13.2.0 |
+| CMake | 3.30.2 | 3.28.3 |
+| Git | 2.46.0 | 2.43.0 |
+| Allegro | 5.2.9.1 | 5.2.9.1 |
+| Catch2 | 3.7.0 | 3.7.0 |
+| Visual Studio Code | 1.92.0 | 1.92.0 |
 
 ## Compilation and installation
 Use directly CMake or any IDE supporting CMake project. CMake **should**:
@@ -51,11 +51,13 @@ This is of course a happy path...
 **TIPS**: on Linux, you might need to install `libgl1-mesa-dev` and `libxcursor-dev` to be able to use Allegro library.  
 
 ## Licensing
-Tankble is published under MIT license. 
+Software is released under the MIT license.
 
-The project uses the following software and licenses:
-* Allegro - The giftware license (more on https://liballeg.org and https://github.com/liballeg/allegro5),    
-* Catch2 - Boost Software License 1.0 (more on https://github.com/catchorg/Catch2).
+The project uses the following open-source software:
+| Name | License | Home | Description |
+| --- | --- | --- | --- |
+| Allegro | Allegro - The giftware license | https://github.com/liballeg/allegro5 | cross-platform library for game and multimedia programming |
+| Catch2 | BSL-1.0 | https://github.com/catchorg/Catch2 | testing framework for C++ |
 
 ## Testing
 1) Compile project.
