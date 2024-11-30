@@ -5,10 +5,10 @@
 #include <src/Menu.h>
 
 #include "FakeDisplay.h"
+#include "FakeInput.h"
 #include "src/InputAction.h"
 #include "src/ResourceType.h"
 #include "src/UserChoice.h"
-#include "test/FakeInput.h"
 
 TEST_CASE("Menu usage", "[Menu]")
 {

@@ -60,9 +60,9 @@ The project uses the following open-source software:
 | Catch2 | BSL-1.0 | https://github.com/catchorg/Catch2 | testing framework for C++ |
 
 ## Testing
-For testing of code logic, there is a responsible `Catch2` framework. As it is well integrated with `CMake` it should be straightforward to use. As the first step, build the project. Make sure that the `tankble-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build\test` directory, where the⁣ binary `tankble-tests` should be available after building. Calling it directly should produce the following output on Linux:
+For testing of code logic, there is a responsible `Catch2` framework. As it is well integrated with `CMake` it should be straightforward to use. As the first step, build the project. Make sure that the `tankble-tests` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build\tests` directory, where the⁣ binary `tankble-tests` should be available after building. Calling it directly should produce the following output on Linux:
 
-    $ ./tankble-test 
+    $ ./tankble-tests
     Randomness seeded to: 3114824452
     ===============================================================================
     All tests passed (350 assertions in 29 test cases)
@@ -70,7 +70,7 @@ For testing of code logic, there is a responsible `Catch2` framework. As it is w
 As an alternative, CTest can be used to run tests:
 
     $ ctest
-    Test project <path>/tankble/build/test
+    Test project <path>/tankble/build/tests
         Start  1: Bullet getters
     1/29 Test  #1: Bullet getters ..............................   Passed    0.00 sec
         Start  2: Bullet coordinates

@@ -10,8 +10,6 @@ on:
 
 jobs:
   analyze:
-    uses: przemek83/common/.github/workflows/codeql-cpp.yml@main
+    uses: przemek83/workflows/.github/workflows/codeql-cpp.yml@main
     with:
       dependencies-linux: "libgl1-mesa-dev libxcursor-dev"
-      use-qt: true
-      qt-version: 6.5.*
