@@ -12,7 +12,6 @@ Bullet::Bullet(Point startingPoint, int speed, bool playerOrigin, int power,
                     (utils::getMidpoint(Config::getInstance().getBulletSize())),
                 startingPoint.y_ -
                     utils::getMidpoint(Config::getInstance().getBulletSize())}),
-      size_(Config::getInstance().getBulletSize()),
       playerOrigin_(playerOrigin),
       direction_(direction),
       speed_(speed),

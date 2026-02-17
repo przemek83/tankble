@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Config.h"
 #include "Drawable.h"
 
 enum class ResourceType : char;
@@ -26,7 +27,7 @@ private:
     int getDirectionX() const;
     int getDirectionY() const;
 
-    const int size_;
+    const int size_{Config::getInstance().getBulletSize()};
     const bool playerOrigin_;
     const Direction direction_;
     const int speed_;
