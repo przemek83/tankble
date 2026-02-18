@@ -2,14 +2,20 @@
 
 #include <string>
 
+#include "Config.h"
 #include "ResourceType.h"
 
 class Display
 {
 public:
-    Display();
+    Display() = default;
+    Display(const Display& other) = delete;
+    Display(Display&& other) = delete;
 
     virtual ~Display() = default;
+
+    Display& operator=(Display&& other) = delete;
+    Display& operator=(const Display& other) = delete;
 
     int getCenterX() const;
     int getCenterY() const;
@@ -54,6 +60,7 @@ public:
     virtual void useWindowedMode() = 0;
 
 private:
-    int width_;
-    int height_;
+    int width_{Config::getInstance().getBoardWidth() +
+               Config::getInstance().getSatusWidth()};
+    int height_{Config::getInstance().getBoardHeight()};
 };
