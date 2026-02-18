@@ -191,7 +191,7 @@ void Tank::respawn()
     resetDirection();
 }
 
-void Tank::adjustEnemySpeed(float& speed) const
+void Tank::adjustEnemySpeed(float& speed)
 {
     const int tileSize{Config::getInstance().getTileSize()};
     while ((speed >= 1) && ((tileSize % static_cast<int>(speed)) != 0))

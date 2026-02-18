@@ -53,7 +53,7 @@ private:
 
     void tierUp();
 
-    void adjustEnemySpeed(float& speed) const;
+    static void adjustEnemySpeed(float& speed);
     int getCalculatedSpeed(float speedFactor) const;
 
     bool destroy();

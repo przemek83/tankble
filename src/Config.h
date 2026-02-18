@@ -5,11 +5,11 @@
 class Config
 {
 public:
-    Config& operator=(const Config& other) = delete;
     Config(const Config& other) = delete;
-
-    Config& operator=(Config&& other) = delete;
     Config(Config&& other) = delete;
+
+    Config& operator=(const Config& other) = delete;
+    Config& operator=(Config&& other) = delete;
 
     static Config& getInstance();
 
