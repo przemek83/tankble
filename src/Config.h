@@ -41,6 +41,7 @@ public:
     {
         return defaultSleepTimeInSeconds_;
     }
+
     void setDefaultSleepTimeInSeconds(int seconds)
     {
         defaultSleepTimeInSeconds_ = seconds;

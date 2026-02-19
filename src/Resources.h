@@ -12,12 +12,12 @@ class Resources
 {
 public:
     Resources() = default;
+    Resources(const Resources& other) = delete;
+    Resources& operator=(Resources&& other) = delete;
+
     ~Resources();
 
     Resources& operator=(const Resources& other) = delete;
-    Resources(const Resources& other) = delete;
-
-    Resources& operator=(Resources&& other) = delete;
     Resources(Resources&& other) = delete;
 
     ALLEGRO_BITMAP* getBitmap(ResourceType resourceType) const;
