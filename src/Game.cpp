@@ -15,13 +15,7 @@
 #include "Tank.h"
 #include "Utils.h"
 
-Game::Game(std::list<Tank>& tanks, Map& map)
-    : status_{{Config::getInstance().getBoardWidth(), 0}},
-      randomGenerator_{Config::getRandomSeed()},
-      tanks_{tanks},
-      map_{map}
-{
-}
+Game::Game(std::list<Tank>& tanks, Map& map) : tanks_{tanks}, map_{map} {}
 
 std::pair<bool, Direction> Game::inputActionsToDirection(
     const std::set<InputAction>& actions)
@@ -118,7 +112,7 @@ void Game::moveEnemyTanks()
     }
 }
 
-void Game::drawEndOfGame(Display& display, const std::string& text) const
+void Game::drawEndOfGame(Display& display, const std::string& text)
 {
     display.clearScreenWithBlack();
     display.drawText(utils::getMidpoint(Config::getInstance().getBoardWidth() +

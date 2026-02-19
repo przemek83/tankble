@@ -36,7 +36,7 @@ private:
     std::list<Tank>::iterator getImpactedTank(const Bullet& bullet);
 
     void drawTanks(const Display& display) const;
-    void drawEndOfGame(Display& display, const std::string& text) const;
+    static void drawEndOfGame(Display& display, const std::string& text);
     void drawBullets(const Display& display) const;
 
     static std::pair<bool, Direction> inputActionsToDirection(
@@ -55,8 +55,8 @@ private:
 
     void hitTank(const std::list<Tank>::iterator& tankIter, int power);
 
-    Status status_;
-    std::mt19937 randomGenerator_;
+    Status status_{{Config::getInstance().getBoardWidth(), 0}};
+    std::mt19937 randomGenerator_{Config::getRandomSeed()};
     bool playerDestroyed_{false};
     std::uniform_int_distribution<> distribution_{
         std::uniform_int_distribution<>(0, 7)};

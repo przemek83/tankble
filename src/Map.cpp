@@ -19,8 +19,7 @@
 #include "map/Water.h"
 
 Map::Map(int mapDimension)
-    : plainTile_{std::make_unique<Plain>(Point{0, 0})},
-      mapDimension_{static_cast<std::size_t>(mapDimension)}
+    : mapDimension_{static_cast<std::size_t>(mapDimension)}
 {
     board_.resize(mapDimension_);
     for (auto& item : board_)
@@ -299,7 +298,7 @@ void Map::drawForeground(const Display& display)
 
 bool Map::isBaseDestroyed() const { return baseDestroyed_; }
 
-bool Map::isValidSign(char sign) const
+bool Map::isValidSign(char sign)
 {
     const bool isPowerUp{(sign == 'S') || (sign == 'L') || (sign == 'A') ||
                          (sign == 'T')};
